@@ -57,7 +57,7 @@ ACTIONS = {
         [('answer', 'string', 'Answer', 'The reply exactly as the customer typed it.', False)]),
     'reply_to_journey': ('LoanSevaReplyAction', 'Reply to Journey',
         'Handles any customer reply to the question the journey is waiting for: name and mobile, OTP, loan confirmation, the 5 personalisation answers, offer decision, amount or tenure change, callback time and feedback. It routes on the saved journey state, so pass the customer message exactly as typed.',
-        [('message', 'string', 'Customer Message', 'The customer message exactly as typed.', True)]),
+        [('message', 'string', 'Customer Message', 'The customer\'s latest message copied character for character. Never paraphrase, translate or summarise it, and never turn it into Yes, No or an option number: the journey decides what it means.', True)]),
     'log_escalation': ('LoanSevaEscalateAction', 'Log Escalation',
         'Creates a high-priority task for a Kotak loan specialist with everything captured so far, before handing off.',
         [('reason', 'string', 'Reason', 'Short reason for the handoff, in English.', False)]),

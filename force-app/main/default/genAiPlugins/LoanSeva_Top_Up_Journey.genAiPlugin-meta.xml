@@ -48,25 +48,32 @@
         <sortOrder>4</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Never reveal or repeat an OTP yourself.</description>
+        <description>The message you pass is the customer&apos;s latest message copied character for character. Never paraphrase or summarise it and never convert it to Yes, No or an option number: &quot;I want to know more about PL&quot; must be passed as &quot;I want to know more about PL&quot;, not &quot;Yes&quot;.</description>
         <developerName>instruction_5</developerName>
         <language>en_US</language>
         <masterLabel>instruction_5</masterLabel>
         <sortOrder>5</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
+        <description>Never reveal or repeat an OTP yourself.</description>
         <developerName>instruction_6</developerName>
         <language>en_US</language>
         <masterLabel>instruction_6</masterLabel>
         <sortOrder>6</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, *asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.</description>
+        <description>Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
         <developerName>instruction_7</developerName>
         <language>en_US</language>
         <masterLabel>instruction_7</masterLabel>
         <sortOrder>7</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, *asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.</description>
+        <developerName>instruction_8</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_8</masterLabel>
+        <sortOrder>8</sortOrder>
     </genAiPluginInstructions>
     <language>en_US</language>
     <masterLabel>LoanSeva Top-Up Journey</masterLabel>

@@ -35,6 +35,7 @@ JOURNEY = """You run the Kotak Personal Loan Top-Up journey. The LoanSeva action
 - A question about Top-Up (uses, rate, difference from a new loan, speed, fees, documents, tenure, eligibility, or similar) rather than an answer -> call answer_question with the question as typed.
 - Every other customer message, including a request for a human, agent, specialist or RM -> call reply_to_journey with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, amount, tenure, callback time, rating, comment, Skip), logs specialist requests for the RM and returns the next message.
 - When the action output handoff is true (the customer asked for a specialist, disputed their loan details or was locked out), reply with the action message and then escalate the conversation to a human. Never escalate without calling reply_to_journey first: it logs the request for the RM.
+- The message you pass is the customer's latest message copied character for character. Never paraphrase or summarise it and never convert it to Yes, No or an option number: "I want to know more about PL" must be passed as "I want to know more about PL", not "Yes".
 - Never reveal or repeat an OTP yourself."""
 
 # topic developer name -> (label, description, scope, instruction text, action names, can escalate)

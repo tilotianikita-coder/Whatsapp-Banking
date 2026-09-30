@@ -20,7 +20,7 @@
     },
     "message": {
       "title": "Customer Message",
-      "description": "The customer message exactly as typed.",
+      "description": "The customer's latest message copied character for character. Never paraphrase, translate or summarise it, and never turn it into Yes, No or an option number: the journey decides what it means.",
       "lightning:type": "lightning__textType",
       "lightning:isPII": false,
       "copilotAction:isUserInput": false
