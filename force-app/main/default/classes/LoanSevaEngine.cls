@@ -701,6 +701,118 @@ public with sharing class LoanSevaEngine {
         return res;
     }
 
+    // ------------------------------------------------------------------ Free-text reply
+    /**
+     * Routes a customer reply to whatever the journey is waiting for, so the agent never has to pick
+     * the step from the conversation text. A clear Top-Up question is answered first at any step.
+     */
+    public static Result reply(Loan_Journey__c j, String text) {
+        String t = text == null ? '' : text.trim();
+        String state = awaiting(j);
+        Integer choice = choiceNumber(t);
+        if (t.contains('?') && state != 'otp' && state != 'company' && LoanSevaFaqMatcher.bestMatch(t) != null) {
+            return answerFaq(j, t);
+        }
+        switch on state {
+            when 'identity' {
+                String name = t.replaceAll('[0-9+\\-()]', ' ').replaceAll('[,;:|/.]', ' ')
+                    .replaceAll('(?i)\\b(my|name|is|i am|this is|mobile|number|no|phone|registered)\\b', ' ').normalizeSpace();
+                return verifyCustomer(j, name, t);
+            }
+            when 'otp' {
+                return verifyOtp(j, t);
+            }
+            when 'loan_confirm' {
+                if (choice == 1 || isYes(t)) {
+                    return confirmLoan(j, true);
+                }
+                if (choice == 2 || isNo(t)) {
+                    return confirmLoan(j, false);
+                }
+                return faqOrPrompt(j, t);
+            }
+            when 'employment', 'company', 'income', 'purpose', 'amount' {
+                return personalise(j, t);
+            }
+            when 'offer_decision' {
+                return offerDecision(j, t, choice);
+            }
+            when 'callback' {
+                return scheduleCallback(j, t, null);
+            }
+            when 'feedback_csat', 'feedback_resolution', 'feedback_comment' {
+                return feedback(j, t);
+            }
+            when 'handoff' {
+                return verifyCustomer(j, null, null);
+            }
+            when 'done' {
+                return faqOrPrompt(j, t);
+            }
+            when else {
+                if (choice == 1 || isYes(t)) {
+                    return verifyCustomer(j, null, null);
+                }
+                if (choice == 2) {
+                    return result(j, LoanSevaI18n.msg('Ask_Question_Prompt', j.Language__c));
+                }
+                if (choice == 3) {
+                    return escalate(j, 'Chose Talk to a specialist from the menu');
+                }
+                return LoanSevaFaqMatcher.bestMatch(t) != null ? answerFaq(j, t) : start(j);
+            }
+        }
+    }
+
+    private static Result offerDecision(Loan_Journey__c j, String t, Integer choice) {
+        if (choice == 1 || isYes(t) || t.toLowerCase().contains('accept')) {
+            return acceptOffer(j);
+        }
+        if (choice == 3) {
+            return result(j, LoanSevaI18n.msg('Ask_Question_Prompt', j.Language__c));
+        }
+        Matcher m = Pattern.compile('(?i)([0-9]+\\s*(?:months?|mo|mths?|years?|yrs?|y|साल|वर्ष|महीने|महिने|वर्षे))(?![a-z])').matcher(t);
+        String tenureText = m.find() ? m.group(1) : null;
+        String amountText = parseAmount(tenureText == null ? t : t.replace(tenureText, ' ')) != null
+            ? (tenureText == null ? t : t.replace(tenureText, ' '))
+            : null;
+        if (amountText != null || tenureText != null) {
+            return offer(j, amountText, tenureText);
+        }
+        if (choice == 2) {
+            return result(j, LoanSevaI18n.msg('Offer_Change_Prompt', j.Language__c));
+        }
+        return faqOrPrompt(j, t);
+    }
+
+    private static Result faqOrPrompt(Loan_Journey__c j, String t) {
+        return String.isNotBlank(t) && LoanSevaFaqMatcher.bestMatch(t) != null ? answerFaq(j, t) : promptAndSave(j);
+    }
+
+    private static final Set<String> YES_WORDS = new Set<String>{
+        'yes', 'y', 'yeah', 'yep', 'yup', 'ok', 'okay', 'correct', 'right', 'sure', 'confirm', 'confirmed',
+        'haan', 'han', 'ha', 'haa', 'ho', 'hoy', 'sahi', 'हाँ', 'हां', 'हा', 'हो', 'होय', 'सही', 'बरोबर', 'ठीक'
+    };
+    private static final Set<String> NO_WORDS = new Set<String>{
+        'no', 'n', 'nope', 'nah', 'wrong', 'incorrect', 'nahi', 'nahin', 'galat', 'नहीं', 'नही', 'नाही', 'गलत', 'चुकीचे'
+    };
+
+    private static Boolean isYes(String s) {
+        return firstWordIn(s, YES_WORDS) || (s != null && s.toLowerCase().contains('go ahead'));
+    }
+
+    private static Boolean isNo(String s) {
+        return firstWordIn(s, NO_WORDS);
+    }
+
+    private static Boolean firstWordIn(String s, Set<String> words) {
+        if (String.isBlank(s)) {
+            return false;
+        }
+        String t = s.toLowerCase().replaceAll('[^\\p{L}\\p{M}\\s]', ' ').normalizeSpace();
+        return String.isNotBlank(t) && words.contains(t.split(' ')[0]);
+    }
+
     // ------------------------------------------------------------------ Helpers
     /** The question the customer should answer next, given where the journey is. */
     /**

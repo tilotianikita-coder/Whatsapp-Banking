@@ -1,6 +1,6 @@
 // LoanSeva by Kotak — demo seed. Idempotent: re-running updates the same records.
 // >>> Replace these with the WhatsApp numbers of the people demoing (10 digits, no +91). <<<
-List<String> DEMO_MOBILES = new List<String>{ '9000000001', '9000000002', '9000000003' };
+List<String> DEMO_MOBILES = new List<String>{ '9320484281', '9063480755', '9000000003' };
 
 // Name, loan account, outstanding, EMI, rate, tenure left, on-time, due, pre-approved limit
 List<List<Object>> CUSTOMERS = new List<List<Object>>{

@@ -1,0 +1,86 @@
+{
+  "unevaluatedProperties": false,
+  "properties": {
+    "message": {
+      "title": "Message",
+      "description": "Reply to send to the customer exactly as written, already localised and formatted for WhatsApp.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    },
+    "journeyId": {
+      "title": "Journey Id",
+      "description": "Loan journey record id.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    },
+    "awaiting": {
+      "title": "Awaiting",
+      "description": "What the journey needs next.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    },
+    "language": {
+      "title": "Language",
+      "description": "Conversation language: EN, HI or MR.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    },
+    "stage": {
+      "title": "Stage",
+      "description": "Journey stage.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    },
+    "handoff": {
+      "title": "Handoff Recommended",
+      "description": "True when a human specialist should take over.",
+      "lightning:type": "lightning__booleanType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    },
+    "success": {
+      "title": "Success",
+      "description": "False when the input could not be used and the customer is being re-asked.",
+      "lightning:type": "lightning__booleanType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    },
+    "verified": {
+      "title": "Verified",
+      "description": "True once the OTP has been verified.",
+      "lightning:type": "lightning__booleanType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    },
+    "referenceNumber": {
+      "title": "Reference Number",
+      "description": "Application reference number, once the offer is accepted.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    },
+    "status": {
+      "title": "Status",
+      "description": "Journey status.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": false,
+      "copilotAction:isUsedByPlanner": true
+    }
+  },
+  "lightning:type": "lightning__objectType"
+}

@@ -219,6 +219,16 @@ MESSAGES = {
         "क्या आप इस ऑफ़र के साथ आगे बढ़ना चाहेंगे?\n\n1️⃣ ऑफ़र स्वीकार करें\n2️⃣ राशि या अवधि बदलें\n3️⃣ सवाल पूछें",
         "तुम्हाला या ऑफरसह पुढे जायचे आहे का?\n\n1️⃣ ऑफर स्वीकारा\n2️⃣ रक्कम किंवा कालावधी बदला\n3️⃣ प्रश्न विचारा",
     ),
+    'Offer_Change_Prompt': (
+        "Sure! Tell me the new amount (e.g. *3 lakh*) and/or tenure (e.g. *48 months*) you'd like to explore.",
+        "ज़रूर! नई राशि (जैसे *3 लाख*) और/या अवधि (जैसे *48 महीने*) बताइए जो आप देखना चाहेंगे।",
+        "नक्कीच! नवीन रक्कम (उदा. *3 लाख*) आणि/किंवा कालावधी (उदा. *48 महिने*) सांगा.",
+    ),
+    'Ask_Question_Prompt': (
+        "Of course! What would you like to know about Personal Loan Top-Up? 🙂",
+        "ज़रूर! पर्सनल लोन टॉप-अप के बारे में आप क्या जानना चाहेंगे? 🙂",
+        "नक्कीच! पर्सनल लोन टॉप-अपबद्दल तुम्हाला काय जाणून घ्यायचे आहे? 🙂",
+    ),
     'Offer_Accepted': (
         "✅ Offer accepted! Your reference number is *{ref}*.\n\nWhen should our loan specialist call you?\n\n1️⃣ Within 24 hrs (as soon as possible)\n{slots}\n\nOr type a day & time, e.g. *Thu 11am*.",
         "✅ ऑफ़र स्वीकार हुआ! आपका रेफ़रेंस नंबर है *{ref}*।\n\nहमारे लोन विशेषज्ञ आपको कब कॉल करें?\n\n1️⃣ 24 घंटों के भीतर (जल्द से जल्द)\n{slots}\n\nया दिन और समय लिखें, जैसे *Thu 11am*।",

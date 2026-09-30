@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Saves the answer to the current personalisation question (employment, company, income, purpose, amount) and returns the next question or the offer. Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
+    <invocationTarget>LoanSevaPersonaliseAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <masterLabel>LoanSeva - Capture Personalisation Answer</masterLabel>
+</GenAiFunction>

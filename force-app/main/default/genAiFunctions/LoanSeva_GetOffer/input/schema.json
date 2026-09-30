@@ -1,0 +1,35 @@
+{
+  "required": [],
+  "unevaluatedProperties": false,
+  "properties": {
+    "journeyId": {
+      "title": "Journey Id",
+      "description": "journeyId output of the most recent LoanSeva action; empty on the first call.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "sessionId": {
+      "title": "Messaging Session Id",
+      "description": "Routable Id (MessagingSession Id) of this conversation.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "amount": {
+      "title": "Amount",
+      "description": "New amount as typed, e.g. 3 lakh. Empty to keep the current amount.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "tenure": {
+      "title": "Tenure",
+      "description": "New tenure as typed, e.g. 48 months or 4 years. Empty to keep the current tenure.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    }
+  },
+  "lightning:type": "lightning__objectType"
+}

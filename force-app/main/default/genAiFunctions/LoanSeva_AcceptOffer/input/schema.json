@@ -1,0 +1,21 @@
+{
+  "required": [],
+  "unevaluatedProperties": false,
+  "properties": {
+    "journeyId": {
+      "title": "Journey Id",
+      "description": "journeyId output of the most recent LoanSeva action; empty on the first call.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "sessionId": {
+      "title": "Messaging Session Id",
+      "description": "Routable Id (MessagingSession Id) of this conversation.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    }
+  },
+  "lightning:type": "lightning__objectType"
+}

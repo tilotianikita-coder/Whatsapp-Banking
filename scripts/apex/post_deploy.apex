@@ -1,6 +1,6 @@
 // LoanSeva post-deploy setup. Idempotent. Run: sf apex run -f scripts/apex/post_deploy.apex -o kotak-demo
 Map<String, Id> ps = new Map<String, Id>();
-for (PermissionSet p : [SELECT Id, Name FROM PermissionSet WHERE Name IN ('LoanSeva_Guest', 'LoanSeva_Admin', 'LoanSeva_Agent')]) {
+for (PermissionSet p : [SELECT Id, Name FROM PermissionSet WHERE Name IN ('LoanSeva_Guest', 'LoanSeva_Admin', 'LoanSeva_Agent', 'AgentforceServiceAgentUser')]) {
     ps.put(p.Name, p.Id);
 }
 Set<String> existing = new Set<String>();
@@ -18,10 +18,12 @@ for (Site s : [SELECT GuestUserId FROM Site WHERE Name = 'LoanSeva']) {
 if (!existing.contains(UserInfo.getUserId() + ':' + ps.get('LoanSeva_Admin'))) {
     toAssign.add(new PermissionSetAssignment(AssigneeId = UserInfo.getUserId(), PermissionSetId = ps.get('LoanSeva_Admin')));
 }
-// 3. Agentforce service agent users -> action + object access
+// 3. Agentforce service agent users -> action + object access, plus the standard service agent user perm set
 for (User u : [SELECT Id FROM User WHERE IsActive = TRUE AND Profile.Name = 'Einstein Agent User' AND Username LIKE 'loanseva%']) {
-    if (!existing.contains(u.Id + ':' + ps.get('LoanSeva_Agent'))) {
-        toAssign.add(new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps.get('LoanSeva_Agent')));
+    for (String name : new List<String>{ 'LoanSeva_Agent', 'AgentforceServiceAgentUser' }) {
+        if (ps.containsKey(name) && !existing.contains(u.Id + ':' + ps.get(name))) {
+            toAssign.add(new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps.get(name)));
+        }
     }
 }
 insert toAssign;

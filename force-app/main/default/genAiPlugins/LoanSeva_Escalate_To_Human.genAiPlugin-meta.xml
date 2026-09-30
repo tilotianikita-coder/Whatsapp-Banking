@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata">
+    <canEscalate>true</canEscalate>
+    <description>Hands the customer to a human Kotak loan specialist when they ask for a human, agent, specialist, RM or a call now, or after repeated confusion.</description>
+    <developerName>LoanSeva_Escalate_To_Human</developerName>
+    <genAiFunctions>
+        <functionName>LoanSeva_LogEscalation</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>The customer wants a human specialist (or is repeatedly confused). First call LoanSeva_LogEscalation with a short English reason and relay its message exactly. Then escalate the conversation to a human. If escalation fails, reassure the customer in the conversation language that a Kotak specialist will call them back within 24 hours.</description>
+        <developerName>instruction_0</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_0</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
+        <developerName>instruction_1</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_1</masterLabel>
+        <sortOrder>1</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, *asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.</description>
+        <developerName>instruction_2</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_2</masterLabel>
+        <sortOrder>2</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>LoanSeva Escalate to Human</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Log the escalation for a Kotak specialist and transfer the conversation to a human.</scope>
+</GenAiPlugin>

@@ -98,6 +98,13 @@ private class LoanSevaActionsTest {
         System.assertEquals('done', r.awaiting);
         System.assertEquals('Completed', r.status);
 
+        LoanSevaReplyAction.Request rep = new LoanSevaReplyAction.Request();
+        rep.journeyId = jid;
+        rep.message = 'Thanks!';
+        r = LoanSevaReplyAction.run(new List<LoanSevaReplyAction.Request>{ rep })[0];
+        System.assert(r.success);
+        System.assertEquals(jid, r.journeyId, 'Reply action works on the same journey');
+
         LoanSevaEscalateAction.Request esc = new LoanSevaEscalateAction.Request();
         esc.journeyId = jid;
         esc.reason = 'Wants to discuss tenure';
@@ -160,8 +167,10 @@ private class LoanSevaActionsTest {
         rs.addAll(LoanSevaFeedbackAction.run(new List<LoanSevaFeedbackAction.Request>{ l }));
         LoanSevaEscalateAction.Request m = new LoanSevaEscalateAction.Request(); m.journeyId = jid;
         rs.addAll(LoanSevaEscalateAction.run(new List<LoanSevaEscalateAction.Request>{ m }));
+        LoanSevaReplyAction.Request n = new LoanSevaReplyAction.Request(); n.journeyId = jid; n.message = '1';
+        rs.addAll(LoanSevaReplyAction.run(new List<LoanSevaReplyAction.Request>{ n }));
 
-        System.assertEquals(12, rs.size());
+        System.assertEquals(13, rs.size());
         for (LoanSevaActionResult r : rs) {
             System.assertEquals(false, r.success);
             System.assert(r.handoff, 'Failures hand off to a human');

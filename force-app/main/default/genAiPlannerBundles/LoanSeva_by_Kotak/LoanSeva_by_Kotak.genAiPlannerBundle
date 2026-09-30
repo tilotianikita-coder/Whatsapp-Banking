@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>LoanSeva by Kotak planner: routes WhatsApp messages to the Top-Up journey topics.</description>
+    <genAiPlugins>
+        <genAiPluginName>LoanSeva_Top_Up_Journey</genAiPluginName>
+    </genAiPlugins>
+    <genAiPlugins>
+        <genAiPluginName>LoanSeva_Language_Switch</genAiPluginName>
+    </genAiPlugins>
+    <genAiPlugins>
+        <genAiPluginName>LoanSeva_Escalate_To_Human</genAiPluginName>
+    </genAiPlugins>
+    <masterLabel>LoanSeva_by_Kotak</masterLabel>
+    <plannerType>AiCopilot__ReAct</plannerType>
+</GenAiPlannerBundle>

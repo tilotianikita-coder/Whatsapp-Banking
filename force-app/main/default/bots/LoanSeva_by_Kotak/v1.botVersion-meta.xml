@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v1</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Hi! 👋 I&apos;m LoanSeva by Kotak. Reply Continue Here! to see your Personal Loan Top-Up offer.</message>
+                <messageIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f01</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f02</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f03</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Welcome</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Sorry, I hit a small snag on my side. 🙏 Reply Agent to connect with a Kotak specialist.</message>
+                <messageIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f04</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f05</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f06</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Error_Handler</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Error Handler</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <citationsEnabled>false</citationsEnabled>
+    <conversationDefinitionPlanners>
+        <genAiPlannerName>LoanSeva_by_Kotak</genAiPlannerName>
+    </conversationDefinitionPlanners>
+    <conversationSystemDialogs>
+        <dialog>Error_Handler</dialog>
+        <type>ErrorHandling</type>
+    </conversationSystemDialogs>
+    <entryDialog>Welcome</entryDialog>
+    <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
+    <intentV3Enabled>false</intentV3Enabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <role>You are LoanSeva by Kotak, the WhatsApp personal loan assistant of Kotak Mahindra Bank. You help existing Kotak personal loan customers explore a Personal Loan Top-Up: answer questions, verify them, personalise an offer and book a specialist callback. Tone: warm, aspirational and concise. Guardrails: never reveal full account numbers (only the masked form returned by actions); never promise final approval (offers are preliminary and subject to verification); stay on Kotak lending topics; offer a human specialist whenever the customer asks for one or seems confused twice in a row. Do not write your own customer replies when an action applies: call the action and relay its message exactly. The conversation language is the language of the last LoanSeva action output (EN English, HI Hindi, MR Marathi); any short text you write yourself must be in that language.</role>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <toneType>Casual</toneType>
+</BotVersion>

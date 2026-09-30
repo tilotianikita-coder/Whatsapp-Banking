@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Offer Change Prompt</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Sure! Tell me the new amount (e.g. *3 lakh*) and/or tenure (e.g. *48 months*) you'd like to explore.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">ज़रूर! नई राशि (जैसे *3 लाख*) और/या अवधि (जैसे *48 महीने*) बताइए जो आप देखना चाहेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">नक्कीच! नवीन रक्कम (उदा. *3 लाख*) आणि/किंवा कालावधी (उदा. *48 महिने*) सांगा.</value>
+    </values>
+</CustomMetadata>

@@ -328,6 +328,79 @@ private class LoanSevaEngineTest {
     }
 
     @IsTest
+    static void replyRoutesEveryStepOnJourneyState() {
+        Test.startTest();
+        Loan_Journey__c j = LoanSevaTestData.startedJourney(LoanSevaTestData.PRIYA_MOBILE);
+        LoanSevaEngine.Result r = LoanSevaEngine.reply(j, '2');
+        System.assert(r.message.contains('Top-Up'), 'Menu 2 asks what they want to know: ' + r.message);
+        r = LoanSevaEngine.reply(r.journey, 'What can I use the loan for?');
+        System.assert(r.success, 'A clear question is answered from the FAQ');
+        r = LoanSevaEngine.reply(r.journey, 'Hi');
+        System.assertEquals('menu', LoanSevaEngine.awaiting(r.journey), 'A greeting re-shows the welcome menu');
+        r = LoanSevaEngine.reply(r.journey, 'Yes');
+        System.assertEquals('identity', LoanSevaEngine.awaiting(r.journey));
+        r = LoanSevaEngine.reply(r.journey, 'My name is Priya Sharma, mobile +91 ' + LoanSevaTestData.PRIYA_MOBILE);
+        System.assertEquals('otp', LoanSevaEngine.awaiting(r.journey), 'Name and mobile are extracted from one message: ' + r.message);
+        r = LoanSevaEngine.reply(r.journey, '123456');
+        System.assertEquals('loan_confirm', LoanSevaEngine.awaiting(r.journey));
+        r = LoanSevaEngine.reply(r.journey, 'maybe');
+        System.assertEquals('loan_confirm', LoanSevaEngine.awaiting(r.journey), 'An unclear reply re-asks');
+        r = LoanSevaEngine.reply(r.journey, 'हाँ, सही है');
+        System.assertEquals('employment', LoanSevaEngine.awaiting(r.journey), 'Hindi yes confirms the loan');
+        for (String answer : new List<String>{ '1', 'Infosys', '3', '1', '4' }) {
+            r = LoanSevaEngine.reply(r.journey, answer);
+        }
+        System.assertEquals(500000, r.journey.Desired_Amount__c);
+        System.assertEquals('offer_decision', LoanSevaEngine.awaiting(r.journey));
+        r = LoanSevaEngine.reply(r.journey, '2');
+        System.assert(r.message.contains('lakh'), 'Change without details asks for amount/tenure: ' + r.message);
+        r = LoanSevaEngine.reply(r.journey, '4 lakh for 48 months');
+        System.assertEquals(400000, r.journey.Desired_Amount__c);
+        System.assertEquals(48, r.journey.Offer_Tenure_Months__c);
+        r = LoanSevaEngine.reply(r.journey, '36 months');
+        System.assertEquals(36, r.journey.Offer_Tenure_Months__c);
+        System.assertEquals(400000, r.journey.Desired_Amount__c, 'A tenure-only change keeps the amount');
+        r = LoanSevaEngine.reply(r.journey, '3');
+        System.assertEquals('offer_decision', LoanSevaEngine.awaiting(r.journey), 'Option 3 asks for the question');
+        r = LoanSevaEngine.reply(r.journey, 'hmm');
+        System.assertEquals('offer_decision', LoanSevaEngine.awaiting(r.journey));
+        r = LoanSevaEngine.reply(r.journey, '1');
+        System.assertNotEquals(null, r.journey.Reference_Number__c);
+        r = LoanSevaEngine.reply(r.journey, '2');
+        System.assertNotEquals(null, r.journey.Callback_DateTime__c);
+        r = LoanSevaEngine.reply(r.journey, '5');
+        r = LoanSevaEngine.reply(r.journey, '1');
+        r = LoanSevaEngine.reply(r.journey, 'Skip');
+        System.assertEquals('done', LoanSevaEngine.awaiting(r.journey));
+        r = LoanSevaEngine.reply(r.journey, 'Thanks!');
+        System.assert(r.message.contains(r.journey.Reference_Number__c), 'Done: sign-off repeats the reference');
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void replyHandlesNoMenuEscalationAndLockout() {
+        Test.startTest();
+        Loan_Journey__c j = LoanSevaTestData.startedJourney(LoanSevaTestData.PRIYA_MOBILE);
+        LoanSevaEngine.Result r = LoanSevaEngine.reply(j, '3');
+        System.assert(r.handoff, 'Menu 3 hands off to a specialist');
+        r = LoanSevaEngine.reply(r.journey, '1');
+        r = LoanSevaEngine.reply(r.journey, 'Priya Sharma ' + LoanSevaTestData.PRIYA_MOBILE);
+        r = LoanSevaEngine.reply(r.journey, '123456');
+        r = LoanSevaEngine.reply(r.journey, 'No, wrong');
+        System.assert(r.handoff, 'Disputed snapshot hands off');
+
+        Loan_Journey__c k = LoanSevaTestData.startedJourney(LoanSevaTestData.RAHUL_MOBILE);
+        r = LoanSevaEngine.verifyCustomer(k, 'Rahul Deshmukh', LoanSevaTestData.RAHUL_MOBILE);
+        for (Integer i = 0; i < 3; i++) {
+            r = LoanSevaEngine.reply(r.journey, '000000');
+        }
+        System.assertEquals('handoff', LoanSevaEngine.awaiting(r.journey));
+        r = LoanSevaEngine.reply(r.journey, 'hello');
+        System.assertEquals(LoanSevaJourneyService.STATUS_EXITED, r.journey.Status__c, 'Locked journeys stay exited');
+        Test.stopTest();
+    }
+
+    @IsTest
     static void parsersHandleIndianFormats() {
         System.assertEquals(500000, LoanSevaEngine.parseAmount('5L'));
         System.assertEquals(250000, LoanSevaEngine.parseAmount('2.5 lakhs'));

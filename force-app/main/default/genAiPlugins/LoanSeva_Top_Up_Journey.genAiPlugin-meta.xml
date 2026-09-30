@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata">
+    <canEscalate>false</canEscalate>
+    <description>Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, a bare number, a name, a mobile number, an OTP, a company name, an amount or a day and time: they belong to the ongoing loan journey, never ambiguous. Covers the whole Kotak Personal Loan Top-Up journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, callback booking and feedback. Use for every customer message except language changes and requests for a human.</description>
+    <developerName>LoanSeva_Top_Up_Journey</developerName>
+    <genAiFunctions>
+        <functionName>LoanSeva_StartJourney</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>LoanSeva_ReplyToJourney</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>LoanSeva_AnswerQuestion</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>You run the Kotak Personal Loan Top-Up journey. The LoanSeva actions hold the journey state, so never decide yourself which step comes next.</description>
+        <developerName>instruction_0</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_0</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>First message, greeting, Continue Here!, Continue, Hi or Start, or no journeyId yet -&gt; call LoanSeva_StartJourney.</description>
+        <developerName>instruction_1</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_1</masterLabel>
+        <sortOrder>1</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>A question about Top-Up (uses, rate, difference from a new loan, speed, fees, documents, tenure, eligibility, or similar) rather than an answer -&gt; call LoanSeva_AnswerQuestion with the question as typed.</description>
+        <developerName>instruction_2</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_2</masterLabel>
+        <sortOrder>2</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Every other customer message -&gt; call LoanSeva_ReplyToJourney with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, amount, tenure, callback time, rating, comment, Skip) and returns the next message.</description>
+        <developerName>instruction_3</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_3</masterLabel>
+        <sortOrder>3</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Never reveal or repeat an OTP yourself.</description>
+        <developerName>instruction_4</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_4</masterLabel>
+        <sortOrder>4</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
+        <developerName>instruction_5</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_5</masterLabel>
+        <sortOrder>5</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, *asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.</description>
+        <developerName>instruction_6</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_6</masterLabel>
+        <sortOrder>6</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>LoanSeva Top-Up Journey</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Run the Kotak Personal Loan Top-Up journey using LoanSeva actions only.</scope>
+</GenAiPlugin>

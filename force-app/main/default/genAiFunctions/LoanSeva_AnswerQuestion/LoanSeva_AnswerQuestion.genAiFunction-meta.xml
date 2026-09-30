@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Answers a question about Kotak Personal Loan Top-Up (uses, interest rate, how it differs from a new loan, disbursal speed, fees, documents, tenure, eligibility) from approved content, then re-asks whatever the journey is waiting for. Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
+    <invocationTarget>LoanSevaFaqAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <masterLabel>LoanSeva - Answer Top-Up Question</masterLabel>
+</GenAiFunction>
