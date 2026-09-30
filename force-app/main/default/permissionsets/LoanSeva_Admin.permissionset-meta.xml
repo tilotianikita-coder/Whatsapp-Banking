@@ -395,6 +395,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Loan_Journey__c.Question_Pending__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Loan_Journey__c.Questions_Asked__c</field>
         <readable>true</readable>
     </fieldPermissions>

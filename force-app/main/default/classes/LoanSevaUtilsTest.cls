@@ -129,12 +129,15 @@ private class LoanSevaUtilsTest {
         System.assertEquals('Documents', LoanSevaFaqMatcher.bestMatch('which documents are needed').DeveloperName);
         System.assertEquals(null, LoanSevaFaqMatcher.bestMatch('because'), 'Word-start matching avoids false hits');
         System.assertEquals(null, LoanSevaFaqMatcher.bestMatch(''));
+        System.assertEquals(null, LoanSevaFaqMatcher.bestMatch('tell me more about PL'), 'The overview is opt-in');
+        System.assertEquals('About_Top_Up', LoanSevaFaqMatcher.bestMatch('tell me more about PL', true).DeveloperName);
+        System.assertEquals('Interest_Rate', LoanSevaFaqMatcher.bestMatch('tell me more about the interest rate', true).DeveloperName, 'Specific FAQs win');
 
         LoanSeva_FAQ__mdt rate = LoanSevaFaqMatcher.bestMatch('interest rate');
         String answer = LoanSevaFaqMatcher.render(rate, 'EN');
         System.assert(answer.contains(LoanSevaConfig.get().Rate_Display__c), 'Rate comes from config: ' + answer);
         System.assert(!answer.contains('{'), 'All tokens merged');
-        System.assertEquals(8, LoanSevaFaqMatcher.all().size());
+        System.assertEquals(9, LoanSevaFaqMatcher.all().size(), '8 specific FAQs plus the Top-Up overview');
         for (LoanSeva_FAQ__mdt f : LoanSevaFaqMatcher.all()) {
             System.assert(String.isNotBlank(LoanSevaFaqMatcher.render(f, 'HI')));
         }

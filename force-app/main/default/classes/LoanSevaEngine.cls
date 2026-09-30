@@ -19,14 +19,18 @@ public with sharing class LoanSevaEngine {
     // ------------------------------------------------------------------ Start / menu
     public static Result start(Loan_Journey__c j) {
         LoanSevaJourneyService.advance(j, 'Start');
+        update j;
+        return result(j, welcome(j));
+    }
+
+    private static String welcome(Loan_Journey__c j) {
         Existing_Loan__c loan = LoanSevaJourneyService.activeLoan(j.Contact__c);
         String name = LoanSevaJourneyService.firstName(j);
         String key = (loan != null && String.isNotBlank(name)) ? 'Welcome' : 'Welcome_Generic';
-        update j;
-        return result(j, LoanSevaI18n.msg(key, j.Language__c, new Map<String, Object>{
+        return LoanSevaI18n.msg(key, j.Language__c, new Map<String, Object>{
             'name' => name,
             'limit' => loan == null ? '' : LoanSevaI18n.inrShort(loan.Pre_Approved_Limit__c)
-        }));
+        });
     }
 
     // ------------------------------------------------------------------ FAQ
@@ -38,23 +42,19 @@ public with sharing class LoanSevaEngine {
             j.Questions_Asked__c = log.right(32000);
         }
         LoanSevaJourneyService.advance(j, 'Start');
-        LoanSeva_FAQ__mdt faq = LoanSevaFaqMatcher.bestMatch(q);
-        String message;
-        Result r;
-        if (faq == null) {
-            message = LoanSevaI18n.msg('FAQ_Not_Found', j.Language__c);
-            update j;
-            r = result(j, message);
-            r.success = false;
-            return r;
-        }
-        message = LoanSevaFaqMatcher.render(faq, j.Language__c);
+        j.Question_Pending__c = false;
+        LoanSeva_FAQ__mdt faq = LoanSevaFaqMatcher.bestMatch(q, true);
+        String message = faq == null
+            ? LoanSevaI18n.msg('FAQ_Not_Found', j.Language__c)
+            : LoanSevaFaqMatcher.render(faq, j.Language__c);
         String followUp = pendingPrompt(j, true);
         message += '\n\n' + (j.OTP_Verified__c && String.isNotBlank(followUp)
             ? LoanSevaI18n.msg('Resume_Prompt', j.Language__c) + '\n' + followUp
             : LoanSevaI18n.msg('FAQ_Nudge', j.Language__c));
         update j;
-        return result(j, message);
+        Result r = result(j, message);
+        r.success = faq != null;
+        return r;
     }
 
     // ------------------------------------------------------------------ Language
@@ -66,7 +66,8 @@ public with sharing class LoanSevaEngine {
         j.Language__c = lang;
         LoanSevaJourneyService.touch(j);
         String message = LoanSevaI18n.msg('Language_Set', lang);
-        String pending = pendingPrompt(j, false);
+        // At the menu the customer hasn't asked to verify yet, so repeat the menu, not the name/mobile ask
+        String pending = awaiting(j) == 'menu' ? welcome(j) : pendingPrompt(j, false);
         update j;
         if (String.isNotBlank(pending)) {
             message += '\n\n' + pending;
@@ -710,6 +711,15 @@ public with sharing class LoanSevaEngine {
         String t = text == null ? '' : text.trim();
         String state = awaiting(j);
         Integer choice = choiceNumber(t);
+        if (j.Question_Pending__c == true && state != 'otp' && state != 'company') {
+            // After "Ask a question" the next message is a question, so "Yes" or "tell me more" can
+            // never accept the offer. A bare option number still picks that option.
+            j.Question_Pending__c = false;
+            if (!NO_LETTERS.matcher(t).matches() && !wantsHuman(t)) {
+                return answerFaq(j, t);
+            }
+            update j;
+        }
         if (t.contains('?') && state != 'otp' && state != 'company' && LoanSevaFaqMatcher.bestMatch(t) != null) {
             return answerFaq(j, t);
         }
@@ -757,23 +767,18 @@ public with sharing class LoanSevaEngine {
                     return verifyCustomer(j, null, null);
                 }
                 if (choice == 2) {
-                    return result(j, LoanSevaI18n.msg('Ask_Question_Prompt', j.Language__c));
+                    return askQuestion(j);
                 }
                 if (choice == 3) {
                     return escalate(j, 'Chose Talk to a specialist from the menu');
                 }
-                return LoanSevaFaqMatcher.bestMatch(t) != null ? answerFaq(j, t) : start(j);
+                return LoanSevaFaqMatcher.bestMatch(t, true) != null ? answerFaq(j, t) : start(j);
             }
         }
     }
 
     private static Result offerDecision(Loan_Journey__c j, String t, Integer choice) {
-        if (choice == 1 || isYes(t) || t.toLowerCase().contains('accept')) {
-            return acceptOffer(j);
-        }
-        if (choice == 3) {
-            return result(j, LoanSevaI18n.msg('Ask_Question_Prompt', j.Language__c));
-        }
+        // An amount or tenure comes first, so "3 lakh for 48 months" is a change, not option 3
         Matcher m = Pattern.compile('(?i)([0-9]+\\s*(?:months?|mo|mths?|years?|yrs?|y|साल|वर्ष|महीने|महिने|वर्षे))(?![a-z])').matcher(t);
         String tenureText = m.find() ? m.group(1) : null;
         String amountText = parseAmount(tenureText == null ? t : t.replace(tenureText, ' ')) != null
@@ -782,10 +787,26 @@ public with sharing class LoanSevaEngine {
         if (amountText != null || tenureText != null) {
             return offer(j, amountText, tenureText);
         }
+        if (choice == 1 || isYes(t) || t.toLowerCase().contains('accept')) {
+            return acceptOffer(j);
+        }
+        if (choice == 3) {
+            return askQuestion(j);
+        }
         if (choice == 2) {
             return result(j, LoanSevaI18n.msg('Offer_Change_Prompt', j.Language__c));
         }
         return faqOrPrompt(j, t);
+    }
+
+    /** A bare option such as 1, 2️⃣ or ३: picks that option even while a question is pending. */
+    private static final Pattern NO_LETTERS = Pattern.compile('[^\\p{L}]*');
+
+    private static Result askQuestion(Loan_Journey__c j) {
+        j.Question_Pending__c = true;
+        LoanSevaJourneyService.touch(j);
+        update j;
+        return result(j, LoanSevaI18n.msg('Ask_Question_Prompt', j.Language__c));
     }
 
     private static Result faqOrPrompt(Loan_Journey__c j, String t) {
@@ -893,7 +914,8 @@ public with sharing class LoanSevaEngine {
             return question(j, field);
         }
         if (!j.Offer_Accepted__c) {
-            return LoanSevaI18n.msg('Offer_Reprompt', lang);
+            // Referred to an RM: there is no offer to accept, only a different amount or tenure to try
+            return LoanSevaI18n.msg(j.Offer_Amount__c == null && j.Offer_Presented_At__c != null ? 'Refer_Reprompt' : 'Offer_Reprompt', lang);
         }
         if (j.Callback_DateTime__c == null) {
             return LoanSevaI18n.msg('Callback_Options', lang, new Map<String, Object>{ 'slots' => callbackSlots(j) });

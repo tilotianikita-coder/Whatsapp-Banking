@@ -84,10 +84,11 @@ MESSAGES = {
         "क्या आप अपना पर्सनलाइज़्ड ऑफ़र देखना चाहेंगे? 30 सेकंड में वेरिफ़ाई करने के लिए *Yes* लिखें।",
         "तुमची वैयक्तिक ऑफर पाहायची आहे का? 30 सेकंदात व्हेरिफाय करण्यासाठी *Yes* लिहा.",
     ),
+    # No "reply Yes" here: the engine appends the step-aware follow-up (at the offer, Yes would accept it).
     'FAQ_Not_Found': (
-        "That's a great question — I want to make sure you get the exact answer, so I'll have a Kotak specialist confirm it on your callback. 🙏\n\nMeanwhile, I can help with rates, uses, timelines and how Top-Up differs from a new loan. Or reply *Yes* to see your personalised offer.",
-        "बहुत अच्छा सवाल — आपको सटीक जवाब मिले, इसलिए कॉलबैक पर Kotak विशेषज्ञ इसकी पुष्टि करेंगे। 🙏\n\nतब तक मैं ब्याज दर, उपयोग, समय-सीमा और टॉप-अप व नए लोन के अंतर के बारे में बता सकता हूँ। या अपना पर्सनलाइज़्ड ऑफ़र देखने के लिए *Yes* लिखें।",
-        "छान प्रश्न — तुम्हाला अचूक उत्तर मिळावे म्हणून कॉलबॅकवर Kotak तज्ज्ञ याची खात्री करतील. 🙏\n\nतोपर्यंत मी व्याजदर, वापर, कालावधी आणि टॉप-अप व नवीन कर्जातील फरक याबद्दल सांगू शकतो. किंवा वैयक्तिक ऑफर पाहण्यासाठी *Yes* लिहा.",
+        "That's a great question — I want to make sure you get the exact answer, so I'll have a Kotak specialist confirm it on your callback. 🙏\n\nMeanwhile, I can help with rates, uses, timelines and how Top-Up differs from a new loan.",
+        "बहुत अच्छा सवाल — आपको सटीक जवाब मिले, इसलिए कॉलबैक पर Kotak विशेषज्ञ इसकी पुष्टि करेंगे। 🙏\n\nतब तक मैं ब्याज दर, उपयोग, समय-सीमा और टॉप-अप व नए लोन के अंतर के बारे में बता सकता हूँ।",
+        "छान प्रश्न — तुम्हाला अचूक उत्तर मिळावे म्हणून कॉलबॅकवर Kotak तज्ज्ञ याची खात्री करतील. 🙏\n\nतोपर्यंत मी व्याजदर, वापर, कालावधी आणि टॉप-अप व नवीन कर्जातील फरक याबद्दल सांगू शकतो.",
     ),
     'Resume_Prompt': (
         "Shall we continue where we left off? 👇",
@@ -214,6 +215,11 @@ MESSAGES = {
         "धन्यवाद {name}! 🙏 आपके विवरण के आधार पर, Kotak लोन विशेषज्ञ आपके लिए सबसे अच्छा विकल्प तैयार करेंगे। वे 24 घंटों में आपको कॉल करेंगे।",
         "धन्यवाद {name}! 🙏 तुमच्या तपशिलांनुसार, Kotak कर्ज तज्ज्ञ तुमच्यासाठी सर्वोत्तम पर्याय तयार करतील. ते 24 तासांत तुम्हाला कॉल करतील.",
     ),
+    'Refer_Reprompt': (
+        "A Kotak loan specialist will call you within 24 hours to design your option. 🙏\n\nMeanwhile, you can try a different amount or tenure (e.g. *2 lakh for 48 months*), or ask me any question about Top-Up.",
+        "Kotak लोन विशेषज्ञ 24 घंटों में आपको कॉल करके आपका विकल्प तैयार करेंगे। 🙏\n\nतब तक आप कोई दूसरी राशि या अवधि आज़मा सकते हैं (जैसे *2 लाख 48 महीने*), या टॉप-अप के बारे में कोई भी सवाल पूछें।",
+        "Kotak कर्ज तज्ज्ञ 24 तासांत तुम्हाला कॉल करून तुमचा पर्याय तयार करतील. 🙏\n\nतोपर्यंत तुम्ही वेगळी रक्कम किंवा कालावधी वापरून पाहू शकता (उदा. *2 लाख 48 महिने*), किंवा टॉप-अपबद्दल कोणताही प्रश्न विचारा.",
+    ),
     'Offer_Reprompt': (
         "Would you like to go ahead with this offer?\n\n1️⃣ Accept offer\n2️⃣ Change amount or tenure\n3️⃣ Ask a question",
         "क्या आप इस ऑफ़र के साथ आगे बढ़ना चाहेंगे?\n\n1️⃣ ऑफ़र स्वीकार करें\n2️⃣ राशि या अवधि बदलें\n3️⃣ सवाल पूछें",
@@ -322,7 +328,12 @@ FAQS = {
         'eligible,eligibility,qualify,criteria,पात्र,पात्रता,योग्य',
         "Great news — as an existing Kotak loan customer you're pre-qualified 🎯 Your final amount depends on your repayment track, monthly income and existing EMIs. It takes about a minute to check.",
         "खुशखबरी — मौजूदा Kotak लोन ग्राहक होने के नाते आप प्री-क्वालिफाइड हैं 🎯 अंतिम राशि आपके भुगतान रिकॉर्ड, मासिक आय और मौजूदा EMI पर निर्भर करती है। जाँचने में लगभग एक मिनट लगता है।",
-        "आनंदाची बातमी — सध्याचे Kotak कर्ज ग्राहक म्हणून तुम्ही प्री-क्वालिफाइड आहात 🎯 अंतिम रक्कम तुमचा परतफेड रेकॉर्ड, मासिक उत्पन्न आणि सध्याच्या EMI वर अवलंबून असते. तपासायला सुमारे एक मिनिट लागतो."),
+        "आनंदाची बातमी — सध्याचे Kotak कर्ज ग्राहक म्हणून तुम्ही प्री-क्वालिफाइड आहात 🎯 अंतिम रक्कम तुमचा परतफेड रेकॉर्ड, मासिक उत्पन्न आणि सध्याच्या EMI वर अवलंबून असते. तपासायला सुमारे एक मिनिट लागतो."),    # Sort order 900+ = fallback: used only when no specific FAQ matches (LoanSevaFaqMatcher.FALLBACK_ORDER).
+    'About_Top_Up': (900, 'Tell me more about the Personal Loan Top-Up',
+        'more,about,know,tell,details,detail,explain,information,info,overview,top up,top-up,topup,personal loan,loan,जानकारी,बारे,बताइए,बताओ,टॉप,माहिती,बद्दल,सांगा',
+        "A *Kotak Personal Loan Top-Up* 💡 gives you extra funds on top of your existing Kotak Personal Loan, without a fresh application:\n\n✅ Pre-qualified amount based on your repayment track\n✅ Rates from *{rate}*, with EMI and fees shown upfront\n✅ Tenure from {minTenure} to {maxTenure} months\n✅ Minimal paperwork, no repeat KYC\n\nAsk me about rates, fees, documents or eligibility anytime.",
+        "*Kotak पर्सनल लोन टॉप-अप* 💡 आपके मौजूदा Kotak पर्सनल लोन पर अतिरिक्त राशि देता है, बिना नए आवेदन के:\n\n✅ आपके भुगतान रिकॉर्ड के आधार पर प्री-क्वालिफाइड राशि\n✅ ब्याज दर *{rate}* से, EMI और शुल्क पहले ही दिखाए जाते हैं\n✅ {minTenure} से {maxTenure} महीने तक की अवधि\n✅ न्यूनतम कागज़ी कार्रवाई, दोबारा KYC नहीं\n\nब्याज दर, शुल्क, दस्तावेज़ या पात्रता के बारे में कभी भी पूछें।",
+        "*Kotak पर्सनल लोन टॉप-अप* 💡 तुमच्या सध्याच्या Kotak पर्सनल लोनवर अतिरिक्त रक्कम देतो, नवीन अर्जाशिवाय:\n\n✅ तुमच्या परतफेड रेकॉर्डवर आधारित प्री-क्वालिफाइड रक्कम\n✅ व्याजदर *{rate}* पासून, EMI आणि शुल्क आधीच दाखवले जातात\n✅ {minTenure} ते {maxTenure} महिन्यांचा कालावधी\n✅ किमान कागदपत्रे, पुन्हा KYC नाही\n\nव्याजदर, शुल्क, कागदपत्रे किंवा पात्रतेबद्दल कधीही विचारा."),
 }
 
 

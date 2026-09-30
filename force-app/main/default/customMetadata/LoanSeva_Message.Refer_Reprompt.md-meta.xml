@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Refer Reprompt</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">A Kotak loan specialist will call you within 24 hours to design your option. 🙏
+
+Meanwhile, you can try a different amount or tenure (e.g. *2 lakh for 48 months*), or ask me any question about Top-Up.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">Kotak लोन विशेषज्ञ 24 घंटों में आपको कॉल करके आपका विकल्प तैयार करेंगे। 🙏
+
+तब तक आप कोई दूसरी राशि या अवधि आज़मा सकते हैं (जैसे *2 लाख 48 महीने*), या टॉप-अप के बारे में कोई भी सवाल पूछें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">Kotak कर्ज तज्ज्ञ 24 तासांत तुम्हाला कॉल करून तुमचा पर्याय तयार करतील. 🙏
+
+तोपर्यंत तुम्ही वेगळी रक्कम किंवा कालावधी वापरून पाहू शकता (उदा. *2 लाख 48 महिने*), किंवा टॉप-अपबद्दल कोणताही प्रश्न विचारा.</value>
+    </values>
+</CustomMetadata>

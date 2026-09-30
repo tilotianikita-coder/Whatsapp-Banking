@@ -6,18 +6,18 @@
         <field>English__c</field>
         <value xsi:type="xsd:string">That's a great question — I want to make sure you get the exact answer, so I'll have a Kotak specialist confirm it on your callback. 🙏
 
-Meanwhile, I can help with rates, uses, timelines and how Top-Up differs from a new loan. Or reply *Yes* to see your personalised offer.</value>
+Meanwhile, I can help with rates, uses, timelines and how Top-Up differs from a new loan.</value>
     </values>
     <values>
         <field>Hindi__c</field>
         <value xsi:type="xsd:string">बहुत अच्छा सवाल — आपको सटीक जवाब मिले, इसलिए कॉलबैक पर Kotak विशेषज्ञ इसकी पुष्टि करेंगे। 🙏
 
-तब तक मैं ब्याज दर, उपयोग, समय-सीमा और टॉप-अप व नए लोन के अंतर के बारे में बता सकता हूँ। या अपना पर्सनलाइज़्ड ऑफ़र देखने के लिए *Yes* लिखें।</value>
+तब तक मैं ब्याज दर, उपयोग, समय-सीमा और टॉप-अप व नए लोन के अंतर के बारे में बता सकता हूँ।</value>
     </values>
     <values>
         <field>Marathi__c</field>
         <value xsi:type="xsd:string">छान प्रश्न — तुम्हाला अचूक उत्तर मिळावे म्हणून कॉलबॅकवर Kotak तज्ज्ञ याची खात्री करतील. 🙏
 
-तोपर्यंत मी व्याजदर, वापर, कालावधी आणि टॉप-अप व नवीन कर्जातील फरक याबद्दल सांगू शकतो. किंवा वैयक्तिक ऑफर पाहण्यासाठी *Yes* लिहा.</value>
+तोपर्यंत मी व्याजदर, वापर, कालावधी आणि टॉप-अप व नवीन कर्जातील फरक याबद्दल सांगू शकतो.</value>
     </values>
 </CustomMetadata>

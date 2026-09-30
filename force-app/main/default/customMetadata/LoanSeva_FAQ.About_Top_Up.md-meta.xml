@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Tell me more about the Personal Loan Top</label>
+    <protected>false</protected>
+    <values>
+        <field>Sort_Order__c</field>
+        <value xsi:type="xsd:double">900</value>
+    </values>
+    <values>
+        <field>Question__c</field>
+        <value xsi:type="xsd:string">Tell me more about the Personal Loan Top-Up</value>
+    </values>
+    <values>
+        <field>Keywords__c</field>
+        <value xsi:type="xsd:string">more,about,know,tell,details,detail,explain,information,info,overview,top up,top-up,topup,personal loan,loan,जानकारी,बारे,बताइए,बताओ,टॉप,माहिती,बद्दल,सांगा</value>
+    </values>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">A *Kotak Personal Loan Top-Up* 💡 gives you extra funds on top of your existing Kotak Personal Loan, without a fresh application:
+
+✅ Pre-qualified amount based on your repayment track
+✅ Rates from *{rate}*, with EMI and fees shown upfront
+✅ Tenure from {minTenure} to {maxTenure} months
+✅ Minimal paperwork, no repeat KYC
+
+Ask me about rates, fees, documents or eligibility anytime.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">*Kotak पर्सनल लोन टॉप-अप* 💡 आपके मौजूदा Kotak पर्सनल लोन पर अतिरिक्त राशि देता है, बिना नए आवेदन के:
+
+✅ आपके भुगतान रिकॉर्ड के आधार पर प्री-क्वालिफाइड राशि
+✅ ब्याज दर *{rate}* से, EMI और शुल्क पहले ही दिखाए जाते हैं
+✅ {minTenure} से {maxTenure} महीने तक की अवधि
+✅ न्यूनतम कागज़ी कार्रवाई, दोबारा KYC नहीं
+
+ब्याज दर, शुल्क, दस्तावेज़ या पात्रता के बारे में कभी भी पूछें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">*Kotak पर्सनल लोन टॉप-अप* 💡 तुमच्या सध्याच्या Kotak पर्सनल लोनवर अतिरिक्त रक्कम देतो, नवीन अर्जाशिवाय:
+
+✅ तुमच्या परतफेड रेकॉर्डवर आधारित प्री-क्वालिफाइड रक्कम
+✅ व्याजदर *{rate}* पासून, EMI आणि शुल्क आधीच दाखवले जातात
+✅ {minTenure} ते {maxTenure} महिन्यांचा कालावधी
+✅ किमान कागदपत्रे, पुन्हा KYC नाही
+
+व्याजदर, शुल्क, कागदपत्रे किंवा पात्रतेबद्दल कधीही विचारा.</value>
+    </values>
+</CustomMetadata>

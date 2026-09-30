@@ -16,15 +16,31 @@ public with sharing class LoanSevaFaqMatcher {
         return faqs;
     }
 
-    /** Highest keyword-hit FAQ; ties go to the lower sort order. Null when nothing matches. */
+    /** FAQs sorted at or above this are general fallbacks, used only when no specific FAQ matches. */
+    public static final Integer FALLBACK_ORDER = 900;
+
+    /** Highest keyword-hit specific FAQ; ties go to the lower sort order. Null when nothing matches. */
     public static LoanSeva_FAQ__mdt bestMatch(String question) {
+        return bestMatch(question, false);
+    }
+
+    /** As bestMatch; with includeGeneral, falls back to the general FAQs (for text known to be a question). */
+    public static LoanSeva_FAQ__mdt bestMatch(String question, Boolean includeGeneral) {
         if (String.isBlank(question)) {
             return null;
         }
         String q = ' ' + question.toLowerCase().replaceAll('[?!.,]', ' ') + ' ';
+        LoanSeva_FAQ__mdt best = bestOf(q, false);
+        return best == null && includeGeneral ? bestOf(q, true) : best;
+    }
+
+    private static LoanSeva_FAQ__mdt bestOf(String q, Boolean fallback) {
         LoanSeva_FAQ__mdt best;
         Integer bestScore = 0;
         for (LoanSeva_FAQ__mdt f : all()) {
+            if ((f.Sort_Order__c != null && f.Sort_Order__c >= FALLBACK_ORDER) != fallback) {
+                continue;
+            }
             Integer score = 0;
             for (String k : String.valueOf(f.Keywords__c).split(',')) {
                 String kw = k.trim().toLowerCase();

@@ -17,7 +17,7 @@ public with sharing class LoanSevaJourneyService {
         'Language__c, Consent_WhatsApp__c, OTP_Attempts__c, OTP_Verified__c, Loan_Confirmed__c, Employment_Type__c, ' +
         'Company_Name__c, Income_Bucket__c, Purpose__c, Desired_Amount__c, Amount_Options__c, Callback_Options__c, ' +
         'Offer_Amount__c, Offer_Rate__c, Offer_Tenure_Months__c, Offer_EMI__c, Processing_Fee__c, Offer_Accepted__c, ' +
-        'Reference_Number__c, Callback_DateTime__c, Feedback_Step__c, Questions_Asked__c, Drop_Point__c, ' +
+        'Reference_Number__c, Callback_DateTime__c, Feedback_Step__c, Questions_Asked__c, Question_Pending__c, Drop_Point__c, ' +
         'Fields_Completed__c, Intent_Summary__c, Last_Activity__c, Dropped_At__c, Nudges_Sent__c, Next_Nudge_At__c, ' +
         'RM_Followup_Created__c, Escalated__c, Nudge_Sent_At__c, Verified_At__c, Personalised_At__c, ' +
         'Offer_Presented_At__c, Accepted_At__c, Completed_At__c, Last_Send_Status__c';

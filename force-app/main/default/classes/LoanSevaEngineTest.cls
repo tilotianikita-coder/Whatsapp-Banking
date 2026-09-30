@@ -206,8 +206,10 @@ private class LoanSevaEngineTest {
         System.assertEquals(null, r.journey.Offer_Amount__c);
         System.assertEquals('Referred to RM', [SELECT Status__c FROM Loan_Application__c WHERE Loan_Journey__c = :r.journey.Id].Status__c);
         System.assertEquals(1, [SELECT COUNT() FROM Task WHERE WhatId = :r.journey.Id AND Subject LIKE '%Refer%']);
-        System.assertEquals(LoanSevaI18n.msg('Offer_Reprompt', 'EN'), LoanSevaEngine.pendingPrompt(r.journey, false));
-        System.assertEquals(LoanSevaI18n.msg('Offer_Reprompt', 'EN'), LoanSevaEngine.acceptOffer(r.journey).message, 'No offer to accept');
+        System.assertEquals(LoanSevaI18n.msg('Refer_Reprompt', 'EN'), LoanSevaEngine.pendingPrompt(r.journey, false));
+        System.assertEquals(LoanSevaI18n.msg('Refer_Reprompt', 'EN'), LoanSevaEngine.acceptOffer(r.journey).message, 'No offer to accept');
+        r = LoanSevaEngine.reply(r.journey, '1');
+        System.assert(!r.journey.Offer_Accepted__c, 'A referred journey cannot accept an offer');
     }
 
     @IsTest
@@ -298,6 +300,10 @@ private class LoanSevaEngineTest {
         r = LoanSevaEngine.setLanguage(r.journey, 'klingon');
         System.assertEquals(LoanSevaI18n.msg('Language_Options', 'MR'), r.message);
         System.assertEquals('MR', LoanSevaJourneyService.byId(j.Id).Language__c, 'Language persisted');
+        Loan_Journey__c m = LoanSevaTestData.startedJourney(LoanSevaTestData.RAHUL_MOBILE);
+        r = LoanSevaEngine.setLanguage(m, 'HI');
+        System.assert(r.message.contains('2️⃣'), 'At the menu the menu is repeated, not the name/mobile ask: ' + r.message);
+        System.assert(!r.message.contains(LoanSevaI18n.msg('Verify_Prompt', 'HI')));
     }
 
     @IsTest
@@ -305,7 +311,8 @@ private class LoanSevaEngineTest {
         Loan_Journey__c j = LoanSevaTestData.startedJourney(LoanSevaTestData.PRIYA_MOBILE);
         LoanSevaEngine.Result r = LoanSevaEngine.answerFaq(j, 'zzzz qqqq');
         System.assert(!r.success);
-        System.assertEquals(LoanSevaI18n.msg('FAQ_Not_Found', 'EN'), r.message);
+        System.assert(r.message.startsWith(LoanSevaI18n.msg('FAQ_Not_Found', 'EN')), r.message);
+        System.assert(r.message.endsWith(LoanSevaI18n.msg('FAQ_Nudge', 'EN')), 'No match still points to the next step');
         r = LoanSevaEngine.answerFaq(r.journey, 'What documents do I need?');
         System.assert(r.message.endsWith(LoanSevaI18n.msg('FAQ_Nudge', 'EN')), 'Unverified customers are nudged to verify');
 
@@ -354,6 +361,8 @@ private class LoanSevaEngineTest {
         System.assertEquals('offer_decision', LoanSevaEngine.awaiting(r.journey));
         r = LoanSevaEngine.reply(r.journey, '2');
         System.assert(r.message.contains('lakh'), 'Change without details asks for amount/tenure: ' + r.message);
+        r = LoanSevaEngine.reply(r.journey, '3 lakh for 48 months');
+        System.assertEquals(300000, r.journey.Desired_Amount__c, 'A leading 3 is an amount here, not option 3');
         r = LoanSevaEngine.reply(r.journey, '4 lakh for 48 months');
         System.assertEquals(400000, r.journey.Desired_Amount__c);
         System.assertEquals(48, r.journey.Offer_Tenure_Months__c);
@@ -419,6 +428,36 @@ private class LoanSevaEngineTest {
         System.assertEquals(2, tasks.size(), 'Each request logs an RM Task');
         System.assert(tasks[0].Subject.contains('Asked for a specialist'), tasks[0].Subject);
         System.assertEquals(true, [SELECT Escalated__c FROM Loan_Journey__c WHERE Id = :j.Id].Escalated__c);
+    }
+
+    @IsTest
+    static void askQuestionTreatsNextMessageAsQuestion() {
+        Test.startTest();
+        Loan_Journey__c j = LoanSevaTestData.startedJourney(LoanSevaTestData.PRIYA_MOBILE);
+        LoanSevaEngine.Result r = LoanSevaEngine.reply(j, '2');
+        System.assert(r.journey.Question_Pending__c, 'Menu 2 waits for a question');
+        r = LoanSevaEngine.reply(r.journey, 'I would like to know more about PL');
+        System.assert(r.success, 'A general question gets the Top-Up overview: ' + r.message);
+        System.assert(r.message.contains('Personal Loan Top-Up'), r.message);
+        System.assertEquals('menu', LoanSevaEngine.awaiting(r.journey), 'Still at the menu, not restarted into verification');
+        System.assert(!r.journey.Question_Pending__c);
+
+        r = LoanSevaTestData.personalisedJourney(LoanSevaTestData.RAHUL_MOBILE, 'Rahul Deshmukh');
+        System.assertEquals('offer_decision', LoanSevaEngine.awaiting(r.journey));
+        r = LoanSevaEngine.reply(r.journey, '3');
+        r = LoanSevaEngine.reply(r.journey, 'Yes');
+        System.assert(!r.journey.Offer_Accepted__c, 'A Yes typed as the question never accepts the offer');
+        System.assert(r.message.contains(LoanSevaI18n.msg('Resume_Prompt', 'EN')), 'The offer options follow the answer: ' + r.message);
+        r = LoanSevaEngine.reply(r.journey, '3');
+        r = LoanSevaEngine.reply(r.journey, 'tell me more about the fees');
+        System.assert(r.success && !r.journey.Offer_Accepted__c, 'The specific FAQ wins over the overview: ' + r.message);
+        r = LoanSevaEngine.reply(r.journey, '3');
+        r = LoanSevaEngine.reply(r.journey, '1️⃣');
+        System.assert(r.journey.Offer_Accepted__c, 'A bare option number still picks that option');
+        Test.stopTest();
+
+        String asked = [SELECT Questions_Asked__c FROM Loan_Journey__c WHERE Id = :j.Id].Questions_Asked__c;
+        System.assert(asked.contains('know more about PL'), 'The question is logged for the RM: ' + asked);
     }
 
     @IsTest
