@@ -447,7 +447,7 @@ private class LoanSevaEngineTest {
         r = LoanSevaEngine.reply(r.journey, '3');
         r = LoanSevaEngine.reply(r.journey, 'Yes');
         System.assert(!r.journey.Offer_Accepted__c, 'A Yes typed as the question never accepts the offer');
-        System.assert(r.message.contains(LoanSevaI18n.msg('Resume_Prompt', 'EN')), 'The offer options follow the answer: ' + r.message);
+        System.assertEquals('offer_decision', LoanSevaEngine.awaiting(r.journey), 'Yes carries on to the offer: ' + r.message);
         r = LoanSevaEngine.reply(r.journey, '3');
         r = LoanSevaEngine.reply(r.journey, 'tell me more about the fees');
         System.assert(r.success && !r.journey.Offer_Accepted__c, 'The specific FAQ wins over the overview: ' + r.message);
@@ -458,6 +458,40 @@ private class LoanSevaEngineTest {
 
         String asked = [SELECT Questions_Asked__c FROM Loan_Journey__c WHERE Id = :j.Id].Questions_Asked__c;
         System.assert(asked.contains('know more about PL'), 'The question is logged for the RM: ' + asked);
+    }
+
+    @IsTest
+    static void askingForMyOfferStartsTheOfferJourney() {
+        Test.startTest();
+        LoanSevaEngine.Result r = LoanSevaEngine.reply(LoanSevaTestData.startedJourney(LoanSevaTestData.PRIYA_MOBILE), 'I want to know my offer');
+        System.assertEquals('identity', LoanSevaEngine.awaiting(r.journey), 'Typed offer request at the menu: ' + r.message);
+
+        r = LoanSevaEngine.reply(LoanSevaTestData.startedJourney(LoanSevaTestData.RAHUL_MOBILE), '2');
+        r = LoanSevaEngine.reply(r.journey, 'Yes');
+        System.assertEquals('identity', LoanSevaEngine.awaiting(r.journey), 'Yes after Ask a question carries on, not FAQ_Not_Found: ' + r.message);
+
+        r = LoanSevaTestData.personalisedJourney(LoanSevaTestData.PRIYA_MOBILE, 'Priya Sharma');
+        r = LoanSevaEngine.reply(r.journey, '3');
+        r = LoanSevaEngine.reply(r.journey, 'show me my offer');
+        System.assertEquals('offer_decision', LoanSevaEngine.awaiting(r.journey));
+        System.assert(!r.message.startsWith(LoanSevaI18n.msg('FAQ_Not_Found', 'EN').left(20)), 'The offer is shown again: ' + r.message);
+        System.assert(!r.journey.Offer_Accepted__c);
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void greetingAfterCompletedJourneyStartsFresh() {
+        Loan_Journey__c done = LoanSevaTestData.startedJourney(LoanSevaTestData.PRIYA_MOBILE);
+        done.Status__c = LoanSevaJourneyService.STATUS_COMPLETED;
+        done.Language__c = 'HI';
+        update done;
+        Test.startTest();
+        System.assertEquals(done.Id, LoanSevaJourneyService.resolve(done.Id, null, null).Id, 'Other actions keep the journey');
+        Loan_Journey__c fresh = LoanSevaJourneyService.resolve(done.Id, null, LoanSevaTestData.PRIYA_MOBILE, true);
+        Test.stopTest();
+        System.assertNotEquals(done.Id, fresh.Id, 'Start after completion begins a new journey');
+        System.assertEquals('HI', fresh.Language__c, 'The language carries over');
+        System.assertEquals('menu', LoanSevaEngine.awaiting(fresh));
     }
 
     @IsTest

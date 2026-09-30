@@ -75,12 +75,20 @@ public with sharing class LoanSevaJourneyService {
      * then the latest open journey for the mobile number; creates one if none exists.
      */
     public static Loan_Journey__c resolve(String journeyId, String sessionId, String mobile) {
+        return resolve(journeyId, sessionId, mobile, false);
+    }
+
+    /** openOnly: skip a completed journey, so a new greeting after the journey ended starts a fresh one. */
+    public static Loan_Journey__c resolve(String journeyId, String sessionId, String mobile, Boolean openOnly) {
         if (forcedError != null) {
             throw forcedError;
         }
+        String language;
         if (isId(journeyId)) {
             Loan_Journey__c j = byId(journeyId);
-            if (j != null) {
+            if (j != null && openOnly && j.Status__c == STATUS_COMPLETED) {
+                language = j.Language__c;
+            } else if (j != null) {
                 return j;
             }
         }
@@ -93,7 +101,9 @@ public with sharing class LoanSevaJourneyService {
             List<Loan_Journey__c> bySession = Database.query(
                 'SELECT ' + JOURNEY_FIELDS + ' FROM Loan_Journey__c WHERE Messaging_Session_Id__c = :sessionId ORDER BY CreatedDate DESC LIMIT 1'
             );
-            if (!bySession.isEmpty()) {
+            if (!bySession.isEmpty() && openOnly && bySession[0].Status__c == STATUS_COMPLETED) {
+                language = bySession[0].Language__c;
+            } else if (!bySession.isEmpty()) {
                 return bySession[0];
             }
             for (MessagingSession s : [
@@ -125,7 +135,7 @@ public with sharing class LoanSevaJourneyService {
                 Stage__c = 'Start',
                 Status__c = STATUS_ACTIVE,
                 Source__c = hasSession ? 'WhatsApp' : 'Agent Preview',
-                Language__c = LoanSevaI18n.EN,
+                Language__c = language == null ? LoanSevaI18n.EN : language,
                 Contact__c = contactId,
                 Last_Activity__c = Datetime.now()
             );

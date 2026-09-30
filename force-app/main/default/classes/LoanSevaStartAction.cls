@@ -13,7 +13,7 @@ public with sharing class LoanSevaStartAction {
         List<LoanSevaActionResult> results = new List<LoanSevaActionResult>();
         for (Request r : requests) {
             try {
-                Loan_Journey__c j = LoanSevaJourneyService.resolve(r.journeyId, r.sessionId, r.mobile);
+                Loan_Journey__c j = LoanSevaJourneyService.resolve(r.journeyId, r.sessionId, r.mobile, true);
                 results.add(LoanSevaActionResult.of(LoanSevaEngine.start(j)));
             } catch (Exception e) {
                 results.add(LoanSevaActionResult.error(e, r.journeyId));

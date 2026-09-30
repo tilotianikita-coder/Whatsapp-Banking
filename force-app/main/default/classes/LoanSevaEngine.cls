@@ -730,7 +730,7 @@ public with sharing class LoanSevaEngine {
         if (j.Menu_Pending__c == true) {
             j.Menu_Pending__c = false;
             Boolean option = NO_LETTERS.matcher(t).matches();
-            if (option && choice == 1 || isYes(t)) {
+            if (option && choice == 1 || isYes(t) || wantsOffer(t)) {
                 return resume(j);
             }
             if (option && choice == 2) {
@@ -745,6 +745,10 @@ public with sharing class LoanSevaEngine {
             // After "Ask a question" the next message is a question, so "Yes" or "tell me more" can
             // never accept the offer. A bare option number still picks that option.
             j.Question_Pending__c = false;
+            if (wantsOffer(t) || isYes(t) && t.split('\\s+').size() <= 2) {
+                // "Show my offer" (or the planner's "Yes") is a request to carry on, not a question
+                return state == 'menu' ? verifyCustomer(j, null, null) : resume(j);
+            }
             if (!NO_LETTERS.matcher(t).matches() && !wantsHuman(t)) {
                 return answerFaq(j, t);
             }
@@ -793,7 +797,7 @@ public with sharing class LoanSevaEngine {
                 return faqOrPrompt(j, t);
             }
             when else {
-                if (choice == 1 || isYes(t)) {
+                if (choice == 1 || isYes(t) || wantsOffer(t)) {
                     return verifyCustomer(j, null, null);
                 }
                 if (choice == 2) {
@@ -862,6 +866,15 @@ public with sharing class LoanSevaEngine {
 
     private static Boolean wantsHuman(String s) {
         return String.isNotBlank(s) && HUMAN.matcher(s.replace('\n', ' ')).matches();
+    }
+
+    /** Asking to see their own offer or limit, e.g. "I want to know my offer", "how much can I get". */
+    private static final Pattern OFFER = Pattern.compile(
+        '(?i).*(\\b(my|see|show|check|view)\\b.*\\b(offer|limit|eligibility)\\b|how much (can|will) i get'
+        + '|मेरा ऑफर|ऑफर दिखा|माझी ऑफर|ऑफर दाखव).*');
+
+    private static Boolean wantsOffer(String s) {
+        return String.isNotBlank(s) && OFFER.matcher(s.replace('\n', ' ')).matches();
     }
 
     private static Boolean isNo(String s) {
