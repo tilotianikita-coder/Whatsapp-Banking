@@ -1,6 +1,7 @@
 /**
  * Proactive (business-initiated) WhatsApp messages: the Stage 1 nudge and the drop-off re-engagement nudges.
- * Sends through the standard `sendConversationMessages` action on the BYOC messaging channel, which the
+ * Sends through the standard `sendConversationMessages` action (via the LoanSeva_Send_Conversation_Message flow)
+ * on the BYOC messaging channel, which the
  * installed WhatsApp BYOC package relays to Meta. Replies inside a live conversation go through Agentforce instead.
  *
  * Send_Mode__c: ConversationMessage (real send) or LogOnly (records what would be sent; for dry demos/tests).
@@ -8,6 +9,7 @@
 public with sharing class LoanSevaWhatsAppSender implements Queueable, Database.AllowsCallouts {
     public static final String MODE_LOG_ONLY = 'LogOnly';
     public static final String PARAM_NAME = 'MessageText';
+    private static final String SEND_FLOW = 'LoanSeva_Send_Conversation_Message';
     /** Stays well inside per-transaction callout limits; the remainder is chained. */
     public static final Integer MAX_PER_JOB = 50;
 
@@ -176,35 +178,29 @@ public with sharing class LoanSevaWhatsAppSender implements Queueable, Database.
         richMessaging.MessageDefinitionInputParameter p = new richMessaging.MessageDefinitionInputParameter();
         p.name = PARAM_NAME;
         p.textValue = o.body;
-        Invocable.Action action = Invocable.Action.createStandardAction('sendConversationMessages');
-        action.setInvocationParameter('requestType', 'SendNotificationMessages');
-        action.setInvocationParameter('messageDefinitionName', definition);
-        action.setInvocationParameter('messagingDefinitionInputParameters', new List<richMessaging.MessageDefinitionInputParameter>{ p });
-        action.setInvocationParameter('messagingEndUserIds', new List<String>{ endUserId });
-        action.setInvocationParameter('isEnforceMessagingChannelConsent', false);
-        action.setInvocationParameter('allowedSessionStatus', 'Any');
+        // Through a flow: Invocable.Action rejects messagingEndUserIds for this action ("expected String[]")
+        Map<String, Object> inputs = new Map<String, Object>{
+            'definitionName' => definition,
+            'endUserIds' => new List<String>{ endUserId },
+            'params' => new List<richMessaging.MessageDefinitionInputParameter>{ p }
+        };
         try {
-            List<Invocable.Action.Result> results = Test.isRunningTest() ? mockResults : action.invoke();
-            if (results == null || results.isEmpty()) {
-                return 'Sent ' + stamp();
-            }
-            Invocable.Action.Result r = results[0];
-            if (r.isSuccess()) {
-                return 'Sent ' + stamp() + ' via ' + definition;
-            }
-            List<String> errors = new List<String>();
-            for (Invocable.Action.Error e : r.getErrors()) {
-                errors.add(e.getMessage());
-            }
-            return 'Failed ' + stamp() + ': ' + String.join(errors, '; ');
+            String error = Test.isRunningTest() ? mockError : runSendFlow(inputs);
+            return String.isBlank(error) ? 'Sent ' + stamp() + ' via ' + definition : 'Failed ' + stamp() + ': ' + error;
         } catch (Exception e) {
             return 'Failed ' + stamp() + ': ' + e.getMessage();
         }
     }
 
-    /** Tests cannot invoke the standard action; they get an empty (success) result instead. */
+    private static String runSendFlow(Map<String, Object> inputs) {
+        Flow.Interview send = Flow.Interview.createInterview(SEND_FLOW, inputs);
+        send.start();
+        return (String) send.getVariableValue('errorMessage');
+    }
+
+    /** Tests cannot send a real message; the send flow's errorMessage is simulated instead (null = sent). */
     @TestVisible
-    private static List<Invocable.Action.Result> mockResults;
+    private static String mockError;
 
     private static String stamp() {
         return Datetime.now().format('d MMM HH:mm', LoanSevaI18n.TIMEZONE);

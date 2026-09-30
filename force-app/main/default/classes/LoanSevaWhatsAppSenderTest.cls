@@ -79,8 +79,11 @@ private class LoanSevaWhatsAppSenderTest {
         LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
         LoanSevaWhatsAppSender.Outbound o = new LoanSevaWhatsAppSender.Outbound(null, 'Hi', null);
         System.assert(LoanSevaWhatsAppSender.callSend(o, null, cfg).startsWith('Failed'));
-        LoanSevaWhatsAppSender.mockResults = null;
+        LoanSevaWhatsAppSender.mockError = null;
         System.assert(LoanSevaWhatsAppSender.callSend(o, '0PAxx0000000001', cfg).startsWith('Sent'));
+        LoanSevaWhatsAppSender.mockError = 'Unable to find platform keys';
+        String status = LoanSevaWhatsAppSender.callSend(o, '0PAxx0000000001', cfg);
+        System.assert(status.startsWith('Failed') && status.endsWith('Unable to find platform keys'), status);
     }
 
     @IsTest
