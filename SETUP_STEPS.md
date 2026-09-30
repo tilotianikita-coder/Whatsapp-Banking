@@ -49,6 +49,8 @@ sf agent activate --api-name LoanSeva_by_Kotak -o kotak-demo
 
 Test without WhatsApp: `sf agent preview -n LoanSeva_by_Kotak -o kotak-demo`. The Agent Script bundle (`aiAuthoringBundles/LoanSeva_by_Kotak`, `scripts/gen_agent.py`) is kept for orgs where the publish API works.
 
+**Redeploying the agent breaks open conversations.** A WhatsApp session that is open while the agent is deactivated and reactivated fails on the next customer message, which gets the platform's generic "issue processing your request" reply. End open sessions first: in the Service Console, open each Active `MessagingSession` and click **End Conversation**. Or do it before the demo, and have the customer send a fresh **Hi**.
+
 ## 4. Route WhatsApp_BYOC conversations to the agent (Omni-Channel)
 
 Automated from source; run after step 3.
