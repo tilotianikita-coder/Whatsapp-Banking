@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Loan Snapshot</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">✅ Verified! Here's your existing loan, {name}:
+
+🏦 Loan account: {account}
+💰 Outstanding principal: {outstanding}
+📅 EMI: {emi}/month
+⏳ Tenure remaining: {tenure} months
+📈 Repayment track: {ontime}/{due} EMIs on time {trackIcon}
+
+Is this correct? Reply *Yes* to continue or *No* if something looks off.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">✅ वेरिफ़ाई हो गया! {name}, यह रहा आपका मौजूदा लोन:
+
+🏦 लोन अकाउंट: {account}
+💰 बकाया मूलधन: {outstanding}
+📅 EMI: {emi}/माह
+⏳ बची अवधि: {tenure} महीने
+📈 भुगतान रिकॉर्ड: {ontime}/{due} EMI समय पर {trackIcon}
+
+क्या यह सही है? आगे बढ़ने के लिए *Yes* या कुछ गलत हो तो *No* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">✅ पडताळणी पूर्ण! {name}, हे तुमचे सध्याचे कर्ज:
+
+🏦 कर्ज खाते: {account}
+💰 थकीत मुद्दल: {outstanding}
+📅 EMI: {emi}/महिना
+⏳ उर्वरित कालावधी: {tenure} महिने
+📈 परतफेड रेकॉर्ड: {ontime}/{due} EMI वेळेवर {trackIcon}
+
+हे बरोबर आहे का? पुढे जाण्यासाठी *Yes* किंवा काही चुकीचे असल्यास *No* लिहा.</value>
+    </values>
+</CustomMetadata>

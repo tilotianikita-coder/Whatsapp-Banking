@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tenure_Options__c</fullName>
+    <label>Tenure Options (months)</label>
+    <type>Text</type>
+    <length>60</length>
+</CustomField>

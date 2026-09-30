@@ -1,0 +1,116 @@
+<apex:page controller="LoanSevaRegisterController" showHeader="false" sidebar="false" standardStylesheets="false"
+           applyHtmlTag="false" applyBodyTag="false" docType="html-5.0" title="LoanSeva by Kotak — Personal Loan Top-Up">
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="robots" content="noindex"/>
+    <title>LoanSeva by Kotak — Personal Loan Top-Up</title>
+    <style>
+        :root { --red: #ED1C24; --navy: #003874; --bg: #F4F6F9; --muted: #5B6B82; --line: #D9DFE8; }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--bg); color: var(--navy); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", Arial, sans-serif; }
+        .wrap { max-width: 460px; margin: 0 auto; padding: 20px 16px 32px; }
+        .brand { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+        .brand img { height: 40px; }
+        .pill { font-size: 12px; font-weight: 600; color: var(--red); border: 1px solid var(--red); border-radius: 999px; padding: 4px 10px; background: #fff; }
+        .hero { background: var(--navy); color: #fff; border-radius: 18px; padding: 22px 20px; position: relative; overflow: hidden; }
+        .hero:after { content: ""; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; border-radius: 50%; background: var(--red); opacity: .9; }
+        .hero h1 { position: relative; z-index: 1; margin: 0 0 8px; font-size: 26px; line-height: 1.2; max-width: 80%; }
+        .hero p { position: relative; z-index: 1; margin: 0; font-size: 15px; line-height: 1.45; opacity: .92; max-width: 88%; }
+        .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 6px; }
+        .chip { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; font-size: 13px; font-weight: 600; }
+        .card { background: #fff; border-radius: 18px; padding: 20px; margin-top: 14px; box-shadow: 0 6px 20px rgba(0, 56, 116, .08); }
+        .card h2 { margin: 0 0 4px; font-size: 18px; }
+        .card .sub { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+        label.f { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+        .in { width: 100%; font-size: 16px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 12px; color: var(--navy); background: #fff; }
+        .in:focus { outline: none; border-color: var(--navy); }
+        .mobile { display: flex; gap: 8px; }
+        .cc { flex: 0 0 64px; text-align: center; padding: 12px 0; border: 1.5px solid var(--line); border-radius: 12px; font-size: 16px; background: var(--bg); }
+        .consent { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 4px; font-size: 13px; color: var(--muted); line-height: 1.4; }
+        .consent input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--red); flex: 0 0 auto; }
+        .btn { width: 100%; margin-top: 16px; background: var(--red); color: #fff; border: 0; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
+        .btn:active { transform: translateY(1px); }
+        .err { background: #FDECEC; color: #A3141A; border-radius: 10px; padding: 10px 12px; font-size: 14px; margin-bottom: 8px; }
+        .done { text-align: center; padding: 28px 20px; }
+        .done .big { font-size: 48px; }
+        .done h2 { font-size: 22px; margin: 8px 0; }
+        .done p { color: var(--muted); font-size: 15px; line-height: 1.5; margin: 6px 0; }
+        .steps { text-align: left; margin: 18px 0 0; padding: 0; list-style: none; }
+        .steps li { display: flex; gap: 10px; align-items: center; padding: 8px 0; font-size: 14px; border-top: 1px solid var(--line); }
+        .steps b { background: var(--navy); color: #fff; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; flex: 0 0 auto; }
+        .foot { text-align: center; color: var(--muted); font-size: 11.5px; margin-top: 18px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="brand">
+        <img src="{!$Resource.LoanSevaLogo}" alt="Kotak Mahindra Bank"/>
+        <span class="pill">LoanSeva on WhatsApp</span>
+    </div>
+
+    <div class="hero">
+        <h1>Unlock more for your plans ✨</h1>
+        <p>Kotak Personal Loan Top-Up — your personalised offer in about 90 seconds, right on WhatsApp.</p>
+    </div>
+
+    <apex:outputPanel layout="none" rendered="{!NOT(submitted)}">
+        <div class="chips">
+            <span class="chip">🎯 Pre-qualified offers</span>
+            <span class="chip">📄 Minimal paperwork</span>
+            <span class="chip">⚡ Quick disbursal</span>
+        </div>
+
+        <div class="card">
+            <h2>Get started</h2>
+            <p class="sub">We'll say hello on WhatsApp in a few seconds.</p>
+            <apex:form id="reg">
+                <apex:outputPanel layout="block" styleClass="err" rendered="{!NOT(ISBLANK(errorMessage))}">{!errorMessage}</apex:outputPanel>
+
+                <label class="f" for="nm">Full name</label>
+                <apex:inputText id="nm" value="{!fullName}" styleClass="in" html-placeholder="As on your Kotak account" html-autocomplete="name" maxlength="80"/>
+
+                <label class="f" for="mb">WhatsApp mobile number</label>
+                <div class="mobile">
+                    <span class="cc">+91</span>
+                    <apex:inputText id="mb" value="{!mobile}" styleClass="in" html-placeholder="10-digit mobile" html-inputmode="numeric" html-autocomplete="tel-national" maxlength="14"/>
+                </div>
+
+                <label class="f" for="lg">Preferred language</label>
+                <apex:selectList id="lg" value="{!language}" size="1" styleClass="in">
+                    <apex:selectOptions value="{!languageOptions}"/>
+                </apex:selectList>
+
+                <label class="consent">
+                    <apex:inputCheckbox value="{!consent}"/>
+                    <span>I agree to receive messages about my loan offer from Kotak Mahindra Bank on WhatsApp. I can opt out anytime by replying STOP.</span>
+                </label>
+
+                <apex:commandButton value="Continue on WhatsApp →" action="{!submit}" styleClass="btn"/>
+            </apex:form>
+        </div>
+    </apex:outputPanel>
+
+    <apex:outputPanel layout="none" rendered="{!submitted}">
+        <div class="card done">
+            <div class="big">📲</div>
+            <h2>Check WhatsApp — LoanSeva is saying hello 👋</h2>
+            <p>We've sent a message to <b>{!maskedMobile}</b>.</p>
+            <p>Reply <b>Continue Here!</b> to see your personalised Top-Up offer.</p>
+            <ul class="steps">
+                <li><b>1</b> Ask anything about Top-Up</li>
+                <li><b>2</b> Verify in 30 seconds</li>
+                <li><b>3</b> Get your offer &amp; book a callback</li>
+            </ul>
+        </div>
+    </apex:outputPanel>
+
+    <div class="foot">
+        LoanSeva by Kotak · Demo environment<br/>
+        Offers are preliminary and subject to the bank's credit assessment and final verification.
+    </div>
+</div>
+</body>
+</html>
+</apex:page>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RM_Owner_Username__c</fullName>
+    <label>RM Owner Username</label>
+    <description>Owner of RM tasks/events. Blank = journey owner.</description>
+    <inlineHelpText>Owner of RM tasks/events. Blank = journey owner.</inlineHelpText>
+    <type>Text</type>
+    <length>120</length>
+</CustomField>

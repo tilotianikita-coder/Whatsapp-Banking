@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>What tenure can I choose?</label>
+    <protected>false</protected>
+    <values>
+        <field>Sort_Order__c</field>
+        <value xsi:type="xsd:double">70</value>
+    </values>
+    <values>
+        <field>Question__c</field>
+        <value xsi:type="xsd:string">What tenure can I choose?</value>
+    </values>
+    <values>
+        <field>Keywords__c</field>
+        <value xsi:type="xsd:string">tenure,duration,years,months,repay,prepay,foreclos,अवधि,कितने साल,कालावधी,किती वर्ष</value>
+    </values>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">You can choose a tenure from {minTenure} to {maxTenure} months 📅 I'll show EMIs for each option on your offer so you can pick what's comfortable.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">आप {minTenure} से {maxTenure} महीने तक की अवधि चुन सकते हैं 📅 मैं आपके ऑफ़र पर हर विकल्प की EMI दिखाऊँगा ताकि आप अपनी सुविधा से चुन सकें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">तुम्ही {minTenure} ते {maxTenure} महिन्यांचा कालावधी निवडू शकता 📅 मी तुमच्या ऑफरवर प्रत्येक पर्यायाचा EMI दाखवेन, जेणेकरून तुम्ही सोयीचा पर्याय निवडू शकाल.</value>
+    </values>
+</CustomMetadata>

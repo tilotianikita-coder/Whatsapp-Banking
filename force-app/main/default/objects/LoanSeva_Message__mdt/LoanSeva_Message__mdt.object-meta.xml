@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Customer-facing LoanSeva copy in English, Hindi and Marathi. Tokens in {braces} are merged at runtime.</description>
+    <label>LoanSeva Message</label>
+    <pluralLabel>LoanSeva Messages</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

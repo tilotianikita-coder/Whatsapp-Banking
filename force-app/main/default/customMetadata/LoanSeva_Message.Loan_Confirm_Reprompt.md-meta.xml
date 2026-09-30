@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Loan Confirm Reprompt</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Do the loan details above look correct? Reply *Yes* or *No*.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">क्या ऊपर दिए लोन विवरण सही हैं? *Yes* या *No* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">वरील कर्जाचे तपशील बरोबर आहेत का? *Yes* किंवा *No* लिहा.</value>
+    </values>
+</CustomMetadata>

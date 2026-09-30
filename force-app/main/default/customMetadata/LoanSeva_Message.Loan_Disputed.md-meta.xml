@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Loan Disputed</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thanks for flagging that. 🙏 I've asked a Kotak specialist to review your loan details — they'll call you shortly.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">बताने के लिए धन्यवाद। 🙏 मैंने Kotak विशेषज्ञ से आपके लोन विवरण की समीक्षा करने को कहा है — वे जल्द ही कॉल करेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">कळवल्याबद्दल धन्यवाद. 🙏 मी Kotak तज्ज्ञांना तुमच्या कर्जाचे तपशील तपासायला सांगितले आहे — ते लवकरच कॉल करतील.</value>
+    </values>
+</CustomMetadata>

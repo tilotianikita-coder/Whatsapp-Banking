@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Nudge</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Hi {name}, great news from Kotak! 🎉 You're pre-qualified for a Personal Loan Top-Up of up to *{limit}* on your existing loan. Get a personalised offer in about 90 seconds — right here on WhatsApp.
+
+👉 Reply *Continue Here!* to begin.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">नमस्ते {name}, Kotak की ओर से खुशखबरी! 🎉 आपके मौजूदा लोन पर आप *{limit}* तक के पर्सनल लोन टॉप-अप के लिए प्री-क्वालिफाइड हैं। लगभग 90 सेकंड में अपना पर्सनलाइज़्ड ऑफ़र पाएँ — यहीं WhatsApp पर।
+
+👉 शुरू करने के लिए *Continue Here!* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">नमस्कार {name}, Kotak कडून आनंदाची बातमी! 🎉 तुमच्या सध्याच्या कर्जावर तुम्ही *{limit}* पर्यंतच्या पर्सनल लोन टॉप-अपसाठी प्री-क्वालिफाइड आहात. सुमारे 90 सेकंदात तुमची वैयक्तिक ऑफर मिळवा — इथेच WhatsApp वर.
+
+👉 सुरू करण्यासाठी *Continue Here!* लिहा.</value>
+    </values>
+</CustomMetadata>

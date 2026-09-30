@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resolution__c</fullName>
+    <label>Did LoanSeva answer all questions?</label>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+                <value>
+                    <fullName>Yes, fully</fullName>
+                    <default>false</default>
+                    <label>Yes, fully</label>
+                </value>
+                <value>
+                    <fullName>Mostly</fullName>
+                    <default>false</default>
+                    <label>Mostly</label>
+                </value>
+                <value>
+                    <fullName>Not really</fullName>
+                    <default>false</default>
+                    <label>Not really</label>
+                </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

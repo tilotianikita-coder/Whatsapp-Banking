@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>What are the charges?</label>
+    <protected>false</protected>
+    <values>
+        <field>Sort_Order__c</field>
+        <value xsi:type="xsd:double">50</value>
+    </values>
+    <values>
+        <field>Question__c</field>
+        <value xsi:type="xsd:string">What are the charges?</value>
+    </values>
+    <values>
+        <field>Keywords__c</field>
+        <value xsi:type="xsd:string">fee,fees,charge,charges,processing,hidden,cost,शुल्क,चार्ज,खर्च</value>
+    </values>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Processing fee is {feePct}% of the Top-Up amount (plus GST) 🧾 — shown clearly on your offer before you accept. No surprises.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">प्रोसेसिंग शुल्क टॉप-अप राशि का {feePct}% (साथ में GST) है 🧾 — स्वीकार करने से पहले आपके ऑफ़र पर साफ़ दिखाया जाता है।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">प्रोसेसिंग शुल्क टॉप-अप रकमेच्या {feePct}% (अधिक GST) आहे 🧾 — स्वीकारण्यापूर्वी तुमच्या ऑफरवर स्पष्ट दाखवले जाते.</value>
+    </values>
+</CustomMetadata>

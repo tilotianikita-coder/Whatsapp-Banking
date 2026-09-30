@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Am I eligible?</label>
+    <protected>false</protected>
+    <values>
+        <field>Sort_Order__c</field>
+        <value xsi:type="xsd:double">80</value>
+    </values>
+    <values>
+        <field>Question__c</field>
+        <value xsi:type="xsd:string">Am I eligible?</value>
+    </values>
+    <values>
+        <field>Keywords__c</field>
+        <value xsi:type="xsd:string">eligible,eligibility,qualify,criteria,पात्र,पात्रता,योग्य</value>
+    </values>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Great news — as an existing Kotak loan customer you're pre-qualified 🎯 Your final amount depends on your repayment track, monthly income and existing EMIs. It takes about a minute to check.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">खुशखबरी — मौजूदा Kotak लोन ग्राहक होने के नाते आप प्री-क्वालिफाइड हैं 🎯 अंतिम राशि आपके भुगतान रिकॉर्ड, मासिक आय और मौजूदा EMI पर निर्भर करती है। जाँचने में लगभग एक मिनट लगता है।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">आनंदाची बातमी — सध्याचे Kotak कर्ज ग्राहक म्हणून तुम्ही प्री-क्वालिफाइड आहात 🎯 अंतिम रक्कम तुमचा परतफेड रेकॉर्ड, मासिक उत्पन्न आणि सध्याच्या EMI वर अवलंबून असते. तपासायला सुमारे एक मिनिट लागतो.</value>
+    </values>
+</CustomMetadata>

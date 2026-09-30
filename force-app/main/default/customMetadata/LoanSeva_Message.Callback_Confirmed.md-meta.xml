@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Callback Confirmed</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">📞 All set! A Kotak loan specialist will call you on *{when}*.
+
+🔖 Reference: *{ref}*</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">📞 सब तय! Kotak लोन विशेषज्ञ आपको *{when}* पर कॉल करेंगे।
+
+🔖 रेफ़रेंस: *{ref}*</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">📞 सर्व ठरले! Kotak कर्ज तज्ज्ञ तुम्हाला *{when}* ला कॉल करतील.
+
+🔖 संदर्भ: *{ref}*</value>
+    </values>
+</CustomMetadata>

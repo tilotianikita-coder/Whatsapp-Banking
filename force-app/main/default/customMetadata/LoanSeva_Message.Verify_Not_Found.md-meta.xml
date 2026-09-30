@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Verify Not Found</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">I couldn't find a Kotak personal loan linked to {mobile}. Please double-check the number, or reply *Agent* and a specialist will help you.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">{mobile} से जुड़ा कोई Kotak पर्सनल लोन नहीं मिला। कृपया नंबर दोबारा जाँचें, या *Agent* लिखें और विशेषज्ञ आपकी मदद करेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">{mobile} शी जोडलेले Kotak पर्सनल लोन सापडले नाही. कृपया नंबर पुन्हा तपासा, किंवा *Agent* लिहा आणि तज्ज्ञ तुम्हाला मदत करतील.</value>
+    </values>
+</CustomMetadata>

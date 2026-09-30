@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Offer Reprompt</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Would you like to go ahead with this offer?
+
+1️⃣ Accept offer
+2️⃣ Change amount or tenure
+3️⃣ Ask a question</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">क्या आप इस ऑफ़र के साथ आगे बढ़ना चाहेंगे?
+
+1️⃣ ऑफ़र स्वीकार करें
+2️⃣ राशि या अवधि बदलें
+3️⃣ सवाल पूछें</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">तुम्हाला या ऑफरसह पुढे जायचे आहे का?
+
+1️⃣ ऑफर स्वीकारा
+2️⃣ रक्कम किंवा कालावधी बदला
+3️⃣ प्रश्न विचारा</value>
+    </values>
+</CustomMetadata>

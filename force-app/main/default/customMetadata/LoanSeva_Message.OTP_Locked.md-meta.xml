@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>OTP Locked</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">For your security, I've paused verification after too many attempts. 🔒 No worries — a Kotak specialist will call you shortly on your registered number to help you finish.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">आपकी सुरक्षा के लिए, कई प्रयासों के बाद वेरिफ़िकेशन रोक दिया गया है। 🔒 चिंता न करें — Kotak विशेषज्ञ जल्द ही आपके रजिस्टर्ड नंबर पर कॉल करके मदद करेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">तुमच्या सुरक्षेसाठी, अनेक प्रयत्नांनंतर पडताळणी थांबवली आहे. 🔒 काळजी करू नका — Kotak तज्ज्ञ लवकरच तुमच्या नोंदणीकृत नंबरवर कॉल करून मदत करतील.</value>
+    </values>
+</CustomMetadata>

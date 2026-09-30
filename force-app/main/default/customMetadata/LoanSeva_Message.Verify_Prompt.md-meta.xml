@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Verify Prompt</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Let's quickly verify you 🔐 Please share your *full name* and your *registered mobile number* (10 digits).</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">चलिए जल्दी से आपको वेरिफ़ाई करते हैं 🔐 कृपया अपना *पूरा नाम* और *रजिस्टर्ड मोबाइल नंबर* (10 अंक) बताएँ।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">चला, पटकन तुमची पडताळणी करूया 🔐 कृपया तुमचे *पूर्ण नाव* आणि *नोंदणीकृत मोबाइल नंबर* (10 अंकी) सांगा.</value>
+    </values>
+</CustomMetadata>

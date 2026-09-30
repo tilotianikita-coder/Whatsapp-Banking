@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Personalise Invalid</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Sorry, I didn't catch that. 🙂 Please reply with one of the options below.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">माफ़ कीजिए, मैं समझ नहीं पाया। 🙂 कृपया नीचे दिए विकल्पों में से एक चुनें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">माफ करा, मला समजले नाही. 🙂 कृपया खालील पर्यायांपैकी एक निवडा.</value>
+    </values>
+</CustomMetadata>

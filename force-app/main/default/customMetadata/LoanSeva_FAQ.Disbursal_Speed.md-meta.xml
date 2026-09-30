@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>How quickly will I get the money?</label>
+    <protected>false</protected>
+    <values>
+        <field>Sort_Order__c</field>
+        <value xsi:type="xsd:double">40</value>
+    </values>
+    <values>
+        <field>Question__c</field>
+        <value xsi:type="xsd:string">How quickly will I get the money?</value>
+    </values>
+    <values>
+        <field>Keywords__c</field>
+        <value xsi:type="xsd:string">quick,fast,how soon,how long,disburs,get the money,receive,credited,turnaround,कितनी जल्दी,कब तक,कब मिलेगा,पैसे कब,किती लवकर,केव्हा,कधी मिळ</value>
+    </values>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Fast! 🚀 You'll see a preliminary offer here in about 90 seconds. Once you accept and our specialist completes final verification, funds can be credited to your bank account {disbursal}.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">बहुत जल्दी! 🚀 लगभग 90 सेकंड में आपको यहीं प्रारंभिक ऑफ़र दिखेगा। ऑफ़र स्वीकार करने और हमारे विशेषज्ञ द्वारा अंतिम सत्यापन के बाद, राशि आपके बैंक खाते में {disbursal} में जमा हो सकती है।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">अगदी लवकर! 🚀 सुमारे 90 सेकंदात तुम्हाला इथेच प्राथमिक ऑफर दिसेल. ऑफर स्वीकारल्यानंतर आणि आमच्या तज्ज्ञांनी अंतिम पडताळणी केल्यानंतर, रक्कम तुमच्या बँक खात्यात {disbursal} मध्ये जमा होऊ शकते.</value>
+    </values>
+</CustomMetadata>

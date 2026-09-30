@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Good_Track_Premium__c</fullName>
+    <label>Good Track Rate Premium %</label>
+    <description>Added when 10-11 of last 12 EMIs were on time</description>
+    <inlineHelpText>Added when 10-11 of last 12 EMIs were on time</inlineHelpText>
+    <type>Number</type>
+    <precision>5</precision>
+    <scale>2</scale>
+</CustomField>

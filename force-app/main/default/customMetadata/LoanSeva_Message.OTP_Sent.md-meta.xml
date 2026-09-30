@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>OTP Sent</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thanks {name}! I've sent a 6-digit OTP to {mobile}. Please type it here. 🔐</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद {name}! मैंने {mobile} पर 6 अंकों का OTP भेजा है। कृपया उसे यहाँ लिखें। 🔐</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद {name}! मी {mobile} वर 6 अंकी OTP पाठवला आहे. कृपया तो इथे लिहा. 🔐</value>
+    </values>
+</CustomMetadata>

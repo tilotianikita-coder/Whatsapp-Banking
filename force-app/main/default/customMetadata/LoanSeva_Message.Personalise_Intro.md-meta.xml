@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Personalise Intro</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Great! Let's personalise your offer — 5 quick questions, about 60 seconds. ⏱️</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">बढ़िया! चलिए आपका ऑफ़र पर्सनलाइज़ करते हैं — 5 छोटे सवाल, लगभग 60 सेकंड। ⏱️</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">छान! चला, तुमची ऑफर वैयक्तिक करूया — 5 छोटे प्रश्न, सुमारे 60 सेकंद. ⏱️</value>
+    </values>
+</CustomMetadata>

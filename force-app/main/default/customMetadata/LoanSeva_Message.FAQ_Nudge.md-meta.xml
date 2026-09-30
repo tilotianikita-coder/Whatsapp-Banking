@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ Nudge</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Want to see your personalised offer? Reply *Yes* to verify in 30 seconds.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">क्या आप अपना पर्सनलाइज़्ड ऑफ़र देखना चाहेंगे? 30 सेकंड में वेरिफ़ाई करने के लिए *Yes* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">तुमची वैयक्तिक ऑफर पाहायची आहे का? 30 सेकंदात व्हेरिफाय करण्यासाठी *Yes* लिहा.</value>
+    </values>
+</CustomMetadata>

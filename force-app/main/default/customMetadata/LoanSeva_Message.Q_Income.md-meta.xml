@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Q Income</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">*3/5* — What's your monthly income?
+
+1️⃣ Below ₹50K
+2️⃣ ₹50K – 1L
+3️⃣ ₹1L – 2L
+4️⃣ ₹2L+</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">*3/5* — आपकी मासिक आय कितनी है?
+
+1️⃣ ₹50K से कम
+2️⃣ ₹50K – 1L
+3️⃣ ₹1L – 2L
+4️⃣ ₹2L+</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">*3/5* — तुमचे मासिक उत्पन्न किती आहे?
+
+1️⃣ ₹50K पेक्षा कमी
+2️⃣ ₹50K – 1L
+3️⃣ ₹1L – 2L
+4️⃣ ₹2L+</value>
+    </values>
+</CustomMetadata>

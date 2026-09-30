@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>OTP Wrong</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">That OTP didn't match. You have {left} attempt(s) left — please try again.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">यह OTP मेल नहीं खाया। आपके पास {left} प्रयास बाकी हैं — कृपया फिर से कोशिश करें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">हा OTP जुळला नाही. तुमच्याकडे {left} प्रयत्न शिल्लक आहेत — कृपया पुन्हा प्रयत्न करा.</value>
+    </values>
+</CustomMetadata>

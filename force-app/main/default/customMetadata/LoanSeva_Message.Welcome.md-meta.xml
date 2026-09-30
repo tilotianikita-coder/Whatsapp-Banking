@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Welcome</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Hi {name}! 👋 I'm *LoanSeva by Kotak*, your personal loan assistant.
+
+You're pre-qualified for a Top-Up of up to *{limit}*. How can I help?
+
+1️⃣ See my personalised offer
+2️⃣ Ask a question about Top-Up
+3️⃣ Talk to a specialist
+
+Reply *HI* for हिंदी / *MR* for मराठी</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">नमस्ते {name}! 👋 मैं हूँ *LoanSeva by Kotak*, आपका पर्सनल लोन असिस्टेंट।
+
+आप *{limit}* तक के टॉप-अप के लिए प्री-क्वालिफाइड हैं। मैं आपकी कैसे मदद करूँ?
+
+1️⃣ मेरा पर्सनलाइज़्ड ऑफ़र देखें
+2️⃣ टॉप-अप के बारे में सवाल पूछें
+3️⃣ विशेषज्ञ से बात करें
+
+Reply *EN* for English / *MR* for मराठी</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">नमस्कार {name}! 👋 मी *LoanSeva by Kotak*, तुमचा पर्सनल लोन सहाय्यक.
+
+तुम्ही *{limit}* पर्यंतच्या टॉप-अपसाठी प्री-क्वालिफाइड आहात. मी कशी मदत करू?
+
+1️⃣ माझी वैयक्तिक ऑफर पहा
+2️⃣ टॉप-अपबद्दल प्रश्न विचारा
+3️⃣ तज्ज्ञांशी बोला
+
+Reply *EN* for English / *HI* for हिंदी</value>
+    </values>
+</CustomMetadata>

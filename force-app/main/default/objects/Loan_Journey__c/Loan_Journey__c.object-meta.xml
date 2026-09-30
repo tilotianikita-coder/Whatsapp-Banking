@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>One LoanSeva WhatsApp journey. Every captured field is persisted immediately so drop-offs become warm leads.</description>
+    <enableActivities>true</enableActivities>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Loan Journey</label>
+    <nameField><displayFormat>LJ-{000000}</displayFormat><label>Journey Number</label><type>AutoNumber</type></nameField>
+    <pluralLabel>Loan Journeys</pluralLabel>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

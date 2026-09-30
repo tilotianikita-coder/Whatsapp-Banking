@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Callback_Options__c</fullName>
+    <label>Callback Options Offered</label>
+    <description>Semicolon-separated ISO datetimes shown to the customer.</description>
+    <inlineHelpText>Semicolon-separated ISO datetimes shown to the customer.</inlineHelpText>
+    <type>Text</type>
+    <length>255</length>
+</CustomField>

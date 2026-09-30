@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>What documents do I need?</label>
+    <protected>false</protected>
+    <values>
+        <field>Sort_Order__c</field>
+        <value xsi:type="xsd:double">60</value>
+    </values>
+    <values>
+        <field>Question__c</field>
+        <value xsi:type="xsd:string">What documents do I need?</value>
+    </values>
+    <values>
+        <field>Keywords__c</field>
+        <value xsi:type="xsd:string">document,documents,papers,paperwork,kyc,proof,दस्तावेज़,दस्तावेज,कागज,कागदपत्र</value>
+    </values>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Very little 📄 As an existing Kotak customer your KYC is already on file. Our specialist may ask for your latest salary slips or bank statement during final verification.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">बहुत कम 📄 मौजूदा Kotak ग्राहक होने के नाते आपका KYC पहले से हमारे पास है। अंतिम सत्यापन के दौरान विशेषज्ञ हाल की सैलरी स्लिप या बैंक स्टेटमेंट माँग सकते हैं।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">अगदी कमी 📄 सध्याचे Kotak ग्राहक असल्याने तुमचा KYC आधीच आमच्याकडे आहे. अंतिम पडताळणीदरम्यान तज्ज्ञ अलीकडील पगार स्लिप किंवा बँक स्टेटमेंट मागू शकतात.</value>
+    </values>
+</CustomMetadata>

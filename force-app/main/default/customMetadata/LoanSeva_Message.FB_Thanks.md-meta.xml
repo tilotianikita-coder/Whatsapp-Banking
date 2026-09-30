@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FB Thanks</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thank you, {name}! 💙 Your plans just got a step closer. Our specialist will be in touch soon.
+
+🔖 Reference: *{ref}*
+
+— Team Kotak Mahindra Bank</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद, {name}! 💙 आपके प्लान्स अब एक कदम और करीब हैं। हमारे विशेषज्ञ जल्द ही संपर्क करेंगे।
+
+🔖 रेफ़रेंस: *{ref}*
+
+— टीम Kotak Mahindra Bank</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद, {name}! 💙 तुमच्या योजना आता एक पाऊल जवळ आल्या आहेत. आमचे तज्ज्ञ लवकरच संपर्क साधतील.
+
+🔖 संदर्भ: *{ref}*
+
+— टीम Kotak Mahindra Bank</value>
+    </values>
+</CustomMetadata>

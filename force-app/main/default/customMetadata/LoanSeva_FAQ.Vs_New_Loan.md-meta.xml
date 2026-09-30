@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>How is this different from a new loan?</label>
+    <protected>false</protected>
+    <values>
+        <field>Sort_Order__c</field>
+        <value xsi:type="xsd:double">30</value>
+    </values>
+    <values>
+        <field>Question__c</field>
+        <value xsi:type="xsd:string">How is this different from a new loan?</value>
+    </values>
+    <values>
+        <field>Keywords__c</field>
+        <value xsi:type="xsd:string">different,difference,differ,new loan,fresh loan,compare,versus, vs,better than,अलग,फर्क,अंतर,नया लोन,नए लोन,वेगळे,फरक,नवीन कर्ज</value>
+    </values>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">A Top-Up builds on your existing Kotak loan, so it's quicker and simpler than a new loan:
+
+✅ Pre-qualified amount based on your repayment track
+✅ Minimal paperwork — no repeat KYC
+✅ Preliminary offer in about 90 seconds, right here on WhatsApp
+✅ Flexible tenure from {minTenure} to {maxTenure} months</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">टॉप-अप आपके मौजूदा Kotak लोन पर आधारित है, इसलिए यह नए लोन से तेज़ और आसान है:
+
+✅ आपके भुगतान रिकॉर्ड के आधार पर प्री-क्वालिफाइड राशि
+✅ न्यूनतम कागज़ी कार्रवाई — दोबारा KYC नहीं
+✅ लगभग 90 सेकंड में प्रारंभिक ऑफ़र, यहीं WhatsApp पर
+✅ {minTenure} से {maxTenure} महीने तक की लचीली अवधि</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">टॉप-अप तुमच्या सध्याच्या Kotak कर्जावर आधारित आहे, त्यामुळे तो नवीन कर्जापेक्षा जलद आणि सोपा आहे:
+
+✅ तुमच्या परतफेड रेकॉर्डवर आधारित प्री-क्वालिफाइड रक्कम
+✅ किमान कागदपत्रे — पुन्हा KYC नाही
+✅ सुमारे 90 सेकंदात प्राथमिक ऑफर, इथेच WhatsApp वर
+✅ {minTenure} ते {maxTenure} महिन्यांचा लवचिक कालावधी</value>
+    </values>
+</CustomMetadata>

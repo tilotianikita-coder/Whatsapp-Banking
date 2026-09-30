@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fields_Completed__c</fullName>
+    <label>Fields Completed</label>
+    <type>Number</type>
+    <precision>2</precision>
+    <scale>0</scale>
+</CustomField>

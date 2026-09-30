@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Offer Capped</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">ℹ️ Based on your income and current EMI, the best amount I can offer right now is {max}.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">ℹ️ आपकी आय और मौजूदा EMI के आधार पर, अभी मैं अधिकतम {max} का ऑफ़र दे सकता हूँ।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">ℹ️ तुमचे उत्पन्न आणि सध्याच्या EMI नुसार, सध्या मी जास्तीत जास्त {max} ची ऑफर देऊ शकतो.</value>
+    </values>
+</CustomMetadata>

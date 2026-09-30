@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Send_Mode__c</fullName>
+    <label>WhatsApp Send Mode</label>
+    <description>ConversationMessage (standard sendConversationMessages via BYOC channel) or LogOnly</description>
+    <inlineHelpText>ConversationMessage (standard sendConversationMessages via BYOC channel) or LogOnly</inlineHelpText>
+    <type>Text</type>
+    <length>40</length>
+</CustomField>

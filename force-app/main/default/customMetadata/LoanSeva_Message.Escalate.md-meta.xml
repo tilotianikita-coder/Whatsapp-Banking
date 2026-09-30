@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Escalate</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Of course! 🙋 I'm connecting you with a Kotak loan specialist. Everything you've shared is saved, so you won't need to repeat yourself. If no one is free right now, they'll call you back within 24 hours.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">ज़रूर! 🙋 मैं आपको Kotak लोन विशेषज्ञ से जोड़ रहा हूँ। आपकी दी गई सारी जानकारी सेव है, दोबारा बताने की ज़रूरत नहीं। अगर अभी कोई उपलब्ध नहीं है, तो वे 24 घंटों में कॉल करेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">नक्कीच! 🙋 मी तुम्हाला Kotak कर्ज तज्ज्ञांशी जोडत आहे. तुम्ही दिलेली सर्व माहिती सेव्ह आहे, पुन्हा सांगायची गरज नाही. आत्ता कोणी उपलब्ध नसल्यास, ते 24 तासांत कॉल करतील.</value>
+    </values>
+</CustomMetadata>

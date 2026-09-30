@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Q Employment</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">*1/5* — What's your employment type?
+
+1️⃣ Salaried
+2️⃣ Self-employed</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">*1/5* — आपका रोज़गार प्रकार क्या है?
+
+1️⃣ वेतनभोगी (Salaried)
+2️⃣ स्व-रोज़गार (Self-employed)</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">*1/5* — तुमचा रोजगार प्रकार कोणता?
+
+1️⃣ पगारदार (Salaried)
+2️⃣ स्वयंरोजगार (Self-employed)</value>
+    </values>
+</CustomMetadata>

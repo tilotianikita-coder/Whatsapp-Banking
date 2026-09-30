@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Q Purpose</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">*4/5* — What are you planning? ✨
+
+1️⃣ Home renovation
+2️⃣ Education
+3️⃣ Medical
+4️⃣ Travel
+5️⃣ Wedding
+6️⃣ Other</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">*4/5* — आप क्या प्लान कर रहे हैं? ✨
+
+1️⃣ घर का नवीनीकरण
+2️⃣ शिक्षा
+3️⃣ चिकित्सा
+4️⃣ यात्रा
+5️⃣ शादी
+6️⃣ अन्य</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">*4/5* — तुम्ही काय योजना करत आहात? ✨
+
+1️⃣ घराचे नूतनीकरण
+2️⃣ शिक्षण
+3️⃣ वैद्यकीय
+4️⃣ प्रवास
+5️⃣ लग्न
+6️⃣ इतर</value>
+    </values>
+</CustomMetadata>

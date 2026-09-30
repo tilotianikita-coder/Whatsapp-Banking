@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Reengage 1</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Hi {name} 👋 Your Kotak Top-Up{purpose} is just a few taps away — everything you shared is saved, so you can pick up right where you left off.
+
+👉 Reply *Continue* to see your personalised offer.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">नमस्ते {name} 👋 आपका Kotak टॉप-अप{purpose} बस कुछ ही कदम दूर है — आपकी दी गई सारी जानकारी सेव है, जहाँ छोड़ा था वहीं से शुरू करें।
+
+👉 अपना पर्सनलाइज़्ड ऑफ़र देखने के लिए *Continue* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">नमस्कार {name} 👋 तुमचा Kotak टॉप-अप{purpose} फक्त काही पावलांवर आहे — तुम्ही दिलेली सर्व माहिती सेव्ह आहे, जिथे थांबलात तिथून पुढे सुरू करा.
+
+👉 तुमची वैयक्तिक ऑफर पाहण्यासाठी *Continue* लिहा.</value>
+    </values>
+</CustomMetadata>

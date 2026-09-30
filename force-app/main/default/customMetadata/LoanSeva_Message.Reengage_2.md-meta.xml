@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Reengage 2</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">{name}, your pre-qualified Kotak Top-Up is still reserved for you ✨ It takes about a minute to finish.
+
+👉 Reply *Continue* to pick up, or *Agent* and a specialist will call you.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">{name}, आपका प्री-क्वालिफाइड Kotak टॉप-अप अभी भी आपके लिए रिज़र्व है ✨ पूरा करने में लगभग एक मिनट लगता है।
+
+👉 आगे बढ़ने के लिए *Continue* लिखें, या *Agent* लिखें और हमारे विशेषज्ञ आपको कॉल करेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">{name}, तुमचा प्री-क्वालिफाइड Kotak टॉप-अप अजूनही तुमच्यासाठी राखीव आहे ✨ पूर्ण करायला सुमारे एक मिनिट लागतो.
+
+👉 पुढे जाण्यासाठी *Continue* लिहा, किंवा *Agent* लिहा आणि आमचे तज्ज्ञ तुम्हाला कॉल करतील.</value>
+    </values>
+</CustomMetadata>

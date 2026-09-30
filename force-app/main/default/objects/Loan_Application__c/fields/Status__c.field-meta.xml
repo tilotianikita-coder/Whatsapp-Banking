@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <label>Status</label>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+                <value>
+                    <fullName>Offer Presented</fullName>
+                    <default>true</default>
+                    <label>Offer Presented</label>
+                </value>
+                <value>
+                    <fullName>Offer Accepted</fullName>
+                    <default>false</default>
+                    <label>Offer Accepted</label>
+                </value>
+                <value>
+                    <fullName>Callback Scheduled</fullName>
+                    <default>false</default>
+                    <label>Callback Scheduled</label>
+                </value>
+                <value>
+                    <fullName>Referred to RM</fullName>
+                    <default>false</default>
+                    <label>Referred to RM</label>
+                </value>
+                <value>
+                    <fullName>Not Eligible</fullName>
+                    <default>false</default>
+                    <label>Not Eligible</label>
+                </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

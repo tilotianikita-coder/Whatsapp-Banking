@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Callback Options</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">When should our loan specialist call you?
+
+1️⃣ Within 24 hrs (as soon as possible)
+{slots}
+
+Or type a day &amp; time, e.g. *Thu 11am*.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">हमारे लोन विशेषज्ञ आपको कब कॉल करें?
+
+1️⃣ 24 घंटों के भीतर (जल्द से जल्द)
+{slots}
+
+या दिन और समय लिखें, जैसे *Thu 11am*।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">आमच्या कर्ज तज्ज्ञांनी तुम्हाला कधी कॉल करावा?
+
+1️⃣ 24 तासांच्या आत (लवकरात लवकर)
+{slots}
+
+किंवा दिवस व वेळ लिहा, उदा. *Thu 11am*.</value>
+    </values>
+</CustomMetadata>

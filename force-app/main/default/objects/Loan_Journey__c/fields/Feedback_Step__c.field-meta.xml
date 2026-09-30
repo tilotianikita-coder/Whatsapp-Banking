@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Feedback_Step__c</fullName>
+    <label>Feedback Step</label>
+    <description>0 = not started, 1-3 = question pending, 4 = done</description>
+    <inlineHelpText>0 = not started, 1-3 = question pending, 4 = done</inlineHelpText>
+    <type>Number</type>
+    <precision>1</precision>
+    <scale>0</scale>
+</CustomField>

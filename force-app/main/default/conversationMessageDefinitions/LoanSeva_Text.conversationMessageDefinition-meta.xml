@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConversationMessageDefinition xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <contentCategory>Response</contentCategory>
+    <description>LoanSeva outbound text (nudge and re-engagement). The body is composed and localised in Apex.</description>
+    <label>LoanSeva Text</label>
+    <language>en_US</language>
+    <messageLayouts>
+        <formatType>Text</formatType>
+        <layoutItems>
+            <collectionType>None</collectionType>
+            <name>text</name>
+            <primitiveValues>
+                <formulaTemplate>{!$Parameters.MessageText}</formulaTemplate>
+                <type>FormulaTemplate</type>
+            </primitiveValues>
+        </layoutItems>
+        <messageType>StaticContent</messageType>
+    </messageLayouts>
+    <parameters>
+        <primitiveTypeDetails>
+            <isList>false</isList>
+            <isRequired>true</isRequired>
+            <label>Message Text</label>
+            <name>MessageText</name>
+            <valueType>Text</valueType>
+        </primitiveTypeDetails>
+        <parameterType>CustomPrimitive</parameterType>
+    </parameters>
+    <type>Notification</type>
+</ConversationMessageDefinition>
