@@ -32,12 +32,12 @@ CONFIG = {
     'Nudge_2_Delay_Minutes__c': 5,       # production: 4320 (T+72h)
     'Job_Interval_Minutes__c': 1,        # production: 60
     'Reference_Prefix__c': 'KMB-PLTU',
-    'Send_Mode__c': 'LogOnly',             # switch to ConversationMessage once real demo mobiles are seeded
+    'Send_Mode__c': 'ConversationMessage', # LogOnly = compose and log only, no WhatsApp send
     'WhatsApp_Channel__c': 'WhatsApp_BYOC',
     'Nudge_Definition__c': 'LoanSeva_Text',
     'Reengage_Definition__c': 'LoanSeva_Text',
     'Country_Code__c': '91',
-    'RM_Owner_Username__c': '',
+    'RM_Owner_Username__c': 'trailsignup.5e5549adddf5d7@salesforce.com',
     'Registration_Url__c': 'https://trailsignup-5e5549adddf5d7.my.salesforce-sites.com/loanseva',
 }
 

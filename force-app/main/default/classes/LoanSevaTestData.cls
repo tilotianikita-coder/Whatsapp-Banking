@@ -5,6 +5,13 @@
 public class LoanSevaTestData {
     public static final String PRIYA_MOBILE = '9876500001';
     public static final String RAHUL_MOBILE = '9876500002';
+
+    /** Pins Send_Mode to LogOnly so tests can assert the composed text whatever the org's live setting is. */
+    public static void useLogOnly() {
+        LoanSeva_Config__mdt cfg = LoanSevaConfig.get().clone();
+        cfg.Send_Mode__c = LoanSevaWhatsAppSender.MODE_LOG_ONLY;
+        LoanSevaConfig.cached = cfg;
+    }
     public static final String VIKRAM_MOBILE = '9876500003';
 
     /** Priya (perfect 12/12 track, 5L limit), Rahul (good 11/12 track, 3L), Vikram (weak 8/12 track). */

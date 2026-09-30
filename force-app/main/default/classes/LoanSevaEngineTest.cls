@@ -401,6 +401,27 @@ private class LoanSevaEngineTest {
     }
 
     @IsTest
+    static void replyEscalatesSpecialistRequestsWithRmTask() {
+        Test.startTest();
+        Loan_Journey__c j = LoanSevaTestData.startedJourney(LoanSevaTestData.PRIYA_MOBILE);
+        LoanSevaEngine.Result r = LoanSevaEngine.reply(j, 'I want to talk to a human agent');
+        System.assert(r.handoff, 'A request for a human hands off');
+        r = LoanSevaEngine.reply(r.journey, 'मुझे विशेषज्ञ से बात करनी है');
+        System.assert(r.handoff, 'Hindi request for a specialist hands off');
+
+        Loan_Journey__c k = LoanSevaTestData.startedJourney(LoanSevaTestData.RAHUL_MOBILE);
+        r = LoanSevaEngine.verifyCustomer(k, 'Rahul Deshmukh', LoanSevaTestData.RAHUL_MOBILE);
+        r = LoanSevaEngine.reply(r.journey, 'agent');
+        System.assertEquals('otp', LoanSevaEngine.awaiting(r.journey), 'OTP step is never treated as an escalation');
+        Test.stopTest();
+
+        List<Task> tasks = [SELECT Subject FROM Task WHERE WhatId = :j.Id AND Subject LIKE 'LoanSeva: Human requested%'];
+        System.assertEquals(2, tasks.size(), 'Each request logs an RM Task');
+        System.assert(tasks[0].Subject.contains('Asked for a specialist'), tasks[0].Subject);
+        System.assertEquals(true, [SELECT Escalated__c FROM Loan_Journey__c WHERE Id = :j.Id].Escalated__c);
+    }
+
+    @IsTest
     static void parsersHandleIndianFormats() {
         System.assertEquals(500000, LoanSevaEngine.parseAmount('5L'));
         System.assertEquals(250000, LoanSevaEngine.parseAmount('2.5 lakhs'));

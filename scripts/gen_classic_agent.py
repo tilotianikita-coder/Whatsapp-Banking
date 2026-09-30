@@ -33,23 +33,21 @@ RELAY = ("Your reply to the customer MUST be exactly the message output of the a
 JOURNEY = """You run the Kotak Personal Loan Top-Up journey. The LoanSeva actions hold the journey state, so never decide yourself which step comes next.
 - First message, greeting, Continue Here!, Continue, Hi or Start, or no journeyId yet -> call start_journey.
 - A question about Top-Up (uses, rate, difference from a new loan, speed, fees, documents, tenure, eligibility, or similar) rather than an answer -> call answer_question with the question as typed.
-- Every other customer message -> call reply_to_journey with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, amount, tenure, callback time, rating, comment, Skip) and returns the next message.
+- Every other customer message, including a request for a human, agent, specialist or RM -> call reply_to_journey with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, amount, tenure, callback time, rating, comment, Skip), logs specialist requests for the RM and returns the next message.
 - Never reveal or repeat an OTP yourself."""
 
 # topic developer name -> (label, description, scope, instruction text, action names, can escalate)
+# No separate escalation topic: the platform's built-in escalation skips our actions, so the RM Task was never
+# logged. Requests for a human go through reply_to_journey, which calls LoanSevaEngine.escalate().
 TOPICS = {
     'Top_Up_Journey': ('Top-Up Journey',
-        'Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, a bare number, a name, a mobile number, an OTP, a company name, an amount or a day and time: they belong to the ongoing loan journey, never ambiguous. Covers the whole Kotak Personal Loan Top-Up journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, callback booking and feedback. Use for every customer message except language changes and requests for a human.',
+        'Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, a bare number, a name, a mobile number, an OTP, a company name, an amount or a day and time: they belong to the ongoing loan journey, never ambiguous. Covers the whole Kotak Personal Loan Top-Up journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, callback booking and feedback. Also covers requests for a human, agent, specialist or RM: the journey logs them for a Kotak RM. Use for every customer message except language changes.',
         'Run the Kotak Personal Loan Top-Up journey using LoanSeva actions only.',
         JOURNEY, ['start_journey', 'reply_to_journey', 'answer_question'], False),
     'Language_Switch': ('Language Switch',
         'Switches the conversation between English, Hindi and Marathi at any point, e.g. HI, MR, EN, Hindi, Marathi, हिंदी, मराठी.',
         'Change the conversation language using the LoanSeva switch language action.',
         ga.LANGUAGE, ['switch_language'], False),
-    'Escalate_To_Human': ('Escalate to Human',
-        'Hands the customer to a human Kotak loan specialist when they ask for a human, agent, specialist, RM or a call now, or after repeated confusion.',
-        'Log the escalation for a Kotak specialist and transfer the conversation to a human.',
-        ga.ESCALATE.replace('Then call escalate_to_human.', 'Then escalate the conversation to a human.'), ['log_escalation'], True),
 }
 
 
@@ -258,6 +256,19 @@ def bot():
         <developerName>Error_Handler</developerName>
         <isPlaceholderDialog>false</isPlaceholderDialog>
         <label>Error Handler</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <conversationSystemMessage>
+                <type>Transfer</type>
+            </conversationSystemMessage>
+            <stepIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f07</stepIdentifier>
+            <type>SystemMessage</type>
+        </botSteps>
+        <developerName>Transfer_To_Agent</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Transfer To Agent</label>
         <showInFooterMenu>false</showInFooterMenu>
     </botDialogs>
     <citationsEnabled>false</citationsEnabled>

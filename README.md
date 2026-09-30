@@ -75,7 +75,7 @@ flowchart LR
 |---|---|---|
 | `WhatsApp_BYOC` messaging channel + BYOC router integration | MessagingChannel / connected router | Carries every inbound and outbound WhatsApp message; our sender targets its end users |
 | `wpbyocdemo3__WhatsApp_Send_Outbound_Event_to_Router_Prod` | Flow | Relays Salesforce outbound conversation messages (our nudges, agent replies) to Meta |
-| `wpbyocdemo3__TEMPLATE_WhatsApp_Inbound_Routing` | Flow template | Starting point for the Omni-Channel flow that routes WhatsApp sessions to the LoanSeva agent (clone, SETUP_STEPS §4) |
+| `wpbyocdemo3__TEMPLATE_WhatsApp_Inbound_Routing` | Flow template | Starting point for our `LoanSeva_WhatsApp_Inbound_Routing` flow, which routes WhatsApp sessions to the LoanSeva agent (SETUP_STEPS §4) |
 | `wpbyocdemo3__TEMPLATE_WhatsApp_Grab_Session`, `…Route_to_Queue` | Flow templates | Human hand-off target for *Escalate to Human* |
 | `wpbyocdemo3__SendEventService`, `WP_BYOC_Meta_Event__e`, `WhatsApp_BYOC_Setting__mdt`, `Debug_Log__c`, `prettyJsonFieldViewer` LWC | Apex / event / settings / logging | Package plumbing; `Debug_Log__c` is useful when a send doesn't arrive |
 
@@ -118,11 +118,11 @@ sf apex run test -o kotak-demo -n LoanSevaEngineTest,LoanSevaActionsTest,LoanSev
 python3 scripts/runapex.py scripts/apex/smoke.apex               # end-to-end dry run, prints every reply
 ```
 
-Then complete [`SETUP_STEPS.md`](SETUP_STEPS.md) (Omni routing, site access, live send mode).
+Then run `scripts/route_whatsapp.sh` and complete [`SETUP_STEPS.md`](SETUP_STEPS.md) (site access, Meta template).
 
 ## 2-minute live demo script
 
-> Before you start: run `seed.apex` with the presenter's number as Priya, set `Send_Mode__c = ConversationMessage`, and open the phone mirror plus the Loan Journey list view (`Loan_Journey__c`, sorted by Last Activity) in a second tab.
+> Before you start: run `seed.apex` with the presenter's number as Priya, and open the phone mirror plus the Loan Journey list view (`Loan_Journey__c`, sorted by Last Activity) in a second tab.
 
 | Time | Stage | Presenter does / says | Audience sees |
 |---|---|---|---|

@@ -10,8 +10,8 @@ Run on 30 Sep 2026 against org `kotak-demo`.
 **How the checks ran:** everything is driven through the engine and the 12 agent actions. Nothing was run on a physical handset, because of the open items below:
 - the public site returns 503 (SETUP_STEPS §2);
 - the agent is active and tested end to end in `sf agent preview` with live actions (§3), but not yet on a handset;
-- Omni routing needs a manual step (§4);
-- `Send_Mode` is still `LogOnly` (§5).
+- Omni routing is deployed from source (flow + `scripts/route_whatsapp.sh`, §4);
+- `Send_Mode` is `ConversationMessage` (live); delivery outside the 24-hour window still needs the Meta template (§5).
 
 | # | Check | Result | Evidence / notes |
 |---|---|---|---|
@@ -30,4 +30,4 @@ Run on 30 Sep 2026 against org `kotak-demo`.
 **Summary:**
 - 9 of 11 pass at the Salesforce level.
 - #1 is blocked by the org's Sites 503.
-- #2 passes in LogOnly mode; the live WhatsApp send is pending the channel steps in SETUP_STEPS §§4–5.
+- #2 passes in LogOnly mode in tests. Live sends are now on; a real-phone delivery check is pending the Meta template or an open 24-hour window (SETUP_STEPS §5).

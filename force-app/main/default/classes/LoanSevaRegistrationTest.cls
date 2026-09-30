@@ -17,6 +17,7 @@ private class LoanSevaRegistrationTest {
 
     @IsTest
     static void registerMatchesCustomersCapturesProspectsAndNudges() {
+        LoanSevaTestData.useLogOnly();
         Test.startTest();
         Map<String, Loan_Journey__c> journeys = LoanSevaRegistrationService.register(new List<LoanSevaRegistrationService.Registration>{
             reg('+91 98765 00001', 'Priya S', 'HI', true),

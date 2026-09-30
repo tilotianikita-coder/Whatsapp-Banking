@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata">
     <canEscalate>false</canEscalate>
-    <description>Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, a bare number, a name, a mobile number, an OTP, a company name, an amount or a day and time: they belong to the ongoing loan journey, never ambiguous. Covers the whole Kotak Personal Loan Top-Up journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, callback booking and feedback. Use for every customer message except language changes and requests for a human.</description>
+    <description>Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, a bare number, a name, a mobile number, an OTP, a company name, an amount or a day and time: they belong to the ongoing loan journey, never ambiguous. Covers the whole Kotak Personal Loan Top-Up journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, callback booking and feedback. Also covers requests for a human, agent, specialist or RM: the journey logs them for a Kotak RM. Use for every customer message except language changes.</description>
     <developerName>LoanSeva_Top_Up_Journey</developerName>
     <genAiFunctions>
         <functionName>LoanSeva_StartJourney</functionName>
@@ -34,7 +34,7 @@
         <sortOrder>2</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Every other customer message -&gt; call LoanSeva_ReplyToJourney with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, amount, tenure, callback time, rating, comment, Skip) and returns the next message.</description>
+        <description>Every other customer message, including a request for a human, agent, specialist or RM -&gt; call LoanSeva_ReplyToJourney with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, amount, tenure, callback time, rating, comment, Skip), logs specialist requests for the RM and returns the next message.</description>
         <developerName>instruction_3</developerName>
         <language>en_US</language>
         <masterLabel>instruction_3</masterLabel>

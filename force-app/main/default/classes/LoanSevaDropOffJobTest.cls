@@ -17,6 +17,7 @@ private class LoanSevaDropOffJobTest {
 
     @IsTest
     static void idleJourneyIsDroppedWithRmTaskThenNudgedTwice() {
+        LoanSevaTestData.useLogOnly();
         Loan_Journey__c j = idleJourney(60);
         LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
 

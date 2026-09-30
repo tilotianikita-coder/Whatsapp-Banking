@@ -7,9 +7,6 @@
     <genAiPlugins>
         <genAiPluginName>LoanSeva_Language_Switch</genAiPluginName>
     </genAiPlugins>
-    <genAiPlugins>
-        <genAiPluginName>LoanSeva_Escalate_To_Human</genAiPluginName>
-    </genAiPlugins>
     <masterLabel>LoanSeva_by_Kotak</masterLabel>
     <plannerType>AiCopilot__ReAct</plannerType>
 </GenAiPlannerBundle>

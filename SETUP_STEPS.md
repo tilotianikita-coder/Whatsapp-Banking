@@ -51,23 +51,22 @@ Test without WhatsApp: `sf agent preview -n LoanSeva_by_Kotak -o kotak-demo`. Th
 
 ## 4. Route WhatsApp_BYOC conversations to the agent (Omni-Channel)
 
-Routing to an agent needs the published agent's ID, so this step can only happen after step 3.
+Automated from source; run after step 3.
 
-1. Setup → **Flows** → open the package template `wpbyocdemo3__TEMPLATE_WhatsApp_Inbound_Routing` → **Save As** a new flow named `LoanSeva WhatsApp Inbound Routing`. This creates our own copy; the managed flow is untouched.
-2. In the copy's **Route Work** element: Route To = **Agentforce Service Agent** → *LoanSeva by Kotak*. Fallback queue = the package's human queue (as in `TEMPLATE_WhatsApp_Route_to_Queue`). Activate.
-3. Setup → **Messaging Settings** → `WhatsApp_BYOC` → Routing Type **Omni-Flow**, Flow = `LoanSeva WhatsApp Inbound Routing` → Save.
-4. For the *Escalate to Human* hand-off: the agent's escalation connection → the same human queue, and at least one presence-enabled service user online during the demo.
-5. Optional: after activation, retrieve the flow into source (`sf project retrieve start -m Flow:LoanSeva_WhatsApp_Inbound_Routing`) and commit it.
+1. `force-app/main/default/flows/LoanSeva_WhatsApp_Inbound_Routing.flow-meta.xml` is our own copy of the package template `wpbyocdemo3__TEMPLATE_WhatsApp_Inbound_Routing`; the managed flow is untouched. It routes inbound sessions to *LoanSeva by Kotak*, falls back to the `SDO_Service_Messaging` queue, and deploys as Active. It holds kotak-demo record ids (the `sfdc_livemessage` service channel and the bot). In another org, update `serviceChannelId` and `botId` before deploying.
+2. `scripts/route_whatsapp.sh` points `WhatsApp_BYOC` at the flow (Omni-Flow routing, fallback queue `SDO_Service_Messaging`). `scripts/route_whatsapp.sh --queue` rolls back to plain queue routing.
+3. **Specialist requests** ("agent", "human", "specialist", "RM", menu option 3, and Hindi/Marathi equivalents) are handled by `LoanSevaEngine.reply`. It creates a `LoanSeva: Human requested - …` Task for the RM and tells the customer a specialist will call back within 24 hours. The agent has no platform-escalation topic, because the built-in escalation skipped our actions and the RM Task wasn't logged.
+4. Manual, optional: for a live human takeover in the console, have a presence-enabled service user online in Omni-Channel. The RM can then pick the session from the `SDO_Service_Messaging` queue.
 
 ## 5. Go live on WhatsApp sends (nudge + re-engagement)
 
-Out of the box, `LoanSeva_Config__mdt.Default.Send_Mode__c = LogOnly`. The nudge text is composed and stored in `Loan_Journey__c.Last_Send_Status__c` but not sent, which is safe while setting up.
+`LoanSeva_Config__mdt.Default.Send_Mode__c` is now `ConversationMessage`, so nudges are really sent. In `LogOnly`, the text is composed and stored in `Loan_Journey__c.Last_Send_Status__c` but not sent. Tests pin `LogOnly` themselves.
 
-1. Setup → Custom Metadata Types → LoanSeva Config → **Default**:
-   - `Send_Mode__c` = `ConversationMessage` (real send through the BYOC channel).
-   - `RM_Owner_Username__c` = the demo RM's username, so RM Tasks and Events are assigned to them. When blank, they're owned by the running user.
+1. Already set in source (`scripts/content.py` → `customMetadata/LoanSeva_Config.Default.md-meta.xml`) and deployed:
+   - `Send_Mode__c` = `ConversationMessage` (real send through the BYOC channel). Set it back to `LogOnly` to compose and log without sending.
+   - `RM_Owner_Username__c` = `trailsignup.5e5549adddf5d7@salesforce.com`, so RM Tasks and Events are assigned to the demo RM.
    - Optionally tune `Idle_Minutes_Before_Drop__c` (2), `Nudge_1_Delay_Minutes__c` (2) and `Nudge_2_Delay_Minutes__c` (5). Production values would be 1440 / 4320.
-   - Alternatively, edit `force-app/main/default/customMetadata/LoanSeva_Config.Default.md-meta.xml` and redeploy, which keeps the change in version control.
+   To change these, edit `scripts/content.py`, regenerate and redeploy.
 2. **WhatsApp template (Meta).** A business-initiated first message needs an approved template. Create a *Utility* template in Meta Business Manager, for example:
    > Hi {{1}}, great news from Kotak! 🎉 You're pre-qualified for a Personal Loan Top-Up of up to ₹{{2}} on your existing loan. Get a personalised offer in about 90 seconds — right here on WhatsApp.
    > Button (quick reply): **Continue Here!**

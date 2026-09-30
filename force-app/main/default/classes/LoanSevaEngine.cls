@@ -713,6 +713,9 @@ public with sharing class LoanSevaEngine {
         if (t.contains('?') && state != 'otp' && state != 'company' && LoanSevaFaqMatcher.bestMatch(t) != null) {
             return answerFaq(j, t);
         }
+        if (state != 'otp' && state != 'company' && wantsHuman(t)) {
+            return escalate(j, 'Asked for a specialist: ' + t);
+        }
         switch on state {
             when 'identity' {
                 String name = t.replaceAll('[0-9+\\-()]', ' ').replaceAll('[,;:|/.]', ' ')
@@ -799,6 +802,15 @@ public with sharing class LoanSevaEngine {
 
     private static Boolean isYes(String s) {
         return firstWordIn(s, YES_WORDS) || (s != null && s.toLowerCase().contains('go ahead'));
+    }
+
+    /** A request for a person rather than an answer; escalation is handled here so the RM Task is always logged. */
+    private static final Pattern HUMAN = Pattern.compile(
+        '(?i).*(\\b(human|agent|specialist|executive|rm|relationship manager|real person|someone|call me now)\\b'
+        + '|इंसान|एजेंट|विशेषज्ञ|तज्ज्ञ|व्यक्ति|माणूस).*');
+
+    private static Boolean wantsHuman(String s) {
+        return String.isNotBlank(s) && HUMAN.matcher(s.replace('\n', ' ')).matches();
     }
 
     private static Boolean isNo(String s) {
