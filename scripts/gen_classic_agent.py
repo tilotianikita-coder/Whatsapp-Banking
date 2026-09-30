@@ -34,16 +34,18 @@ JOURNEY = """You run the Kotak Personal Loan Top-Up journey. The LoanSeva action
 - First message, greeting, Continue Here!, Continue, Hi or Start, or no journeyId yet -> call start_journey.
 - A question about Top-Up (uses, rate, difference from a new loan, speed, fees, documents, tenure, eligibility, or similar) rather than an answer -> call answer_question with the question as typed.
 - Every other customer message, including a request for a human, agent, specialist or RM -> call reply_to_journey with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, amount, tenure, callback time, rating, comment, Skip), logs specialist requests for the RM and returns the next message.
+- When the action output handoff is true (the customer asked for a specialist, disputed their loan details or was locked out), reply with the action message and then escalate the conversation to a human. Never escalate without calling reply_to_journey first: it logs the request for the RM.
 - Never reveal or repeat an OTP yourself."""
 
 # topic developer name -> (label, description, scope, instruction text, action names, can escalate)
-# No separate escalation topic: the platform's built-in escalation skips our actions, so the RM Task was never
-# logged. Requests for a human go through reply_to_journey, which calls LoanSevaEngine.escalate().
+# No separate escalation topic: the platform's built-in escalation skipped our actions, so the RM Task was never
+# logged. Requests for a human go through reply_to_journey (LoanSevaEngine.escalate logs the Task); the journey
+# topic then transfers to Omni-Channel (channel fallback queue) when the output says handoff.
 TOPICS = {
     'Top_Up_Journey': ('Top-Up Journey',
         'Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, a bare number, a name, a mobile number, an OTP, a company name, an amount or a day and time: they belong to the ongoing loan journey, never ambiguous. Covers the whole Kotak Personal Loan Top-Up journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, callback booking and feedback. Also covers requests for a human, agent, specialist or RM: the journey logs them for a Kotak RM. Use for every customer message except language changes.',
         'Run the Kotak Personal Loan Top-Up journey using LoanSeva actions only.',
-        JOURNEY, ['start_journey', 'reply_to_journey', 'answer_question'], False),
+        JOURNEY, ['start_journey', 'reply_to_journey', 'answer_question'], True),
     'Language_Switch': ('Language Switch',
         'Switches the conversation between English, Hindi and Marathi at any point, e.g. HI, MR, EN, Hindi, Marathi, हिंदी, मराठी.',
         'Change the conversation language using the LoanSeva switch language action.',

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata">
-    <canEscalate>false</canEscalate>
+    <canEscalate>true</canEscalate>
     <description>Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, a bare number, a name, a mobile number, an OTP, a company name, an amount or a day and time: they belong to the ongoing loan journey, never ambiguous. Covers the whole Kotak Personal Loan Top-Up journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, callback booking and feedback. Also covers requests for a human, agent, specialist or RM: the journey logs them for a Kotak RM. Use for every customer message except language changes.</description>
     <developerName>LoanSeva_Top_Up_Journey</developerName>
     <genAiFunctions>
@@ -41,25 +41,32 @@
         <sortOrder>3</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Never reveal or repeat an OTP yourself.</description>
+        <description>When the action output handoff is true (the customer asked for a specialist, disputed their loan details or was locked out), reply with the action message and then escalate the conversation to a human. Never escalate without calling LoanSeva_ReplyToJourney first: it logs the request for the RM.</description>
         <developerName>instruction_4</developerName>
         <language>en_US</language>
         <masterLabel>instruction_4</masterLabel>
         <sortOrder>4</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
+        <description>Never reveal or repeat an OTP yourself.</description>
         <developerName>instruction_5</developerName>
         <language>en_US</language>
         <masterLabel>instruction_5</masterLabel>
         <sortOrder>5</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, *asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.</description>
+        <description>Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
         <developerName>instruction_6</developerName>
         <language>en_US</language>
         <masterLabel>instruction_6</masterLabel>
         <sortOrder>6</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, *asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.</description>
+        <developerName>instruction_7</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_7</masterLabel>
+        <sortOrder>7</sortOrder>
     </genAiPluginInstructions>
     <language>en_US</language>
     <masterLabel>LoanSeva Top-Up Journey</masterLabel>
