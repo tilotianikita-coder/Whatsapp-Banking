@@ -214,7 +214,7 @@ def bot():
     <label>LoanSeva by Kotak</label>
     <logPrivateConversationData>false</logPrivateConversationData>
     <richContentEnabled>true</richContentEnabled>
-    <sessionTimeout>480</sessionTimeout>
+    <sessionTimeout>30</sessionTimeout>
     <type>ExternalCopilot</type>
 </Bot>
 ''')
