@@ -70,12 +70,13 @@ Automated from source; run after step 3.
    - Optionally tune `Idle_Minutes_Before_Drop__c` (2), `Nudge_1_Delay_Minutes__c` (2) and `Nudge_2_Delay_Minutes__c` (5). Production values would be 1440 / 4320.
    To change these, edit `scripts/content.py`, regenerate and redeploy.
 2. **Activate the messaging component (one click, required).** Setup → **Messaging Components** → **LoanSeva Text** → **Activate**. Deployed components arrive inactive, and there's no API or metadata field to activate them. While it's inactive, the send is accepted (`Last_Send_Status__c = Sent …`) but fails asynchronously with `MessagingComponentNotActive`. To check, query `SELECT Name, FailedMessageCount, FailedMessageErrorReasons FROM ConvMessageSendRequest ORDER BY CreatedDate DESC`.
-3. **WhatsApp template (Meta).** A business-initiated first message needs an approved template. Create a *Utility* template in Meta Business Manager, for example:
+3. **Register every presenter number with the WhatsApp router (per number, required).** The BYOC business number is shared, and the package's router app picks the org for each inbound message by the *sender's* number. An unregistered number gets the WhatsApp reply "No routing configuration found", and nothing reaches Salesforce (no MessagingSession, no log). Open the app launcher → **WhatsApp Demo Component** tab (the router portal, `https://trailsignup-dbbab11c8f3410.my.site.com/whatsapp?username=<your username>`) and add each number in `DEMO_MOBILES` (with country code, e.g. `919063480755`) against this org. Then send "Hi" from each phone, which also opens the 24-hour window for the nudge text.
+4. **WhatsApp template (Meta).** A business-initiated first message needs an approved template. Create a *Utility* template in Meta Business Manager, for example:
    > Hi {{1}}, great news from Kotak! 🎉 You're pre-qualified for a Personal Loan Top-Up of up to ₹{{2}} on your existing loan. Get a personalised offer in about 90 seconds — right here on WhatsApp.
    > Button (quick reply): **Continue Here!**
 
    Map it in the BYOC package's router settings (`WhatsApp_BYOC_Setting__mdt` / router admin) as the package documents. Until it's approved, the nudge goes out as the `LoanSeva_Text` free-text definition. That text is delivered only inside the 24-hour customer service window, so have each presenter send "Hi" to the business number once before the demo.
-4. Run `sf apex run -f scripts/apex/seed.apex -o kotak-demo`, submit the registration form with a seeded number, and confirm the message arrives. `Loan_Journey__c.Last_Send_Status__c` shows `Sent …` or the exact failure reason. Package-side delivery errors show in `wpbyocdemo3__Debug_Log__c`.
+5. Run `sf apex run -f scripts/apex/seed.apex -o kotak-demo`, submit the registration form with a seeded number, and confirm the message arrives. `Loan_Journey__c.Last_Send_Status__c` shows `Sent …` or the exact failure reason. Package-side delivery errors show in `wpbyocdemo3__Debug_Log__c`.
 
 ## 6. Drop-off job
 
