@@ -310,6 +310,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Loan_Journey__c.Menu_Pending__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Loan_Journey__c.Messaging_End_User_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -14,6 +14,7 @@ Map<String, List<String>> scenarios = new Map<String, List<String>>{
     'refer_retry'    => new List<String>{ '1', 'Ananya Iyer 9000000003', '123456', '1', '1', 'Infosys', '1', '2', '4', '1', 'hmm', '2 lakh for 48 months', '1' },
     'callback_typed' => new List<String>{ '1', 'Ananya Iyer 9000000003', '123456', '1', '1', 'Infosys', '1', '2', '1', 'accept', 'Thu 11am', '3', '3', 'Skip', 'Thanks' },
     'otp_wrong'      => new List<String>{ '1', 'Ananya Iyer 9000000003', '111111', '222222', '333333' },
+    'resume_menu'    => new List<String>{ '1', 'Ananya Iyer 9000000003', '123456', '1', '1', 'Infosys', '3', '1', '1', '1', 'START', '2', 'I want to know more about Top-up', 'START', '1', 'START', '3' },
     'hindi'          => new List<String>{ 'HI', '1', 'Ananya Iyer 9000000003', '123456', 'हाँ', '1', 'Infosys', '1', '1', '1', '3', 'क्या शुल्क है?', '1' }
 };
 Savepoint sp = Database.setSavepoint();
@@ -22,7 +23,11 @@ try {
     LoanSevaActionResult r = LoanSevaStartAction.run(new List<LoanSevaStartAction.Request>{ s })[0];
     String out = '### ' + scenario + '\nSTART -> ' + r.awaiting + ' | ' + r.message.left(90).replace('\n', ' ');
     for (String m : scenarios.get(scenario)) {
-        if (new Set<String>{ 'HI', 'EN', 'MR' }.contains(m) && m.equals(m.toUpperCase())) {
+        if (m.equals('START')) {
+            LoanSevaStartAction.Request again = new LoanSevaStartAction.Request();
+            again.journeyId = r.journeyId;
+            r = LoanSevaStartAction.run(new List<LoanSevaStartAction.Request>{ again })[0];
+        } else if (new Set<String>{ 'HI', 'EN', 'MR' }.contains(m) && m.equals(m.toUpperCase())) {
             LoanSevaLanguageAction.Request l = new LoanSevaLanguageAction.Request();
             l.journeyId = r.journeyId;
             l.language = m;

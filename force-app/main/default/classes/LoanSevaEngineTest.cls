@@ -461,6 +461,45 @@ private class LoanSevaEngineTest {
     }
 
     @IsTest
+    static void resumedJourneyMenuPicksMenuOptions() {
+        Test.startTest();
+        LoanSevaEngine.Result r = LoanSevaTestData.personalisedJourney(LoanSevaTestData.PRIYA_MOBILE, 'Priya Sharma');
+        r = LoanSevaEngine.reply(r.journey, '48 months');
+        r = LoanSevaEngine.reply(r.journey, '1');
+        System.assertEquals('callback', LoanSevaEngine.awaiting(r.journey));
+
+        r = LoanSevaEngine.start(r.journey);
+        System.assert(r.journey.Menu_Pending__c, 'Welcome menu on a resumed journey');
+        r = LoanSevaEngine.reply(r.journey, '2');
+        System.assertEquals(null, r.journey.Callback_DateTime__c, '2 is the menu question option, not callback slot 2');
+        System.assert(r.journey.Question_Pending__c);
+        r = LoanSevaEngine.reply(r.journey, 'I want to know more about Top-up');
+        System.assert(r.success && r.message.contains('Personal Loan Top-Up'), r.message);
+
+        r = LoanSevaEngine.start(r.journey);
+        r = LoanSevaEngine.reply(r.journey, '1');
+        System.assert(r.message.contains(LoanSevaI18n.msg('Resume_Prompt', 'EN')), 'Option 1 resumes the pending step: ' + r.message);
+        System.assertEquals(null, r.journey.Callback_DateTime__c);
+
+        r = LoanSevaEngine.start(r.journey);
+        r = LoanSevaEngine.reply(r.journey, 'Thu 11am');
+        System.assertNotEquals(null, r.journey.Callback_DateTime__c, 'A real answer still answers the pending step');
+        System.assert(!r.journey.Menu_Pending__c);
+
+        r = LoanSevaEngine.start(r.journey);
+        r = LoanSevaEngine.reply(r.journey, '3');
+        System.assert(r.handoff, 'Option 3 escalates');
+        Test.stopTest();
+
+        Loan_Journey__c o = LoanSevaTestData.personalisedJourney(LoanSevaTestData.RAHUL_MOBILE, 'Rahul Deshmukh').journey;
+        r = LoanSevaEngine.reply(o, '48 months');
+        r = LoanSevaEngine.start(r.journey);
+        r = LoanSevaEngine.reply(r.journey, '1');
+        System.assertEquals(48, r.journey.Offer_Tenure_Months__c, 'Option 1 re-shows the offer with the chosen tenure');
+        System.assert(!r.journey.Offer_Accepted__c, 'Option 1 on the menu never accepts the offer');
+    }
+
+    @IsTest
     static void parsersHandleIndianFormats() {
         System.assertEquals(500000, LoanSevaEngine.parseAmount('5L'));
         System.assertEquals(250000, LoanSevaEngine.parseAmount('2.5 lakhs'));

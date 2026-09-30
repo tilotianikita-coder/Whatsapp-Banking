@@ -19,8 +19,24 @@ public with sharing class LoanSevaEngine {
     // ------------------------------------------------------------------ Start / menu
     public static Result start(Loan_Journey__c j) {
         LoanSevaJourneyService.advance(j, 'Start');
+        // A resumed journey is mid-step, so the next 1/2/3 must mean the menu shown here, not a slot or answer
+        j.Menu_Pending__c = awaiting(j) != 'menu';
         update j;
         return result(j, welcome(j));
+    }
+
+    /** Menu option 1 on a resumed journey: pick up where the customer left off. */
+    private static Result resume(Loan_Journey__c j) {
+        String state = awaiting(j);
+        if (state == 'offer_decision' && j.Offer_Amount__c != null) {
+            return offer(j, null, j.Offer_Tenure_Months__c == null ? null : j.Offer_Tenure_Months__c.intValue() + ' months');
+        }
+        if (state == 'identity' || state == 'otp' || state == 'done' || state == 'handoff') {
+            return promptAndSave(j);
+        }
+        LoanSevaJourneyService.touch(j);
+        update j;
+        return result(j, LoanSevaI18n.msg('Resume_Prompt', j.Language__c) + '\n' + pendingPrompt(j, false));
     }
 
     private static String welcome(Loan_Journey__c j) {
@@ -711,6 +727,20 @@ public with sharing class LoanSevaEngine {
         String t = text == null ? '' : text.trim();
         String state = awaiting(j);
         Integer choice = choiceNumber(t);
+        if (j.Menu_Pending__c == true) {
+            j.Menu_Pending__c = false;
+            Boolean option = NO_LETTERS.matcher(t).matches();
+            if (option && choice == 1 || isYes(t)) {
+                return resume(j);
+            }
+            if (option && choice == 2) {
+                return askQuestion(j);
+            }
+            if (option && choice == 3) {
+                return escalate(j, 'Chose Talk to a specialist from the menu');
+            }
+            update j;
+        }
         if (j.Question_Pending__c == true && state != 'otp' && state != 'company') {
             // After "Ask a question" the next message is a question, so "Yes" or "tell me more" can
             // never accept the offer. A bare option number still picks that option.

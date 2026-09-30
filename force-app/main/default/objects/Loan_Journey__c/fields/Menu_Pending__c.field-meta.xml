@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Menu_Pending__c</fullName>
+    <description>Set when the welcome menu is shown on a resumed journey; the next bare 1/2/3 picks a menu option, not an answer to the pending step.</description>
+    <label>Menu Pending</label>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+</CustomField>
