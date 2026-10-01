@@ -1,0 +1,109 @@
+<template>
+    <lightning-card title="Underwriting Scorecard" icon-name="standard:approval">
+        <div slot="actions">
+            <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" onclick={handleRefresh}></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={error}>
+                <div class="slds-text-color_error">{error}</div>
+            </template>
+            <template lwc:if={loaded}>
+                <div class="slds-m-bottom_small">
+                    <span class="slds-text-title_caps slds-m-right_x-small">Recommendation</span>
+                    <template lwc:if={app.Recommendation__c}>
+                        <span class={recommendationBadge}>{app.Recommendation__c}</span>
+                    </template>
+                    <template lwc:if={underwritingRunning}>
+                        <span class="slds-badge">Underwriting in progress — refresh in a moment</span>
+                    </template>
+                    <template lwc:if={underwritingError}>
+                        <span class="slds-badge slds-theme_error">Underwriting error</span>
+                    </template>
+                </div>
+
+                <lightning-layout multiple-rows>
+                    <template for:each={terms} for:item="t">
+                        <lightning-layout-item key={t.label} size="6" medium-device-size="3" padding="around-x-small">
+                            <div class="slds-text-title">{t.label}</div>
+                            <div class="slds-text-body_regular slds-text-title_bold">{t.value}</div>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+
+                <h3 class="slds-text-heading_small slds-m-top_medium slds-m-bottom_x-small">Checks</h3>
+                <template lwc:if={hasChecks}>
+                    <ul class="slds-has-dividers_bottom-space">
+                        <template for:each={checks} for:item="c">
+                            <li key={c.Id} class="slds-item">
+                                <div class="slds-grid slds-grid_vertical-align-center slds-gutters_x-small" data-id={c.Id} onclick={toggle} style="cursor:pointer">
+                                    <div class="slds-col slds-shrink-none"><lightning-icon icon-name={c.toggleIcon} size="xx-small"></lightning-icon></div>
+                                    <div class="slds-col slds-shrink-none"><lightning-icon icon-name={c.icon} variant={c.variant} size="x-small"></lightning-icon></div>
+                                    <div class="slds-col slds-grow">
+                                        <div class="slds-text-title_bold">{c.Check__c} <span class="slds-text-color_weak slds-text-body_small">· {c.Provider__c}</span></div>
+                                        <div class="slds-text-body_small">{c.Summary__c}</div>
+                                    </div>
+                                    <div class="slds-col slds-shrink-none"><span class={c.badge}>{c.Result__c}</span></div>
+                                </div>
+                                <template lwc:if={c.open}>
+                                    <div class="slds-box slds-box_x-small slds-theme_shade slds-m-top_x-small slds-m-left_large">
+                                        <template for:each={c.detailLines} for:item="d">
+                                            <div key={d.key} class="slds-text-body_small">{d.line}</div>
+                                        </template>
+                                        <div class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small">Request {c.Request_Id__c}</div>
+                                    </div>
+                                </template>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <template lwc:else>
+                    <p class="slds-text-color_weak">No checks yet.</p>
+                </template>
+
+                <h3 class="slds-text-heading_small slds-m-top_medium slds-m-bottom_x-small">Documents</h3>
+                <template lwc:if={hasDocuments}>
+                    <ul>
+                        <template for:each={documents} for:item="d">
+                            <li key={d.Id} class="slds-m-bottom_xx-small">
+                                <lightning-icon icon-name="doctype:image" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                                <strong>{d.Document_Type__c}</strong>&nbsp;
+                                <template lwc:if={d.url}><a href={d.url} target="_blank">{d.File_Name__c}</a></template>
+                                <template lwc:else>{d.File_Name__c}</template>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <template lwc:else>
+                    <p class="slds-text-color_weak">No documents shared yet.</p>
+                </template>
+
+                <template lwc:if={decided}>
+                    <div class="slds-box slds-m-top_medium">
+                        <template lwc:if={approved}>
+                            <div class="slds-text-heading_small slds-text-color_success">Approved — loan account {data.maskedLan}</div>
+                        </template>
+                        <template lwc:else>
+                            <div class="slds-text-heading_small slds-text-color_error">Rejected</div>
+                        </template>
+                        <div class="slds-text-body_small slds-text-color_weak">
+                            by {decidedBy} · <lightning-formatted-date-time value={app.Decision_At__c} year="numeric" month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                        </div>
+                        <template lwc:if={app.Decision_Notes__c}><p class="slds-m-top_x-small">{app.Decision_Notes__c}</p></template>
+                    </div>
+                </template>
+
+                <template lwc:if={canDecide}>
+                    <div class="slds-m-top_medium">
+                        <lightning-textarea label="Decision notes (internal, never sent to the customer)" value={notes} onchange={handleNotes} max-length="4000"></lightning-textarea>
+                        <div class="slds-m-top_small">
+                            <lightning-button variant="success" label="Approve &amp; create LAN" icon-name="utility:check" onclick={handleApprove} disabled={approveDisabled} class="slds-m-right_x-small"></lightning-button>
+                            <lightning-button variant="destructive" label="Reject" icon-name="utility:close" onclick={handleReject} disabled={busy} class="slds-m-right_x-small"></lightning-button>
+                            <lightning-button label="Re-run underwriting" icon-name="utility:refresh" onclick={handleRerun} disabled={busy}></lightning-button>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template lwc:if={busy}><lightning-spinner alternative-text="Working" size="small"></lightning-spinner></template>
+        </div>
+    </lightning-card>
+</template>

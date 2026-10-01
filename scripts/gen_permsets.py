@@ -5,7 +5,7 @@ import os, re
 BASE = 'force-app/main/default'
 OBJ = os.path.join(BASE, 'objects')
 OUT = os.path.join(BASE, 'permissionsets')
-CUSTOM_OBJECTS = ['Existing_Loan__c', 'Loan_Journey__c', 'Loan_Application__c', 'Journey_Feedback__c']
+CUSTOM_OBJECTS = ['Existing_Loan__c', 'Loan_Journey__c', 'Loan_Application__c', 'Journey_Feedback__c', 'Underwriting_Check__c', 'Loan_Document__c']
 
 
 def fields(obj):
@@ -27,9 +27,11 @@ def classes(prefix='LoanSeva'):
                   if f.endswith('.cls') and f.startswith(prefix) and not f[:-4].endswith('Test'))
 
 
-def permset(name, label, desc, obj_perms, field_edit=True, extra=''):
+def permset(name, label, desc, obj_perms, field_edit=True, extra='', apps=()):
     parts = [f'<?xml version="1.0" encoding="UTF-8"?>\n<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">\n'
              f'    <label>{label}</label>\n    <description>{desc}</description>\n    <hasActivationRequired>false</hasActivationRequired>\n']
+    for app in apps:
+        parts.append(f'    <applicationVisibilities>\n        <application>{app}</application>\n        <visible>true</visible>\n    </applicationVisibilities>\n')
     for c in classes():
         parts.append(f'    <classAccesses>\n        <apexClass>{c}</apexClass>\n        <enabled>true</enabled>\n    </classAccesses>\n')
     parts.append('    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_Config__mdt</name>\n    </customMetadataTypeAccesses>\n'
@@ -45,9 +47,9 @@ def permset(name, label, desc, obj_perms, field_edit=True, extra=''):
                      f'        <allowEdit>{p["e"]}</allowEdit>\n        <allowRead>true</allowRead>\n'
                      f'        <modifyAllRecords>{p["m"]}</modifyAllRecords>\n        <object>{obj}</object>\n'
                      f'        <viewAllRecords>{p["v"]}</viewAllRecords>\n    </objectPermissions>\n')
+    parts.append(extra)  # extra object permissions follow the custom ones; tab settings come after all of them
     for obj in CUSTOM_OBJECTS:
         parts.append(f'    <tabSettings>\n        <tab>{obj}</tab>\n        <visibility>Visible</visibility>\n    </tabSettings>\n') if os.path.exists(os.path.join(BASE, 'tabs', obj + '.tab-meta.xml')) else None
-    parts.append(extra)
     parts.append('</PermissionSet>\n')
     os.makedirs(OUT, exist_ok=True)
     with open(os.path.join(OUT, name + '.permissionset-meta.xml'), 'w') as fh:
@@ -55,7 +57,7 @@ def permset(name, label, desc, obj_perms, field_edit=True, extra=''):
 
 
 ALL = {'c': 'true', 'd': 'true', 'e': 'true', 'm': 'true', 'v': 'true'}
-permset('LoanSeva_Admin', 'LoanSeva Admin', 'Full access to LoanSeva objects, fields and Apex (demo admins, RMs, running users).', ALL)
+permset('LoanSeva_Admin', 'LoanSeva Admin', 'Full access to LoanSeva objects, fields and Apex (demo admins, RMs, running users).', ALL, apps=['LoanSeva_LOS'])
 # Agent user: runs every action; needs to read/write journey data across customers.
 def std(obj, c, e, v):
     return (f'    <objectPermissions>\n        <allowCreate>{c}</allowCreate>\n        <allowDelete>false</allowDelete>\n'
@@ -67,7 +69,8 @@ def uperm(name):
     return f'    <userPermissions>\n        <enabled>true</enabled>\n        <name>{name}</name>\n    </userPermissions>\n'
 
 
-AGENT_EXTRA = (std('Contact', 'false', 'false', 'false') + std('Lead', 'true', 'true', 'false') + std('Account', 'false', 'false', 'false')
+AGENT_EXTRA = (std('Contact', 'true', 'true', 'false')  # new-loan applicants become Contacts on submit
+               + std('Lead', 'true', 'true', 'false') + std('Account', 'false', 'false', 'false')
 )
 permset('LoanSeva_Agent', 'LoanSeva Agent', 'Assigned to the LoanSeva Agentforce agent user: runs the LoanSeva actions across customers.',
         {'c': 'true', 'd': 'false', 'e': 'true', 'm': 'false', 'v': 'true'}, extra=AGENT_EXTRA)

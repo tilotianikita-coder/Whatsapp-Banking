@@ -101,6 +101,30 @@ LoanSevaDropOffJob.run();   // one pass now
 3. In the Service Console, accept the chat. In the conversation composer, open the messaging components picker (⚡ icon), choose **LoanSeva Buttons Test** and send it.
 4. On the phone, check what arrives. Tappable buttons mean the router supports interactive messages. A plain list or nothing means it doesn't. Then end the chat.
 
-## 9. Before any external use
+## 9. New-loan applications, mock underwriting and RM decision
+
+Customers without a pre-approved offer can apply on WhatsApp. This happens when "Not found" / "no offer" follows identity, or via menu option **4**, or by typing "apply for a new loan". They're asked 10 questions (DOB, PAN, email, PIN, employment, employer, income, EMIs, purpose, amount) and shown an indicative offer. They then share photos of their PAN, bank statement and salary slips (each can be skipped), review, and consent. On submit:
+
+- The customer gets a `KMB-PL-…` reference. A Contact is created if needed, and an RM Task is created on the application.
+- **Mock underwriting** runs automatically: six `Underwriting_Check__c` rows (PAN/NSDL, CIBIL, Perfios bank statement, employment, policy & FOIR, dedupe). It sets `Recommendation__c`. No external calls are made.
+- The RM opens the application in the **LoanSeva LOS** app. The record page has the **Underwriting Scorecard**, with **Approve & create LAN**, **Reject** and **Re-run underwriting**. Approve creates a *Sanctioned* `Existing_Loan__c` (LAN `PL` + yyMMdd + 8-digit sequence) and WhatsApps the customer the terms with the **masked** LAN only. Reject sends a polite decline. RM notes stay internal.
+
+**Demo PANs** pick the outcome. The format is `AAAPS9999X`: 4th character **P** (individual), 5th character = **surname initial**.
+
+| PAN (for "Asha Patil") | CIBIL | Recommendation |
+|---|---|---|
+| `ABCPP1234K` + bank statement shared + Category A employer (e.g. Infosys) | 777 | Approve |
+| `ABCPP1234K`, bank statement skipped | 777 | Refer (statement pending) |
+| `ABCPP1234R` | 695 | Refer |
+| `ABCPP1234Z` | 630 | Decline |
+| `ABCPS1234K` (surname initial mismatch) | 777 | Refer (name check) |
+
+Self-employed applicants and Category B employers without salary slips are always Refer. The RM can still approve a Refer.
+
+**Manual check — inbound photos.** Documents are picked up from Salesforce Files linked to the journey, the MessagingSession or the MessagingEndUser. Whether the WhatsApp BYOC router stores inbound images as Files hasn't been verified in this org. Send a photo at the PAN step and reply **Done**. If the bot says it hasn't received the document, attach the file to the Loan Journey record in Salesforce (Files related list) and reply **Done** again. Customers can also reply **Skip**, and the RM collects the documents offline.
+
+The LoanSeva LOS app and its Loan Application record page are assigned in metadata (`applications/LoanSeva_LOS.app-meta.xml`). Users with `LoanSeva_Admin` see the app; no Lightning App Builder activation is needed.
+
+## 10. Before any external use
 
 All rates, fees, FOIR, disbursal timelines and FAQ copy are **illustrative demo values**. Align `LoanSeva_Config__mdt` and `LoanSeva_FAQ__mdt` with Kotak's published terms, and replace the fixed demo OTP (`Demo_OTP__c`) with a real OTP provider behind a Named Credential.
