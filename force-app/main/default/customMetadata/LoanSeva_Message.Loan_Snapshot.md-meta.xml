@@ -6,11 +6,11 @@
         <field>English__c</field>
         <value xsi:type="xsd:string">✅ Verified! Here's your existing loan, {name}:
 
-🏦 Loan account: {account}
-💰 Outstanding principal: {outstanding}
-📅 EMI: {emi}/month
-⏳ Tenure remaining: {tenure} months
-📈 Repayment track: {ontime}/{due} EMIs on time {trackIcon}
+&gt; 🏦 Loan account: {account}
+&gt; 💰 Outstanding principal: {outstanding}
+&gt; 📅 EMI: {emi}/month
+&gt; ⏳ Tenure remaining: {tenure} months
+&gt; 📈 Repayment track: {ontime}/{due} EMIs on time {trackIcon}
 
 Is this correct? Reply *Yes* to continue or *No* if something looks off.</value>
     </values>
@@ -18,11 +18,11 @@ Is this correct? Reply *Yes* to continue or *No* if something looks off.</value>
         <field>Hindi__c</field>
         <value xsi:type="xsd:string">✅ वेरिफ़ाई हो गया! {name}, यह रहा आपका मौजूदा लोन:
 
-🏦 लोन अकाउंट: {account}
-💰 बकाया मूलधन: {outstanding}
-📅 EMI: {emi}/माह
-⏳ बची अवधि: {tenure} महीने
-📈 भुगतान रिकॉर्ड: {ontime}/{due} EMI समय पर {trackIcon}
+&gt; 🏦 लोन अकाउंट: {account}
+&gt; 💰 बकाया मूलधन: {outstanding}
+&gt; 📅 EMI: {emi}/माह
+&gt; ⏳ बची अवधि: {tenure} महीने
+&gt; 📈 भुगतान रिकॉर्ड: {ontime}/{due} EMI समय पर {trackIcon}
 
 क्या यह सही है? आगे बढ़ने के लिए *Yes* या कुछ गलत हो तो *No* लिखें।</value>
     </values>
@@ -30,11 +30,11 @@ Is this correct? Reply *Yes* to continue or *No* if something looks off.</value>
         <field>Marathi__c</field>
         <value xsi:type="xsd:string">✅ पडताळणी पूर्ण! {name}, हे तुमचे सध्याचे कर्ज:
 
-🏦 कर्ज खाते: {account}
-💰 थकीत मुद्दल: {outstanding}
-📅 EMI: {emi}/महिना
-⏳ उर्वरित कालावधी: {tenure} महिने
-📈 परतफेड रेकॉर्ड: {ontime}/{due} EMI वेळेवर {trackIcon}
+&gt; 🏦 कर्ज खाते: {account}
+&gt; 💰 थकीत मुद्दल: {outstanding}
+&gt; 📅 EMI: {emi}/महिना
+&gt; ⏳ उर्वरित कालावधी: {tenure} महिने
+&gt; 📈 परतफेड रेकॉर्ड: {ontime}/{due} EMI वेळेवर {trackIcon}
 
 हे बरोबर आहे का? पुढे जाण्यासाठी *Yes* किंवा काही चुकीचे असल्यास *No* लिहा.</value>
     </values>

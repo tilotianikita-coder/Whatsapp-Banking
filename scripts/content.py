@@ -146,9 +146,9 @@ MESSAGES = {
         "तुमच्या सुरक्षेसाठी, अनेक प्रयत्नांनंतर पडताळणी थांबवली आहे. 🔒 काळजी करू नका — Kotak तज्ज्ञ लवकरच तुमच्या नोंदणीकृत नंबरवर कॉल करून मदत करतील.",
     ),
     'Loan_Snapshot': (
-        "✅ Verified! Here's your existing loan, {name}:\n\n🏦 Loan account: {account}\n💰 Outstanding principal: {outstanding}\n📅 EMI: {emi}/month\n⏳ Tenure remaining: {tenure} months\n📈 Repayment track: {ontime}/{due} EMIs on time {trackIcon}\n\nIs this correct? Reply *Yes* to continue or *No* if something looks off.",
-        "✅ वेरिफ़ाई हो गया! {name}, यह रहा आपका मौजूदा लोन:\n\n🏦 लोन अकाउंट: {account}\n💰 बकाया मूलधन: {outstanding}\n📅 EMI: {emi}/माह\n⏳ बची अवधि: {tenure} महीने\n📈 भुगतान रिकॉर्ड: {ontime}/{due} EMI समय पर {trackIcon}\n\nक्या यह सही है? आगे बढ़ने के लिए *Yes* या कुछ गलत हो तो *No* लिखें।",
-        "✅ पडताळणी पूर्ण! {name}, हे तुमचे सध्याचे कर्ज:\n\n🏦 कर्ज खाते: {account}\n💰 थकीत मुद्दल: {outstanding}\n📅 EMI: {emi}/महिना\n⏳ उर्वरित कालावधी: {tenure} महिने\n📈 परतफेड रेकॉर्ड: {ontime}/{due} EMI वेळेवर {trackIcon}\n\nहे बरोबर आहे का? पुढे जाण्यासाठी *Yes* किंवा काही चुकीचे असल्यास *No* लिहा.",
+        "✅ Verified! Here's your existing loan, {name}:\n\n> 🏦 Loan account: {account}\n> 💰 Outstanding principal: {outstanding}\n> 📅 EMI: {emi}/month\n> ⏳ Tenure remaining: {tenure} months\n> 📈 Repayment track: {ontime}/{due} EMIs on time {trackIcon}\n\nIs this correct? Reply *Yes* to continue or *No* if something looks off.",
+        "✅ वेरिफ़ाई हो गया! {name}, यह रहा आपका मौजूदा लोन:\n\n> 🏦 लोन अकाउंट: {account}\n> 💰 बकाया मूलधन: {outstanding}\n> 📅 EMI: {emi}/माह\n> ⏳ बची अवधि: {tenure} महीने\n> 📈 भुगतान रिकॉर्ड: {ontime}/{due} EMI समय पर {trackIcon}\n\nक्या यह सही है? आगे बढ़ने के लिए *Yes* या कुछ गलत हो तो *No* लिखें।",
+        "✅ पडताळणी पूर्ण! {name}, हे तुमचे सध्याचे कर्ज:\n\n> 🏦 कर्ज खाते: {account}\n> 💰 थकीत मुद्दल: {outstanding}\n> 📅 EMI: {emi}/महिना\n> ⏳ उर्वरित कालावधी: {tenure} महिने\n> 📈 परतफेड रेकॉर्ड: {ontime}/{due} EMI वेळेवर {trackIcon}\n\nहे बरोबर आहे का? पुढे जाण्यासाठी *Yes* किंवा काही चुकीचे असल्यास *No* लिहा.",
     ),
     'Loan_Confirm_Reprompt': (
         "Do the loan details above look correct? Reply *Yes* or *No*.",
@@ -201,9 +201,9 @@ MESSAGES = {
         "*5/5* — तुम्हाला किती रक्कम हवी आहे? ({limit} पर्यंत प्री-अप्रूव्ड)\n\n{options}\n\nकिंवा रक्कम लिहा, उदा. *3 lakh*.",
     ),
     'Offer_Card': (
-        "🎉 Great news, {name}! Here's your personalised Top-Up offer:\n\n💰 Amount: *{amount}*\n📈 Rate: *{rate}% p.a.*\n📅 Tenure: *{tenure} months*\n💳 EMI: *{emi}/month*\n🧾 Processing fee: {fee} + GST\n\nOther tenures: {otherTenures}\n\n_This is a preliminary offer, subject to final verification._\n\n1️⃣ Accept offer\n2️⃣ Change amount or tenure\n3️⃣ Ask a question",
-        "🎉 बधाई हो, {name}! यह रहा आपका पर्सनलाइज़्ड टॉप-अप ऑफ़र:\n\n💰 राशि: *{amount}*\n📈 ब्याज दर: *{rate}% प्रति वर्ष*\n📅 अवधि: *{tenure} महीने*\n💳 EMI: *{emi}/माह*\n🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nअन्य अवधि: {otherTenures}\n\n_यह एक प्रारंभिक ऑफ़र है, अंतिम सत्यापन के अधीन।_\n\n1️⃣ ऑफ़र स्वीकार करें\n2️⃣ राशि या अवधि बदलें\n3️⃣ सवाल पूछें",
-        "🎉 अभिनंदन, {name}! ही तुमची वैयक्तिक टॉप-अप ऑफर:\n\n💰 रक्कम: *{amount}*\n📈 व्याजदर: *{rate}% प्रतिवर्ष*\n📅 कालावधी: *{tenure} महिने*\n💳 EMI: *{emi}/महिना*\n🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nइतर कालावधी: {otherTenures}\n\n_ही प्राथमिक ऑफर आहे, अंतिम पडताळणीच्या अधीन._\n\n1️⃣ ऑफर स्वीकारा\n2️⃣ रक्कम किंवा कालावधी बदला\n3️⃣ प्रश्न विचारा",
+        "🎉 Great news, {name}! Here's your personalised Top-Up offer:\n\n> 💰 Amount: *{amount}*\n> 📈 Rate: *{rate}% p.a.*\n> 📅 Tenure: *{tenure} months*\n> 💳 EMI: *{emi}/month*\n> 🧾 Processing fee: {fee} + GST\n\nOther tenures: {otherTenures}\n\n_This is a preliminary offer, subject to final verification._\n\n1️⃣ Accept offer\n2️⃣ Change amount or tenure\n3️⃣ Ask a question",
+        "🎉 बधाई हो, {name}! यह रहा आपका पर्सनलाइज़्ड टॉप-अप ऑफ़र:\n\n> 💰 राशि: *{amount}*\n> 📈 ब्याज दर: *{rate}% प्रति वर्ष*\n> 📅 अवधि: *{tenure} महीने*\n> 💳 EMI: *{emi}/माह*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nअन्य अवधि: {otherTenures}\n\n_यह एक प्रारंभिक ऑफ़र है, अंतिम सत्यापन के अधीन।_\n\n1️⃣ ऑफ़र स्वीकार करें\n2️⃣ राशि या अवधि बदलें\n3️⃣ सवाल पूछें",
+        "🎉 अभिनंदन, {name}! ही तुमची वैयक्तिक टॉप-अप ऑफर:\n\n> 💰 रक्कम: *{amount}*\n> 📈 व्याजदर: *{rate}% प्रतिवर्ष*\n> 📅 कालावधी: *{tenure} महिने*\n> 💳 EMI: *{emi}/महिना*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nइतर कालावधी: {otherTenures}\n\n_ही प्राथमिक ऑफर आहे, अंतिम पडताळणीच्या अधीन._\n\n1️⃣ ऑफर स्वीकारा\n2️⃣ रक्कम किंवा कालावधी बदला\n3️⃣ प्रश्न विचारा",
     ),
     'Offer_Capped': (
         "ℹ️ Based on your income and current EMI, the best amount I can offer right now is {max}.",
@@ -236,9 +236,9 @@ MESSAGES = {
         "नक्कीच! पर्सनल लोन टॉप-अपबद्दल तुम्हाला काय जाणून घ्यायचे आहे? 🙂",
     ),
     'Offer_Accepted': (
-        "✅ Offer accepted! Your reference number is *{ref}*.\n\nWhen should our loan specialist call you?\n\n1️⃣ Within 24 hrs (as soon as possible)\n{slots}\n\nOr type a day & time, e.g. *Thu 11am*.",
-        "✅ ऑफ़र स्वीकार हुआ! आपका रेफ़रेंस नंबर है *{ref}*।\n\nहमारे लोन विशेषज्ञ आपको कब कॉल करें?\n\n1️⃣ 24 घंटों के भीतर (जल्द से जल्द)\n{slots}\n\nया दिन और समय लिखें, जैसे *Thu 11am*।",
-        "✅ ऑफर स्वीकारली! तुमचा संदर्भ क्रमांक आहे *{ref}*.\n\nआमच्या कर्ज तज्ज्ञांनी तुम्हाला कधी कॉल करावा?\n\n1️⃣ 24 तासांच्या आत (लवकरात लवकर)\n{slots}\n\nकिंवा दिवस व वेळ लिहा, उदा. *Thu 11am*.",
+        "✅ Offer accepted! Your reference number is ```{ref}```.\n\nWhen should our loan specialist call you?\n\n1️⃣ Within 24 hrs (as soon as possible)\n{slots}\n\nOr type a day & time, e.g. *Thu 11am*.",
+        "✅ ऑफ़र स्वीकार हुआ! आपका रेफ़रेंस नंबर है ```{ref}```।\n\nहमारे लोन विशेषज्ञ आपको कब कॉल करें?\n\n1️⃣ 24 घंटों के भीतर (जल्द से जल्द)\n{slots}\n\nया दिन और समय लिखें, जैसे *Thu 11am*।",
+        "✅ ऑफर स्वीकारली! तुमचा संदर्भ क्रमांक आहे ```{ref}```.\n\nआमच्या कर्ज तज्ज्ञांनी तुम्हाला कधी कॉल करावा?\n\n1️⃣ 24 तासांच्या आत (लवकरात लवकर)\n{slots}\n\nकिंवा दिवस व वेळ लिहा, उदा. *Thu 11am*.",
     ),
     'Callback_Options': (
         "When should our loan specialist call you?\n\n1️⃣ Within 24 hrs (as soon as possible)\n{slots}\n\nOr type a day & time, e.g. *Thu 11am*.",
@@ -251,9 +251,9 @@ MESSAGES = {
         "मला ती वेळ समजली नाही. 🙂 कृपया पर्याय निवडा किंवा *tomorrow 4pm* असे लिहा.",
     ),
     'Callback_Confirmed': (
-        "📞 All set! A Kotak loan specialist will call you on *{when}*.\n\n🔖 Reference: *{ref}*",
-        "📞 सब तय! Kotak लोन विशेषज्ञ आपको *{when}* पर कॉल करेंगे।\n\n🔖 रेफ़रेंस: *{ref}*",
-        "📞 सर्व ठरले! Kotak कर्ज तज्ज्ञ तुम्हाला *{when}* ला कॉल करतील.\n\n🔖 संदर्भ: *{ref}*",
+        "📞 All set! A Kotak loan specialist will call you on *{when}*.\n\n🔖 Reference: ```{ref}```",
+        "📞 सब तय! Kotak लोन विशेषज्ञ आपको *{when}* पर कॉल करेंगे।\n\n🔖 रेफ़रेंस: ```{ref}```",
+        "📞 सर्व ठरले! Kotak कर्ज तज्ज्ञ तुम्हाला *{when}* ला कॉल करतील.\n\n🔖 संदर्भ: ```{ref}```",
     ),
     'FB_Q1_Intro': (
         "Before you go — 3 quick questions (10 seconds) 🙏",
@@ -276,9 +276,9 @@ MESSAGES = {
         "*3/3* आणखी काही अभिप्राय? मोकळेपणाने लिहा, किंवा *Skip* लिहा.",
     ),
     'FB_Thanks': (
-        "Thank you, {name}! 💙 Your plans just got a step closer. Our specialist will be in touch soon.\n\n🔖 Reference: *{ref}*\n\n— Team Kotak Mahindra Bank",
-        "धन्यवाद, {name}! 💙 आपके प्लान्स अब एक कदम और करीब हैं। हमारे विशेषज्ञ जल्द ही संपर्क करेंगे।\n\n🔖 रेफ़रेंस: *{ref}*\n\n— टीम Kotak Mahindra Bank",
-        "धन्यवाद, {name}! 💙 तुमच्या योजना आता एक पाऊल जवळ आल्या आहेत. आमचे तज्ज्ञ लवकरच संपर्क साधतील.\n\n🔖 संदर्भ: *{ref}*\n\n— टीम Kotak Mahindra Bank",
+        "Thank you, {name}! 💙 Your plans just got a step closer. Our specialist will be in touch soon.\n\n🔖 Reference: ```{ref}```\n\n— Team Kotak Mahindra Bank",
+        "धन्यवाद, {name}! 💙 आपके प्लान्स अब एक कदम और करीब हैं। हमारे विशेषज्ञ जल्द ही संपर्क करेंगे।\n\n🔖 रेफ़रेंस: ```{ref}```\n\n— टीम Kotak Mahindra Bank",
+        "धन्यवाद, {name}! 💙 तुमच्या योजना आता एक पाऊल जवळ आल्या आहेत. आमचे तज्ज्ञ लवकरच संपर्क साधतील.\n\n🔖 संदर्भ: ```{ref}```\n\n— टीम Kotak Mahindra Bank",
     ),
     'Escalate': (
         "Of course! 🙋 I'm connecting you with a Kotak loan specialist. Everything you've shared is saved, so you won't need to repeat yourself. If no one is free right now, they'll call you back within 24 hours.",

@@ -6,11 +6,11 @@
         <field>English__c</field>
         <value xsi:type="xsd:string">🎉 Great news, {name}! Here's your personalised Top-Up offer:
 
-💰 Amount: *{amount}*
-📈 Rate: *{rate}% p.a.*
-📅 Tenure: *{tenure} months*
-💳 EMI: *{emi}/month*
-🧾 Processing fee: {fee} + GST
+&gt; 💰 Amount: *{amount}*
+&gt; 📈 Rate: *{rate}% p.a.*
+&gt; 📅 Tenure: *{tenure} months*
+&gt; 💳 EMI: *{emi}/month*
+&gt; 🧾 Processing fee: {fee} + GST
 
 Other tenures: {otherTenures}
 
@@ -24,11 +24,11 @@ _This is a preliminary offer, subject to final verification._
         <field>Hindi__c</field>
         <value xsi:type="xsd:string">🎉 बधाई हो, {name}! यह रहा आपका पर्सनलाइज़्ड टॉप-अप ऑफ़र:
 
-💰 राशि: *{amount}*
-📈 ब्याज दर: *{rate}% प्रति वर्ष*
-📅 अवधि: *{tenure} महीने*
-💳 EMI: *{emi}/माह*
-🧾 प्रोसेसिंग शुल्क: {fee} + GST
+&gt; 💰 राशि: *{amount}*
+&gt; 📈 ब्याज दर: *{rate}% प्रति वर्ष*
+&gt; 📅 अवधि: *{tenure} महीने*
+&gt; 💳 EMI: *{emi}/माह*
+&gt; 🧾 प्रोसेसिंग शुल्क: {fee} + GST
 
 अन्य अवधि: {otherTenures}
 
@@ -42,11 +42,11 @@ _यह एक प्रारंभिक ऑफ़र है, अंतिम 
         <field>Marathi__c</field>
         <value xsi:type="xsd:string">🎉 अभिनंदन, {name}! ही तुमची वैयक्तिक टॉप-अप ऑफर:
 
-💰 रक्कम: *{amount}*
-📈 व्याजदर: *{rate}% प्रतिवर्ष*
-📅 कालावधी: *{tenure} महिने*
-💳 EMI: *{emi}/महिना*
-🧾 प्रोसेसिंग शुल्क: {fee} + GST
+&gt; 💰 रक्कम: *{amount}*
+&gt; 📈 व्याजदर: *{rate}% प्रतिवर्ष*
+&gt; 📅 कालावधी: *{tenure} महिने*
+&gt; 💳 EMI: *{emi}/महिना*
+&gt; 🧾 प्रोसेसिंग शुल्क: {fee} + GST
 
 इतर कालावधी: {otherTenures}
 

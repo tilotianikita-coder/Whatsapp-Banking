@@ -516,7 +516,7 @@ private class LoanSevaEngineTest {
         System.assertEquals(null, r.journey.Callback_DateTime__c);
 
         r = LoanSevaEngine.start(r.journey);
-        r = LoanSevaEngine.reply(r.journey, 'Thu 11am');
+        r = LoanSevaEngine.reply(r.journey, 'tomorrow 4pm');
         System.assertNotEquals(null, r.journey.Callback_DateTime__c, 'A real answer still answers the pending step');
         System.assert(!r.journey.Menu_Pending__c);
 

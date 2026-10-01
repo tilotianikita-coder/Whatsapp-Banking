@@ -92,6 +92,15 @@ LoanSevaDropOffJob.run();   // one pass now
 
 `staticresources/LoanSevaLogo.svg` is a **placeholder** wordmark in Kotak Red / Navy. Replace it with the official Kotak logo from the brand kit, keeping the resource name, then redeploy.
 
-## 8. Before any external use
+## 8. WhatsApp reply-button test (optional)
+
+`LoanSeva_Buttons_Test` is a test-only messaging component with three reply buttons (Accept offer, Change amount, Ask a question). It checks whether the shared WhatsApp BYOC router renders interactive buttons. Buttons can't go out as proactive sends: `sendConversationMessages` only takes Notification components, and those can't carry options. So it's sent by a human agent inside a live chat:
+
+1. Setup → **Messaging Components** → **LoanSeva Buttons Test** → **Activate**. Deployed components arrive inactive (see §5 step 2).
+2. From the test phone, message the WhatsApp number and reply **3** (Talk to a specialist). The chat routes to the LoanSeva queue.
+3. In the Service Console, accept the chat. In the conversation composer, open the messaging components picker (⚡ icon), choose **LoanSeva Buttons Test** and send it.
+4. On the phone, check what arrives. Tappable buttons mean the router supports interactive messages. A plain list or nothing means it doesn't. Then end the chat.
+
+## 9. Before any external use
 
 All rates, fees, FOIR, disbursal timelines and FAQ copy are **illustrative demo values**. Align `LoanSeva_Config__mdt` and `LoanSeva_FAQ__mdt` with Kotak's published terms, and replace the fixed demo OTP (`Demo_OTP__c`) with a real OTP provider behind a Named Credential.

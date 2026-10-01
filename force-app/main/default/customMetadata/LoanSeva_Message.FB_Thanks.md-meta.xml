@@ -6,7 +6,7 @@
         <field>English__c</field>
         <value xsi:type="xsd:string">Thank you, {name}! 💙 Your plans just got a step closer. Our specialist will be in touch soon.
 
-🔖 Reference: *{ref}*
+🔖 Reference: ```{ref}```
 
 — Team Kotak Mahindra Bank</value>
     </values>
@@ -14,7 +14,7 @@
         <field>Hindi__c</field>
         <value xsi:type="xsd:string">धन्यवाद, {name}! 💙 आपके प्लान्स अब एक कदम और करीब हैं। हमारे विशेषज्ञ जल्द ही संपर्क करेंगे।
 
-🔖 रेफ़रेंस: *{ref}*
+🔖 रेफ़रेंस: ```{ref}```
 
 — टीम Kotak Mahindra Bank</value>
     </values>
@@ -22,7 +22,7 @@
         <field>Marathi__c</field>
         <value xsi:type="xsd:string">धन्यवाद, {name}! 💙 तुमच्या योजना आता एक पाऊल जवळ आल्या आहेत. आमचे तज्ज्ञ लवकरच संपर्क साधतील.
 
-🔖 संदर्भ: *{ref}*
+🔖 संदर्भ: ```{ref}```
 
 — टीम Kotak Mahindra Bank</value>
     </values>
