@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check__c</fullName>
+    <label>Check</label>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>PAN Verification</fullName>
+                <default>false</default>
+                <label>PAN Verification</label>
+            </value>
+            <value>
+                <fullName>Credit Bureau</fullName>
+                <default>false</default>
+                <label>Credit Bureau</label>
+            </value>
+            <value>
+                <fullName>Bank Statement Analysis</fullName>
+                <default>false</default>
+                <label>Bank Statement Analysis</label>
+            </value>
+            <value>
+                <fullName>Employment Verification</fullName>
+                <default>false</default>
+                <label>Employment Verification</label>
+            </value>
+            <value>
+                <fullName>Policy &amp; FOIR</fullName>
+                <default>false</default>
+                <label>Policy &amp; FOIR</label>
+            </value>
+            <value>
+                <fullName>Dedupe &amp; Fraud</fullName>
+                <default>false</default>
+                <label>Dedupe &amp; Fraud</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

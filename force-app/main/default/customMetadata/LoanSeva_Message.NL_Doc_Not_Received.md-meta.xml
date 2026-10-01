@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Doc Not Received</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">I haven't received a file yet. 📎 Tap the attachment icon to send a photo or PDF, then reply *Done* — or reply *Skip* to send it later.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">मुझे अभी तक कोई फ़ाइल नहीं मिली। 📎 अटैचमेंट आइकन से फ़ोटो या PDF भेजें, फिर *Done* लिखें — या बाद में भेजने के लिए *Skip* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">मला अजून कोणतीही फाइल मिळाली नाही. 📎 अटॅचमेंट आयकॉनवरून फोटो किंवा PDF पाठवा, मग *Done* लिहा — किंवा नंतर पाठवण्यासाठी *Skip* लिहा.</value>
+    </values>
+</CustomMetadata>

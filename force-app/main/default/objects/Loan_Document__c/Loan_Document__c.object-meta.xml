@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>A document the applicant shared (PAN card, bank statement, salary slips), with the file linked to the application.</description>
+    <enableActivities>false</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>false</enableSearch>
+    <label>Loan Document</label>
+    <nameField><displayFormat>DOC-{0000}</displayFormat><label>Document Number</label><type>AutoNumber</type></nameField>
+    <pluralLabel>Loan Documents</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

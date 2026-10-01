@@ -39,6 +39,18 @@ CONFIG = {
     'Country_Code__c': '91',
     'RM_Owner_Username__c': 'trailsignup.5e5549adddf5d7@salesforce.com',
     'Registration_Url__c': 'https://trailsignup-5e5549adddf5d7.my.salesforce-sites.com/loanseva',
+    # New Personal Loan (customers without a pre-approved offer) and mock underwriting — DEMO PLACEHOLDERS
+    'Lan_Prefix__c': 'PL',
+    'New_Loan_Reference_Prefix__c': 'KMB-PL',
+    'New_Loan_Rate_Premium__c': 0.50,
+    'New_Loan_Min_Amount__c': 50000,
+    'New_Loan_Max_Amount__c': 2500000,
+    'New_Loan_Income_Multiple__c': 20,
+    'New_Loan_Min_Income__c': 25000,
+    'Min_Age__c': 21,
+    'Max_Age_At_Maturity__c': 60,
+    'Min_Cibil_Score__c': 720,
+    'Decline_Cibil_Score__c': 650,
 }
 
 LANG_FOOTER = {
@@ -286,6 +298,171 @@ MESSAGES = {
         "नक्कीच! 🙋 मी तुम्हाला Kotak कर्ज तज्ज्ञांशी जोडत आहे. तुम्ही दिलेली सर्व माहिती सेव्ह आहे, पुन्हा सांगायची गरज नाही. आत्ता कोणी उपलब्ध नसल्यास, ते 24 तासांत कॉल करतील.",
     ),
 }
+
+# New Personal Loan journey (no pre-approved offer) — key: (English, Hindi, Marathi)
+APPLY_MENU = (
+    "\n\n1️⃣ Apply for a new Personal Loan\n2️⃣ Re-enter my details\n3️⃣ Talk to a specialist",
+    "\n\n1️⃣ नए पर्सनल लोन के लिए आवेदन करें\n2️⃣ अपनी जानकारी दोबारा दर्ज करें\n3️⃣ विशेषज्ञ से बात करें",
+    "\n\n1️⃣ नवीन पर्सनल लोनसाठी अर्ज करा\n2️⃣ माझी माहिती पुन्हा भरा\n3️⃣ तज्ज्ञांशी बोला",
+)
+DOC_FOOTER = (
+    "\n\nSend it here as a *photo* or *PDF*, then reply *Done*. Or reply *Skip* to send it later.",
+    "\n\nइसे यहीं *फ़ोटो* या *PDF* के रूप में भेजें, फिर *Done* लिखें। या बाद में भेजने के लिए *Skip* लिखें।",
+    "\n\nते इथेच *फोटो* किंवा *PDF* म्हणून पाठवा, मग *Done* लिहा. किंवा नंतर पाठवण्यासाठी *Skip* लिहा.",
+)
+NEW_LOAN = {
+    'Verify_Not_Found': tuple(t + m for t, m in zip((
+        "I couldn't find a pre-approved Kotak offer linked to {mobile}. No problem — you can still apply for a new *Kotak Personal Loan* right here, in about 3 minutes. 👇",
+        "{mobile} से जुड़ा कोई प्री-अप्रूव्ड Kotak ऑफ़र नहीं मिला। कोई बात नहीं — आप यहीं लगभग 3 मिनट में नए *Kotak पर्सनल लोन* के लिए आवेदन कर सकते हैं। 👇",
+        "{mobile} शी जोडलेली कोणतीही प्री-अप्रूव्ड Kotak ऑफर सापडली नाही. काही हरकत नाही — तुम्ही इथेच सुमारे 3 मिनिटांत नवीन *Kotak पर्सनल लोन*साठी अर्ज करू शकता. 👇",
+    ), APPLY_MENU)),
+    'NL_No_Offer': tuple(t + m for t, m in zip((
+        "Thanks {name}! There's no pre-approved Top-Up on your account right now, but you can apply for a new *Kotak Personal Loan* right here, in about 3 minutes. 👇",
+        "धन्यवाद {name}! अभी आपके खाते पर कोई प्री-अप्रूव्ड टॉप-अप नहीं है, लेकिन आप यहीं लगभग 3 मिनट में नए *Kotak पर्सनल लोन* के लिए आवेदन कर सकते हैं। 👇",
+        "धन्यवाद {name}! सध्या तुमच्या खात्यावर कोणताही प्री-अप्रूव्ड टॉप-अप नाही, पण तुम्ही इथेच सुमारे 3 मिनिटांत नवीन *Kotak पर्सनल लोन*साठी अर्ज करू शकता. 👇",
+    ), APPLY_MENU)),
+    'NL_Apply_Reprompt': tuple(t + m for t, m in zip((
+        "Would you like to apply for a new Kotak Personal Loan?",
+        "क्या आप नए Kotak पर्सनल लोन के लिए आवेदन करना चाहेंगे?",
+        "तुम्हाला नवीन Kotak पर्सनल लोनसाठी अर्ज करायचा आहे का?",
+    ), APPLY_MENU)),
+    'NL_Intro': (
+        "Let's start your *Kotak Personal Loan* application 📝 It takes about 3 minutes — keep your *PAN card* handy.",
+        "चलिए आपका *Kotak पर्सनल लोन* आवेदन शुरू करते हैं 📝 इसमें लगभग 3 मिनट लगते हैं — अपना *PAN कार्ड* पास रखें।",
+        "चला, तुमचा *Kotak पर्सनल लोन* अर्ज सुरू करूया 📝 यासाठी सुमारे 3 मिनिटे लागतात — तुमचे *PAN कार्ड* जवळ ठेवा.",
+    ),
+    'NL_Verify_Prompt': (
+        "First, let's verify you 🔐 Please share your *full name (as on PAN)* and your *mobile number* (10 digits).",
+        "पहले आपकी पुष्टि कर लेते हैं 🔐 कृपया अपना *पूरा नाम (PAN के अनुसार)* और *मोबाइल नंबर* (10 अंक) बताएँ।",
+        "आधी तुमची पडताळणी करूया 🔐 कृपया तुमचे *पूर्ण नाव (PAN प्रमाणे)* आणि *मोबाइल नंबर* (10 अंकी) सांगा.",
+    ),
+    'NL_Verified': (
+        "✅ Mobile verified, {name}! A few quick questions about you — about 2 minutes. ⏱️",
+        "✅ मोबाइल वेरिफ़ाई हो गया, {name}! आपके बारे में कुछ छोटे सवाल — लगभग 2 मिनट। ⏱️",
+        "✅ मोबाइल पडताळला, {name}! तुमच्याबद्दल काही छोटे प्रश्न — सुमारे 2 मिनिटे. ⏱️",
+    ),
+    'NL_Invalid': (
+        "Hmm, that doesn't look quite right. 🙂 Please try again.",
+        "हम्म, यह सही नहीं लग रहा। 🙂 कृपया फिर से कोशिश करें।",
+        "हम्म, हे बरोबर वाटत नाही. 🙂 कृपया पुन्हा प्रयत्न करा.",
+    ),
+    'NL_Q_Dob': (
+        "What's your *date of birth*? e.g. *15/08/1990*",
+        "आपकी *जन्म तिथि* क्या है? जैसे *15/08/1990*",
+        "तुमची *जन्मतारीख* काय आहे? उदा. *15/08/1990*",
+    ),
+    'NL_Q_Pan': (
+        "Please type your *PAN* (10 characters, e.g. *ABCPE1234F*). 🔒 It's used only for this application and your credit check.",
+        "कृपया अपना *PAN* लिखें (10 अक्षर, जैसे *ABCPE1234F*)। 🔒 इसका उपयोग केवल इस आवेदन और क्रेडिट जाँच के लिए होगा।",
+        "कृपया तुमचा *PAN* लिहा (10 अक्षरे, उदा. *ABCPE1234F*). 🔒 याचा वापर फक्त या अर्जासाठी आणि क्रेडिट तपासणीसाठी होईल.",
+    ),
+    'NL_Q_Email': (
+        "What's your *email address*? 📧 Your sanction letter will be sent here.",
+        "आपका *ईमेल पता* क्या है? 📧 आपका सैंक्शन लेटर यहीं भेजा जाएगा।",
+        "तुमचा *ईमेल पत्ता* काय आहे? 📧 तुमचे सँक्शन लेटर इथेच पाठवले जाईल.",
+    ),
+    'NL_Q_Pincode': (
+        "Which *city* do you live in, and what's your *PIN code*? e.g. *Pune 411001*",
+        "आप किस *शहर* में रहते हैं, और आपका *PIN कोड* क्या है? जैसे *Pune 411001*",
+        "तुम्ही कोणत्या *शहरात* राहता, आणि तुमचा *PIN कोड* काय आहे? उदा. *Pune 411001*",
+    ),
+    'NL_Q_Income': (
+        "What's your *monthly take-home income*? e.g. *85,000* or *85k*",
+        "आपकी *मासिक इन-हैंड आय* कितनी है? जैसे *85,000* या *85k*",
+        "तुमचे *मासिक हातात येणारे उत्पन्न* किती आहे? उदा. *85,000* किंवा *85k*",
+    ),
+    'NL_Q_Obligations': (
+        "How much do you pay in *EMIs per month* on other loans or credit cards? Reply *0* if none.",
+        "दूसरे लोन या क्रेडिट कार्ड पर आप *हर महीने कितनी EMI* भरते हैं? कोई नहीं तो *0* लिखें।",
+        "इतर कर्जे किंवा क्रेडिट कार्डवर तुम्ही *दरमहा किती EMI* भरता? काहीही नसल्यास *0* लिहा.",
+    ),
+    'NL_Q_Amount': (
+        "How much would you like to borrow? 💰 ({min} – {max})\n\nType an amount, e.g. *3 lakh*.",
+        "आप कितना लोन लेना चाहेंगे? 💰 ({min} – {max})\n\nराशि लिखें, जैसे *3 lakh*।",
+        "तुम्हाला किती कर्ज हवे आहे? 💰 ({min} – {max})\n\nरक्कम लिहा, उदा. *3 lakh*.",
+    ),
+    'NL_Offer_Card': (
+        "🎉 Good news, {name}! Here's your *indicative* Personal Loan offer:\n\n> 💰 Amount: *{amount}*\n> 📈 Rate: *{rate}% p.a.*\n> 📅 Tenure: *{tenure} months*\n> 💳 EMI: *{emi}/month*\n> 🧾 Processing fee: {fee} + GST\n\nOther tenures: {otherTenures}\n\n_Indicative only — final terms after credit checks and document verification._\n\n1️⃣ Accept and continue\n2️⃣ Change amount or tenure\n3️⃣ Ask a question",
+        "🎉 अच्छी खबर, {name}! यह रहा आपका *अनुमानित* पर्सनल लोन ऑफ़र:\n\n> 💰 राशि: *{amount}*\n> 📈 ब्याज दर: *{rate}% प्रति वर्ष*\n> 📅 अवधि: *{tenure} महीने*\n> 💳 EMI: *{emi}/माह*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nअन्य अवधि: {otherTenures}\n\n_यह केवल अनुमान है — अंतिम शर्तें क्रेडिट जाँच और दस्तावेज़ सत्यापन के बाद।_\n\n1️⃣ स्वीकार करें और आगे बढ़ें\n2️⃣ राशि या अवधि बदलें\n3️⃣ सवाल पूछें",
+        "🎉 आनंदाची बातमी, {name}! ही तुमची *अंदाजित* पर्सनल लोन ऑफर:\n\n> 💰 रक्कम: *{amount}*\n> 📈 व्याजदर: *{rate}% प्रतिवर्ष*\n> 📅 कालावधी: *{tenure} महिने*\n> 💳 EMI: *{emi}/महिना*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nइतर कालावधी: {otherTenures}\n\n_ही फक्त अंदाजित ऑफर आहे — अंतिम अटी क्रेडिट तपासणी आणि कागदपत्र पडताळणीनंतर._\n\n1️⃣ स्वीकारा आणि पुढे जा\n2️⃣ रक्कम किंवा कालावधी बदला\n3️⃣ प्रश्न विचारा",
+    ),
+    'NL_Refer': (
+        "Thanks {name}! 🙏 Based on your details, a Kotak loan specialist will work out the best option for you personally. They'll call you within 24 hours.",
+        "धन्यवाद {name}! 🙏 आपकी जानकारी के आधार पर, Kotak लोन विशेषज्ञ आपके लिए सबसे अच्छा विकल्प तैयार करेंगे। वे 24 घंटों में कॉल करेंगे।",
+        "धन्यवाद {name}! 🙏 तुमच्या माहितीनुसार, Kotak कर्ज तज्ज्ञ तुमच्यासाठी सर्वोत्तम पर्याय तयार करतील. ते 24 तासांत कॉल करतील.",
+    ),
+    'NL_Offer_Accepted': (
+        "✅ Great choice! Now a few documents 📎 — up to 3, one at a time.",
+        "✅ बढ़िया! अब कुछ दस्तावेज़ 📎 — अधिकतम 3, एक-एक करके।",
+        "✅ छान! आता काही कागदपत्रे 📎 — जास्तीत जास्त 3, एकेक करून.",
+    ),
+    'NL_Doc_Pan': tuple(t + f for t, f in zip((
+        "📄 *Document 1/3* — your *PAN card* (front side).",
+        "📄 *दस्तावेज़ 1/3* — आपका *PAN कार्ड* (सामने की तरफ़)।",
+        "📄 *कागदपत्र 1/3* — तुमचे *PAN कार्ड* (पुढची बाजू).",
+    ), DOC_FOOTER)),
+    'NL_Doc_Bank': tuple(t + f for t, f in zip((
+        "🏦 *Document 2/3* — your *bank statement* for the last 6 months (PDF works best). We use it to verify your income.",
+        "🏦 *दस्तावेज़ 2/3* — पिछले 6 महीनों का *बैंक स्टेटमेंट* (PDF सबसे अच्छा)। इससे आपकी आय की पुष्टि होती है।",
+        "🏦 *कागदपत्र 2/3* — मागील 6 महिन्यांचे *बँक स्टेटमेंट* (PDF सर्वोत्तम). याने तुमच्या उत्पन्नाची पडताळणी होते.",
+    ), DOC_FOOTER)),
+    'NL_Doc_Salary': tuple(t + f for t, f in zip((
+        "💼 *Document 3/3* — your last *3 salary slips*.",
+        "💼 *दस्तावेज़ 3/3* — आपकी पिछली *3 सैलरी स्लिप*।",
+        "💼 *कागदपत्र 3/3* — तुमच्या मागील *3 पगार स्लिप*.",
+    ), DOC_FOOTER)),
+    'NL_Doc_Received': (
+        "✅ Received {count} file(s) — thank you!",
+        "✅ {count} फ़ाइल मिल गई — धन्यवाद!",
+        "✅ {count} फाइल मिळाली — धन्यवाद!",
+    ),
+    'NL_Doc_Skipped': (
+        "👍 No problem — you can share it later.",
+        "👍 कोई बात नहीं — आप इसे बाद में भेज सकते हैं।",
+        "👍 काही हरकत नाही — तुम्ही ते नंतर पाठवू शकता.",
+    ),
+    'NL_Doc_Not_Received': (
+        "I haven't received a file yet. 📎 Tap the attachment icon to send a photo or PDF, then reply *Done* — or reply *Skip* to send it later.",
+        "मुझे अभी तक कोई फ़ाइल नहीं मिली। 📎 अटैचमेंट आइकन से फ़ोटो या PDF भेजें, फिर *Done* लिखें — या बाद में भेजने के लिए *Skip* लिखें।",
+        "मला अजून कोणतीही फाइल मिळाली नाही. 📎 अटॅचमेंट आयकॉनवरून फोटो किंवा PDF पाठवा, मग *Done* लिहा — किंवा नंतर पाठवण्यासाठी *Skip* लिहा.",
+    ),
+    'NL_Review': (
+        "📋 *Please review your application*\n\n> 👤 {name}\n> 🎂 {dob}\n> 🪪 PAN {pan}\n> 📧 {email}\n> 📍 {city}\n> 💼 {employment}\n> 💵 Income {income}/month · EMIs {emis}/month\n> 💰 *{amount}* for *{tenure} months* · EMI *{emi}*\n> 📎 {docs}\n\nBy replying *1* you confirm these details are correct, and consent to Kotak fetching your credit report (CIBIL) and verifying your PAN, bank statement and employment for this application.\n\n1️⃣ Confirm and submit\n2️⃣ Something's wrong — talk to a specialist",
+        "📋 *कृपया अपना आवेदन जाँच लें*\n\n> 👤 {name}\n> 🎂 {dob}\n> 🪪 PAN {pan}\n> 📧 {email}\n> 📍 {city}\n> 💼 {employment}\n> 💵 आय {income}/माह · EMI {emis}/माह\n> 💰 *{amount}*, *{tenure} महीने* · EMI *{emi}*\n> 📎 {docs}\n\n*1* लिखकर आप पुष्टि करते हैं कि यह जानकारी सही है, और इस आवेदन के लिए Kotak को आपकी क्रेडिट रिपोर्ट (CIBIL) लेने तथा PAN, बैंक स्टेटमेंट और रोज़गार सत्यापित करने की सहमति देते हैं।\n\n1️⃣ पुष्टि करें और सबमिट करें\n2️⃣ कुछ गलत है — विशेषज्ञ से बात करें",
+        "📋 *कृपया तुमचा अर्ज तपासा*\n\n> 👤 {name}\n> 🎂 {dob}\n> 🪪 PAN {pan}\n> 📧 {email}\n> 📍 {city}\n> 💼 {employment}\n> 💵 उत्पन्न {income}/महिना · EMI {emis}/महिना\n> 💰 *{amount}*, *{tenure} महिने* · EMI *{emi}*\n> 📎 {docs}\n\n*1* लिहून तुम्ही ही माहिती बरोबर असल्याची पुष्टी करता, आणि या अर्जासाठी Kotak ला तुमचा क्रेडिट रिपोर्ट (CIBIL) घेण्याची तसेच PAN, बँक स्टेटमेंट आणि रोजगाराची पडताळणी करण्याची संमती देता.\n\n1️⃣ पुष्टी करा आणि सबमिट करा\n2️⃣ काहीतरी चुकले आहे — तज्ज्ञांशी बोला",
+    ),
+    'NL_Submitted': (
+        "🎉 Application submitted! Your reference number is ```{ref}```.\n\nWe're running your credit and document checks now. A Kotak credit officer will review your application and you'll hear from us right here — usually within 24 hours.",
+        "🎉 आवेदन सबमिट हो गया! आपका रेफ़रेंस नंबर ```{ref}``` है।\n\nहम अभी आपकी क्रेडिट और दस्तावेज़ जाँच कर रहे हैं। Kotak क्रेडिट अधिकारी आपके आवेदन की समीक्षा करेंगे और आपको यहीं जानकारी मिलेगी — आमतौर पर 24 घंटों में।",
+        "🎉 अर्ज सबमिट झाला! तुमचा संदर्भ क्रमांक ```{ref}``` आहे.\n\nआम्ही आत्ता तुमची क्रेडिट आणि कागदपत्र तपासणी करत आहोत. Kotak क्रेडिट अधिकारी तुमच्या अर्जाचे पुनरावलोकन करतील आणि तुम्हाला इथेच कळवले जाईल — साधारणपणे 24 तासांत.",
+    ),
+    'NL_Approved': (
+        "🎉 Congratulations {name}! Your *Kotak Personal Loan* is approved.\n\n> 💰 Sanctioned: *{amount}*\n> 📈 Rate: *{rate}% p.a.*\n> 📅 Tenure: *{tenure} months*\n> 💳 EMI: *{emi}/month*\n> 🏦 Loan account: ```{lan}```\n\nYour sanction letter is on its way to your email. 🔖 Ref: ```{ref}```",
+        "🎉 बधाई हो {name}! आपका *Kotak पर्सनल लोन* स्वीकृत हो गया है।\n\n> 💰 स्वीकृत राशि: *{amount}*\n> 📈 ब्याज दर: *{rate}% प्रति वर्ष*\n> 📅 अवधि: *{tenure} महीने*\n> 💳 EMI: *{emi}/माह*\n> 🏦 लोन खाता: ```{lan}```\n\nआपका सैंक्शन लेटर आपके ईमेल पर भेजा जा रहा है। 🔖 रेफ़रेंस: ```{ref}```",
+        "🎉 अभिनंदन {name}! तुमचे *Kotak पर्सनल लोन* मंजूर झाले आहे.\n\n> 💰 मंजूर रक्कम: *{amount}*\n> 📈 व्याजदर: *{rate}% प्रतिवर्ष*\n> 📅 कालावधी: *{tenure} महिने*\n> 💳 EMI: *{emi}/महिना*\n> 🏦 कर्ज खाते: ```{lan}```\n\nतुमचे सँक्शन लेटर तुमच्या ईमेलवर पाठवले जात आहे. 🔖 संदर्भ: ```{ref}```",
+    ),
+    'NL_Rejected': (
+        "Hi {name}, thank you for applying for a Kotak Personal Loan. 🙏 After careful review, we're unable to approve your application right now. This doesn't affect your relationship with Kotak, and you're welcome to apply again after 3 months.\n\nReply *Agent* to talk to a specialist. 🔖 Ref: ```{ref}```",
+        "नमस्ते {name}, Kotak पर्सनल लोन के लिए आवेदन करने का धन्यवाद। 🙏 सावधानीपूर्वक समीक्षा के बाद, हम अभी आपका आवेदन स्वीकृत नहीं कर पा रहे हैं। इससे Kotak के साथ आपके संबंध पर कोई असर नहीं पड़ता, और आप 3 महीने बाद फिर से आवेदन कर सकते हैं।\n\nविशेषज्ञ से बात करने के लिए *Agent* लिखें। 🔖 रेफ़रेंस: ```{ref}```",
+        "नमस्कार {name}, Kotak पर्सनल लोनसाठी अर्ज केल्याबद्दल धन्यवाद. 🙏 काळजीपूर्वक पुनरावलोकनानंतर, आम्ही सध्या तुमचा अर्ज मंजूर करू शकत नाही. याचा Kotak सोबतच्या तुमच्या संबंधावर परिणाम होत नाही, आणि तुम्ही 3 महिन्यांनंतर पुन्हा अर्ज करू शकता.\n\nतज्ज्ञांशी बोलण्यासाठी *Agent* लिहा. 🔖 संदर्भ: ```{ref}```",
+    ),
+    'NL_Reengage_1': (
+        "Hi {name} 👋 Your Kotak Personal Loan application is saved — pick up right where you left off.\n\n👉 Reply *Continue* to carry on.",
+        "नमस्ते {name} 👋 आपका Kotak पर्सनल लोन आवेदन सेव है — जहाँ छोड़ा था वहीं से आगे बढ़ें।\n\n👉 जारी रखने के लिए *Continue* लिखें।",
+        "नमस्कार {name} 👋 तुमचा Kotak पर्सनल लोन अर्ज सेव्ह आहे — जिथे थांबलात तिथून पुढे सुरू करा.\n\n👉 पुढे जाण्यासाठी *Continue* लिहा.",
+    ),
+    'NL_Reengage_2': (
+        "{name}, your Kotak Personal Loan application is still waiting for you ✨ It takes just a couple of minutes to finish.\n\n👉 Reply *Continue* to pick up, or *Agent* and a specialist will call you.",
+        "{name}, आपका Kotak पर्सनल लोन आवेदन अभी भी आपका इंतज़ार कर रहा है ✨ पूरा करने में बस कुछ मिनट लगते हैं।\n\n👉 आगे बढ़ने के लिए *Continue* लिखें, या *Agent* लिखें और विशेषज्ञ आपको कॉल करेंगे।",
+        "{name}, तुमचा Kotak पर्सनल लोन अर्ज अजूनही तुमची वाट पाहत आहे ✨ पूर्ण करायला फक्त काही मिनिटे लागतात.\n\n👉 पुढे जाण्यासाठी *Continue* लिहा, किंवा *Agent* लिहा आणि तज्ज्ञ तुम्हाला कॉल करतील.",
+    ),
+}
+MESSAGES.update(NEW_LOAN)
+
+# Generic welcome (no pre-approved offer found for this number): also offer the new-loan application
+_APPLY_OPTION = ("4️⃣ Apply for a new Personal Loan", "4️⃣ नए पर्सनल लोन के लिए आवेदन करें", "4️⃣ नवीन पर्सनल लोनसाठी अर्ज करा")
+MESSAGES['Welcome_Generic'] = tuple(
+    t.replace('\n\n' + footer, '\n' + opt + '\n\n' + footer) for t, opt, footer in zip(MESSAGES['Welcome_Generic'], _APPLY_OPTION, LANG_FOOTER.values()))
 
 # FAQ: key -> (sort, question, keywords, en, hi, mr). Tokens come from LoanSeva_Config__mdt.
 FAQS = {

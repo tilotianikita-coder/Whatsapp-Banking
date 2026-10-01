@@ -33,6 +33,11 @@
                     <label>Offer</label>
                 </value>
                 <value>
+                    <fullName>Documents</fullName>
+                    <default>false</default>
+                    <label>Documents</label>
+                </value>
+                <value>
                     <fullName>Callback</fullName>
                     <default>false</default>
                     <label>Callback</label>

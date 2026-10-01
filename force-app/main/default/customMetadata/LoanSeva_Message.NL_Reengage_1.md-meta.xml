@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Reengage 1</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Hi {name} 👋 Your Kotak Personal Loan application is saved — pick up right where you left off.
+
+👉 Reply *Continue* to carry on.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">नमस्ते {name} 👋 आपका Kotak पर्सनल लोन आवेदन सेव है — जहाँ छोड़ा था वहीं से आगे बढ़ें।
+
+👉 जारी रखने के लिए *Continue* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">नमस्कार {name} 👋 तुमचा Kotak पर्सनल लोन अर्ज सेव्ह आहे — जिथे थांबलात तिथून पुढे सुरू करा.
+
+👉 पुढे जाण्यासाठी *Continue* लिहा.</value>
+    </values>
+</CustomMetadata>

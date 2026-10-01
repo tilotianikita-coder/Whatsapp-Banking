@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Loan_Rate_Premium__c</fullName>
+    <description>Added to Base_Rate__c for customers without an existing Kotak loan.</description>
+    <label>New Loan Rate Premium</label>
+    <type>Number</type>
+    <precision>5</precision>
+    <scale>2</scale>
+</CustomField>

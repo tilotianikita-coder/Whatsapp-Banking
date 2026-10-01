@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Apply_Offered__c</fullName>
+    <description>The customer was told there is no pre-approved offer and offered a new-loan application.</description>
+    <inlineHelpText>The customer was told there is no pre-approved offer and offered a new-loan application.</inlineHelpText>
+    <label>New Loan Offered</label>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+</CustomField>

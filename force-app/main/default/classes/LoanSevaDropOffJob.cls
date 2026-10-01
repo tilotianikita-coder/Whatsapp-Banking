@@ -96,7 +96,8 @@ public with sharing class LoanSevaDropOffJob implements Schedulable {
         if (j.Language__c == LoanSevaI18n.EN && String.isNotBlank(j.Purpose__c) && j.Purpose__c != 'Other') {
             purpose = ' for ' + j.Purpose__c.toLowerCase();
         }
-        return LoanSevaI18n.msg(nudgeNumber == 1 ? 'Reengage_1' : 'Reengage_2', j.Language__c, new Map<String, Object>{
+        String key = (LoanSevaJourneyService.isNewLoan(j) ? 'NL_Reengage_' : 'Reengage_') + (nudgeNumber == 1 ? '1' : '2');
+        return LoanSevaI18n.msg(key, j.Language__c, new Map<String, Object>{
             'name' => LoanSevaJourneyService.firstName(j),
             'purpose' => purpose
         });

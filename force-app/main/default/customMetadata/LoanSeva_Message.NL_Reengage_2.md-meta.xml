@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Reengage 2</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">{name}, your Kotak Personal Loan application is still waiting for you ✨ It takes just a couple of minutes to finish.
+
+👉 Reply *Continue* to pick up, or *Agent* and a specialist will call you.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">{name}, आपका Kotak पर्सनल लोन आवेदन अभी भी आपका इंतज़ार कर रहा है ✨ पूरा करने में बस कुछ मिनट लगते हैं।
+
+👉 आगे बढ़ने के लिए *Continue* लिखें, या *Agent* लिखें और विशेषज्ञ आपको कॉल करेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">{name}, तुमचा Kotak पर्सनल लोन अर्ज अजूनही तुमची वाट पाहत आहे ✨ पूर्ण करायला फक्त काही मिनिटे लागतात.
+
+👉 पुढे जाण्यासाठी *Continue* लिहा, किंवा *Agent* लिहा आणि तज्ज्ञ तुम्हाला कॉल करतील.</value>
+    </values>
+</CustomMetadata>

@@ -17,6 +17,11 @@
                     <default>false</default>
                     <label>Closed</label>
                 </value>
+                <value>
+                    <fullName>Sanctioned</fullName>
+                    <default>false</default>
+                    <label>Sanctioned</label>
+                </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

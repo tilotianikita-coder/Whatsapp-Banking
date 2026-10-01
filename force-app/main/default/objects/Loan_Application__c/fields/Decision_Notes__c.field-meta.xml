@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decision_Notes__c</fullName>
+    <description>Internal RM notes; never sent to the customer.</description>
+    <inlineHelpText>Internal RM notes; never sent to the customer.</inlineHelpText>
+    <label>Decision Notes</label>
+    <type>LongTextArea</type>
+    <length>4000</length>
+    <visibleLines>3</visibleLines>
+</CustomField>

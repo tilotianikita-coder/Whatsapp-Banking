@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Q Pan</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Please type your *PAN* (10 characters, e.g. *ABCPE1234F*). 🔒 It's used only for this application and your credit check.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">कृपया अपना *PAN* लिखें (10 अक्षर, जैसे *ABCPE1234F*)। 🔒 इसका उपयोग केवल इस आवेदन और क्रेडिट जाँच के लिए होगा।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">कृपया तुमचा *PAN* लिहा (10 अक्षरे, उदा. *ABCPE1234F*). 🔒 याचा वापर फक्त या अर्जासाठी आणि क्रेडिट तपासणीसाठी होईल.</value>
+    </values>
+</CustomMetadata>

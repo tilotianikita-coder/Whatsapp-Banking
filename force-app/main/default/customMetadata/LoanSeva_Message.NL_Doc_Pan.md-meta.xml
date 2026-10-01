@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Doc Pan</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">📄 *Document 1/3* — your *PAN card* (front side).
+
+Send it here as a *photo* or *PDF*, then reply *Done*. Or reply *Skip* to send it later.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">📄 *दस्तावेज़ 1/3* — आपका *PAN कार्ड* (सामने की तरफ़)।
+
+इसे यहीं *फ़ोटो* या *PDF* के रूप में भेजें, फिर *Done* लिखें। या बाद में भेजने के लिए *Skip* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">📄 *कागदपत्र 1/3* — तुमचे *PAN कार्ड* (पुढची बाजू).
+
+ते इथेच *फोटो* किंवा *PDF* म्हणून पाठवा, मग *Done* लिहा. किंवा नंतर पाठवण्यासाठी *Skip* लिहा.</value>
+    </values>
+</CustomMetadata>

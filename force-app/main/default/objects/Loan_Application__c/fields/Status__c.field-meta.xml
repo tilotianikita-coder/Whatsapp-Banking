@@ -32,6 +32,26 @@
                     <default>false</default>
                     <label>Not Eligible</label>
                 </value>
+                <value>
+                    <fullName>Application Submitted</fullName>
+                    <default>false</default>
+                    <label>Application Submitted</label>
+                </value>
+                <value>
+                    <fullName>Under Review</fullName>
+                    <default>false</default>
+                    <label>Under Review</label>
+                </value>
+                <value>
+                    <fullName>Approved</fullName>
+                    <default>false</default>
+                    <label>Approved</label>
+                </value>
+                <value>
+                    <fullName>Rejected</fullName>
+                    <default>false</default>
+                    <label>Rejected</label>
+                </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

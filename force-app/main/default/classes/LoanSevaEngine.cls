@@ -31,7 +31,7 @@ public with sharing class LoanSevaEngine {
         if (state == 'offer_decision' && j.Offer_Amount__c != null) {
             return offer(j, null, j.Offer_Tenure_Months__c == null ? null : j.Offer_Tenure_Months__c.intValue() + ' months');
         }
-        if (state == 'identity' || state == 'otp' || state == 'done' || state == 'handoff') {
+        if (state == 'identity' || state == 'otp' || state == 'apply_offer' || state == 'done' || state == 'handoff') {
             return promptAndSave(j);
         }
         LoanSevaJourneyService.touch(j);
@@ -93,6 +93,9 @@ public with sharing class LoanSevaEngine {
 
     // ------------------------------------------------------------------ Verify
     public static Result verifyCustomer(Loan_Journey__c j, String customerName, String mobile) {
+        if (LoanSevaJourneyService.isNewLoan(j)) {
+            return LoanSevaNewLoan.verify(j, customerName, mobile);
+        }
         String lang = j.Language__c;
         if (j.Status__c == LoanSevaJourneyService.STATUS_EXITED && !j.OTP_Verified__c) {
             return result(j, LoanSevaI18n.msg('OTP_Locked', lang));
@@ -109,8 +112,19 @@ public with sharing class LoanSevaEngine {
         Contact c = LoanSevaJourneyService.findContact(mobile10);
         Existing_Loan__c loan = c == null ? null : LoanSevaJourneyService.activeLoan(c.Id);
         if (c == null || loan == null) {
+            // No pre-approved offer: offer a new Personal Loan application instead (state apply_offer)
+            if (j.Mobile__c == null) {
+                j.Mobile__c = mobile10;
+            }
+            if (c != null && j.Contact__c == null) {
+                j.Contact__c = c.Id;
+            }
+            j.Apply_Offered__c = true;
             update j;
-            Result r = result(j, LoanSevaI18n.msg('Verify_Not_Found', lang, new Map<String, Object>{ 'mobile' => maskMobile(mobile10) }));
+            Result r = result(j, LoanSevaI18n.msg(c == null ? 'Verify_Not_Found' : 'NL_No_Offer', lang, new Map<String, Object>{
+                'mobile' => maskMobile(mobile10),
+                'name' => c == null ? '' : c.FirstName
+            }));
             r.success = false;
             return r;
         }
@@ -138,14 +152,15 @@ public with sharing class LoanSevaEngine {
 
     public static Result verifyOtp(Loan_Journey__c j, String otp) {
         String lang = j.Language__c;
+        Boolean newLoan = LoanSevaJourneyService.isNewLoan(j);
         if (j.OTP_Verified__c) {
-            return loanSnapshot(j, LoanSevaJourneyService.activeLoan(j.Contact__c));
+            return newLoan ? promptAndSave(j) : loanSnapshot(j, LoanSevaJourneyService.activeLoan(j.Contact__c));
         }
         if (j.Status__c == LoanSevaJourneyService.STATUS_EXITED) {
             return result(j, LoanSevaI18n.msg('OTP_Locked', lang));
         }
-        if (j.Existing_Loan__c == null) {
-            return result(j, LoanSevaI18n.msg('Verify_Prompt', lang));
+        if (newLoan ? String.isBlank(j.Customer_Name__c) : j.Existing_Loan__c == null) {
+            return result(j, LoanSevaI18n.msg(newLoan ? 'NL_Verify_Prompt' : 'Verify_Prompt', lang));
         }
         LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
         String entered = otp == null ? '' : otp.replaceAll('[^0-9]', '');
@@ -153,6 +168,9 @@ public with sharing class LoanSevaEngine {
         if (cfg.Demo_Mode__c && entered == cfg.Demo_OTP__c) {
             j.OTP_Verified__c = true;
             j.Verified_At__c = Datetime.now();
+            if (newLoan) {
+                return LoanSevaNewLoan.verified(j);
+            }
             update j;
             return loanSnapshot(j, LoanSevaJourneyService.activeLoan(j.Contact__c));
         }
@@ -233,7 +251,8 @@ public with sharing class LoanSevaEngine {
         Boolean ok = applyAnswer(j, field, answer);
         if (!ok) {
             update j;
-            Result r = result(j, LoanSevaI18n.msg('Personalise_Invalid', lang) + '\n\n' + question(j, field));
+            Boolean typed = LoanSevaJourneyService.isNewLoan(j) && LoanSevaNewLoan.FREE_TEXT.contains(field);
+            Result r = result(j, LoanSevaI18n.msg(typed ? 'NL_Invalid' : 'Personalise_Invalid', lang) + '\n\n' + question(j, field));
             r.success = false;
             return r;
         }
@@ -249,6 +268,9 @@ public with sharing class LoanSevaEngine {
     }
 
     private static String pendingField(Loan_Journey__c j) {
+        if (LoanSevaJourneyService.isNewLoan(j)) {
+            return LoanSevaNewLoan.pendingField(j);
+        }
         if (String.isBlank(j.Employment_Type__c)) {
             return 'employment';
         }
@@ -273,6 +295,9 @@ public with sharing class LoanSevaEngine {
     }
 
     private static String question(Loan_Journey__c j, String field) {
+        if (LoanSevaJourneyService.isNewLoan(j)) {
+            return LoanSevaNewLoan.question(j, field);
+        }
         String lang = j.Language__c;
         if (field == 'employment') {
             return LoanSevaI18n.msg('Q_Employment', lang);
@@ -318,10 +343,12 @@ public with sharing class LoanSevaEngine {
         return options;
     }
 
-    @TestVisible
-    private static Boolean applyAnswer(Loan_Journey__c j, String field, String answer) {
+    public static Boolean applyAnswer(Loan_Journey__c j, String field, String answer) {
         if (String.isBlank(answer)) {
             return false;
+        }
+        if (LoanSevaJourneyService.isNewLoan(j) && LoanSevaNewLoan.FREE_TEXT.contains(field)) {
+            return LoanSevaNewLoan.applyAnswer(j, field, answer);
         }
         String a = answer.trim();
         String lower = a.toLowerCase();
@@ -409,10 +436,11 @@ public with sharing class LoanSevaEngine {
             tenure = Integer.valueOf(j.Offer_Tenure_Months__c);
         }
 
-        Existing_Loan__c loan = LoanSevaJourneyService.activeLoan(j.Contact__c);
-        LoanSevaEligibilityEngine.Result e = LoanSevaEligibilityEngine.evaluate(
-            loan, j.Income_Bucket__c, j.Employment_Type__c, j.Desired_Amount__c, tenure
-        );
+        Boolean newLoan = LoanSevaJourneyService.isNewLoan(j);
+        Existing_Loan__c loan = newLoan ? null : LoanSevaJourneyService.activeLoan(j.Contact__c);
+        LoanSevaEligibilityEngine.Result e = newLoan
+            ? LoanSevaEligibilityEngine.evaluateNew(j.Monthly_Income__c, j.Existing_EMIs__c, j.Employment_Type__c, j.Desired_Amount__c, tenure)
+            : LoanSevaEligibilityEngine.evaluate(loan, j.Income_Bucket__c, j.Employment_Type__c, j.Desired_Amount__c, tenure);
         LoanSevaJourneyService.advance(j, 'Offer');
         j.Offer_Presented_At__c = Datetime.now();
         Loan_Application__c app = upsertApplication(j, loan, e);
@@ -420,9 +448,9 @@ public with sharing class LoanSevaEngine {
         if (!e.eligible) {
             j.Offer_Amount__c = null;
             j.Drop_Point__c = 'Offer - referred to RM';
-            LoanSevaJourneyService.createRmTask(j, 'Refer: ' + LoanSevaJourneyService.firstName(j) + ' needs a tailored top-up option');
+            LoanSevaJourneyService.createRmTask(j, 'Refer: ' + LoanSevaJourneyService.firstName(j) + ' needs a tailored ' + (newLoan ? 'personal loan' : 'top-up') + ' option');
             update j;
-            Result r = result(j, LoanSevaI18n.msg('Offer_Refer', lang, new Map<String, Object>{ 'name' => LoanSevaJourneyService.firstName(j) }));
+            Result r = result(j, LoanSevaI18n.msg(newLoan ? 'NL_Refer' : 'Offer_Refer', lang, new Map<String, Object>{ 'name' => LoanSevaJourneyService.firstName(j) }));
             r.success = false;
             r.handoff = true;
             return r;
@@ -443,7 +471,7 @@ public with sharing class LoanSevaEngine {
                 others.add(t + 'm: ' + LoanSevaI18n.inr(e.emiByTenure.get(t)));
             }
         }
-        String message = LoanSevaI18n.msg('Offer_Card', lang, new Map<String, Object>{
+        String message = LoanSevaI18n.msg(newLoan ? 'NL_Offer_Card' : 'Offer_Card', lang, new Map<String, Object>{
             'name' => LoanSevaJourneyService.firstName(j),
             'amount' => LoanSevaI18n.inr(e.amount),
             'rate' => e.rate.setScale(2).toPlainString(),
@@ -464,7 +492,9 @@ public with sharing class LoanSevaEngine {
             app.Loan_Journey__c = j.Id;
             app.Contact__c = j.Contact__c;
             app.Existing_Loan__c = loan == null ? null : loan.Id;
-            app.Product__c = 'Personal Loan Top-Up';
+            Boolean newLoan = LoanSevaJourneyService.isNewLoan(j);
+            app.Product__c = newLoan ? 'Personal Loan' : 'Personal Loan Top-Up';
+            app.Application_Type__c = newLoan ? LoanSevaJourneyService.TYPE_NEW_LOAN : 'Top-Up';
         }
         app.Status__c = e.eligible ? 'Offer Presented' : 'Referred to RM';
         app.Requested_Amount__c = j.Desired_Amount__c;
@@ -490,6 +520,10 @@ public with sharing class LoanSevaEngine {
         if (j.Offer_Amount__c == null || j.Loan_Application__c == null) {
             return promptAndSave(j);
         }
+        if (LoanSevaJourneyService.isNewLoan(j)) {
+            // the reference number is assigned at submit, after documents and consent
+            return LoanSevaNewLoan.accepted(j);
+        }
         if (String.isBlank(j.Reference_Number__c)) {
             Loan_Application__c app = [SELECT Id, Name FROM Loan_Application__c WHERE Id = :j.Loan_Application__c];
             j.Reference_Number__c = referenceNumber(app.Name);
@@ -510,8 +544,12 @@ public with sharing class LoanSevaEngine {
 
     /** KMB-PLTU-YYMMDD-NNNN (IST date, NNNN from the application auto-number). */
     public static String referenceNumber(String sequence) {
+        return referenceNumber(LoanSevaConfig.get().Reference_Prefix__c, sequence);
+    }
+
+    public static String referenceNumber(String prefix, String sequence) {
         String seq = sequence == null ? '0000' : sequence.replaceAll('[^0-9]', '').leftPad(4, '0').right(4);
-        return LoanSevaConfig.get().Reference_Prefix__c + '-' + Datetime.now().format('yyMMdd', LoanSevaI18n.TIMEZONE) + '-' + seq;
+        return prefix + '-' + Datetime.now().format('yyMMdd', LoanSevaI18n.TIMEZONE) + '-' + seq;
     }
 
     // ------------------------------------------------------------------ Callback
@@ -739,9 +777,13 @@ public with sharing class LoanSevaEngine {
             if (option && choice == 3) {
                 return escalate(j, 'Chose Talk to a specialist from the menu');
             }
+            if (option && choice == 4 && canApply(j)) {
+                return LoanSevaJourneyService.isNewLoan(j) ? resume(j) : LoanSevaNewLoan.start(j);
+            }
             update j;
         }
-        if (j.Question_Pending__c == true && state != 'otp' && state != 'company') {
+        Boolean raw = RAW_INPUT.contains(state);
+        if (j.Question_Pending__c == true && !raw) {
             // After "Ask a question" the next message is a question, so "Yes" or "tell me more" can
             // never accept the offer. A bare option number still picks that option.
             j.Question_Pending__c = false;
@@ -754,17 +796,21 @@ public with sharing class LoanSevaEngine {
             }
             update j;
         }
-        if (t.contains('?') && state != 'otp' && state != 'company' && LoanSevaFaqMatcher.bestMatch(t) != null) {
+        if (t.contains('?') && !raw && LoanSevaFaqMatcher.bestMatch(t) != null) {
             return answerFaq(j, t);
         }
-        if (state != 'otp' && state != 'company' && wantsHuman(t)) {
+        if (!raw && wantsHuman(t)) {
             return escalate(j, 'Asked for a specialist: ' + t);
+        }
+        if ((state == 'menu' || state == 'identity') && wantsNewLoan(t) && !LoanSevaJourneyService.isNewLoan(j) && canApply(j)) {
+            return LoanSevaNewLoan.start(j);
         }
         switch on state {
             when 'identity' {
-                String name = t.replaceAll('[0-9+\\-()]', ' ').replaceAll('[,;:|/.]', ' ')
-                    .replaceAll('(?i)\\b(my|name|is|i am|this is|mobile|number|no|phone|registered)\\b', ' ').normalizeSpace();
-                return verifyCustomer(j, name, t);
+                return verifyCustomer(j, identityName(t), t);
+            }
+            when 'apply_offer' {
+                return applyOfferReply(j, t, choice);
             }
             when 'otp' {
                 return verifyOtp(j, t);
@@ -778,8 +824,14 @@ public with sharing class LoanSevaEngine {
                 }
                 return faqOrPrompt(j, t);
             }
-            when 'employment', 'company', 'income', 'purpose', 'amount' {
+            when 'employment', 'company', 'income', 'purpose', 'amount', 'dob', 'pan', 'email', 'pincode', 'obligations' {
                 return personalise(j, t);
+            }
+            when 'doc_pan', 'doc_bank', 'doc_salary' {
+                return LoanSevaNewLoan.document(j, t);
+            }
+            when 'consent' {
+                return LoanSevaNewLoan.consent(j, t, choice);
             }
             when 'offer_decision' {
                 return offerDecision(j, t, choice);
@@ -806,9 +858,54 @@ public with sharing class LoanSevaEngine {
                 if (choice == 3) {
                     return escalate(j, 'Chose Talk to a specialist from the menu');
                 }
+                if (choice == 4) {
+                    return canApply(j) ? LoanSevaNewLoan.start(j) : verifyCustomer(j, null, null);
+                }
                 return LoanSevaFaqMatcher.bestMatch(t, true) != null ? answerFaq(j, t) : start(j);
             }
         }
+    }
+
+    /** States whose answer is typed data (OTP, PAN, email...), so it is never read as a question or a request for a person. */
+    private static final Set<String> RAW_INPUT = new Set<String>{ 'otp', 'company', 'dob', 'pan', 'email' };
+
+    private static String identityName(String t) {
+        return t.replaceAll('[0-9+\\-()]', ' ').replaceAll('[,;:|/.]', ' ')
+            .replaceAll('(?i)\\b(my|name|is|i am|this is|mobile|number|no|phone|registered)\\b', ' ').normalizeSpace();
+    }
+
+    /** No pre-approved offer was found: 1 apply for a new loan, 2 re-enter details, 3 specialist. */
+    private static Result applyOfferReply(Loan_Journey__c j, String t, Integer choice) {
+        if (choice == 1 || isYes(t) || wantsNewLoan(t)) {
+            return LoanSevaNewLoan.start(j);
+        }
+        if (choice == 3) {
+            return escalate(j, 'No pre-approved offer - chose to talk to a specialist');
+        }
+        if (choice == 2 || t.replaceAll('[^0-9]', '').length() >= 10) {
+            j.Apply_Offered__c = false;
+            if (choice == 2) {
+                LoanSevaJourneyService.touch(j);
+                update j;
+                return result(j, LoanSevaI18n.msg('Verify_Prompt', j.Language__c));
+            }
+            return verifyCustomer(j, identityName(t), t);
+        }
+        return faqOrPrompt(j, t);
+    }
+
+    /** Only customers without a pre-approved Top-Up are offered the new-loan application. */
+    private static Boolean canApply(Loan_Journey__c j) {
+        return LoanSevaJourneyService.isNewLoan(j)
+            || j.Existing_Loan__c == null && LoanSevaJourneyService.activeLoan(j.Contact__c) == null;
+    }
+
+    /** "Apply for a loan", "I want a new personal loan", नया लोन, नवीन कर्ज. */
+    private static final Pattern NEW_LOAN = Pattern.compile(
+        '(?i).*(\\b(apply|new|fresh)\\b.*\\b(loan|pl)\\b|नया लोन|नए लोन|लोन के लिए आवेदन|नवीन कर्ज|नवीन लोन|कर्जासाठी अर्ज).*');
+
+    private static Boolean wantsNewLoan(String s) {
+        return String.isNotBlank(s) && NEW_LOAN.matcher(s.replace('\n', ' ')).matches();
     }
 
     private static Result offerDecision(Loan_Journey__c j, String t, Integer choice) {
@@ -843,7 +940,7 @@ public with sharing class LoanSevaEngine {
         return result(j, LoanSevaI18n.msg('Ask_Question_Prompt', j.Language__c));
     }
 
-    private static Result faqOrPrompt(Loan_Journey__c j, String t) {
+    public static Result faqOrPrompt(Loan_Journey__c j, String t) {
         return String.isNotBlank(t) && LoanSevaFaqMatcher.bestMatch(t) != null ? answerFaq(j, t) : promptAndSave(j);
     }
 
@@ -855,7 +952,7 @@ public with sharing class LoanSevaEngine {
         'no', 'n', 'nope', 'nah', 'wrong', 'incorrect', 'nahi', 'nahin', 'galat', 'नहीं', 'नही', 'नाही', 'गलत', 'चुकीचे'
     };
 
-    private static Boolean isYes(String s) {
+    public static Boolean isYes(String s) {
         return firstWordIn(s, YES_WORDS) || (s != null && s.toLowerCase().contains('go ahead'));
     }
 
@@ -877,7 +974,7 @@ public with sharing class LoanSevaEngine {
         return String.isNotBlank(s) && OFFER.matcher(s.replace('\n', ' ')).matches();
     }
 
-    private static Boolean isNo(String s) {
+    public static Boolean isNo(String s) {
         return firstWordIn(s, NO_WORDS);
     }
 
@@ -894,7 +991,8 @@ public with sharing class LoanSevaEngine {
     /**
      * What the journey is waiting for next; the agent routes on this rather than guessing from the text.
      * menu, identity, otp, loan_confirm, employment, company, income, purpose, amount, offer_decision,
-     * callback, feedback_csat, feedback_resolution, feedback_comment, done, handoff
+     * callback, feedback_csat, feedback_resolution, feedback_comment, done, handoff; apply_offer when no
+     * pre-approved offer was found. New-loan journeys: see LoanSevaNewLoan.awaiting.
      */
     public static String awaiting(Loan_Journey__c j) {
         if (j == null) {
@@ -906,8 +1004,11 @@ public with sharing class LoanSevaEngine {
         if (j.Status__c == LoanSevaJourneyService.STATUS_EXITED) {
             return 'handoff';
         }
+        if (LoanSevaJourneyService.isNewLoan(j)) {
+            return LoanSevaNewLoan.awaiting(j);
+        }
         if (j.Existing_Loan__c == null) {
-            return j.Stage__c == 'Verify' ? 'identity' : 'menu';
+            return j.Stage__c != 'Verify' ? 'menu' : j.Apply_Offered__c == true ? 'apply_offer' : 'identity';
         }
         if (!j.OTP_Verified__c) {
             return 'otp';
@@ -943,8 +1044,12 @@ public with sharing class LoanSevaEngine {
         if (j.Status__c == LoanSevaJourneyService.STATUS_COMPLETED) {
             return quiet ? '' : LoanSevaI18n.msg('FB_Thanks', lang, signOffTokens(j));
         }
+        if (LoanSevaJourneyService.isNewLoan(j)) {
+            return LoanSevaNewLoan.pendingPrompt(j, quiet);
+        }
         if (j.Existing_Loan__c == null) {
-            return quiet ? '' : LoanSevaI18n.msg('Verify_Prompt', lang);
+            Boolean applyOffered = j.Apply_Offered__c == true && j.Stage__c == 'Verify';
+            return quiet ? '' : LoanSevaI18n.msg(applyOffered ? 'NL_Apply_Reprompt' : 'Verify_Prompt', lang);
         }
         if (!j.OTP_Verified__c) {
             return LoanSevaI18n.msg('OTP_Reprompt', lang);
@@ -1040,13 +1145,13 @@ public with sharing class LoanSevaEngine {
     }
 
     /** Re-asks the pending question; persists any options it generated (amounts, callback slots). */
-    private static Result promptAndSave(Loan_Journey__c j) {
+    public static Result promptAndSave(Loan_Journey__c j) {
         String prompt = pendingPrompt(j, false);
         update j;
         return result(j, prompt);
     }
 
-    private static Result result(Loan_Journey__c j, String message) {
+    public static Result result(Loan_Journey__c j, String message) {
         Result r = new Result();
         r.journey = j;
         r.message = message;

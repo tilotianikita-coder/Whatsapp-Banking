@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Docs_Skipped__c</fullName>
+    <description>Documents the customer chose to send later.</description>
+    <inlineHelpText>Documents the customer chose to send later.</inlineHelpText>
+    <label>Documents Skipped</label>
+    <type>Text</type>
+    <length>255</length>
+</CustomField>

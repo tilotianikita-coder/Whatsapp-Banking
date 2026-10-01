@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Q Obligations</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">How much do you pay in *EMIs per month* on other loans or credit cards? Reply *0* if none.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">दूसरे लोन या क्रेडिट कार्ड पर आप *हर महीने कितनी EMI* भरते हैं? कोई नहीं तो *0* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">इतर कर्जे किंवा क्रेडिट कार्डवर तुम्ही *दरमहा किती EMI* भरता? काहीही नसल्यास *0* लिहा.</value>
+    </values>
+</CustomMetadata>

@@ -68,7 +68,55 @@ public with sharing class LoanSevaEligibilityEngine {
             r.notes.add('No FOIR headroom - refer to RM');
             return r;
         }
+        return price(r, cap, emiHeadroom, currentEmi, income, desiredAmount, requestedTenure, cfg.Min_Topup_Amount__c, 'FOIR after top-up');
+    }
 
+    /**
+     * New Personal Loan (no existing Kotak loan, no pre-approved limit):
+     *  1. Declared income below New_Loan_Min_Income__c -> refer to RM.
+     *  2. Rate: Base_Rate__c + New_Loan_Rate_Premium__c + Self_Employed_Premium__c (if self-employed).
+     *  3. Cap: min(New_Loan_Max_Amount__c, income x New_Loan_Income_Multiple__c).
+     *  4. FOIR and amount as for Top-Up, with the declared EMIs as the existing obligations.
+     */
+    public static Result evaluateNew(
+        Decimal monthlyIncome,
+        Decimal existingEmis,
+        String employmentType,
+        Decimal desiredAmount,
+        Integer requestedTenure
+    ) {
+        LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
+        Result r = new Result();
+        if (monthlyIncome == null || monthlyIncome <= 0) {
+            r.notes.add('Missing declared income');
+            return r;
+        }
+        Decimal obligations = existingEmis == null ? 0 : existingEmis;
+        if (monthlyIncome < cfg.New_Loan_Min_Income__c) {
+            r.notes.add('Declared income ' + monthlyIncome + ' below minimum ' + cfg.New_Loan_Min_Income__c + ' - refer to RM');
+            return r;
+        }
+        r.rate = cfg.Base_Rate__c + cfg.New_Loan_Rate_Premium__c;
+        if (employmentType == 'Self-employed') {
+            r.rate += cfg.Self_Employed_Premium__c;
+        }
+        Decimal cap = Math.min(cfg.New_Loan_Max_Amount__c, monthlyIncome * cfg.New_Loan_Income_Multiple__c);
+        r.notes.add('New loan; rate ' + r.rate + '% p.a.; cap ' + cap.setScale(0) + ' (' + cfg.New_Loan_Income_Multiple__c + 'x income, max ' + cfg.New_Loan_Max_Amount__c + ')');
+        Decimal emiHeadroom = monthlyIncome * cfg.Max_FOIR_Pct__c / 100 - obligations;
+        r.notes.add('Declared income ' + monthlyIncome + '; max FOIR ' + cfg.Max_FOIR_Pct__c + '%; existing EMIs ' + obligations + '; EMI headroom ' + emiHeadroom.setScale(0));
+        if (emiHeadroom <= 0) {
+            r.notes.add('No FOIR headroom - refer to RM');
+            return r;
+        }
+        return price(r, cap, emiHeadroom, obligations, monthlyIncome, desiredAmount, requestedTenure, cfg.New_Loan_Min_Amount__c, 'FOIR with new loan');
+    }
+
+    /** Shared tail: picks the tenure and amount within the cap and EMI headroom, then prices the EMI and fee. */
+    private static Result price(
+        Result r, Decimal cap, Decimal emiHeadroom, Decimal currentEmi, Decimal income,
+        Decimal desiredAmount, Integer requestedTenure, Decimal minAmount, String foirLabel
+    ) {
+        LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
         List<Integer> tenures = LoanSevaConfig.tenureOptions();
         Integer maxTenure = tenures[tenures.size() - 1];
         Decimal rounding = LoanSevaConfig.rounding();
@@ -93,8 +141,8 @@ public with sharing class LoanSevaEligibilityEngine {
         Decimal fitsAtTenure = roundDown(Math.min(cap, principalFor(emiHeadroom, r.rate, r.tenure)), rounding);
         r.amount = roundDown(Math.min(wanted, fitsAtTenure), rounding);
         r.cappedBelowDesired = r.amount < wanted;
-        if (r.amount < cfg.Min_Topup_Amount__c) {
-            r.notes.add('Eligible amount ' + r.amount + ' below minimum ' + cfg.Min_Topup_Amount__c + ' - refer to RM');
+        if (r.amount < minAmount) {
+            r.notes.add('Eligible amount ' + r.amount + ' below minimum ' + minAmount + ' - refer to RM');
             r.amount = 0;
             return r;
         }
@@ -106,7 +154,7 @@ public with sharing class LoanSevaEligibilityEngine {
         for (Integer t : tenures) {
             r.emiByTenure.put(t, emi(r.amount, r.rate, t));
         }
-        r.notes.add('Offer ' + r.amount + ' @ ' + r.rate + '% for ' + r.tenure + 'm, EMI ' + r.emi + ', FOIR after top-up ' + r.foirPct + '%');
+        r.notes.add('Offer ' + r.amount + ' @ ' + r.rate + '% for ' + r.tenure + 'm, EMI ' + r.emi + ', ' + foirLabel + ' ' + r.foirPct + '%');
         return r;
     }
 

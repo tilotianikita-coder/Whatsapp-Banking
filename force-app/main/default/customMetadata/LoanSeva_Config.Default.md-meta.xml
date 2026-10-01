@@ -118,4 +118,48 @@
         <field>Registration_Url__c</field>
         <value xsi:type="xsd:string">https://trailsignup-5e5549adddf5d7.my.salesforce-sites.com/loanseva</value>
     </values>
+    <values>
+        <field>Lan_Prefix__c</field>
+        <value xsi:type="xsd:string">PL</value>
+    </values>
+    <values>
+        <field>New_Loan_Reference_Prefix__c</field>
+        <value xsi:type="xsd:string">KMB-PL</value>
+    </values>
+    <values>
+        <field>New_Loan_Rate_Premium__c</field>
+        <value xsi:type="xsd:double">0.5</value>
+    </values>
+    <values>
+        <field>New_Loan_Min_Amount__c</field>
+        <value xsi:type="xsd:double">50000</value>
+    </values>
+    <values>
+        <field>New_Loan_Max_Amount__c</field>
+        <value xsi:type="xsd:double">2500000</value>
+    </values>
+    <values>
+        <field>New_Loan_Income_Multiple__c</field>
+        <value xsi:type="xsd:double">20</value>
+    </values>
+    <values>
+        <field>New_Loan_Min_Income__c</field>
+        <value xsi:type="xsd:double">25000</value>
+    </values>
+    <values>
+        <field>Min_Age__c</field>
+        <value xsi:type="xsd:double">21</value>
+    </values>
+    <values>
+        <field>Max_Age_At_Maturity__c</field>
+        <value xsi:type="xsd:double">60</value>
+    </values>
+    <values>
+        <field>Min_Cibil_Score__c</field>
+        <value xsi:type="xsd:double">720</value>
+    </values>
+    <values>
+        <field>Decline_Cibil_Score__c</field>
+        <value xsi:type="xsd:double">650</value>
+    </values>
 </CustomMetadata>

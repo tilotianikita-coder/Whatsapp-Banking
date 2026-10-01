@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Review</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">📋 *Please review your application*
+
+&gt; 👤 {name}
+&gt; 🎂 {dob}
+&gt; 🪪 PAN {pan}
+&gt; 📧 {email}
+&gt; 📍 {city}
+&gt; 💼 {employment}
+&gt; 💵 Income {income}/month · EMIs {emis}/month
+&gt; 💰 *{amount}* for *{tenure} months* · EMI *{emi}*
+&gt; 📎 {docs}
+
+By replying *1* you confirm these details are correct, and consent to Kotak fetching your credit report (CIBIL) and verifying your PAN, bank statement and employment for this application.
+
+1️⃣ Confirm and submit
+2️⃣ Something's wrong — talk to a specialist</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">📋 *कृपया अपना आवेदन जाँच लें*
+
+&gt; 👤 {name}
+&gt; 🎂 {dob}
+&gt; 🪪 PAN {pan}
+&gt; 📧 {email}
+&gt; 📍 {city}
+&gt; 💼 {employment}
+&gt; 💵 आय {income}/माह · EMI {emis}/माह
+&gt; 💰 *{amount}*, *{tenure} महीने* · EMI *{emi}*
+&gt; 📎 {docs}
+
+*1* लिखकर आप पुष्टि करते हैं कि यह जानकारी सही है, और इस आवेदन के लिए Kotak को आपकी क्रेडिट रिपोर्ट (CIBIL) लेने तथा PAN, बैंक स्टेटमेंट और रोज़गार सत्यापित करने की सहमति देते हैं।
+
+1️⃣ पुष्टि करें और सबमिट करें
+2️⃣ कुछ गलत है — विशेषज्ञ से बात करें</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">📋 *कृपया तुमचा अर्ज तपासा*
+
+&gt; 👤 {name}
+&gt; 🎂 {dob}
+&gt; 🪪 PAN {pan}
+&gt; 📧 {email}
+&gt; 📍 {city}
+&gt; 💼 {employment}
+&gt; 💵 उत्पन्न {income}/महिना · EMI {emis}/महिना
+&gt; 💰 *{amount}*, *{tenure} महिने* · EMI *{emi}*
+&gt; 📎 {docs}
+
+*1* लिहून तुम्ही ही माहिती बरोबर असल्याची पुष्टी करता, आणि या अर्जासाठी Kotak ला तुमचा क्रेडिट रिपोर्ट (CIBIL) घेण्याची तसेच PAN, बँक स्टेटमेंट आणि रोजगाराची पडताळणी करण्याची संमती देता.
+
+1️⃣ पुष्टी करा आणि सबमिट करा
+2️⃣ काहीतरी चुकले आहे — तज्ज्ञांशी बोला</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Doc Salary</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">💼 *Document 3/3* — your last *3 salary slips*.
+
+Send it here as a *photo* or *PDF*, then reply *Done*. Or reply *Skip* to send it later.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">💼 *दस्तावेज़ 3/3* — आपकी पिछली *3 सैलरी स्लिप*।
+
+इसे यहीं *फ़ोटो* या *PDF* के रूप में भेजें, फिर *Done* लिखें। या बाद में भेजने के लिए *Skip* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">💼 *कागदपत्र 3/3* — तुमच्या मागील *3 पगार स्लिप*.
+
+ते इथेच *फोटो* किंवा *PDF* म्हणून पाठवा, मग *Done* लिहा. किंवा नंतर पाठवण्यासाठी *Skip* लिहा.</value>
+    </values>
+</CustomMetadata>

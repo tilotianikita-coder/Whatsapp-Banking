@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Approved</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">🎉 Congratulations {name}! Your *Kotak Personal Loan* is approved.
+
+&gt; 💰 Sanctioned: *{amount}*
+&gt; 📈 Rate: *{rate}% p.a.*
+&gt; 📅 Tenure: *{tenure} months*
+&gt; 💳 EMI: *{emi}/month*
+&gt; 🏦 Loan account: ```{lan}```
+
+Your sanction letter is on its way to your email. 🔖 Ref: ```{ref}```</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">🎉 बधाई हो {name}! आपका *Kotak पर्सनल लोन* स्वीकृत हो गया है।
+
+&gt; 💰 स्वीकृत राशि: *{amount}*
+&gt; 📈 ब्याज दर: *{rate}% प्रति वर्ष*
+&gt; 📅 अवधि: *{tenure} महीने*
+&gt; 💳 EMI: *{emi}/माह*
+&gt; 🏦 लोन खाता: ```{lan}```
+
+आपका सैंक्शन लेटर आपके ईमेल पर भेजा जा रहा है। 🔖 रेफ़रेंस: ```{ref}```</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">🎉 अभिनंदन {name}! तुमचे *Kotak पर्सनल लोन* मंजूर झाले आहे.
+
+&gt; 💰 मंजूर रक्कम: *{amount}*
+&gt; 📈 व्याजदर: *{rate}% प्रतिवर्ष*
+&gt; 📅 कालावधी: *{tenure} महिने*
+&gt; 💳 EMI: *{emi}/महिना*
+&gt; 🏦 कर्ज खाते: ```{lan}```
+
+तुमचे सँक्शन लेटर तुमच्या ईमेलवर पाठवले जात आहे. 🔖 संदर्भ: ```{ref}```</value>
+    </values>
+</CustomMetadata>

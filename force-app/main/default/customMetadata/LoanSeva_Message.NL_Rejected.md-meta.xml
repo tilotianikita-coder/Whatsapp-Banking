@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Rejected</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Hi {name}, thank you for applying for a Kotak Personal Loan. 🙏 After careful review, we're unable to approve your application right now. This doesn't affect your relationship with Kotak, and you're welcome to apply again after 3 months.
+
+Reply *Agent* to talk to a specialist. 🔖 Ref: ```{ref}```</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">नमस्ते {name}, Kotak पर्सनल लोन के लिए आवेदन करने का धन्यवाद। 🙏 सावधानीपूर्वक समीक्षा के बाद, हम अभी आपका आवेदन स्वीकृत नहीं कर पा रहे हैं। इससे Kotak के साथ आपके संबंध पर कोई असर नहीं पड़ता, और आप 3 महीने बाद फिर से आवेदन कर सकते हैं।
+
+विशेषज्ञ से बात करने के लिए *Agent* लिखें। 🔖 रेफ़रेंस: ```{ref}```</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">नमस्कार {name}, Kotak पर्सनल लोनसाठी अर्ज केल्याबद्दल धन्यवाद. 🙏 काळजीपूर्वक पुनरावलोकनानंतर, आम्ही सध्या तुमचा अर्ज मंजूर करू शकत नाही. याचा Kotak सोबतच्या तुमच्या संबंधावर परिणाम होत नाही, आणि तुम्ही 3 महिन्यांनंतर पुन्हा अर्ज करू शकता.
+
+तज्ज्ञांशी बोलण्यासाठी *Agent* लिहा. 🔖 संदर्भ: ```{ref}```</value>
+    </values>
+</CustomMetadata>

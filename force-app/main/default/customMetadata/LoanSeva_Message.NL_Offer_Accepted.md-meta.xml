@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Offer Accepted</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">✅ Great choice! Now a few documents 📎 — up to 3, one at a time.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">✅ बढ़िया! अब कुछ दस्तावेज़ 📎 — अधिकतम 3, एक-एक करके।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">✅ छान! आता काही कागदपत्रे 📎 — जास्तीत जास्त 3, एकेक करून.</value>
+    </values>
+</CustomMetadata>

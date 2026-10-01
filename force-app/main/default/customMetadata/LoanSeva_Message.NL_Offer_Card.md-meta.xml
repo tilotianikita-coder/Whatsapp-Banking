@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Offer Card</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">🎉 Good news, {name}! Here's your *indicative* Personal Loan offer:
+
+&gt; 💰 Amount: *{amount}*
+&gt; 📈 Rate: *{rate}% p.a.*
+&gt; 📅 Tenure: *{tenure} months*
+&gt; 💳 EMI: *{emi}/month*
+&gt; 🧾 Processing fee: {fee} + GST
+
+Other tenures: {otherTenures}
+
+_Indicative only — final terms after credit checks and document verification._
+
+1️⃣ Accept and continue
+2️⃣ Change amount or tenure
+3️⃣ Ask a question</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">🎉 अच्छी खबर, {name}! यह रहा आपका *अनुमानित* पर्सनल लोन ऑफ़र:
+
+&gt; 💰 राशि: *{amount}*
+&gt; 📈 ब्याज दर: *{rate}% प्रति वर्ष*
+&gt; 📅 अवधि: *{tenure} महीने*
+&gt; 💳 EMI: *{emi}/माह*
+&gt; 🧾 प्रोसेसिंग शुल्क: {fee} + GST
+
+अन्य अवधि: {otherTenures}
+
+_यह केवल अनुमान है — अंतिम शर्तें क्रेडिट जाँच और दस्तावेज़ सत्यापन के बाद।_
+
+1️⃣ स्वीकार करें और आगे बढ़ें
+2️⃣ राशि या अवधि बदलें
+3️⃣ सवाल पूछें</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">🎉 आनंदाची बातमी, {name}! ही तुमची *अंदाजित* पर्सनल लोन ऑफर:
+
+&gt; 💰 रक्कम: *{amount}*
+&gt; 📈 व्याजदर: *{rate}% प्रतिवर्ष*
+&gt; 📅 कालावधी: *{tenure} महिने*
+&gt; 💳 EMI: *{emi}/महिना*
+&gt; 🧾 प्रोसेसिंग शुल्क: {fee} + GST
+
+इतर कालावधी: {otherTenures}
+
+_ही फक्त अंदाजित ऑफर आहे — अंतिम अटी क्रेडिट तपासणी आणि कागदपत्र पडताळणीनंतर._
+
+1️⃣ स्वीकारा आणि पुढे जा
+2️⃣ रक्कम किंवा कालावधी बदला
+3️⃣ प्रश्न विचारा</value>
+    </values>
+</CustomMetadata>

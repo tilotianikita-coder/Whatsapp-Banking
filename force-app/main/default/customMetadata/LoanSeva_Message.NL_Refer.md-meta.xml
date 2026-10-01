@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Refer</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thanks {name}! 🙏 Based on your details, a Kotak loan specialist will work out the best option for you personally. They'll call you within 24 hours.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद {name}! 🙏 आपकी जानकारी के आधार पर, Kotak लोन विशेषज्ञ आपके लिए सबसे अच्छा विकल्प तैयार करेंगे। वे 24 घंटों में कॉल करेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद {name}! 🙏 तुमच्या माहितीनुसार, Kotak कर्ज तज्ज्ञ तुमच्यासाठी सर्वोत्तम पर्याय तयार करतील. ते 24 तासांत कॉल करतील.</value>
+    </values>
+</CustomMetadata>

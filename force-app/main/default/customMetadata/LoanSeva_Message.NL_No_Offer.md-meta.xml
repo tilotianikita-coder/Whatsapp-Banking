@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL No Offer</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thanks {name}! There's no pre-approved Top-Up on your account right now, but you can apply for a new *Kotak Personal Loan* right here, in about 3 minutes. 👇
+
+1️⃣ Apply for a new Personal Loan
+2️⃣ Re-enter my details
+3️⃣ Talk to a specialist</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद {name}! अभी आपके खाते पर कोई प्री-अप्रूव्ड टॉप-अप नहीं है, लेकिन आप यहीं लगभग 3 मिनट में नए *Kotak पर्सनल लोन* के लिए आवेदन कर सकते हैं। 👇
+
+1️⃣ नए पर्सनल लोन के लिए आवेदन करें
+2️⃣ अपनी जानकारी दोबारा दर्ज करें
+3️⃣ विशेषज्ञ से बात करें</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद {name}! सध्या तुमच्या खात्यावर कोणताही प्री-अप्रूव्ड टॉप-अप नाही, पण तुम्ही इथेच सुमारे 3 मिनिटांत नवीन *Kotak पर्सनल लोन*साठी अर्ज करू शकता. 👇
+
+1️⃣ नवीन पर्सनल लोनसाठी अर्ज करा
+2️⃣ माझी माहिती पुन्हा भरा
+3️⃣ तज्ज्ञांशी बोला</value>
+    </values>
+</CustomMetadata>

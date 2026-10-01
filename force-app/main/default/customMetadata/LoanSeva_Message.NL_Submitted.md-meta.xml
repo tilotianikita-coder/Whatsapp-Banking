@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Submitted</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">🎉 Application submitted! Your reference number is ```{ref}```.
+
+We're running your credit and document checks now. A Kotak credit officer will review your application and you'll hear from us right here — usually within 24 hours.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">🎉 आवेदन सबमिट हो गया! आपका रेफ़रेंस नंबर ```{ref}``` है।
+
+हम अभी आपकी क्रेडिट और दस्तावेज़ जाँच कर रहे हैं। Kotak क्रेडिट अधिकारी आपके आवेदन की समीक्षा करेंगे और आपको यहीं जानकारी मिलेगी — आमतौर पर 24 घंटों में।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">🎉 अर्ज सबमिट झाला! तुमचा संदर्भ क्रमांक ```{ref}``` आहे.
+
+आम्ही आत्ता तुमची क्रेडिट आणि कागदपत्र तपासणी करत आहोत. Kotak क्रेडिट अधिकारी तुमच्या अर्जाचे पुनरावलोकन करतील आणि तुम्हाला इथेच कळवले जाईल — साधारणपणे 24 तासांत.</value>
+    </values>
+</CustomMetadata>

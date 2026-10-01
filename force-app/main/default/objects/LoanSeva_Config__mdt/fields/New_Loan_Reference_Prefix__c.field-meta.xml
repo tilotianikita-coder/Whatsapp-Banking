@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Loan_Reference_Prefix__c</fullName>
+    <label>New Loan Reference Prefix</label>
+    <type>Text</type>
+    <length>20</length>
+</CustomField>

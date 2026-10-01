@@ -4,12 +4,13 @@
  */
 public with sharing class LoanSevaJourneyService {
     public static final List<String> STAGES = new List<String>{
-        'Nudge', 'Start', 'Verify', 'Personalise', 'Offer', 'Callback', 'Feedback', 'Completed'
+        'Nudge', 'Start', 'Verify', 'Personalise', 'Offer', 'Documents', 'Callback', 'Feedback', 'Completed'
     };
     public static final String STATUS_ACTIVE = 'Active';
     public static final String STATUS_COMPLETED = 'Completed';
     public static final String STATUS_DROPPED = 'Dropped';
     public static final String STATUS_EXITED = 'Exited';
+    public static final String TYPE_NEW_LOAN = 'New Loan';
 
     private static final String JOURNEY_FIELDS =
         'Id, Name, OwnerId, Contact__c, Contact__r.FirstName, Contact__r.Name, Lead__c, Existing_Loan__c, Loan_Application__c, ' +
@@ -20,7 +21,9 @@ public with sharing class LoanSevaJourneyService {
         'Reference_Number__c, Callback_DateTime__c, Feedback_Step__c, Questions_Asked__c, Question_Pending__c, Menu_Pending__c, Drop_Point__c, ' +
         'Fields_Completed__c, Intent_Summary__c, Last_Activity__c, Dropped_At__c, Nudges_Sent__c, Next_Nudge_At__c, ' +
         'RM_Followup_Created__c, Escalated__c, Nudge_Sent_At__c, Verified_At__c, Personalised_At__c, ' +
-        'Offer_Presented_At__c, Accepted_At__c, Completed_At__c, Last_Send_Status__c';
+        'Offer_Presented_At__c, Accepted_At__c, Completed_At__c, Last_Send_Status__c, Journey_Type__c, Apply_Offered__c, ' +
+        'Date_Of_Birth__c, PAN__c, Email__c, City__c, PIN_Code__c, Monthly_Income__c, Existing_EMIs__c, Doc_Step__c, ' +
+        'Docs_Skipped__c, Submitted_At__c';
 
     /** Test seam: lets tests exercise the actions' graceful-failure path. */
     @TestVisible
@@ -154,6 +157,11 @@ public with sharing class LoanSevaJourneyService {
         return byId(journey.Id);
     }
 
+    /** A new Personal Loan application (no pre-approved Top-Up offer), rather than a Top-Up journey. */
+    public static Boolean isNewLoan(Loan_Journey__c j) {
+        return j != null && j.Journey_Type__c == TYPE_NEW_LOAN;
+    }
+
     public static Contact findContact(String mobile10) {
         List<String> variants = mobileVariants(mobile10);
         List<Contact> rows = [
@@ -228,7 +236,7 @@ public with sharing class LoanSevaJourneyService {
         }
         List<String> parts = new List<String>();
         Decimal amount = j.Offer_Amount__c != null ? j.Offer_Amount__c : j.Desired_Amount__c;
-        String what = (amount != null ? LoanSevaI18n.inrShort(amount) + ' ' : '') + 'top-up';
+        String what = (amount != null ? LoanSevaI18n.inrShort(amount) + ' ' : '') + (isNewLoan(j) ? 'new personal loan' : 'top-up');
         if (String.isNotBlank(j.Purpose__c)) {
             what += ' for ' + j.Purpose__c.toLowerCase();
         }
@@ -241,6 +249,9 @@ public with sharing class LoanSevaJourneyService {
         }
         if (j.Offer_Accepted__c) {
             parts.add('accepted offer');
+        }
+        if (j.Submitted_At__c != null) {
+            parts.add('application submitted');
         }
         if (j.Callback_DateTime__c != null) {
             parts.add('callback ' + j.Callback_DateTime__c.format('EEE h:mm a', LoanSevaI18n.TIMEZONE));
