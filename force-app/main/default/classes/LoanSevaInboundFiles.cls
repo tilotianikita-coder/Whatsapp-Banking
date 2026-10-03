@@ -55,7 +55,9 @@ public with sharing class LoanSevaInboundFiles {
         Set<String> keys = filesBySource.keySet();
         List<Loan_Journey__c> journeys = Database.query(
             'SELECT ' + LoanSevaJourneyService.journeyFields() + ' FROM Loan_Journey__c WHERE Journey_Type__c = \'' + LoanSevaJourneyService.TYPE_NEW_LOAN + '\'' +
-            ' AND Status__c = \'' + LoanSevaJourneyService.STATUS_ACTIVE + '\' AND Submitted_At__c = null AND Loan_Application__c != null' +
+            // Dropped too: in demo mode a journey drops after a couple of idle minutes, often while the customer finds the photo.
+            ' AND Status__c IN (\'' + LoanSevaJourneyService.STATUS_ACTIVE + '\', \'' + LoanSevaJourneyService.STATUS_DROPPED + '\')' +
+            ' AND Submitted_At__c = null AND Loan_Application__c != null' +
             ' AND (Id IN :keys OR Messaging_Session_Id__c IN :keys OR Messaging_End_User_Id__c IN :keys)'
         );
         if (journeys.isEmpty()) {

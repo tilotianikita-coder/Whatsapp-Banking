@@ -418,6 +418,20 @@ private class LoanSevaNewLoanTest {
     }
 
     @IsTest
+    static void fileForADroppedJourneyIsRecordedAndReactivatesIt() {
+        throughOffer('1', 'Infosys');
+        say('1');
+        update new Loan_Journey__c(Id = j.Id, Status__c = LoanSevaJourneyService.STATUS_DROPPED, Dropped_At__c = Datetime.now());
+        Test.startTest();
+        Id fileId = addFile(j.Id, 'pan');
+        Test.stopTest();
+        j = LoanSevaJourneyService.byId(j.Id);
+        System.assertEquals('doc_bank', LoanSevaEngine.awaiting(j), 'the customer was idle while finding the photo');
+        System.assertEquals(LoanSevaJourneyService.STATUS_ACTIVE, j.Status__c);
+        System.assertEquals(fileId, [SELECT Content_Document_Id__c FROM Loan_Document__c WHERE Loan_Application__c = :j.Loan_Application__c].Content_Document_Id__c);
+    }
+
+    @IsTest
     static void fileOnANewSessionReachesTheJourney() {
         List<MessagingChannel> channels = [SELECT Id FROM MessagingChannel WHERE DeveloperName = :LoanSevaConfig.get().WhatsApp_Channel__c];
         if (channels.isEmpty()) {
