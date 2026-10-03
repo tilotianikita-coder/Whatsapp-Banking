@@ -23,7 +23,7 @@ public with sharing class LoanSevaJourneyService {
         'RM_Followup_Created__c, Escalated__c, Nudge_Sent_At__c, Verified_At__c, Personalised_At__c, ' +
         'Offer_Presented_At__c, Accepted_At__c, Completed_At__c, Last_Send_Status__c, Journey_Type__c, Apply_Offered__c, ' +
         'Date_Of_Birth__c, PAN__c, Email__c, City__c, PIN_Code__c, Monthly_Income__c, Existing_EMIs__c, Doc_Step__c, ' +
-        'Docs_Skipped__c, Submitted_At__c, Prefilled_Fields__c';
+        'Docs_Skipped__c, Submitted_At__c, Prefilled_Fields__c, Last_Voice_Note__c, Last_Voice_File_Id__c';
 
     /** Test seam: lets tests exercise the actions' graceful-failure path. */
     @TestVisible

@@ -7,6 +7,14 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>Voice_Enabled__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Voice_Model__c</field>
+        <value xsi:type="xsd:string">scribe_v1</value>
+    </values>
+    <values>
         <field>Demo_OTP__c</field>
         <value xsi:type="xsd:string">123456</value>
     </values>

@@ -11,6 +11,8 @@ OUT = 'force-app/main/default/customMetadata'
 
 CONFIG = {
     'Demo_Mode__c': True,
+    'Voice_Enabled__c': True,
+    'Voice_Model__c': 'scribe_v1',
     'Demo_OTP__c': '123456',
     'Max_OTP_Attempts__c': 3,
     'Base_Rate__c': 10.99,               # DEMO PLACEHOLDER
@@ -340,6 +342,21 @@ NEW_LOAN = {
         "✅ Mobile verified, {name}! A few quick questions about you — about 2 minutes. ⏱️",
         "✅ मोबाइल वेरिफ़ाई हो गया, {name}! आपके बारे में कुछ छोटे सवाल — लगभग 2 मिनट। ⏱️",
         "✅ मोबाइल पडताळला, {name}! तुमच्याबद्दल काही छोटे प्रश्न — सुमारे 2 मिनिटे. ⏱️",
+    ),
+    'Voice_Heard': (
+        "🎙️ I heard: _{text}_",
+        "🎙️ मैंने सुना: _{text}_",
+        "🎙️ मी ऐकले: _{text}_",
+    ),
+    'Voice_Received': (
+        "🎙️ Got your voice note.",
+        "🎙️ आपका वॉइस नोट मिल गया।",
+        "🎙️ तुमची व्हॉइस नोट मिळाली.",
+    ),
+    'Voice_Failed': (
+        "🎙️ Sorry, I couldn't make out that voice note. Please try again, or type your answer.",
+        "🎙️ माफ़ कीजिए, वॉइस नोट समझ नहीं आया। कृपया दोबारा भेजें या जवाब टाइप करें।",
+        "🎙️ माफ करा, व्हॉइस नोट समजली नाही. कृपया पुन्हा पाठवा किंवा उत्तर टाइप करा.",
     ),
     'NL_Prefilled': (
         "✅ Mobile verified, {name}! Welcome back. 🙏 We've filled in what we already have on file:\n\n{details}\n\nAnything out of date? Just reply *Change*. Otherwise, questions left: *{count}*. ⏱️",

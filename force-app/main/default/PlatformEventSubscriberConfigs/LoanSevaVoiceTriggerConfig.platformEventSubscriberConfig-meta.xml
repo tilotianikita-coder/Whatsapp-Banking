@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PlatformEventSubscriberConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <batchSize>10</batchSize>
+    <masterLabel>LoanSevaVoiceTriggerConfig</masterLabel>
+    <platformEventConsumer>LoanSevaVoiceTrigger</platformEventConsumer>
+    <user>trailsignup.5e5549adddf5d7@salesforce.com</user>
+</PlatformEventSubscriberConfig>

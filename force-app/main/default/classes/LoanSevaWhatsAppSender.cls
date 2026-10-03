@@ -36,7 +36,8 @@ public with sharing class LoanSevaWhatsAppSender implements Queueable, Database.
         if (items == null || items.isEmpty()) {
             return;
         }
-        if (Test.isRunningTest() && Limits.getQueueableJobs() >= Limits.getLimitQueueableJobs()) {
+        // Tests can't chain a queueable from a queueable (e.g. the voice-note job)
+        if (Test.isRunningTest() && (System.isQueueable() || Limits.getQueueableJobs() >= Limits.getLimitQueueableJobs())) {
             return;
         }
         System.enqueueJob(new LoanSevaWhatsAppSender(items));

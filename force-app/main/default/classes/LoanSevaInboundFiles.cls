@@ -3,6 +3,7 @@
  * caption reaches the agent as an empty message, which the planner answers on its own instead of calling the
  * journey, so the document step would never see the file. Here the file is recorded against the current
  * document step when it is linked to the conversation, and the next prompt is sent proactively.
+ * A voice note (audio file) is never a document: it is handed to LoanSevaVoice to be transcribed and answered.
  */
 public with sharing class LoanSevaInboundFiles {
     private static final Set<String> DOC_STATES = new Set<String>{ 'doc_pan', 'doc_bank', 'doc_salary' };
@@ -18,10 +19,30 @@ public with sharing class LoanSevaInboundFiles {
 
     @TestVisible
     private static void process(List<ContentDocumentLink> links) {
-        Map<String, Set<Id>> filesBySource = new Map<String, Set<Id>>();
+        List<ContentDocumentLink> conversational = new List<ContentDocumentLink>();
+        Set<Id> fileIds = new Set<Id>();
         for (ContentDocumentLink l : links) {
             Schema.SObjectType t = l.LinkedEntityId.getSobjectType();
             if (t == MessagingSession.SObjectType || t == MessagingEndUser.SObjectType || t == Loan_Journey__c.SObjectType) {
+                conversational.add(l);
+                fileIds.add(l.ContentDocumentId);
+            }
+        }
+        if (conversational.isEmpty()) {
+            return;
+        }
+        Set<Id> audio = new Set<Id>();
+        for (ContentDocument cd : [SELECT Id, FileExtension FROM ContentDocument WHERE Id IN :fileIds]) {
+            if (LoanSevaVoice.isAudio(cd.FileExtension)) {
+                audio.add(cd.Id);
+            }
+        }
+        Map<Id, String> voiceNotes = new Map<Id, String>();
+        Map<String, Set<Id>> filesBySource = new Map<String, Set<Id>>();
+        for (ContentDocumentLink l : conversational) {
+            if (audio.contains(l.ContentDocumentId)) {
+                voiceNotes.put(l.ContentDocumentId, l.LinkedEntityId);
+            } else {
                 for (String key : new List<String>{ l.LinkedEntityId, String.valueOf(l.LinkedEntityId).left(15) }) {
                     if (!filesBySource.containsKey(key)) {
                         filesBySource.put(key, new Set<Id>());
@@ -30,20 +51,21 @@ public with sharing class LoanSevaInboundFiles {
                 }
             }
         }
+        LoanSevaVoice.publish(voiceNotes);
         if (filesBySource.isEmpty()) {
             return;
         }
         // WhatsApp files are linked to the session only. A returning customer gets a new session before the
         // journey hears about it, so the session's end user is matched as well.
         Set<Id> sessionIds = new Set<Id>();
-        for (ContentDocumentLink l : links) {
-            if (l.LinkedEntityId.getSobjectType() == MessagingSession.SObjectType) {
+        for (ContentDocumentLink l : conversational) {
+            if (l.LinkedEntityId.getSobjectType() == MessagingSession.SObjectType && !audio.contains(l.ContentDocumentId)) {
                 sessionIds.add(l.LinkedEntityId);
             }
         }
         if (!sessionIds.isEmpty()) {
             for (MessagingSession s : [SELECT Id, MessagingEndUserId FROM MessagingSession WHERE Id IN :sessionIds AND MessagingEndUserId != null]) {
-                Set<Id> files = filesBySource.get(s.Id);
+                Set<Id> files = filesBySource.containsKey(s.Id) ? filesBySource.get(s.Id) : new Set<Id>();
                 for (String key : new List<String>{ s.MessagingEndUserId, String.valueOf(s.MessagingEndUserId).left(15) }) {
                     if (!filesBySource.containsKey(key)) {
                         filesBySource.put(key, new Set<Id>());

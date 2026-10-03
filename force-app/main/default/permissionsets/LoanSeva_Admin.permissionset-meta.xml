@@ -140,6 +140,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LoanSevaVoiceText</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LoanSevaWhatsAppSender</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -155,6 +159,10 @@
         <enabled>true</enabled>
         <name>LoanSeva_Message__mdt</name>
     </customMetadataTypeAccesses>
+    <externalCredentialPrincipalAccesses>
+        <enabled>true</enabled>
+        <externalCredentialPrincipal>LoanSeva_ElevenLabs-Default</externalCredentialPrincipal>
+    </externalCredentialPrincipalAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>Existing_Loan__c.Contact__c</field>
@@ -363,6 +371,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Loan_Journey__c.Last_Send_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Loan_Journey__c.Last_Voice_File_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Loan_Journey__c.Last_Voice_Note__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

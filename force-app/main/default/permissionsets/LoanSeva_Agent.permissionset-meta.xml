@@ -136,6 +136,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LoanSevaVoiceText</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LoanSevaWhatsAppSender</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -359,6 +363,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Loan_Journey__c.Last_Send_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Loan_Journey__c.Last_Voice_File_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Loan_Journey__c.Last_Voice_Note__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

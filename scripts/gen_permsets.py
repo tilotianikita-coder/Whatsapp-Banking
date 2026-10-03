@@ -27,7 +27,7 @@ def classes(prefix='LoanSeva'):
                   if f.endswith('.cls') and f.startswith(prefix) and not f[:-4].endswith('Test'))
 
 
-def permset(name, label, desc, obj_perms, field_edit=True, extra='', apps=()):
+def permset(name, label, desc, obj_perms, field_edit=True, extra='', apps=(), principals=()):
     parts = [f'<?xml version="1.0" encoding="UTF-8"?>\n<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">\n'
              f'    <label>{label}</label>\n    <description>{desc}</description>\n    <hasActivationRequired>false</hasActivationRequired>\n']
     for app in apps:
@@ -37,6 +37,9 @@ def permset(name, label, desc, obj_perms, field_edit=True, extra='', apps=()):
     parts.append('    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_Config__mdt</name>\n    </customMetadataTypeAccesses>\n'
                  '    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_FAQ__mdt</name>\n    </customMetadataTypeAccesses>\n'
                  '    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_Message__mdt</name>\n    </customMetadataTypeAccesses>\n')
+    for principal in principals:
+        parts.append(f'    <externalCredentialPrincipalAccesses>\n        <enabled>true</enabled>\n'
+                     f'        <externalCredentialPrincipal>{principal}</externalCredentialPrincipal>\n    </externalCredentialPrincipalAccesses>\n')
     for obj in CUSTOM_OBJECTS:
         for fname, editable in fields(obj):
             parts.append(f'    <fieldPermissions>\n        <editable>{str(editable and field_edit).lower()}</editable>\n'
@@ -57,7 +60,8 @@ def permset(name, label, desc, obj_perms, field_edit=True, extra='', apps=()):
 
 
 ALL = {'c': 'true', 'd': 'true', 'e': 'true', 'm': 'true', 'v': 'true'}
-permset('LoanSeva_Admin', 'LoanSeva Admin', 'Full access to LoanSeva objects, fields and Apex (demo admins, RMs, running users).', ALL, apps=['LoanSeva_LOS'])
+permset('LoanSeva_Admin', 'LoanSeva Admin', 'Full access to LoanSeva objects, fields and Apex (demo admins, RMs, running users).', ALL, apps=['LoanSeva_LOS'],
+        principals=['LoanSeva_ElevenLabs-Default'])  # the voice-note subscriber runs as an admin
 # Agent user: runs every action; needs to read/write journey data across customers.
 def std(obj, c, e, v):
     return (f'    <objectPermissions>\n        <allowCreate>{c}</allowCreate>\n        <allowDelete>false</allowDelete>\n'

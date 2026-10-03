@@ -128,6 +128,8 @@ Self-employed applicants and Category B employers without salary slips are alway
 
 **RM uploads.** On the Loan Application page, the scorecard's Documents section has **Upload a document**: pick the type (PAN Card, Bank Statement, Salary Slips, Other), then drop or choose files (PDF/JPG/PNG/HEIC). Each file is recorded as a Loan Document with Source RM. The menu on each document marks it **Verified** or **Rejected**. After adding a missing document, click **Re-run underwriting** so the checks include it.
 
+**Voice notes (ElevenLabs).** A customer can answer any step with a WhatsApp voice note (name and mobile, OTP, date of birth, PAN letter by letter, email, PIN, income, amounts, menu choices; English, Hindi or Marathi). The audio file publishes `LoanSeva_Voice__e`, and the subscriber user (`LoanSevaVoiceTriggerConfig`) transcribes it with ElevenLabs speech-to-text and answers the step. The reply starts with what was heard. The PAN is shown masked and the OTP is never echoed. Manual step: Setup → Named Credentials → External Credentials → **LoanSeva_ElevenLabs** → Principal **Default** → set authentication parameter **`ApiKey`** to an ElevenLabs API key with the **Speech to Text** permission. The subscriber user needs `LoanSeva_Admin`, which grants access to that principal. To switch voice off, uncheck `Voice_Enabled__c` on `LoanSeva_Config__mdt.Default`. Then audio is ignored and is never recorded as a document.
+
 The LoanSeva LOS app and its Loan Application record page are assigned in metadata (`applications/LoanSeva_LOS.app-meta.xml`). Users with `LoanSeva_Admin` see the app; no Lightning App Builder activation is needed.
 
 ## 10. Before any external use

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Voice_Enabled__c</fullName>
+    <description>Transcribe WhatsApp voice notes (ElevenLabs, Named Credential LoanSeva_ElevenLabs) and treat them as typed replies.</description>
+    <label>Voice Enabled</label>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+</CustomField>

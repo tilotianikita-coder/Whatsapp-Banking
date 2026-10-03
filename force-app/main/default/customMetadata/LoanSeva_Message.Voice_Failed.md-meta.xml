@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Voice Failed</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">🎙️ Sorry, I couldn't make out that voice note. Please try again, or type your answer.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">🎙️ माफ़ कीजिए, वॉइस नोट समझ नहीं आया। कृपया दोबारा भेजें या जवाब टाइप करें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">🎙️ माफ करा, व्हॉइस नोट समजली नाही. कृपया पुन्हा पाठवा किंवा उत्तर टाइप करा.</value>
+    </values>
+</CustomMetadata>

@@ -41,7 +41,8 @@ public with sharing class LoanSevaDocumentService {
             SELECT ContentDocumentId, ContentDocument.Title, ContentDocument.FileExtension, ContentDocument.CreatedDate
             FROM ContentDocumentLink WHERE LinkedEntityId IN :sources
         ]) {
-            if (!known.contains(l.ContentDocumentId)) {
+            // Voice notes are answers, not documents
+            if (!known.contains(l.ContentDocumentId) && !LoanSevaVoice.isAudio(l.ContentDocument.FileExtension)) {
                 fresh.put(l.ContentDocumentId, l.ContentDocument);
             }
         }

@@ -71,6 +71,8 @@ FIELDS = {
         'Apply_Offered__c': ('New Loan Offered', CHECKBOX, 'The customer was told there is no pre-approved offer and offered a new-loan application.'),
         'Doc_Step__c': ('Document Step', number(2), '1 PAN, 2 bank statement, 3 salary slips, 4 review and consent.'),
         'Docs_Skipped__c': ('Documents Skipped', text(255), 'Documents the customer chose to send later.'),
+        'Last_Voice_Note__c': ('Last Voice Note', text(255), 'What the last WhatsApp voice note was heard as (PAN masked, OTP never stored).'),
+        'Last_Voice_File_Id__c': ('Last Voice File Id', text(18), 'ContentDocument Id of the last voice note processed, so a note linked twice is handled once.'),
         'Prefilled_Fields__c': ('Prefilled Fields', text(255), 'Questions skipped because the answer was already on file (earlier applications, the customer record, Kotak loans).'),
         'Submitted_At__c': ('Submitted At', DATETIME, None),
     }),
@@ -125,6 +127,8 @@ FIELDS = {
         'Max_Age_At_Maturity__c': ('Max Age At Maturity', number(3), None),
         'Min_Cibil_Score__c': ('Min CIBIL Score', number(3), 'At or above: pass.'),
         'Decline_Cibil_Score__c': ('Decline CIBIL Score', number(3), 'Below: fail. In between: refer.'),
+        'Voice_Enabled__c': ('Voice Enabled', CHECKBOX, 'Transcribe WhatsApp voice notes (ElevenLabs, Named Credential LoanSeva_ElevenLabs) and treat them as typed replies.'),
+        'Voice_Model__c': ('Voice Model', text(40), 'ElevenLabs speech-to-text model_id, e.g. scribe_v1.'),
     },
 }
 

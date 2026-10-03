@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Voice_Note__c</fullName>
+    <description>What the last WhatsApp voice note was heard as (PAN masked, OTP never stored).</description>
+    <inlineHelpText>What the last WhatsApp voice note was heard as (PAN masked, OTP never stored).</inlineHelpText>
+    <label>Last Voice Note</label>
+    <type>Text</type>
+    <length>255</length>
+</CustomField>
