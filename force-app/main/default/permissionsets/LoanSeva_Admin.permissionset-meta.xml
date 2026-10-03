@@ -28,6 +28,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LoanSevaCreditMemo</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LoanSevaDateParser</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -469,6 +473,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Loan_Journey__c.Personalised_At__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Loan_Journey__c.Prefilled_Fields__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

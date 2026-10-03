@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Prefilled</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">✅ Mobile verified, {name}! Welcome back. 🙏 We've filled in what we already have on file:
+
+{details}
+
+Anything out of date? Just reply *Change*. Otherwise, questions left: *{count}*. ⏱️</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">✅ मोबाइल वेरिफ़ाई हो गया, {name}! फिर से स्वागत है। 🙏 आपकी जो जानकारी हमारे पास है, वह भर दी है:
+
+{details}
+
+कुछ बदल गया है? बस *बदलें* लिखें। बाकी सवाल: *{count}*। ⏱️</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">✅ मोबाइल पडताळला, {name}! पुन्हा स्वागत आहे. 🙏 तुमची जी माहिती आमच्याकडे आहे ती भरली आहे:
+
+{details}
+
+काही बदलले आहे? फक्त *बदला* लिहा. उरलेले प्रश्न: *{count}*. ⏱️</value>
+    </values>
+</CustomMetadata>

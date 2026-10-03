@@ -248,6 +248,105 @@ private class LoanSevaNewLoanTest {
         System.assertEquals(LoanSevaI18n.msg('Refer_Reprompt', 'EN'), LoanSevaEngine.pendingPrompt(j, false));
     }
 
+    /** Known customer (Contact on the mobile) starting a new loan from the menu, through the OTP. */
+    private static void returningCustomerVerified() {
+        j = LoanSevaEngine.start(LoanSevaJourneyService.resolve(null, null, MOBILE)).journey;
+        say('4');
+        System.assert(LoanSevaJourneyService.isNewLoan(j));
+        say('Meera Joshi ' + MOBILE);
+        System.assertEquals('otp', LoanSevaEngine.awaiting(j));
+        say(otp());
+    }
+
+    @IsTest
+    static void returningCustomerIsAskedOnlyWhatIsNotOnFile() {
+        LoanSevaTestData.useLogOnly();
+        Contact c = new Contact(FirstName = 'Meera', LastName = 'Joshi', MobilePhone = MOBILE, Email = 'meera@example.com');
+        insert c;
+        insert LoanSevaTestData.loan(c.Id, 'PL00099990009', 100000, 5000, 12, 10, null);
+        insert new Loan_Application__c(Contact__c = c.Id, Product__c = 'Personal Loan', Application_Type__c = LoanSevaJourneyService.TYPE_NEW_LOAN,
+            Submitted_At__c = Datetime.now().addDays(-30), Date_Of_Birth__c = Date.newInstance(1988, 3, 12), PAN__c = 'ABCPJ1234M',
+            City__c = 'Pune', PIN_Code__c = '411001', Monthly_Income__c = 120000);
+        insert new Loan_Journey__c(Contact__c = c.Id, Status__c = 'Completed', Journey_Type__c = LoanSevaJourneyService.TYPE_NEW_LOAN,
+            Employment_Type__c = 'Salaried', Company_Name__c = 'Infosys');
+
+        returningCustomerVerified();
+        String m = last.message;
+        System.assert(m.startsWith(LoanSevaI18n.msg('NL_Prefilled', 'EN').left(15)), m);
+        System.assert(m.contains('Welcome back'), m);
+        System.assert(m.contains('XXXXX1234M') && !m.contains('ABCPJ1234M'), 'PAN on file is masked: ' + m);
+        System.assert(m.contains('meera@example.com'), 'email from the customer record');
+        System.assert(m.contains('Pune 411001'), 'address from the earlier application');
+        System.assert(m.contains('Salaried @ Infosys'), 'employer from the earlier journey');
+        System.assert(m.contains(LoanSevaI18n.inr(5000)), 'EMIs from the active Kotak loan');
+        System.assert(m.contains('questions left: *2*'), m);
+        System.assert(m.contains('*1/2* — '), 'only purpose and amount are asked: ' + m);
+        System.assertEquals('purpose', LoanSevaEngine.awaiting(j));
+        System.assertEquals('dob;pan;email;pincode;employment;company;income;obligations', j.Prefilled_Fields__c);
+        System.assertEquals(120000, j.Monthly_Income__c);
+        System.assertEquals('1L-2L', j.Income_Bucket__c);
+        System.assertEquals(5000, j.Existing_EMIs__c);
+
+        say('1');
+        System.assert(last.message.startsWith('*2/2* — '), last.message);
+        say('3 lakh');
+        System.assertEquals('offer_decision', LoanSevaEngine.awaiting(j), last.message);
+        say('1');
+        say('skip');
+        say('skip');
+        say('skip');
+        System.assertEquals('consent', LoanSevaEngine.awaiting(j));
+        Test.startTest();
+        say('1');
+        Test.stopTest();
+
+        System.assertEquals(c.Id, j.Contact__c, 'no duplicate customer');
+        Contact after = [SELECT Email, Birthdate, MailingCity, MailingPostalCode FROM Contact WHERE Id = :c.Id];
+        System.assertEquals('meera@example.com', after.Email);
+        System.assertEquals(Date.newInstance(1988, 3, 12), after.Birthdate, 'blanks on the customer record are completed');
+        System.assertEquals('411001', after.MailingPostalCode);
+        System.assertEquals('Pune', after.MailingCity);
+        System.assertEquals('ABCPJ1234M', [SELECT PAN__c FROM Loan_Application__c WHERE Id = :j.Loan_Application__c].PAN__c);
+    }
+
+    @IsTest
+    static void changeReAsksEverythingOnFile() {
+        LoanSevaTestData.useLogOnly();
+        insert new Contact(FirstName = 'Meera', LastName = 'Joshi', MobilePhone = MOBILE, Email = 'meera@example.com',
+            Birthdate = Date.newInstance(1988, 3, 12), MailingPostalCode = '400060', MailingCity = 'Mumbai');
+        returningCustomerVerified();
+        System.assert(last.message.contains('12/03/1988') && last.message.contains('Mumbai 400060'), last.message);
+        System.assert(last.message.contains('*1/7* — '), 'DOB, email and PIN are on file: ' + last.message);
+        System.assertEquals('pan', LoanSevaEngine.awaiting(j));
+
+        say('Change');
+        System.assert(last.message.startsWith(LoanSevaI18n.msg('NL_Change', 'EN')), last.message);
+        System.assert(last.message.contains('*1/10* — '), last.message);
+        System.assertEquals('dob', LoanSevaEngine.awaiting(j));
+        System.assertEquals(null, j.Prefilled_Fields__c);
+        System.assertEquals(null, j.Email__c);
+        System.assertEquals(null, j.City__c);
+        say('Change');
+        System.assertEquals(false, last.success, 'nothing left to change, so it is read as an answer');
+        System.assertEquals('dob', LoanSevaEngine.awaiting(j));
+    }
+
+    @IsTest
+    static void verifiedTopUpCustomerSkipsSecondOtp() {
+        LoanSevaTestData.useLogOnly();
+        LoanSevaTestData.createCustomers();
+        j = LoanSevaTestData.verifiedJourney(LoanSevaTestData.PRIYA_MOBILE, 'Priya Sharma');
+        j.Purpose__c = 'Home Renovation';
+        LoanSevaEngine.Result r = LoanSevaNewLoan.start(j);
+        j = r.journey;
+        System.assert(r.message.startsWith(LoanSevaI18n.msg('NL_Intro', 'EN')), r.message);
+        System.assert(!r.message.contains(otp()), 'no second OTP');
+        System.assert(r.message.contains(LoanSevaI18n.inr(11800)), 'EMI of the Kotak loan: ' + r.message);
+        System.assertEquals('dob', LoanSevaEngine.awaiting(j));
+        System.assertEquals('obligations', j.Prefilled_Fields__c);
+        System.assertEquals(null, j.Purpose__c, 'the loan need is asked afresh');
+    }
+
     @IsTest
     static void hindiQuestionsAreRenumbered() {
         Loan_Journey__c h = new Loan_Journey__c(Language__c = 'HI', Journey_Type__c = 'New Loan');

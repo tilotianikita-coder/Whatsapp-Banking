@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prefilled_Fields__c</fullName>
+    <description>Questions skipped because the answer was already on file (earlier applications, the customer record, Kotak loans).</description>
+    <inlineHelpText>Questions skipped because the answer was already on file (earlier applications, the customer record, Kotak loans).</inlineHelpText>
+    <label>Prefilled Fields</label>
+    <type>Text</type>
+    <length>255</length>
+</CustomField>

@@ -341,6 +341,16 @@ NEW_LOAN = {
         "✅ मोबाइल वेरिफ़ाई हो गया, {name}! आपके बारे में कुछ छोटे सवाल — लगभग 2 मिनट। ⏱️",
         "✅ मोबाइल पडताळला, {name}! तुमच्याबद्दल काही छोटे प्रश्न — सुमारे 2 मिनिटे. ⏱️",
     ),
+    'NL_Prefilled': (
+        "✅ Mobile verified, {name}! Welcome back. 🙏 We've filled in what we already have on file:\n\n{details}\n\nAnything out of date? Just reply *Change*. Otherwise, questions left: *{count}*. ⏱️",
+        "✅ मोबाइल वेरिफ़ाई हो गया, {name}! फिर से स्वागत है। 🙏 आपकी जो जानकारी हमारे पास है, वह भर दी है:\n\n{details}\n\nकुछ बदल गया है? बस *बदलें* लिखें। बाकी सवाल: *{count}*। ⏱️",
+        "✅ मोबाइल पडताळला, {name}! पुन्हा स्वागत आहे. 🙏 तुमची जी माहिती आमच्याकडे आहे ती भरली आहे:\n\n{details}\n\nकाही बदलले आहे? फक्त *बदला* लिहा. उरलेले प्रश्न: *{count}*. ⏱️",
+    ),
+    'NL_Change': (
+        "No problem — let's update your details. ✏️",
+        "कोई बात नहीं — चलिए आपकी जानकारी अपडेट करते हैं। ✏️",
+        "हरकत नाही — चला तुमची माहिती अपडेट करूया. ✏️",
+    ),
     'NL_Invalid': (
         "Hmm, that doesn't look quite right. 🙂 Please try again.",
         "हम्म, यह सही नहीं लग रहा। 🙂 कृपया फिर से कोशिश करें।",

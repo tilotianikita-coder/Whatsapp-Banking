@@ -1,6 +1,7 @@
 /**
  * New Personal Loan application, for customers without a pre-approved Top-Up offer:
  * verify (name, mobile, OTP) -> 10 questions (KYC, income, loan need) -> indicative offer ->
+ * (an existing customer's answers on file are filled in after the OTP, so only the rest are asked) ->
  * documents on WhatsApp (PAN, bank statement, salary slips; each skippable) -> review and consent ->
  * submit (reference number, RM Task, mock underwriting). The RM then approves or rejects, and an
  * approval creates the loan account (LoanSevaDecisionService).
@@ -37,6 +38,12 @@ public with sharing class LoanSevaNewLoan {
     private static final Set<String> NONE_WORDS = new Set<String>{
         'none', 'nil', 'no', 'nothing', 'na', 'zero', 'nahi', 'कोई', 'नहीं', 'शून्य', 'नाही', 'काही'
     };
+    /** Reply to the on-file summary that re-asks the prefilled questions. */
+    private static final Set<String> CHANGE_WORDS = new Set<String>{
+        'change', 'update', 'edit', 'badlo', 'badalna', 'बदलें', 'बदलना', 'बदला', 'बदल', 'अपडेट'
+    };
+    /** Questions that can be answered from data on file; purpose and amount are always asked for each application. */
+    private static final List<String> ON_FILE = new List<String>{ 'dob', 'pan', 'email', 'pincode', 'employment', 'company', 'income', 'obligations' };
 
     // ------------------------------------------------------------------ Start and verify
     /** Switches the journey to a new-loan application and asks for (or, if already given, verifies) name and mobile. */
@@ -45,8 +52,17 @@ public with sharing class LoanSevaNewLoan {
         j.Apply_Offered__c = false;
         j.Menu_Pending__c = false;
         j.Question_Pending__c = false;
+        // The loan need is asked afresh: a Top-Up answer (or an earlier application's) doesn't carry over.
+        j.Purpose__c = null;
+        j.Desired_Amount__c = null;
         LoanSevaJourneyService.advance(j, 'Verify');
         String intro = LoanSevaI18n.msg('NL_Intro', j.Language__c);
+        if (j.OTP_Verified__c) {
+            // Already verified in this chat (a Top-Up customer choosing a new loan): no second OTP.
+            LoanSevaEngine.Result r = verified(j);
+            r.message = intro + '\n\n' + r.message;
+            return r;
+        }
         if (String.isNotBlank(j.Customer_Name__c) && j.Mobile__c != null) {
             return sendOtp(j, intro, j.Mobile__c);
         }
@@ -96,31 +112,220 @@ public with sharing class LoanSevaNewLoan {
         return LoanSevaEngine.result(fresh, String.isBlank(prefix) ? otp : prefix + '\n\n' + otp);
     }
 
-    /** OTP accepted: straight into the questions (there is no existing loan to confirm). */
+    /**
+     * OTP accepted: straight into the questions (there is no existing loan to confirm). An existing customer's
+     * details on file are filled in first and shown back once, so only the missing questions are asked.
+     */
     public static LoanSevaEngine.Result verified(Loan_Journey__c j) {
         j.Loan_Confirmed__c = true;
         LoanSevaJourneyService.advance(j, 'Personalise');
-        String message = LoanSevaI18n.msg('NL_Verified', j.Language__c, new Map<String, Object>{ 'name' => LoanSevaJourneyService.firstName(j) })
+        prefill(j);
+        List<String> onFile = String.isBlank(j.Prefilled_Fields__c) ? new List<String>() : j.Prefilled_Fields__c.split(';');
+        Map<String, Object> params = new Map<String, Object>{
+            'name' => LoanSevaJourneyService.firstName(j),
+            'details' => onFileSummary(j, onFile),
+            'count' => FIELDS.size() - onFile.size()
+        };
+        String message = LoanSevaI18n.msg(onFile.isEmpty() ? 'NL_Verified' : 'NL_Prefilled', j.Language__c, params)
             + '\n\n' + question(j, pendingField(j));
         update j;
         return LoanSevaEngine.result(j, message);
     }
 
+    // ------------------------------------------------------------------ Existing customers: details on file
+    /**
+     * Fills blank KYC answers from what is already known about this customer, most reliable first: earlier
+     * applications (checked, and corrected by the RM if needed), earlier journeys, the Contact, and the EMIs on
+     * their active Kotak loans. Every question answered before the first one is asked is recorded in
+     * Prefilled_Fields__c, so numbering counts only the questions actually asked.
+     */
+    @TestVisible
+    private static void prefill(Loan_Journey__c j) {
+        if (j.Contact__c == null && j.Mobile__c != null) {
+            Contact c = LoanSevaJourneyService.findContact(j.Mobile__c);
+            j.Contact__c = c == null ? null : c.Id;
+        }
+        Id contactId = j.Contact__c;
+        // Sets without nulls: "Contact__c = null" would match every record with no customer.
+        Set<Id> contactIds = new Set<Id>();
+        Set<String> mobiles = new Set<String>();
+        if (contactId != null) {
+            contactIds.add(contactId);
+        }
+        if (j.Mobile__c != null) {
+            mobiles.add(j.Mobile__c);
+        }
+        if (!contactIds.isEmpty() || !mobiles.isEmpty()) {
+            Id appId = j.Loan_Application__c;
+            Id journeyId = j.Id;
+            for (Loan_Application__c a : [
+                SELECT Date_Of_Birth__c, PAN__c, Email__c, City__c, PIN_Code__c, Monthly_Income__c, Existing_EMIs__c
+                FROM Loan_Application__c
+                WHERE (Contact__c IN :contactIds OR Mobile__c IN :mobiles) AND Id != :appId AND Submitted_At__c != null
+                ORDER BY Submitted_At__c DESC LIMIT 5
+            ]) {
+                fillFrom(j, a.Date_Of_Birth__c, a.PAN__c, a.Email__c, a.City__c, a.PIN_Code__c, a.Monthly_Income__c, a.Existing_EMIs__c);
+            }
+            for (Loan_Journey__c p : [
+                SELECT Date_Of_Birth__c, PAN__c, Email__c, City__c, PIN_Code__c, Monthly_Income__c, Existing_EMIs__c,
+                    Employment_Type__c, Company_Name__c
+                FROM Loan_Journey__c
+                WHERE (Contact__c IN :contactIds OR Mobile__c IN :mobiles) AND Id != :journeyId
+                ORDER BY CreatedDate DESC LIMIT 10
+            ]) {
+                fillFrom(j, p.Date_Of_Birth__c, p.PAN__c, p.Email__c, p.City__c, p.PIN_Code__c, p.Monthly_Income__c, p.Existing_EMIs__c);
+                if (String.isBlank(j.Employment_Type__c) && String.isNotBlank(p.Employment_Type__c)) {
+                    j.Employment_Type__c = p.Employment_Type__c;
+                    j.Company_Name__c = String.isBlank(j.Company_Name__c) ? p.Company_Name__c : j.Company_Name__c;
+                }
+            }
+        }
+        if (contactId != null) {
+            for (Contact c : [SELECT Email, Birthdate, MailingCity, MailingPostalCode FROM Contact WHERE Id = :contactId]) {
+                fillFrom(j, c.Birthdate, null, c.Email, c.MailingCity, c.MailingPostalCode, null, null);
+            }
+            if (j.Existing_EMIs__c == null) {
+                AggregateResult[] emis = [
+                    SELECT SUM(Current_EMI__c) total, COUNT(Id) loans FROM Existing_Loan__c
+                    WHERE Contact__c = :contactId AND Status__c = 'Active'
+                ];
+                if ((Integer) emis[0].get('loans') > 0) {
+                    Decimal total = (Decimal) emis[0].get('total');
+                    j.Existing_EMIs__c = total == null ? 0 : total;
+                }
+            }
+        }
+        List<String> onFile = new List<String>();
+        for (String field : ON_FILE) {
+            if (isAnswered(j, field)) {
+                onFile.add(field);
+            }
+        }
+        j.Prefilled_Fields__c = onFile.isEmpty() ? null : String.join(onFile, ';');
+    }
+
+    /** Copies each value only where the journey has none yet, and only if it would pass the question's own validation. */
+    private static void fillFrom(Loan_Journey__c j, Date dob, String pan, String email, String city, String pin, Decimal income, Decimal emis) {
+        if (j.Date_Of_Birth__c == null && dob != null) {
+            Integer age = ageOn(dob, LoanSevaI18n.todayIst());
+            j.Date_Of_Birth__c = age >= 18 && age <= 80 ? dob : null;
+        }
+        if (String.isBlank(j.PAN__c) && String.isNotBlank(pan) && PAN_FORMAT.matcher(pan).matches()) {
+            j.PAN__c = pan;
+        }
+        if (String.isBlank(j.Email__c) && String.isNotBlank(email) && EMAIL_FORMAT.matcher(email).matches()) {
+            j.Email__c = email.toLowerCase();
+        }
+        if (String.isBlank(j.PIN_Code__c) && String.isNotBlank(pin) && Pattern.matches('[1-9][0-9]{5}', pin)) {
+            j.PIN_Code__c = pin;
+            j.City__c = String.isNotBlank(city) ? city : PIN_CITIES.get(pin.left(3));
+        }
+        if (j.Monthly_Income__c == null && income != null && income >= 1000) {
+            setIncome(j, income);
+        }
+        if (j.Existing_EMIs__c == null && emis != null && emis >= 0) {
+            j.Existing_EMIs__c = emis;
+        }
+    }
+
+    /** One line per answer on file, in the style of the review card. PAN is masked. */
+    private static String onFileSummary(Loan_Journey__c j, List<String> onFile) {
+        String lang = j.Language__c;
+        String perMonth = '/' + LoanSevaI18n.pick('month', 'माह', 'महिना', lang);
+        List<String> lines = new List<String>();
+        if (onFile.contains('dob')) {
+            lines.add('🎂 ' + formatDate(j.Date_Of_Birth__c));
+        }
+        if (onFile.contains('pan')) {
+            lines.add('🪪 PAN ' + maskPan(j.PAN__c));
+        }
+        if (onFile.contains('email')) {
+            lines.add('📧 ' + j.Email__c);
+        }
+        if (onFile.contains('pincode')) {
+            lines.add('📍 ' + ((j.City__c == null ? '' : j.City__c) + ' ' + j.PIN_Code__c).trim());
+        }
+        if (onFile.contains('employment') || onFile.contains('company')) {
+            List<String> work = new List<String>();
+            for (String part : new List<String>{ onFile.contains('employment') ? j.Employment_Type__c : null, onFile.contains('company') ? j.Company_Name__c : null }) {
+                if (String.isNotBlank(part)) {
+                    work.add(part);
+                }
+            }
+            lines.add('💼 ' + String.join(work, ' @ '));
+        }
+        if (onFile.contains('income')) {
+            lines.add('💵 ' + LoanSevaI18n.pick('Income', 'आय', 'उत्पन्न', lang) + ' ' + LoanSevaI18n.inr(j.Monthly_Income__c) + perMonth);
+        }
+        if (onFile.contains('obligations')) {
+            lines.add('🧾 EMI ' + LoanSevaI18n.inr(j.Existing_EMIs__c) + perMonth);
+        }
+        return '> ' + String.join(lines, '\n> ');
+    }
+
+    /** "Change" after the on-file summary: true if there are prefilled answers to re-ask. */
+    public static Boolean wantsChange(Loan_Journey__c j, String text) {
+        String t = text == null ? '' : text.toLowerCase().replaceAll('[^\\p{L}\\p{M}\\s]', ' ').normalizeSpace();
+        return String.isNotBlank(j.Prefilled_Fields__c) && String.isNotBlank(t) && t.split(' ').size() <= 3
+            && CHANGE_WORDS.contains(t.split(' ')[0]);
+    }
+
+    /** Clears the prefilled answers so each is asked again, starting with the first. */
+    public static LoanSevaEngine.Result redoPrefilled(Loan_Journey__c j) {
+        for (String field : j.Prefilled_Fields__c.split(';')) {
+            clearAnswer(j, field);
+        }
+        j.Prefilled_Fields__c = null;
+        LoanSevaJourneyService.touch(j);
+        update j;
+        return LoanSevaEngine.result(j, LoanSevaI18n.msg('NL_Change', j.Language__c) + '\n\n' + question(j, pendingField(j)));
+    }
+
+    private static void clearAnswer(Loan_Journey__c j, String field) {
+        if (field == 'dob') {
+            j.Date_Of_Birth__c = null;
+        } else if (field == 'pan') {
+            j.PAN__c = null;
+        } else if (field == 'email') {
+            j.Email__c = null;
+        } else if (field == 'pincode') {
+            j.PIN_Code__c = null;
+            j.City__c = null;
+        } else if (field == 'employment') {
+            j.Employment_Type__c = null;
+        } else if (field == 'company') {
+            j.Company_Name__c = null;
+        } else if (field == 'income') {
+            j.Monthly_Income__c = null;
+            j.Income_Bucket__c = null;
+        } else if (field == 'obligations') {
+            j.Existing_EMIs__c = null;
+        }
+    }
+
     // ------------------------------------------------------------------ Questions
     public static String pendingField(Loan_Journey__c j) {
-        List<Object> values = new List<Object>{
-            j.Date_Of_Birth__c, j.PAN__c, j.Email__c, j.PIN_Code__c, j.Employment_Type__c, j.Company_Name__c,
-            j.Monthly_Income__c, j.Existing_EMIs__c, j.Purpose__c, j.Desired_Amount__c
-        };
-        for (Integer i = 0; i < FIELDS.size(); i++) {
-            if (values[i] == null || String.isBlank(String.valueOf(values[i]))) {
-                return FIELDS[i];
+        for (String field : FIELDS) {
+            if (!isAnswered(j, field)) {
+                return field;
             }
         }
         return null;
     }
 
-    /** The question for a field, numbered n/10 (the shared Top-Up copy is numbered n/5, so that prefix is replaced). */
+    private static Boolean isAnswered(Loan_Journey__c j, String field) {
+        List<Object> values = new List<Object>{
+            j.Date_Of_Birth__c, j.PAN__c, j.Email__c, j.PIN_Code__c, j.Employment_Type__c, j.Company_Name__c,
+            j.Monthly_Income__c, j.Existing_EMIs__c, j.Purpose__c, j.Desired_Amount__c
+        };
+        Object value = values[FIELDS.indexOf(field)];
+        return value != null && String.isNotBlank(String.valueOf(value));
+    }
+
+    /**
+     * The question for a field, numbered n/total over the questions actually asked (10 for a new customer,
+     * fewer when answers were on file). The shared Top-Up copy is numbered n/5, so that prefix is replaced.
+     */
     public static String question(Loan_Journey__c j, String field) {
         if (field == null) {
             return '';
@@ -145,7 +350,14 @@ public with sharing class LoanSevaNewLoan {
             };
             text = LoanSevaI18n.msg(keys.get(field), lang);
         }
-        return '*' + (FIELDS.indexOf(field) + 1) + '/' + FIELDS.size() + '* — ' + text.replaceFirst('^\\*[0-9]+/[0-9]+\\* — ', '');
+        List<String> asked = new List<String>();
+        Set<String> onFile = String.isBlank(j.Prefilled_Fields__c) ? new Set<String>() : new Set<String>(j.Prefilled_Fields__c.split(';'));
+        for (String f : FIELDS) {
+            if (!onFile.contains(f) || f == field) {
+                asked.add(f);
+            }
+        }
+        return '*' + (asked.indexOf(field) + 1) + '/' + asked.size() + '* — ' + text.replaceFirst('^\\*[0-9]+/[0-9]+\\* — ', '');
     }
 
     /** Upper bound shown with the amount question: the product maximum, or the income multiple if lower. */
@@ -202,8 +414,7 @@ public with sharing class LoanSevaNewLoan {
             if (income == null || income < 1000) {
                 return false;
             }
-            j.Monthly_Income__c = income;
-            j.Income_Bucket__c = income < 50000 ? 'Below 50K' : income < 100000 ? '50K-1L' : income < 200000 ? '1L-2L' : '2L+';
+            setIncome(j, income);
             return true;
         }
         if (field == 'obligations') {
@@ -230,6 +441,11 @@ public with sharing class LoanSevaNewLoan {
             return true;
         }
         return false;
+    }
+
+    private static void setIncome(Loan_Journey__c j, Decimal income) {
+        j.Monthly_Income__c = income;
+        j.Income_Bucket__c = income < 50000 ? 'Below 50K' : income < 100000 ? '50K-1L' : income < 200000 ? '1L-2L' : '2L+';
     }
 
     // ------------------------------------------------------------------ State
@@ -346,7 +562,7 @@ public with sharing class LoanSevaNewLoan {
     public static String review(Loan_Journey__c j) {
         return LoanSevaI18n.msg('NL_Review', j.Language__c, new Map<String, Object>{
             'name' => j.Customer_Name__c,
-            'dob' => j.Date_Of_Birth__c == null ? '' : Datetime.newInstance(j.Date_Of_Birth__c, Time.newInstance(12, 0, 0, 0)).format('dd/MM/yyyy'),
+            'dob' => formatDate(j.Date_Of_Birth__c),
             'pan' => maskPan(j.PAN__c),
             'email' => j.Email__c,
             'city' => ((j.City__c == null ? '' : j.City__c) + ' ' + (j.PIN_Code__c == null ? '' : j.PIN_Code__c)).trim(),
@@ -358,6 +574,10 @@ public with sharing class LoanSevaNewLoan {
             'emi' => LoanSevaI18n.inr(j.Offer_EMI__c),
             'docs' => docsLine(j)
         });
+    }
+
+    private static String formatDate(Date d) {
+        return d == null ? '' : Datetime.newInstance(d, Time.newInstance(12, 0, 0, 0)).format('dd/MM/yyyy');
     }
 
     public static String maskPan(String pan) {
@@ -405,6 +625,8 @@ public with sharing class LoanSevaNewLoan {
         LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
         if (j.Contact__c == null) {
             j.Contact__c = createContact(j);
+        } else {
+            completeContact(j);
         }
         Loan_Application__c app = [SELECT Id, Name FROM Loan_Application__c WHERE Id = :j.Loan_Application__c];
         Datetime now = Datetime.now();
@@ -461,6 +683,29 @@ public with sharing class LoanSevaNewLoan {
         }
         insert c;
         return c.Id;
+    }
+
+    /** Fills blanks on an existing customer's Contact from the application, so the next one is prefilled. Never overwrites. */
+    private static void completeContact(Loan_Journey__c j) {
+        Contact c = [SELECT Id, Email, Birthdate, MailingCity, MailingPostalCode FROM Contact WHERE Id = :j.Contact__c];
+        Boolean changed = false;
+        if (String.isBlank(c.Email) && String.isNotBlank(j.Email__c)) {
+            c.Email = j.Email__c;
+            changed = true;
+        }
+        if (c.Birthdate == null && j.Date_Of_Birth__c != null) {
+            c.Birthdate = j.Date_Of_Birth__c;
+            changed = true;
+        }
+        if (String.isBlank(c.MailingPostalCode) && String.isNotBlank(j.PIN_Code__c)) {
+            c.MailingPostalCode = j.PIN_Code__c;
+            c.MailingCity = String.isBlank(c.MailingCity) ? j.City__c : c.MailingCity;
+            changed = true;
+        }
+        if (changed) {
+            // Best effort: a validation rule on the customer record must not block the application.
+            Database.update(c, false);
+        }
     }
 
     // ------------------------------------------------------------------ Parsers

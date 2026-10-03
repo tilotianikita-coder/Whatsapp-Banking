@@ -71,6 +71,7 @@ FIELDS = {
         'Apply_Offered__c': ('New Loan Offered', CHECKBOX, 'The customer was told there is no pre-approved offer and offered a new-loan application.'),
         'Doc_Step__c': ('Document Step', number(2), '1 PAN, 2 bank statement, 3 salary slips, 4 review and consent.'),
         'Docs_Skipped__c': ('Documents Skipped', text(255), 'Documents the customer chose to send later.'),
+        'Prefilled_Fields__c': ('Prefilled Fields', text(255), 'Questions skipped because the answer was already on file (earlier applications, the customer record, Kotak loans).'),
         'Submitted_At__c': ('Submitted At', DATETIME, None),
     }),
     'Loan_Application__c': dict(KYC, **{

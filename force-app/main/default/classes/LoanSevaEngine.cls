@@ -242,6 +242,9 @@ public with sharing class LoanSevaEngine {
         if (!j.Loan_Confirmed__c) {
             j.Loan_Confirmed__c = true;
         }
+        if (LoanSevaJourneyService.isNewLoan(j) && LoanSevaNewLoan.wantsChange(j, answer)) {
+            return LoanSevaNewLoan.redoPrefilled(j);
+        }
         LoanSevaJourneyService.advance(j, 'Personalise');
         String field = pendingField(j);
         if (field == null) {
