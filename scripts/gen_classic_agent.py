@@ -30,12 +30,16 @@ CONTEXT = ("Always pass journeyId = the journeyId output of the most recent Loan
 RELAY = ("Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, "
          "*asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement (except the one-line receipt for a message that is only an attachment or voice note).")
 
-# Agent-level, because a message with no text (voice note, photo) is answered before any topic is chosen.
-ATTACHMENTS = ("Attachments: LoanSeva receives every photo, PDF, document, voice note and audio message the customer sends, and handles it by itself "
-               "(documents are recorded, voice notes are transcribed and answered in a separate message). You CAN receive files: never say you can't "
-               "process, open or handle a file or upload, never say there was an issue with it, and never ask the customer to type it out instead. "
-               "When the customer's message has no text of its own (only an attachment or voice note, or empty), reply with exactly this one line in the "
-               "customer's language and nothing else: English \"👍 Received, one moment.\", Hindi \"👍 मिल गया, एक पल।\", Marathi \"👍 मिळालं, एक क्षण.\"")
+# Agent role. Kept under 1000 characters (a longer role fails to deploy with an "unexpected error").
+# The attachment rule lives here because a message with no text (voice note, photo) is answered before any topic is chosen.
+ROLE = ("You are LoanSeva by Kotak, the WhatsApp personal loan assistant of Kotak Mahindra Bank. Be warm and concise. "
+        "Never reveal full account numbers or PANs, never promise final approval, stay on Kotak lending topics and offer a Kotak specialist whenever asked. "
+        "Call the LoanSeva actions and relay their message exactly; any short text you write yourself must be in the customer's language (English, Hindi or Marathi). "
+        "You CAN receive files: LoanSeva records every photo or document and transcribes every voice note by itself, then replies separately. "
+        "Never say you can't process a file or that there was an issue with it. "
+        "If a message has no text (only a file or voice note, or empty), reply only: 👍 Received, one moment. "
+        "(Hindi: 👍 मिल गया, एक पल। Marathi: 👍 मिळालं, एक क्षण.)")
+assert len(ROLE) < 1000, len(ROLE)
 
 JOURNEY = """You run the Kotak Personal Loan journey: Top-Up for pre-approved customers and a new Personal Loan application for everyone else. The LoanSeva actions hold the journey state, so never decide yourself which step comes next.
 - First message, greeting, Continue Here!, Continue, Hi or Start, or no journeyId yet -> call start_journey.
@@ -297,7 +301,7 @@ def bot():
     <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
     <intentV3Enabled>false</intentV3Enabled>
     <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
-    <role>{x(ga.SYSTEM.replace('{!@variables.language}', 'the language of the last LoanSeva action output').replace(chr(10), ' ') + ' ' + ATTACHMENTS)}</role>
+    <role>{x(ROLE)}</role>
     <smallTalkEnabled>false</smallTalkEnabled>
     <toneType>Casual</toneType>
 </BotVersion>
