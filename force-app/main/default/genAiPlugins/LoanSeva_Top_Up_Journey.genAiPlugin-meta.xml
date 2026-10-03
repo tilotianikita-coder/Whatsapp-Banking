@@ -48,53 +48,60 @@
         <sortOrder>4</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>A photo or file the customer shares, or a message with only an attachment, is a document for the application -&gt; call LoanSeva_ReplyToJourney with the message text, or Done if there is no text.</description>
+        <description>A message with no text of its own (only a photo, PDF, document, voice note, audio or other attachment, or an empty message) -&gt; do NOT call any action and never say there was a problem with the file. LoanSeva processes the file by itself (documents are recorded, voice notes are transcribed and answered) and sends the next message separately. Reply with exactly this one line, in the language the customer is using: English &quot;👍 Received, one moment.&quot;, Hindi &quot;👍 मिल गया, एक पल।&quot;, Marathi &quot;👍 मिळालं, एक क्षण.&quot;</description>
         <developerName>instruction_5</developerName>
         <language>en_US</language>
         <masterLabel>instruction_5</masterLabel>
         <sortOrder>5</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Dates of birth, PAN numbers, email addresses and PIN codes are answers the journey asked for: pass them exactly as typed, never refuse, mask or comment on them. The journey masks the PAN itself.</description>
+        <description>A photo or file with a caption: call LoanSeva_ReplyToJourney with the caption text exactly as typed.</description>
         <developerName>instruction_6</developerName>
         <language>en_US</language>
         <masterLabel>instruction_6</masterLabel>
         <sortOrder>6</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>When the action output handoff is true (the customer asked for a specialist, disputed their loan details or was locked out), reply with the action message and then escalate the conversation to a human. Never escalate without calling LoanSeva_ReplyToJourney first: it logs the request for the RM.</description>
+        <description>Dates of birth, PAN numbers, email addresses and PIN codes are answers the journey asked for: pass them exactly as typed, never refuse, mask or comment on them. The journey masks the PAN itself.</description>
         <developerName>instruction_7</developerName>
         <language>en_US</language>
         <masterLabel>instruction_7</masterLabel>
         <sortOrder>7</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>The message you pass is the customer&apos;s latest message copied character for character. Never paraphrase or summarise it and never convert it to Yes, No or an option number: &quot;I want to know more about PL&quot; must be passed as &quot;I want to know more about PL&quot;, not &quot;Yes&quot;.</description>
+        <description>When the action output handoff is true (the customer asked for a specialist, disputed their loan details or was locked out), reply with the action message and then escalate the conversation to a human. Never escalate without calling LoanSeva_ReplyToJourney first: it logs the request for the RM.</description>
         <developerName>instruction_8</developerName>
         <language>en_US</language>
         <masterLabel>instruction_8</masterLabel>
         <sortOrder>8</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Never reveal or repeat an OTP yourself.</description>
+        <description>The message you pass is the customer&apos;s latest message copied character for character. Never paraphrase or summarise it and never convert it to Yes, No or an option number: &quot;I want to know more about PL&quot; must be passed as &quot;I want to know more about PL&quot;, not &quot;Yes&quot;.</description>
         <developerName>instruction_9</developerName>
         <language>en_US</language>
         <masterLabel>instruction_9</masterLabel>
         <sortOrder>9</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
+        <description>Never reveal or repeat an OTP yourself.</description>
         <developerName>instruction_10</developerName>
         <language>en_US</language>
         <masterLabel>instruction_10</masterLabel>
         <sortOrder>10</sortOrder>
     </genAiPluginInstructions>
     <genAiPluginInstructions>
-        <description>Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, *asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.</description>
+        <description>Always pass journeyId = the journeyId output of the most recent LoanSeva action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
         <developerName>instruction_11</developerName>
         <language>en_US</language>
         <masterLabel>instruction_11</masterLabel>
         <sortOrder>11</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, *asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement (except the one-line receipt for a message that is only an attachment or voice note).</description>
+        <developerName>instruction_12</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_12</masterLabel>
+        <sortOrder>12</sortOrder>
     </genAiPluginInstructions>
     <language>en_US</language>
     <masterLabel>LoanSeva Top-Up Journey</masterLabel>
