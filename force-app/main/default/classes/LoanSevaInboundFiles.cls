@@ -33,6 +33,25 @@ public with sharing class LoanSevaInboundFiles {
         if (filesBySource.isEmpty()) {
             return;
         }
+        // WhatsApp files are linked to the session only. A returning customer gets a new session before the
+        // journey hears about it, so the session's end user is matched as well.
+        Set<Id> sessionIds = new Set<Id>();
+        for (ContentDocumentLink l : links) {
+            if (l.LinkedEntityId.getSobjectType() == MessagingSession.SObjectType) {
+                sessionIds.add(l.LinkedEntityId);
+            }
+        }
+        if (!sessionIds.isEmpty()) {
+            for (MessagingSession s : [SELECT Id, MessagingEndUserId FROM MessagingSession WHERE Id IN :sessionIds AND MessagingEndUserId != null]) {
+                Set<Id> files = filesBySource.get(s.Id);
+                for (String key : new List<String>{ s.MessagingEndUserId, String.valueOf(s.MessagingEndUserId).left(15) }) {
+                    if (!filesBySource.containsKey(key)) {
+                        filesBySource.put(key, new Set<Id>());
+                    }
+                    filesBySource.get(key).addAll(files);
+                }
+            }
+        }
         Set<String> keys = filesBySource.keySet();
         List<Loan_Journey__c> journeys = Database.query(
             'SELECT ' + LoanSevaJourneyService.journeyFields() + ' FROM Loan_Journey__c WHERE Journey_Type__c = \'' + LoanSevaJourneyService.TYPE_NEW_LOAN + '\'' +

@@ -319,6 +319,30 @@ private class LoanSevaNewLoanTest {
     }
 
     @IsTest
+    static void fileOnANewSessionReachesTheJourney() {
+        List<MessagingChannel> channels = [SELECT Id FROM MessagingChannel WHERE DeveloperName = :LoanSevaConfig.get().WhatsApp_Channel__c];
+        if (channels.isEmpty()) {
+            return; // no WhatsApp channel in this org; the session-only path is covered above
+        }
+        throughOffer('1', 'Infosys');
+        say('1');
+        MessagingEndUser eu = new MessagingEndUser(Name = 'Asha Patil', MessagingChannelId = channels[0].Id, MessagingPlatformKey = '91' + MOBILE,
+            MessageType = 'Custom', MessagingConsentStatus = 'ExplicitlyOptedIn');
+        insert eu;
+        MessagingSession returning = new MessagingSession(MessagingChannelId = channels[0].Id, MessagingEndUserId = eu.Id, Status = 'Ended');
+        insert returning;
+        // The journey still points at the session the customer started on, which has since ended.
+        update new Loan_Journey__c(Id = j.Id, Messaging_Session_Id__c = '0MwgL00000F73wbSAB', Messaging_End_User_Id__c = eu.Id);
+
+        Test.startTest();
+        Id fileId = addFile(returning.Id, 'pan_on_new_session');
+        Test.stopTest();
+        j = LoanSevaJourneyService.byId(j.Id);
+        System.assertEquals('doc_bank', LoanSevaEngine.awaiting(j), 'the session id on the journey is stale but the end user matches');
+        System.assertEquals(fileId, [SELECT Content_Document_Id__c FROM Loan_Document__c WHERE Loan_Application__c = :j.Loan_Application__c].Content_Document_Id__c);
+    }
+
+    @IsTest
     static void filesOnTheSessionAreCollectedOnce() {
         Loan_Application__c app = new Loan_Application__c(Product__c = 'Personal Loan');
         insert app;

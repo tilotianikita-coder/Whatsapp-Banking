@@ -15,6 +15,15 @@ public with sharing class LoanSevaDocumentService {
                 sources.add(candidate);
             }
         }
+        // Files are linked to the session only, and a returning customer is on a newer session than the one
+        // stored on the journey: include every session of this end user since the journey began.
+        if (LoanSevaJourneyService.isId(j.Messaging_End_User_Id__c) && j.Id != null) {
+            Id endUserId = j.Messaging_End_User_Id__c;
+            Datetime since = [SELECT CreatedDate FROM Loan_Journey__c WHERE Id = :j.Id].CreatedDate;
+            for (MessagingSession s : [SELECT Id FROM MessagingSession WHERE MessagingEndUserId = :endUserId AND CreatedDate >= :since]) {
+                sources.add(s.Id);
+            }
+        }
         Id appId = j.Loan_Application__c;
         Set<Id> known = new Set<Id>();
         for (Loan_Document__c d : [SELECT Content_Document_Id__c FROM Loan_Document__c WHERE Loan_Application__c = :appId]) {
