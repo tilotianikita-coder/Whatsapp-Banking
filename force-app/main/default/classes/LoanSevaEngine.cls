@@ -777,7 +777,7 @@ public with sharing class LoanSevaEngine {
             if (option && choice == 3) {
                 return escalate(j, 'Chose Talk to a specialist from the menu');
             }
-            if (option && choice == 4 && canApply(j)) {
+            if (option && choice == 4) {
                 return LoanSevaJourneyService.isNewLoan(j) ? resume(j) : LoanSevaNewLoan.start(j);
             }
             update j;
@@ -802,7 +802,7 @@ public with sharing class LoanSevaEngine {
         if (!raw && wantsHuman(t)) {
             return escalate(j, 'Asked for a specialist: ' + t);
         }
-        if ((state == 'menu' || state == 'identity') && wantsNewLoan(t) && !LoanSevaJourneyService.isNewLoan(j) && canApply(j)) {
+        if ((state == 'menu' || state == 'identity') && wantsNewLoan(t) && !LoanSevaJourneyService.isNewLoan(j)) {
             return LoanSevaNewLoan.start(j);
         }
         switch on state {
@@ -859,7 +859,7 @@ public with sharing class LoanSevaEngine {
                     return escalate(j, 'Chose Talk to a specialist from the menu');
                 }
                 if (choice == 4) {
-                    return canApply(j) ? LoanSevaNewLoan.start(j) : verifyCustomer(j, null, null);
+                    return LoanSevaNewLoan.start(j);
                 }
                 return LoanSevaFaqMatcher.bestMatch(t, true) != null ? answerFaq(j, t) : start(j);
             }
@@ -894,18 +894,20 @@ public with sharing class LoanSevaEngine {
         return faqOrPrompt(j, t);
     }
 
-    /** Only customers without a pre-approved Top-Up are offered the new-loan application. */
-    private static Boolean canApply(Loan_Journey__c j) {
-        return LoanSevaJourneyService.isNewLoan(j)
-            || j.Existing_Loan__c == null && LoanSevaJourneyService.activeLoan(j.Contact__c) == null;
-    }
-
     /** "Apply for a loan", "I want a new personal loan", नया लोन, नवीन कर्ज. */
     private static final Pattern NEW_LOAN = Pattern.compile(
         '(?i).*(\\b(apply|new|fresh)\\b.*\\b(loan|pl)\\b|नया लोन|नए लोन|लोन के लिए आवेदन|नवीन कर्ज|नवीन लोन|कर्जासाठी अर्ज).*');
 
+    /** "How is Top-Up different from a new loan" is an FAQ, not an application. */
+    private static final Pattern COMPARES = Pattern.compile(
+        '(?i).*(\\b(differ\\w*|difference|vs|versus|compare\\w*|comparison|better|than)\\b|अंतर|फर्क|फ़र्क|फरक|तुलना).*');
+
     private static Boolean wantsNewLoan(String s) {
-        return String.isNotBlank(s) && NEW_LOAN.matcher(s.replace('\n', ' ')).matches();
+        if (String.isBlank(s)) {
+            return false;
+        }
+        String line = s.replace('\n', ' ');
+        return NEW_LOAN.matcher(line).matches() && !COMPARES.matcher(line).matches();
     }
 
     private static Result offerDecision(Loan_Journey__c j, String t, Integer choice) {

@@ -201,12 +201,35 @@ private class LoanSevaNewLoanTest {
     }
 
     @IsTest
-    static void preApprovedCustomersStayOnTopUp() {
+    static void preApprovedCustomersCanApplyForNewLoan() {
+        LoanSevaTestData.useLogOnly();
+        Id priyaId = LoanSevaTestData.createCustomers()[0].Id;
+        LoanSevaEngine.Result welcome = LoanSevaEngine.start(LoanSevaJourneyService.resolve(null, null, LoanSevaTestData.PRIYA_MOBILE));
+        j = welcome.journey;
+        System.assert(welcome.message.contains('pre-qualified'), welcome.message);
+        System.assert(welcome.message.contains('4️⃣ Apply for a new Personal Loan'), welcome.message);
+
+        say('how is this different from a new loan');
+        System.assert(!LoanSevaJourneyService.isNewLoan(j), 'a comparison is an FAQ, not an application');
+        say('4');
+        System.assert(LoanSevaJourneyService.isNewLoan(j), 'option 4 from the personalised welcome');
+        System.assertEquals(priyaId, j.Contact__c);
+        if (LoanSevaEngine.awaiting(j) == 'identity') {
+            say('Priya Sharma ' + LoanSevaTestData.PRIYA_MOBILE);
+        }
+        System.assertEquals('otp', LoanSevaEngine.awaiting(j));
+        say(otp());
+        System.assertEquals('dob', LoanSevaEngine.awaiting(j), 'straight to the new-loan questions, no Top-Up loan confirmation');
+        System.assertEquals(null, j.Existing_Loan__c);
+    }
+
+    @IsTest
+    static void typedApplyRequestFromPreApprovedCustomer() {
         LoanSevaTestData.useLogOnly();
         LoanSevaTestData.createCustomers();
         j = LoanSevaEngine.start(LoanSevaJourneyService.resolve(null, null, LoanSevaTestData.PRIYA_MOBILE)).journey;
-        say('apply for a new loan');
-        System.assert(!LoanSevaJourneyService.isNewLoan(j));
+        say('I want to apply for a new loan');
+        System.assert(LoanSevaJourneyService.isNewLoan(j));
     }
 
     @IsTest

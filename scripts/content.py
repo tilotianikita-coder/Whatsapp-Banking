@@ -459,10 +459,11 @@ NEW_LOAN = {
 }
 MESSAGES.update(NEW_LOAN)
 
-# Generic welcome (no pre-approved offer found for this number): also offer the new-loan application
+# Both welcomes also offer a new-loan application (pre-approved customers can apply for a fresh loan instead of a Top-Up)
 _APPLY_OPTION = ("4️⃣ Apply for a new Personal Loan", "4️⃣ नए पर्सनल लोन के लिए आवेदन करें", "4️⃣ नवीन पर्सनल लोनसाठी अर्ज करा")
-MESSAGES['Welcome_Generic'] = tuple(
-    t.replace('\n\n' + footer, '\n' + opt + '\n\n' + footer) for t, opt, footer in zip(MESSAGES['Welcome_Generic'], _APPLY_OPTION, LANG_FOOTER.values()))
+for _key in ('Welcome', 'Welcome_Generic'):
+    MESSAGES[_key] = tuple(
+        t.replace('\n\n' + footer, '\n' + opt + '\n\n' + footer) for t, opt, footer in zip(MESSAGES[_key], _APPLY_OPTION, LANG_FOOTER.values()))
 
 # FAQ: key -> (sort, question, keywords, en, hi, mr). Tokens come from LoanSeva_Config__mdt.
 FAQS = {
