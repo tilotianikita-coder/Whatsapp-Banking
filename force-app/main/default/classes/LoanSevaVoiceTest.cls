@@ -135,6 +135,16 @@ private class LoanSevaVoiceTest {
     }
 
     @IsTest
+    static void spokenRequestForAHumanAsksToTypeAgent() {
+        LoanSevaTestData.useLogOnly();
+        j = LoanSevaEngine.start(LoanSevaJourneyService.resolve(null, null, MOBILE)).journey;
+        Id fileId = addAudio(j.Id);
+        String reply = LoanSevaVoice.reply(j, fileId, 'I want to talk to a specialist.');
+        System.assert(reply.endsWith(LoanSevaI18n.msg('Voice_Handoff', 'EN')), reply);
+        System.assert([SELECT COUNT() FROM Task WHERE Subject LIKE 'LoanSeva: Human requested%'] > 0, 'the RM is still notified');
+    }
+
+    @IsTest
     static void voiceNoteOnTheDocumentStepIsNotADocument() {
         atPanStep();
         for (String answer : new List<String>{ 'abcpp1234k', 'asha.patil@example.com', 'Pune 411001', '1', 'Infosys', '85k', '0', '1', '3 lakh', '1' }) {

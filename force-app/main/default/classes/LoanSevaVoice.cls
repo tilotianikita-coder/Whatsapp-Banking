@@ -105,7 +105,8 @@ public with sharing class LoanSevaVoice implements Queueable, Database.AllowsCal
         String echo = heard == null
             ? LoanSevaI18n.msg('Voice_Received', lang)
             : LoanSevaI18n.msg('Voice_Heard', lang, new Map<String, Object>{ 'text' => heard });
-        return echo + '\n\n' + r.message;
+        // Only the agent can transfer the chat to Omni-Channel, and a voice note never reaches it: ask for a typed request.
+        return echo + '\n\n' + (r.handoff == true ? LoanSevaI18n.msg('Voice_Handoff', lang) : r.message);
     }
 
     /** What is shown back: the PAN masked, the OTP never. Null means don't echo. */

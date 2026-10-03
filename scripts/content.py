@@ -358,6 +358,11 @@ NEW_LOAN = {
         "🎙️ माफ़ कीजिए, वॉइस नोट समझ नहीं आया। कृपया दोबारा भेजें या जवाब टाइप करें।",
         "🎙️ माफ करा, व्हॉइस नोट समजली नाही. कृपया पुन्हा पाठवा किंवा उत्तर टाइप करा.",
     ),
+    'Voice_Handoff': (
+        "🙋 A Kotak loan specialist has been notified, and everything you've shared is saved. To chat with them right now, please *type* Agent. Otherwise they'll call you back within 24 hours.",
+        "🙋 Kotak लोन विशेषज्ञ को सूचना दे दी गई है, और आपकी दी गई सारी जानकारी सेव है। अभी उनसे चैट करने के लिए कृपया *Agent* टाइप करें। नहीं तो वे 24 घंटों में कॉल करेंगे।",
+        "🙋 Kotak कर्ज तज्ज्ञांना कळवले आहे, आणि तुम्ही दिलेली सर्व माहिती सेव्ह आहे. आत्ता त्यांच्याशी चॅट करण्यासाठी कृपया *Agent* टाइप करा. नाहीतर ते 24 तासांत कॉल करतील.",
+    ),
     'NL_Prefilled': (
         "✅ Mobile verified, {name}! Welcome back. 🙏 We've filled in what we already have on file:\n\n{details}\n\nAnything out of date? Just reply *Change*. Otherwise, questions left: *{count}*. ⏱️",
         "✅ मोबाइल वेरिफ़ाई हो गया, {name}! फिर से स्वागत है। 🙏 आपकी जो जानकारी हमारे पास है, वह भर दी है:\n\n{details}\n\nकुछ बदल गया है? बस *बदलें* लिखें। बाकी सवाल: *{count}*। ⏱️",

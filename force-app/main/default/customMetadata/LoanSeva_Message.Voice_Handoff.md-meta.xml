@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Voice Handoff</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">🙋 A Kotak loan specialist has been notified, and everything you've shared is saved. To chat with them right now, please *type* Agent. Otherwise they'll call you back within 24 hours.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">🙋 Kotak लोन विशेषज्ञ को सूचना दे दी गई है, और आपकी दी गई सारी जानकारी सेव है। अभी उनसे चैट करने के लिए कृपया *Agent* टाइप करें। नहीं तो वे 24 घंटों में कॉल करेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">🙋 Kotak कर्ज तज्ज्ञांना कळवले आहे, आणि तुम्ही दिलेली सर्व माहिती सेव्ह आहे. आत्ता त्यांच्याशी चॅट करण्यासाठी कृपया *Agent* टाइप करा. नाहीतर ते 24 तासांत कॉल करतील.</value>
+    </values>
+</CustomMetadata>
