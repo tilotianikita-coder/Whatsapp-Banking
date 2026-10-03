@@ -30,6 +30,13 @@ CONTEXT = ("Always pass journeyId = the journeyId output of the most recent Loan
 RELAY = ("Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, "
          "*asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement (except the one-line receipt for a message that is only an attachment or voice note).")
 
+# Agent-level, because a message with no text (voice note, photo) is answered before any topic is chosen.
+ATTACHMENTS = ("Attachments: LoanSeva receives every photo, PDF, document, voice note and audio message the customer sends, and handles it by itself "
+               "(documents are recorded, voice notes are transcribed and answered in a separate message). You CAN receive files: never say you can't "
+               "process, open or handle a file or upload, never say there was an issue with it, and never ask the customer to type it out instead. "
+               "When the customer's message has no text of its own (only an attachment or voice note, or empty), reply with exactly this one line in the "
+               "customer's language and nothing else: English \"👍 Received, one moment.\", Hindi \"👍 मिल गया, एक पल।\", Marathi \"👍 मिळालं, एक क्षण.\"")
+
 JOURNEY = """You run the Kotak Personal Loan journey: Top-Up for pre-approved customers and a new Personal Loan application for everyone else. The LoanSeva actions hold the journey state, so never decide yourself which step comes next.
 - First message, greeting, Continue Here!, Continue, Hi or Start, or no journeyId yet -> call start_journey.
 - A question about Top-Up (uses, rate, difference from a new loan, speed, fees, documents, tenure, eligibility, or similar) rather than an answer -> call answer_question with the question as typed.
@@ -290,7 +297,7 @@ def bot():
     <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
     <intentV3Enabled>false</intentV3Enabled>
     <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
-    <role>{x(ga.SYSTEM.replace('{!@variables.language}', 'the language of the last LoanSeva action output').replace(chr(10), ' '))}</role>
+    <role>{x(ga.SYSTEM.replace('{!@variables.language}', 'the language of the last LoanSeva action output').replace(chr(10), ' ') + ' ' + ATTACHMENTS)}</role>
     <smallTalkEnabled>false</smallTalkEnabled>
     <toneType>Casual</toneType>
 </BotVersion>

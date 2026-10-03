@@ -95,6 +95,30 @@ private class LoanSevaUnderwritingTest {
         System.assertEquals(6, [SELECT COUNT() FROM Underwriting_Check__c WHERE Loan_Application__c = :second.Id], 're-run replaces earlier checks');
     }
 
+    /** A voice note submits from a queueable, which may chain only one job: the customer's reply. */
+    private class SubmitFromQueueable implements Queueable {
+        Id applicationId;
+
+        SubmitFromQueueable(Id applicationId) {
+            this.applicationId = applicationId;
+        }
+
+        public void execute(QueueableContext ctx) {
+            LoanSevaUnderwriting.start(applicationId);
+            System.assertEquals(0, Limits.getQueueableJobs(), 'underwriting runs inline, leaving the slot for the reply');
+        }
+    }
+
+    @IsTest
+    static void insideAQueueableItRunsInline() {
+        Loan_Application__c a = app('ABCPP1234K', 'Salaried', 'Infosys');
+        insert a;
+        Test.startTest();
+        System.enqueueJob(new SubmitFromQueueable(a.Id));
+        Test.stopTest();
+        System.assertEquals(6, [SELECT COUNT() FROM Underwriting_Check__c WHERE Loan_Application__c = :a.Id]);
+    }
+
     @IsTest
     static void incompleteApplicationIsDeclined() {
         Loan_Application__c a = app('ABCPP1234K', 'Salaried', 'Infosys');

@@ -25,9 +25,12 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
         run(applicationId);
     }
 
-    /** Runs asynchronously when possible, so the customer's WhatsApp reply isn't held up. */
+    /**
+     * Runs asynchronously when possible, so the customer's WhatsApp reply isn't held up. Inside a queueable (a voice
+     * note) it runs inline: a queueable may chain only one job, and that one sends the customer's reply.
+     */
     public static void start(Id applicationId) {
-        if (Limits.getQueueableJobs() < Limits.getLimitQueueableJobs()) {
+        if (!System.isQueueable() && Limits.getQueueableJobs() < Limits.getLimitQueueableJobs()) {
             System.enqueueJob(new LoanSevaUnderwriting(applicationId));
         } else {
             run(applicationId);
