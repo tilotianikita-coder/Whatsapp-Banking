@@ -172,6 +172,40 @@ private class LoanSevaDecisionServiceTest {
     }
 
     @IsTest
+    static void rmUploadsAreRecordedAndCanBeVerified() {
+        Loan_Application__c app = submitted('ABCPP1234K', '9123456787', 'EN');
+        ContentVersion v = new ContentVersion(Title = 'salary_sep', PathOnClient = 'salary_sep.pdf', VersionData = Blob.valueOf('pdf'), FirstPublishLocationId = app.Id);
+        ContentVersion elsewhere = new ContentVersion(Title = 'other', PathOnClient = 'other.pdf', VersionData = Blob.valueOf('pdf'));
+        insert new List<ContentVersion>{ v, elsewhere };
+        Id fileId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :v.Id].ContentDocumentId;
+        Id unlinked = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :elsewhere.Id].ContentDocumentId;
+
+        try {
+            LoanSevaDecisionService.addDocuments(app.Id, null, new List<Id>{ fileId });
+            System.assert(false, 'a document type is required');
+        } catch (AuraHandledException e) {
+            System.assert(e.getMessage().contains('document type'), e.getMessage());
+        }
+        LoanSevaDecisionService.Scorecard s = LoanSevaDecisionService.addDocuments(app.Id, 'Salary Slips', new List<Id>{ fileId, unlinked });
+        System.assertEquals(2, s.documents.size(), 'a file not on this application is ignored');
+        Loan_Document__c d = [SELECT Id, Document_Type__c, Source__c, Status__c, File_Name__c FROM Loan_Document__c WHERE Content_Document_Id__c = :fileId];
+        System.assertEquals('Salary Slips', d.Document_Type__c);
+        System.assertEquals('RM', d.Source__c);
+        System.assertEquals('Received', d.Status__c);
+        System.assertEquals('salary_sep.pdf', d.File_Name__c);
+        System.assertEquals(2, LoanSevaDecisionService.addDocuments(app.Id, 'Salary Slips', new List<Id>{ fileId }).documents.size(), 'no duplicate on re-upload');
+
+        LoanSevaDecisionService.setDocumentStatus(d.Id, 'Verified');
+        System.assertEquals('Verified', [SELECT Status__c FROM Loan_Document__c WHERE Id = :d.Id].Status__c);
+        try {
+            LoanSevaDecisionService.setDocumentStatus(d.Id, 'Lost');
+            System.assert(false, 'unknown status');
+        } catch (AuraHandledException e) {
+            System.assert(e.getMessage().contains('Lost'), e.getMessage());
+        }
+    }
+
+    @IsTest
     static void rerunRefreshesChecksAndTopUpIsNotDecidable() {
         Loan_Application__c app = submitted('ABCPP1234K', '9123456783', 'EN');
         insert new Loan_Document__c(Loan_Application__c = app.Id, Document_Type__c = 'PAN Card');

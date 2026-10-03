@@ -41,11 +41,22 @@
                 <template lwc:if={hasDocuments}>
                     <ul>
                         <template for:each={documents} for:item="d">
-                            <li key={d.Id} class="slds-m-bottom_xx-small">
-                                <lightning-icon icon-name="doctype:image" size="x-small" class="slds-m-right_x-small"></lightning-icon>
-                                <strong>{d.Document_Type__c}</strong>&nbsp;
-                                <template lwc:if={d.url}><a href={d.url} target="_blank">{d.File_Name__c}</a></template>
-                                <template lwc:else>{d.File_Name__c}</template>
+                            <li key={d.Id} class="slds-m-bottom_x-small slds-grid slds-grid_vertical-align-center">
+                                <div class="slds-col slds-truncate">
+                                    <lightning-icon icon-name="doctype:image" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                                    <strong>{d.Document_Type__c}</strong>&nbsp;
+                                    <template lwc:if={d.url}><a href={d.url} target="_blank">{d.File_Name__c}</a></template>
+                                    <template lwc:else>{d.File_Name__c}</template>
+                                    <div class="slds-text-body_small slds-text-color_weak">
+                                        <span class={d.statusClass}>{d.Status__c}</span> · {d.sourceLabel}
+                                    </div>
+                                </div>
+                                <lightning-button-menu alternative-text="Document actions" icon-size="x-small" menu-alignment="right"
+                                    data-id={d.Id} onselect={handleDocumentStatus}>
+                                    <lightning-menu-item value="Verified" label="Mark verified"></lightning-menu-item>
+                                    <lightning-menu-item value="Rejected" label="Reject"></lightning-menu-item>
+                                    <lightning-menu-item value="Received" label="Reset to received"></lightning-menu-item>
+                                </lightning-button-menu>
                             </li>
                         </template>
                     </ul>
@@ -53,6 +64,13 @@
                 <template lwc:else>
                     <p class="slds-text-color_weak">No documents shared yet.</p>
                 </template>
+
+                <div class="slds-box slds-box_x-small slds-m-top_small">
+                    <lightning-combobox label="Upload a document" placeholder="Document type" options={documentTypes}
+                        value={uploadType} onchange={handleUploadType}></lightning-combobox>
+                    <lightning-file-upload label="Files" record-id={recordId} multiple disabled={uploadDisabled}
+                        accept={acceptedFormats} onuploadfinished={handleUploadFinished} class="slds-m-top_x-small"></lightning-file-upload>
+                </div>
 
                 <template lwc:if={decided}>
                     <div class="slds-box slds-m-top_medium">

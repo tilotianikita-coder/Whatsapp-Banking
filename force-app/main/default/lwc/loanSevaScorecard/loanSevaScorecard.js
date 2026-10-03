@@ -6,12 +6,15 @@ import getScorecard from '@salesforce/apex/LoanSevaDecisionService.getScorecard'
 import approve from '@salesforce/apex/LoanSevaDecisionService.approve';
 import reject from '@salesforce/apex/LoanSevaDecisionService.reject';
 import rerunUnderwriting from '@salesforce/apex/LoanSevaDecisionService.rerunUnderwriting';
+import addDocuments from '@salesforce/apex/LoanSevaDecisionService.addDocuments';
+import setDocumentStatus from '@salesforce/apex/LoanSevaDecisionService.setDocumentStatus';
 
 const RECOMMENDATION_BADGE = {
     Approve: 'slds-badge slds-theme_success',
     Refer: 'slds-badge slds-theme_warning',
     Decline: 'slds-badge slds-theme_error'
 };
+const DOCUMENT_STATUS_CLASS = { Verified: 'slds-text-color_success', Rejected: 'slds-text-color_error' };
 const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
 
 export default class LoanSevaScorecard extends LightningElement {
@@ -19,6 +22,9 @@ export default class LoanSevaScorecard extends LightningElement {
     data;
     error;
     busy = false;
+    uploadType;
+    documentTypes = ['PAN Card', 'Bank Statement', 'Salary Slips', 'Other'].map((t) => ({ label: t, value: t }));
+    acceptedFormats = ['.pdf', '.png', '.jpg', '.jpeg', '.heic'];
 
     @wire(getRecord, { recordId: '$recordId', fields: ['Loan_Application__c.LastModifiedDate'] })
     recordChanged({ data }) {
@@ -47,7 +53,9 @@ export default class LoanSevaScorecard extends LightningElement {
     get documents() {
         return (this.data && this.data.documents ? this.data.documents : []).map((d) => ({
             ...d,
-            url: d.Content_Document_Id__c ? '/lightning/r/ContentDocument/' + d.Content_Document_Id__c + '/view' : null
+            url: d.Content_Document_Id__c ? '/lightning/r/ContentDocument/' + d.Content_Document_Id__c + '/view' : null,
+            statusClass: DOCUMENT_STATUS_CLASS[d.Status__c] || '',
+            sourceLabel: d.Source__c === 'RM' ? 'uploaded by RM' : 'via WhatsApp'
         }));
     }
 
@@ -149,6 +157,40 @@ export default class LoanSevaScorecard extends LightningElement {
             notifyRecordUpdateAvailable([{ recordId: this.recordId }]);
         } catch (e) {
             this.toast('Could not re-run underwriting', this.message(e), 'error');
+        } finally {
+            this.busy = false;
+        }
+    }
+
+    get uploadDisabled() {
+        return this.busy || !this.uploadType;
+    }
+
+    handleUploadType(event) {
+        this.uploadType = event.detail.value;
+    }
+
+    async handleUploadFinished(event) {
+        const ids = event.detail.files.map((f) => f.documentId);
+        this.busy = true;
+        try {
+            this.data = await addDocuments({ applicationId: this.recordId, documentType: this.uploadType, contentDocumentIds: ids });
+            const hint = this.canDecide && this.app.Underwriting_Status__c === 'Completed' ? ' Re-run underwriting to include it in the checks.' : '';
+            this.toast(this.uploadType + ' added', ids.length + ' file(s) recorded.' + hint, 'success');
+            this.uploadType = undefined;
+        } catch (e) {
+            this.toast('Document not recorded', this.message(e), 'error');
+        } finally {
+            this.busy = false;
+        }
+    }
+
+    async handleDocumentStatus(event) {
+        this.busy = true;
+        try {
+            this.data = await setDocumentStatus({ documentId: event.currentTarget.dataset.id, status: event.detail.value });
+        } catch (e) {
+            this.toast('Status not saved', this.message(e), 'error');
         } finally {
             this.busy = false;
         }

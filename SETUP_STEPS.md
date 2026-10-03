@@ -126,6 +126,8 @@ Self-employed applicants and Category B employers without salary slips are alway
 
 **Inbound photos.** WhatsApp attachments arrive as Salesforce Files linked to the MessagingSession. A `ContentDocumentLink` trigger records them on the application as soon as they arrive and sends the next document prompt, so the customer doesn't need to type anything. If a file doesn't arrive, attach it to the Loan Journey record (Files related list) and reply **Done**. Customers can also reply **Skip**, and the RM collects the documents offline.
 
+**RM uploads.** On the Loan Application page, the scorecard's Documents section has **Upload a document**: pick the type (PAN Card, Bank Statement, Salary Slips, Other), then drop or choose files (PDF/JPG/PNG/HEIC). Each file is recorded as a Loan Document with Source RM. The menu on each document marks it **Verified** or **Rejected**. After adding a missing document, click **Re-run underwriting** so the checks include it.
+
 The LoanSeva LOS app and its Loan Application record page are assigned in metadata (`applications/LoanSeva_LOS.app-meta.xml`). Users with `LoanSeva_Admin` see the app; no Lightning App Builder activation is needed.
 
 ## 10. Before any external use

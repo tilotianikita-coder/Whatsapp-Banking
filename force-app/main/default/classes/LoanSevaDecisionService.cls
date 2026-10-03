@@ -9,6 +9,7 @@ public with sharing class LoanSevaDecisionService {
     /** Sent back for more details or documents; the application stays open for a final decision. */
     public static final String REFERRED = 'Referred';
     private static final Set<String> DECIDABLE = new Set<String>{ 'Application Submitted', 'Under Review' };
+    private static final Set<String> DOCUMENT_STATUSES = new Set<String>{ 'Received', 'Verified', 'Rejected' };
 
     public class Scorecard {
         @AuraEnabled public Loan_Application__c application;
@@ -62,6 +63,62 @@ public with sharing class LoanSevaDecisionService {
         }
         LoanSevaUnderwriting.run(applicationId);
         return getScorecard(applicationId);
+    }
+
+    /**
+     * Files the RM uploaded on the record page (already linked to the application by lightning-file-upload):
+     * one Loan_Document__c each, Source RM. Files already recorded are skipped.
+     */
+    @AuraEnabled
+    public static Scorecard addDocuments(Id applicationId, String documentType, List<Id> contentDocumentIds) {
+        Set<String> types = new Set<String>();
+        for (Schema.PicklistEntry e : Loan_Document__c.Document_Type__c.getDescribe().getPicklistValues()) {
+            types.add(e.getValue());
+        }
+        if (!types.contains(documentType)) {
+            throw auraError('Choose a document type before uploading.');
+        }
+        Set<Id> known = new Set<Id>();
+        for (Loan_Document__c d : [SELECT Content_Document_Id__c FROM Loan_Document__c WHERE Loan_Application__c = :applicationId AND Content_Document_Id__c != null]) {
+            known.add(d.Content_Document_Id__c);
+        }
+        List<Loan_Document__c> docs = new List<Loan_Document__c>();
+        Set<Id> ids = contentDocumentIds == null ? new Set<Id>() : new Set<Id>(contentDocumentIds);
+        // Only files actually linked to this application can be recorded against it.
+        for (ContentDocumentLink l : [
+            SELECT ContentDocumentId, ContentDocument.Title, ContentDocument.FileExtension
+            FROM ContentDocumentLink WHERE LinkedEntityId = :applicationId AND ContentDocumentId IN :ids
+        ]) {
+            if (known.contains(l.ContentDocumentId)) {
+                continue;
+            }
+            String title = l.ContentDocument.Title;
+            String ext = l.ContentDocument.FileExtension;
+            String fileName = title + (String.isBlank(ext) || title.endsWithIgnoreCase('.' + ext) ? '' : '.' + ext);
+            docs.add(new Loan_Document__c(
+                Loan_Application__c = applicationId,
+                Document_Type__c = documentType,
+                Status__c = 'Received',
+                Content_Document_Id__c = l.ContentDocumentId,
+                File_Name__c = fileName.abbreviate(255),
+                Received_At__c = Datetime.now(),
+                Source__c = 'RM'
+            ));
+        }
+        insert docs;
+        return getScorecard(applicationId);
+    }
+
+    /** RM marks a document Verified or Rejected (or back to Received). */
+    @AuraEnabled
+    public static Scorecard setDocumentStatus(Id documentId, String status) {
+        if (!DOCUMENT_STATUSES.contains(status)) {
+            throw auraError('Unknown document status: ' + status);
+        }
+        Loan_Document__c d = [SELECT Id, Loan_Application__c FROM Loan_Document__c WHERE Id = :documentId];
+        d.Status__c = status;
+        update d;
+        return getScorecard(d.Loan_Application__c);
     }
 
     /** Bulk-safe decision: one LAN per approved application, one WhatsApp message per customer. */
@@ -188,7 +245,7 @@ public with sharing class LoanSevaDecisionService {
                 Loan_Account__c, Loan_Account__r.Masked_Account__c, Loan_Account__r.Loan_Account_Number__c, Loan_Account__r.Status__c, Bureau_Consent__c, Loan_Journey__c,
                 (SELECT Id, Check__c, Provider__c, Result__c, Score__c, Summary__c, Details__c, Report_Data__c, Request_Id__c, Run_At__c
                  FROM Underwriting_Checks__r ORDER BY Sort_Order__c),
-                (SELECT Id, Document_Type__c, File_Name__c, Status__c, Received_At__c, Content_Document_Id__c
+                (SELECT Id, Document_Type__c, File_Name__c, Status__c, Received_At__c, Content_Document_Id__c, Source__c
                  FROM Loan_Documents__r ORDER BY Received_At__c)
             FROM Loan_Application__c WHERE Id = :applicationId
         ];
