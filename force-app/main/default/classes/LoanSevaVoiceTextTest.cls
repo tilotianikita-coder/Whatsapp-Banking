@@ -39,6 +39,9 @@ private class LoanSevaVoiceTextTest {
         System.assertEquals('4', LoanSevaVoiceText.forState('Option four.', 'menu'));
         System.assertEquals('2', LoanSevaVoiceText.forState('number two', 'employment'));
         System.assertEquals('1', LoanSevaVoiceText.forState('one', 'consent'));
+        System.assertEquals('Salaried', LoanSevaVoiceText.forState('Sally Read.', 'employment'));
+        System.assertEquals('Salaried', LoanSevaVoiceText.forState('सैलरीड', 'employment'));
+        System.assertEquals('Self employed', LoanSevaVoiceText.forState('Self employed', 'employment'));
         System.assertEquals('Tata Consultancy Services', LoanSevaVoiceText.forState('Tata Consultancy Services.', 'company'));
         System.assertEquals('', LoanSevaVoiceText.forState(null, 'purpose'));
         System.assertEquals('Yes please', LoanSevaVoiceText.forState('Yes please!', 'offer_decision'));

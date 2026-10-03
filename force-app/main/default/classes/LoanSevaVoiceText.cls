@@ -60,6 +60,10 @@ public with sharing class LoanSevaVoiceText {
         if (state == 'company') {
             return t;
         }
+        // "Salaried" is often transcribed as "Sally Read", "Salary", "सैलरी"
+        if (state == 'employment' && Pattern.matches('(?i)^(sal|sally|सैलर|सेलर|सॅलर).*', t.replaceAll('\\s+', ''))) {
+            return 'Salaried';
+        }
         t = numbers(t);
         if (DIGIT_STATES.contains(state)) {
             t = t.replaceAll('(?<=[0-9])[\\s\\-]+(?=[0-9])', '');
