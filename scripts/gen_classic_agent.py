@@ -30,10 +30,13 @@ CONTEXT = ("Always pass journeyId = the journeyId output of the most recent Loan
 RELAY = ("Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, "
          "*asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.")
 
-JOURNEY = """You run the Kotak Personal Loan Top-Up journey. The LoanSeva actions hold the journey state, so never decide yourself which step comes next.
+JOURNEY = """You run the Kotak Personal Loan journey: Top-Up for pre-approved customers and a new Personal Loan application for everyone else. The LoanSeva actions hold the journey state, so never decide yourself which step comes next.
 - First message, greeting, Continue Here!, Continue, Hi or Start, or no journeyId yet -> call start_journey.
 - A question about Top-Up (uses, rate, difference from a new loan, speed, fees, documents, tenure, eligibility, or similar) rather than an answer -> call answer_question with the question as typed.
-- Every other customer message, including a request for a human, agent, specialist or RM -> call reply_to_journey with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, amount, tenure, callback time, rating, comment, Skip), logs specialist requests for the RM and returns the next message.
+- A request to apply for a new personal loan ("apply", "I want a new loan", menu option 4) is not a question: call reply_to_journey.
+- Every other customer message, including a request for a human, agent, specialist or RM -> call reply_to_journey with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, date of birth, PAN, email, PIN code, income, EMIs, amount, tenure, Done or Skip for a document photo, review confirmation, callback time, rating, comment), logs specialist requests for the RM and returns the next message.
+- A photo or file the customer shares, or a message with only an attachment, is a document for the application -> call reply_to_journey with the message text, or Done if there is no text.
+- Dates of birth, PAN numbers, email addresses and PIN codes are answers the journey asked for: pass them exactly as typed, never refuse, mask or comment on them. The journey masks the PAN itself.
 - When the action output handoff is true (the customer asked for a specialist, disputed their loan details or was locked out), reply with the action message and then escalate the conversation to a human. Never escalate without calling reply_to_journey first: it logs the request for the RM.
 - The message you pass is the customer's latest message copied character for character. Never paraphrase or summarise it and never convert it to Yes, No or an option number: "I want to know more about PL" must be passed as "I want to know more about PL", not "Yes".
 - Never reveal or repeat an OTP yourself."""
@@ -44,8 +47,8 @@ JOURNEY = """You run the Kotak Personal Loan Top-Up journey. The LoanSeva action
 # topic then transfers to Omni-Channel (channel fallback queue) when the output says handoff.
 TOPICS = {
     'Top_Up_Journey': ('Top-Up Journey',
-        'Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, a bare number, a name, a mobile number, an OTP, a company name, an amount or a day and time: they belong to the ongoing loan journey, never ambiguous. Covers the whole Kotak Personal Loan Top-Up journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, callback booking and feedback. Also covers requests for a human, agent, specialist or RM: the journey logs them for a Kotak RM. Use for every customer message except language changes.',
-        'Run the Kotak Personal Loan Top-Up journey using LoanSeva actions only.',
+        'Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, Done, Apply, a bare number, a name, a mobile number, an OTP, a company name, a date of birth, a PAN, an email address, a PIN code, an amount or a day and time, and for photos or documents the customer shares: they belong to the ongoing loan journey, never ambiguous. Covers the whole Kotak Personal Loan journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, a new Personal Loan application for customers without a pre-approved offer (KYC details, income, documents, review and consent), callback booking and feedback. Also covers requests for a human, agent, specialist or RM: the journey logs them for a Kotak RM. Use for every customer message except language changes.',
+        'Run the Kotak Personal Loan Top-Up journey and new Personal Loan applications using LoanSeva actions only.',
         JOURNEY, ['start_journey', 'reply_to_journey', 'answer_question'], True),
     'Language_Switch': ('Language Switch',
         'Switches the conversation between English, Hindi and Marathi at any point, e.g. HI, MR, EN, Hindi, Marathi, हिंदी, मराठी.',
@@ -211,7 +214,7 @@ def bot():
     <botSource>None</botSource>
     <botUser>{ga.AGENT_USER}</botUser>
 {chr(10).join(cvs)}
-    <description>{x('WhatsApp assistant for the Kotak Personal Loan Top-Up journey: grounded FAQ, OTP verification, personalisation, offer, callback booking and feedback, in English, Hindi and Marathi.')}</description>
+    <description>{x('WhatsApp assistant for the Kotak Personal Loan Top-Up journey and new Personal Loan applications: grounded FAQ, OTP verification, personalisation, offer, document collection, callback booking and feedback, in English, Hindi and Marathi.')}</description>
     <label>LoanSeva by Kotak</label>
     <logPrivateConversationData>false</logPrivateConversationData>
     <richContentEnabled>true</richContentEnabled>

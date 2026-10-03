@@ -116,7 +116,7 @@
         <includeInPrompt>false</includeInPrompt>
         <label>End User Language</label>
     </contextVariables>
-    <description>WhatsApp assistant for the Kotak Personal Loan Top-Up journey: grounded FAQ, OTP verification, personalisation, offer, callback booking and feedback, in English, Hindi and Marathi.</description>
+    <description>WhatsApp assistant for the Kotak Personal Loan Top-Up journey and new Personal Loan applications: grounded FAQ, OTP verification, personalisation, offer, document collection, callback booking and feedback, in English, Hindi and Marathi.</description>
     <label>LoanSeva by Kotak</label>
     <logPrivateConversationData>false</logPrivateConversationData>
     <richContentEnabled>true</richContentEnabled>
