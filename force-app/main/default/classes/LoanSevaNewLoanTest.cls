@@ -85,18 +85,20 @@ private class LoanSevaNewLoanTest {
         System.assertEquals(false, last.success, 'no file yet');
         System.assertEquals(LoanSevaI18n.msg('NL_Doc_Not_Received', 'EN'), last.message);
         addFile(j.Id, 'pan_front');
+        j = LoanSevaJourneyService.byId(j.Id);
+        System.assertEquals('doc_bank', LoanSevaEngine.awaiting(j), 'a file sent without a caption is picked up as it arrives');
         say('Done');
-        System.assert(last.message.startsWith(LoanSevaI18n.msg('NL_Doc_Received', 'EN', new Map<String, Object>{ 'count' => 1 })));
-        System.assertEquals('doc_bank', LoanSevaEngine.awaiting(j));
+        System.assertEquals(false, last.success, 'the PAN file is not counted again');
         say('Skip');
         System.assertEquals('Bank Statement', j.Docs_Skipped__c);
         System.assertEquals('doc_salary', LoanSevaEngine.awaiting(j), 'salaried applicants are asked for salary slips');
         addFile(j.Id, 'slips');
-        say('done');
+        j = LoanSevaJourneyService.byId(j.Id);
         System.assertEquals('consent', LoanSevaEngine.awaiting(j));
-        System.assert(last.message.contains('XXXXX1234K'), last.message);
-        System.assert(!last.message.contains('ABCPP1234K'), 'full PAN is never echoed');
-        System.assert(last.message.contains('⏳ later'), 'bank statement is shown as pending');
+        String review = LoanSevaEngine.pendingPrompt(j, false);
+        System.assert(review.contains('XXXXX1234K'), review);
+        System.assert(!review.contains('ABCPP1234K'), 'full PAN is never echoed');
+        System.assert(review.contains('⏳ later'), 'bank statement is shown as pending');
 
         say('1');
         Test.stopTest();
@@ -292,6 +294,28 @@ private class LoanSevaNewLoanTest {
         System.assertEquals(cfg.Base_Rate__c + cfg.New_Loan_Rate_Premium__c + cfg.Self_Employed_Premium__c, se.rate);
         System.assert(se.amount <= Math.min(cfg.New_Loan_Max_Amount__c, 100000 * cfg.New_Loan_Income_Multiple__c));
         System.assert(se.cappedBelowDesired);
+    }
+
+    @IsTest
+    static void captionlessFileIsRecordedAndNextPromptSent() {
+        throughOffer('1', 'Infosys');
+        say('1');
+        System.assertEquals('doc_pan', LoanSevaEngine.awaiting(j));
+        Test.startTest();
+        Id fileId = addFile(j.Id, 'pan');
+        Test.stopTest();
+        j = LoanSevaJourneyService.byId(j.Id);
+        System.assertEquals('doc_bank', LoanSevaEngine.awaiting(j));
+        Loan_Document__c d = [SELECT Document_Type__c, Content_Document_Id__c FROM Loan_Document__c WHERE Loan_Application__c = :j.Loan_Application__c];
+        System.assertEquals('PAN Card', d.Document_Type__c);
+        System.assertEquals(fileId, d.Content_Document_Id__c);
+        System.assert(j.Last_Send_Status__c.contains(LoanSevaI18n.msg('NL_Doc_Received', 'EN', new Map<String, Object>{ 'count' => 1 })), j.Last_Send_Status__c);
+        System.assert(j.Last_Send_Status__c.contains('Document 2/3'), 'the next prompt goes out proactively');
+
+        LoanSevaInboundFiles.process([SELECT LinkedEntityId, ContentDocumentId FROM ContentDocumentLink WHERE ContentDocumentId = :fileId AND LinkedEntityId = :j.Id]);
+        System.assertEquals('doc_bank', LoanSevaEngine.awaiting(LoanSevaJourneyService.byId(j.Id)), 'a file already recorded does not advance again');
+        addFile(j.Loan_Application__c, 'rm_upload');
+        System.assertEquals(1, [SELECT COUNT() FROM Loan_Document__c WHERE Loan_Application__c = :j.Loan_Application__c], 'files on other records are ignored');
     }
 
     @IsTest
