@@ -27,7 +27,7 @@ def classes(prefix='LoanSeva'):
                   if f.endswith('.cls') and f.startswith(prefix) and not f[:-4].endswith('Test'))
 
 
-def permset(name, label, desc, obj_perms, field_edit=True, extra='', apps=(), principals=()):
+def permset(name, label, desc, obj_perms, field_edit=True, extra='', apps=(), principals=(), user_perms=()):
     parts = [f'<?xml version="1.0" encoding="UTF-8"?>\n<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">\n'
              f'    <label>{label}</label>\n    <description>{desc}</description>\n    <hasActivationRequired>false</hasActivationRequired>\n']
     for app in apps:
@@ -53,6 +53,7 @@ def permset(name, label, desc, obj_perms, field_edit=True, extra='', apps=(), pr
     parts.append(extra)  # extra object permissions follow the custom ones; tab settings come after all of them
     for obj in CUSTOM_OBJECTS:
         parts.append(f'    <tabSettings>\n        <tab>{obj}</tab>\n        <visibility>Visible</visibility>\n    </tabSettings>\n') if os.path.exists(os.path.join(BASE, 'tabs', obj + '.tab-meta.xml')) else None
+    parts.extend(uperm(u) for u in user_perms)
     parts.append('</PermissionSet>\n')
     os.makedirs(OUT, exist_ok=True)
     with open(os.path.join(OUT, name + '.permissionset-meta.xml'), 'w') as fh:
@@ -75,7 +76,9 @@ def uperm(name):
 
 AGENT_EXTRA = (std('Contact', 'true', 'true', 'false')  # new-loan applicants become Contacts on submit
                + std('Lead', 'true', 'true', 'false') + std('Account', 'false', 'false', 'false')
+               # the agent reads the conversation it serves; without these, files in it fail ("can't process the file")
+               + std('MessagingEndUser', 'false', 'false', 'false') + std('MessagingSession', 'false', 'false', 'false')
 )
 permset('LoanSeva_Agent', 'LoanSeva Agent', 'Assigned to the LoanSeva Agentforce agent user: runs the LoanSeva actions across customers.',
-        {'c': 'true', 'd': 'false', 'e': 'true', 'm': 'false', 'v': 'true'}, extra=AGENT_EXTRA)
+        {'c': 'true', 'd': 'false', 'e': 'true', 'm': 'false', 'v': 'true'}, extra=AGENT_EXTRA, user_perms=('CanAccessCE',))
 print('permsets generated')
