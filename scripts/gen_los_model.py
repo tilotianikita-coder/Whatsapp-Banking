@@ -98,6 +98,7 @@ FIELDS = {
         'Score__c': ('Score', number(6), None),
         'Summary__c': ('Summary', text(255), None),
         'Details__c': ('Details', long_text(32768, 8), None),
+        'Report_Data__c': ('Report Data', long_text(131072, 3), 'Full mock provider report as JSON, shown on the Credit Review panel.'),
         'Request_Id__c': ('Request Id', text(40), 'Mock provider request id.'),
         'Run_At__c': ('Run At', DATETIME, None),
         'Sort_Order__c': ('Sort Order', number(3), None),

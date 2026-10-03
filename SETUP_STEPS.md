@@ -107,7 +107,8 @@ Customers without a pre-approved offer can apply on WhatsApp. This happens when 
 
 - The customer gets a `KMB-PL-…` reference. A Contact is created if needed, and an RM Task is created on the application.
 - **Mock underwriting** runs automatically: six `Underwriting_Check__c` rows (PAN/NSDL, CIBIL, Perfios bank statement, employment, policy & FOIR, dedupe). It sets `Recommendation__c`. No external calls are made.
-- The RM opens the application in the **LoanSeva LOS** app. The record page has the **Underwriting Scorecard**, with **Approve & create LAN**, **Reject** and **Re-run underwriting**. Approve creates a *Sanctioned* `Existing_Loan__c` (LAN `PL` + yyMMdd + 8-digit sequence) and WhatsApps the customer the terms with the **masked** LAN only. Reject sends a polite decline. RM notes stay internal.
+- The RM opens the application in the **LoanSeva LOS** app. Across the top, **Credit Review** shows horizontal stage gates: Application → Documents → KYC (NSDL) → Bureau (CIBIL) → Banking (Perfios) → Employment (EPFO / GST) → Policy (FOIR) → Fraud (Hunter) → RM decision → Loan account. The colours are green = pass, yellow = refer/pending, red = fail, blue = awaiting the RM and grey = not reached. Clicking a gate opens that provider's mock report: key facts, flags and tables such as CIBIL accounts and enquiries, the Perfios monthly summary and spend pattern, PF contributions or GST filings, the policy grid, and Hunter rules and watchlists. The **RM credit summary** beside it gives the verdict, a narrative, strengths, risks and the conditions to clear before disbursal. Mock reports are seeded from the PAN, so the same file always shows the same data.
+- The sidebar has the **Underwriting Scorecard**, with **Approve & create LAN**, **Reject** and **Re-run underwriting**. Approve creates a *Sanctioned* `Existing_Loan__c` (LAN `PL` + yyMMdd + 8-digit sequence) and WhatsApps the customer the terms with the **masked** LAN only. Reject sends a polite decline. RM notes stay internal.
 
 **Demo PANs** pick the outcome. The format is `AAAPS9999X`: 4th character **P** (individual), 5th character = **surname initial**.
 
@@ -119,9 +120,9 @@ Customers without a pre-approved offer can apply on WhatsApp. This happens when 
 | `ABCPP1234Z` | 630 | Decline |
 | `ABCPS1234K` (surname initial mismatch) | 777 | Refer (name check) |
 
-Self-employed applicants and Category B employers without salary slips are always Refer. The RM can still approve a Refer.
+Self-employed applicants and Category B employers without salary slips are always Refer. An email on a disposable domain (e.g. `@mailinator.com`) gives a Hunter Refer. Approve and Reject open a decision dialog that shows the credit summary. **Notes are required** when the decision goes against the recommendation (approving a Refer/Decline, or rejecting an Approve). Applications underwritten before the Credit Review existed show plain detail lines: click **Re-run underwriting** to get the full reports.
 
-**Manual check — inbound photos.** Documents are picked up from Salesforce Files linked to the journey, the MessagingSession or the MessagingEndUser. Whether the WhatsApp BYOC router stores inbound images as Files hasn't been verified in this org. Send a photo at the PAN step and reply **Done**. If the bot says it hasn't received the document, attach the file to the Loan Journey record in Salesforce (Files related list) and reply **Done** again. Customers can also reply **Skip**, and the RM collects the documents offline.
+**Inbound photos.** WhatsApp attachments arrive as Salesforce Files linked to the MessagingSession. A `ContentDocumentLink` trigger records them on the application as soon as they arrive and sends the next document prompt, so the customer doesn't need to type anything. If a file doesn't arrive, attach it to the Loan Journey record (Files related list) and reply **Done**. Customers can also reply **Skip**, and the RM collects the documents offline.
 
 The LoanSeva LOS app and its Loan Application record page are assigned in metadata (`applications/LoanSeva_LOS.app-meta.xml`). Users with `LoanSeva_Admin` see the app; no Lightning App Builder activation is needed.
 

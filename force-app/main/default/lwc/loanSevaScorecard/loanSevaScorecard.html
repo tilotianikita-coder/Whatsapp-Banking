@@ -30,34 +30,11 @@
                     </template>
                 </lightning-layout>
 
-                <h3 class="slds-text-heading_small slds-m-top_medium slds-m-bottom_x-small">Checks</h3>
-                <template lwc:if={hasChecks}>
-                    <ul class="slds-has-dividers_bottom-space">
-                        <template for:each={checks} for:item="c">
-                            <li key={c.Id} class="slds-item">
-                                <div class="slds-grid slds-grid_vertical-align-center slds-gutters_x-small" data-id={c.Id} onclick={toggle} style="cursor:pointer">
-                                    <div class="slds-col slds-shrink-none"><lightning-icon icon-name={c.toggleIcon} size="xx-small"></lightning-icon></div>
-                                    <div class="slds-col slds-shrink-none"><lightning-icon icon-name={c.icon} variant={c.variant} size="x-small"></lightning-icon></div>
-                                    <div class="slds-col slds-grow">
-                                        <div class="slds-text-title_bold">{c.Check__c} <span class="slds-text-color_weak slds-text-body_small">· {c.Provider__c}</span></div>
-                                        <div class="slds-text-body_small">{c.Summary__c}</div>
-                                    </div>
-                                    <div class="slds-col slds-shrink-none"><span class={c.badge}>{c.Result__c}</span></div>
-                                </div>
-                                <template lwc:if={c.open}>
-                                    <div class="slds-box slds-box_x-small slds-theme_shade slds-m-top_x-small slds-m-left_large">
-                                        <template for:each={c.detailLines} for:item="d">
-                                            <div key={d.key} class="slds-text-body_small">{d.line}</div>
-                                        </template>
-                                        <div class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small">Request {c.Request_Id__c}</div>
-                                    </div>
-                                </template>
-                            </li>
-                        </template>
-                    </ul>
-                </template>
-                <template lwc:else>
-                    <p class="slds-text-color_weak">No checks yet.</p>
+                <template lwc:if={headline}>
+                    <div class="slds-box slds-box_x-small slds-theme_shade slds-m-top_small">
+                        <div class="slds-text-title_bold">{headline}</div>
+                        <div class="slds-text-body_small slds-text-color_weak">{checkTally} · full reports in Credit Review</div>
+                    </div>
                 </template>
 
                 <h3 class="slds-text-heading_small slds-m-top_medium slds-m-bottom_x-small">Documents</h3>
@@ -94,7 +71,6 @@
 
                 <template lwc:if={canDecide}>
                     <div class="slds-m-top_medium">
-                        <lightning-textarea label="Decision notes (internal, never sent to the customer)" value={notes} onchange={handleNotes} max-length="4000"></lightning-textarea>
                         <div class="slds-m-top_small">
                             <lightning-button variant="success" label="Approve &amp; create LAN" icon-name="utility:check" onclick={handleApprove} disabled={approveDisabled} class="slds-m-right_x-small"></lightning-button>
                             <lightning-button variant="destructive" label="Reject" icon-name="utility:close" onclick={handleReject} disabled={busy} class="slds-m-right_x-small"></lightning-button>

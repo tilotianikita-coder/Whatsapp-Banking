@@ -19,6 +19,12 @@
                 <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>loanSevaCreditReview</componentName>
+                <identifier>c_loanSevaCreditReview</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>header</name>
         <type>Region</type>
     </flexiPageRegions>

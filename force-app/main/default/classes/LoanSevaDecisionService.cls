@@ -15,6 +15,7 @@ public with sharing class LoanSevaDecisionService {
         @AuraEnabled public String maskedPan;
         @AuraEnabled public String maskedLan;
         @AuraEnabled public Boolean canDecide;
+        @AuraEnabled public LoanSevaCreditMemo.Memo memo;
     }
 
     @AuraEnabled
@@ -27,6 +28,7 @@ public with sharing class LoanSevaDecisionService {
         s.maskedPan = String.isBlank(app.PAN__c) ? null : LoanSevaNewLoan.maskPan(app.PAN__c);
         s.maskedLan = app.Loan_Account__r?.Masked_Account__c;
         s.canDecide = canDecide(app);
+        s.memo = LoanSevaCreditMemo.build(app, app.Underwriting_Checks__r);
         return s;
     }
 
@@ -35,7 +37,7 @@ public with sharing class LoanSevaDecisionService {
         try {
             decide(new List<Id>{ applicationId }, APPROVED, notes);
         } catch (LoanSevaException e) {
-            throw new AuraHandledException(e.getMessage());
+            throw auraError(e.getMessage());
         }
         return getScorecard(applicationId);
     }
@@ -45,7 +47,7 @@ public with sharing class LoanSevaDecisionService {
         try {
             decide(new List<Id>{ applicationId }, REJECTED, notes);
         } catch (LoanSevaException e) {
-            throw new AuraHandledException(e.getMessage());
+            throw auraError(e.getMessage());
         }
         return getScorecard(applicationId);
     }
@@ -54,7 +56,7 @@ public with sharing class LoanSevaDecisionService {
     public static Scorecard rerunUnderwriting(Id applicationId) {
         Loan_Application__c app = load(applicationId);
         if (!canDecide(app)) {
-            throw new AuraHandledException('Underwriting can only be re-run before the decision.');
+            throw auraError('Underwriting can only be re-run before the decision.');
         }
         LoanSevaUnderwriting.run(applicationId);
         return getScorecard(applicationId);
@@ -67,7 +69,7 @@ public with sharing class LoanSevaDecisionService {
         }
         List<Loan_Application__c> apps = [
             SELECT Id, Name, Status__c, Decision__c, Application_Type__c, Contact__c, Applicant_Name__c, Offer_Amount__c,
-                Rate__c, Tenure_Months__c, EMI__c, Reference_Number__c, Loan_Journey__c, Loan_Account__c, Underwriting_Status__c
+                Rate__c, Tenure_Months__c, EMI__c, Reference_Number__c, Loan_Journey__c, Loan_Account__c, Underwriting_Status__c, Recommendation__c
             FROM Loan_Application__c WHERE Id IN :applicationIds
         ];
         for (Loan_Application__c app : apps) {
@@ -76,6 +78,9 @@ public with sharing class LoanSevaDecisionService {
             }
             if (decision == APPROVED && (app.Offer_Amount__c == null || app.Underwriting_Status__c != 'Completed')) {
                 throw new LoanSevaException('Approve after underwriting has completed and an amount is set.');
+            }
+            if (String.isBlank(notes) && LoanSevaCreditMemo.isDeviation(app.Recommendation__c, decision)) {
+                throw new LoanSevaException('The system recommends ' + app.Recommendation__c + ' - add a note explaining this decision.');
             }
         }
 
@@ -174,16 +179,23 @@ public with sharing class LoanSevaDecisionService {
 
     private static Loan_Application__c load(Id applicationId) {
         return [
-            SELECT Id, Name, Status__c, Application_Type__c, Applicant_Name__c, Mobile__c, Email__c, City__c, PIN_Code__c, PAN__c,
+            SELECT Id, Name, CreatedDate, Status__c, Application_Type__c, Applicant_Name__c, Mobile__c, Email__c, City__c, PIN_Code__c, PAN__c,
                 Date_Of_Birth__c, Employment_Type__c, Company_Name__c, Monthly_Income__c, Existing_EMIs__c, Purpose__c,
                 Offer_Amount__c, Rate__c, Tenure_Months__c, EMI__c, Reference_Number__c, CIBIL_Score__c, Recommendation__c,
                 Underwriting_Status__c, Underwriting_Summary__c, Decision__c, Decision_At__c, Decision_By__r.Name, Decision_Notes__c,
-                Loan_Account__c, Loan_Account__r.Masked_Account__c,
-                (SELECT Id, Check__c, Provider__c, Result__c, Score__c, Summary__c, Details__c, Request_Id__c, Run_At__c
+                Loan_Account__c, Loan_Account__r.Masked_Account__c, Loan_Account__r.Loan_Account_Number__c, Loan_Account__r.Status__c, Bureau_Consent__c, Loan_Journey__c,
+                (SELECT Id, Check__c, Provider__c, Result__c, Score__c, Summary__c, Details__c, Report_Data__c, Request_Id__c, Run_At__c
                  FROM Underwriting_Checks__r ORDER BY Sort_Order__c),
                 (SELECT Id, Document_Type__c, File_Name__c, Status__c, Received_At__c, Content_Document_Id__c
                  FROM Loan_Documents__r ORDER BY Received_At__c)
             FROM Loan_Application__c WHERE Id = :applicationId
         ];
+    }
+
+    /** AuraHandledException hides its message from Apex callers unless it is set explicitly. */
+    private static AuraHandledException auraError(String message) {
+        AuraHandledException e = new AuraHandledException(message);
+        e.setMessage(message);
+        return e;
     }
 }

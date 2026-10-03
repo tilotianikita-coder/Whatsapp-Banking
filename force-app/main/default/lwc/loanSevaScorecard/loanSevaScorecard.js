@@ -1,18 +1,12 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
-import LightningConfirm from 'lightning/confirm';
+import { getRecord, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
+import LoanSevaDecisionModal from 'c/loanSevaDecisionModal';
 import getScorecard from '@salesforce/apex/LoanSevaDecisionService.getScorecard';
 import approve from '@salesforce/apex/LoanSevaDecisionService.approve';
 import reject from '@salesforce/apex/LoanSevaDecisionService.reject';
 import rerunUnderwriting from '@salesforce/apex/LoanSevaDecisionService.rerunUnderwriting';
 
-const RESULT_STYLE = {
-    Pass: { icon: 'utility:success', variant: 'success', badge: 'slds-badge slds-theme_success' },
-    Refer: { icon: 'utility:warning', variant: 'warning', badge: 'slds-badge slds-theme_warning' },
-    Pending: { icon: 'utility:clock', variant: 'warning', badge: 'slds-badge slds-theme_warning' },
-    Fail: { icon: 'utility:error', variant: 'error', badge: 'slds-badge slds-theme_error' }
-};
 const RECOMMENDATION_BADGE = {
     Approve: 'slds-badge slds-theme_success',
     Refer: 'slds-badge slds-theme_warning',
@@ -24,12 +18,13 @@ export default class LoanSevaScorecard extends LightningElement {
     @api recordId;
     data;
     error;
-    notes = '';
     busy = false;
-    expanded = {};
 
-    connectedCallback() {
-        this.load();
+    @wire(getRecord, { recordId: '$recordId', fields: ['Loan_Application__c.LastModifiedDate'] })
+    recordChanged({ data }) {
+        if (data) {
+            this.load();
+        }
     }
 
     async load() {
@@ -47,25 +42,6 @@ export default class LoanSevaScorecard extends LightningElement {
 
     get loaded() {
         return !!this.data;
-    }
-
-    get hasChecks() {
-        return this.checks.length > 0;
-    }
-
-    get checks() {
-        return (this.data && this.data.checks ? this.data.checks : []).map((c) => {
-            const style = RESULT_STYLE[c.Result__c] || RESULT_STYLE.Pending;
-            return {
-                ...c,
-                icon: style.icon,
-                variant: style.variant,
-                badge: style.badge,
-                open: !!this.expanded[c.Id],
-                toggleIcon: this.expanded[c.Id] ? 'utility:chevrondown' : 'utility:chevronright',
-                detailLines: (c.Details__c || '').split('\n').map((line, i) => ({ key: c.Id + i, line }))
-            };
-        });
     }
 
     get documents() {
@@ -125,34 +101,39 @@ export default class LoanSevaScorecard extends LightningElement {
         ];
     }
 
-    toggle(event) {
-        const id = event.currentTarget.dataset.id;
-        this.expanded = { ...this.expanded, [id]: !this.expanded[id] };
+    get memo() {
+        return this.data ? this.data.memo : null;
     }
 
-    handleNotes(event) {
-        this.notes = event.target.value;
+    get headline() {
+        return this.memo ? this.memo.headline : '';
+    }
+
+    get checkTally() {
+        const checks = (this.data && this.data.checks) || [];
+        const n = (results) => checks.filter((c) => results.includes(c.Result__c)).length;
+        return checks.length ? n(['Pass']) + ' passed · ' + n(['Refer', 'Pending']) + ' to review · ' + n(['Fail']) + ' failed' : '';
     }
 
     async handleApprove() {
-        const ok = await LightningConfirm.open({
-            label: 'Approve and create loan account?',
-            message: 'A loan account (LAN) is created as Sanctioned and the customer is told on WhatsApp.',
-            theme: 'success'
-        });
-        if (ok) {
-            await this.act(approve, 'Approved. Loan account created and customer notified.');
-        }
+        await this.decide('Approved', approve, 'Approved. Loan account created and customer notified.');
     }
 
     async handleReject() {
-        const ok = await LightningConfirm.open({
-            label: 'Reject this application?',
-            message: 'The customer receives a polite decline on WhatsApp. Your notes stay internal.',
-            theme: 'error'
+        await this.decide('Rejected', reject, 'Rejected. Customer notified.');
+    }
+
+    /** Shows the credit summary first; notes are required when going against the recommendation. */
+    async decide(decision, method, success) {
+        const result = await LoanSevaDecisionModal.open({
+            size: 'medium',
+            label: decision === 'Approved' ? 'Approve application' : 'Reject application',
+            decision,
+            memo: this.memo,
+            terms: this.terms.slice(0, 4)
         });
-        if (ok) {
-            await this.act(reject, 'Rejected. Customer notified.');
+        if (result) {
+            await this.act(method, success, result.notes);
         }
     }
 
@@ -173,10 +154,10 @@ export default class LoanSevaScorecard extends LightningElement {
         this.load();
     }
 
-    async act(method, success) {
+    async act(method, success, notes) {
         this.busy = true;
         try {
-            this.data = await method({ applicationId: this.recordId, notes: this.notes });
+            this.data = await method({ applicationId: this.recordId, notes });
             this.toast(success, '', 'success');
             notifyRecordUpdateAvailable([{ recordId: this.recordId }]);
         } catch (e) {

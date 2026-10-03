@@ -1,0 +1,59 @@
+<template>
+    <lightning-modal-header label={title}>
+        <span class={recommendationClass}>System recommends: {m.recommendation}</span>
+    </lightning-modal-header>
+    <lightning-modal-body>
+        <div class="slds-text-heading_small">{m.headline}</div>
+        <p class="slds-m-vertical_x-small">{m.narrative}</p>
+
+        <template lwc:if={hasTerms}>
+            <div class="terms slds-m-vertical_small">
+                <template for:each={terms} for:item="t">
+                    <div key={t.label}>
+                        <div class="slds-text-title">{t.label}</div>
+                        <div class="slds-text-title_bold">{t.value}</div>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <lightning-layout multiple-rows>
+            <template lwc:if={hasStrengths}>
+                <lightning-layout-item size="12" medium-device-size="6" padding="around-x-small">
+                    <div class="section section_good">Strengths</div>
+                    <ul>
+                        <template for:each={strengths} for:item="s"><li key={s.key}>✓ {s.text}</li></template>
+                    </ul>
+                </lightning-layout-item>
+            </template>
+            <template lwc:if={hasRisks}>
+                <lightning-layout-item size="12" medium-device-size="6" padding="around-x-small">
+                    <div class="section section_warn">Risks</div>
+                    <ul>
+                        <template for:each={risks} for:item="s"><li key={s.key}>! {s.text}</li></template>
+                    </ul>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+
+        <template lwc:if={hasConditions}>
+            <div class="section slds-m-top_x-small">Conditions before disbursal</div>
+            <ul>
+                <template for:each={conditions} for:item="s"><li key={s.key}>{s.n}. {s.text}</li></template>
+            </ul>
+        </template>
+
+        <div class={guidanceClass}>
+            <lightning-icon icon-name={guidanceIcon} size="x-small" class="slds-m-right_x-small"></lightning-icon>{guidance}
+        </div>
+
+        <lightning-textarea class="slds-m-top_small" label={notesLabel} value={notes} onchange={handleNotes} max-length="4000" required={deviation}></lightning-textarea>
+        <template lwc:if={showError}>
+            <div class="slds-text-color_error slds-text-body_small">Add a note before going against the recommendation.</div>
+        </template>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="Cancel" onclick={handleCancel} class="slds-m-right_x-small"></lightning-button>
+        <lightning-button variant={confirmVariant} label={confirmLabel} onclick={handleConfirm}></lightning-button>
+    </lightning-modal-footer>
+</template>

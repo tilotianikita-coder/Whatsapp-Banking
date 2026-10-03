@@ -1,0 +1,174 @@
+<template>
+    <lightning-card title="Credit Review" icon-name="standard:investment_account">
+        <div slot="actions">
+            <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" onclick={handleRefresh}></lightning-button-icon>
+        </div>
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={error}>
+                <div class="slds-text-color_error">{error}</div>
+            </template>
+            <template lwc:if={loaded}>
+                <div class="summary-bar slds-m-bottom_small">
+                    <span class={recommendationClass}>{recommendationLabel}</span>
+                    <span class="tally tally_green">✓ {tally.green} passed</span>
+                    <span class="tally tally_yellow">! {tally.yellow} to review</span>
+                    <span class="tally tally_red">✕ {tally.red} failed</span>
+                </div>
+
+                <div class="gates" role="tablist" aria-label="Stage gates">
+                    <template for:each={gates} for:item="g">
+                        <button key={g.key} class={g.className} data-key={g.key} onclick={selectGate} title={g.title} role="tab">
+                            <span class="gate-symbol">{g.symbol}</span>
+                            <span class="gate-text">
+                                <span class="gate-label">{g.label}</span>
+                                <span class="gate-provider">{g.provider}</span>
+                                <span class="gate-status">{g.status}</span>
+                            </span>
+                        </button>
+                    </template>
+                </div>
+                <div class="legend slds-m-top_xx-small slds-m-bottom_small">
+                    <span class="dot dot_green"></span>Pass <span class="dot dot_yellow"></span>Refer / pending <span class="dot dot_red"></span>Fail
+                    <span class="dot dot_blue"></span>Awaiting you <span class="dot dot_grey"></span>Not reached · click a gate for its report
+                </div>
+
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item size="12" large-device-size="8" padding="horizontal-small">
+                        <div class="panel">
+                            <template lwc:if={isCheckSelected}>
+                                <template lwc:if={selectedCheck}>
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-m-bottom_x-small">
+                                        <div class="slds-col slds-grow">
+                                            <div class="slds-text-heading_small">{selectedCheck.Check__c}</div>
+                                            <div class="slds-text-body_small slds-text-color_weak">{selectedCheck.Provider__c} · request {selectedCheck.Request_Id__c}</div>
+                                        </div>
+                                        <span class={selectedCheck.badge}>{selectedCheck.Result__c}</span>
+                                    </div>
+                                    <p class="slds-m-bottom_small">{selectedCheck.Summary__c}</p>
+
+                                    <template lwc:if={selectedCheck.hasReport}>
+                                        <ul class="flags slds-m-bottom_small">
+                                            <template for:each={selectedCheck.flags} for:item="f">
+                                                <li key={f.key}><lightning-icon icon-name={f.icon} variant={f.variant} size="xx-small" class="slds-m-right_x-small"></lightning-icon>{f.text}</li>
+                                            </template>
+                                        </ul>
+                                        <div class="facts">
+                                            <template for:each={selectedCheck.facts} for:item="f">
+                                                <div key={f.key} class="fact">
+                                                    <div class="fact-label">{f.label}</div>
+                                                    <div class={f.className}>{f.value}</div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <template for:each={selectedCheck.tables} for:item="t">
+                                            <div key={t.key} class="slds-m-top_medium">
+                                                <div class="slds-text-title_caps slds-m-bottom_xx-small">{t.title}</div>
+                                                <div class="slds-scrollable_x">
+                                                    <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_col-bordered report-table">
+                                                        <thead>
+                                                            <tr class="slds-line-height_reset">
+                                                                <template for:each={t.columns} for:item="col">
+                                                                    <th key={col.key} scope="col"><div class="slds-truncate">{col.label}</div></th>
+                                                                </template>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <template for:each={t.rows} for:item="row">
+                                                                <tr key={row.key}>
+                                                                    <template for:each={row.cells} for:item="cell">
+                                                                        <td key={cell.key} class={cell.className}>{cell.value}</td>
+                                                                    </template>
+                                                                </tr>
+                                                            </template>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template lwc:else>
+                                        <template for:each={selectedCheck.detailLines} for:item="d">
+                                            <div key={d.key} class="slds-text-body_small">{d.line}</div>
+                                        </template>
+                                        <p class="slds-text-color_weak slds-m-top_x-small">Re-run underwriting for the full provider report.</p>
+                                    </template>
+                                </template>
+                                <template lwc:else>
+                                    <p class="slds-text-color_weak">This check has not run yet.</p>
+                                </template>
+                            </template>
+
+                            <template lwc:if={isApplicationSelected}>
+                                <div class="slds-text-heading_small slds-m-bottom_small">Application {app.Reference_Number__c}</div>
+                                <div class="facts">
+                                    <template for:each={applicationFacts} for:item="f">
+                                        <div key={f.key} class="fact">
+                                            <div class="fact-label">{f.label}</div>
+                                            <div class={f.className}>{f.value}</div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <template lwc:if={isDocumentsSelected}>
+                                <div class="slds-text-heading_small slds-m-bottom_small">Documents shared on WhatsApp</div>
+                                <ul>
+                                    <template for:each={documentRows} for:item="d">
+                                        <li key={d.key} class="slds-m-bottom_small">
+                                            <lightning-icon icon-name={d.icon} variant={d.variant} size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                                            <strong>{d.type}</strong>
+                                            <template for:each={d.files} for:item="f">
+                                                <span key={f.key} class="slds-m-left_small">
+                                                    <template lwc:if={f.url}><a href={f.url} target="_blank">{f.name}</a></template>
+                                                    <template lwc:else>{f.name}</template>
+                                                </span>
+                                            </template>
+                                            <span class="slds-m-left_small slds-text-color_weak">{d.note}</span>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </template>
+
+                            <template lwc:if={isDecisionSelected}>
+                                <div class="slds-text-heading_small slds-m-bottom_small">RM decision</div>
+                                <p>{decisionText}</p>
+                                <template lwc:if={decided}>
+                                    <p class="slds-text-body_small slds-text-color_weak slds-m-top_x-small">
+                                        by {decidedBy} · <lightning-formatted-date-time value={app.Decision_At__c} year="numeric" month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                                    </p>
+                                    <template lwc:if={app.Decision_Notes__c}><p class="slds-box slds-box_x-small slds-m-top_x-small">{app.Decision_Notes__c}</p></template>
+                                </template>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" large-device-size="4" padding="horizontal-small">
+                        <div class="memo">
+                            <div class="slds-text-title_caps slds-m-bottom_xx-small">RM credit summary</div>
+                            <div class="memo-headline">{memo.headline}</div>
+                            <p class="slds-m-vertical_x-small">{memo.narrative}</p>
+                            <template lwc:if={hasStrengths}>
+                                <div class="memo-section memo-section_good">Strengths</div>
+                                <ul class="memo-list">
+                                    <template for:each={strengths} for:item="s"><li key={s.key}>✓ {s.text}</li></template>
+                                </ul>
+                            </template>
+                            <template lwc:if={hasRisks}>
+                                <div class="memo-section memo-section_warn">Risks</div>
+                                <ul class="memo-list">
+                                    <template for:each={risks} for:item="s"><li key={s.key}>! {s.text}</li></template>
+                                </ul>
+                            </template>
+                            <template lwc:if={hasConditions}>
+                                <div class="memo-section">Conditions before disbursal</div>
+                                <ol class="memo-list">
+                                    <template for:each={conditions} for:item="s"><li key={s.key}>{s.n}. {s.text}</li></template>
+                                </ol>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+        </div>
+    </lightning-card>
+</template>

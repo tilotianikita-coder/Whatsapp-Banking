@@ -1,0 +1,8 @@
+.section { font-weight: 700; font-size: 0.8125rem; margin-bottom: 0.25rem; }
+.section_good { color: #2e844a; }
+.section_warn { color: #8c4b02; }
+ul { margin: 0; padding: 0; list-style: none; }
+li { font-size: 0.8125rem; margin-bottom: 0.25rem; }
+.terms { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+.guidance { background: #f3f3f3; }
+.guidance_warn { background: #fef1d6; border-color: #f4bc25; }

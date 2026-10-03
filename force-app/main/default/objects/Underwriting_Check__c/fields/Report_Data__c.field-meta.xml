@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Report_Data__c</fullName>
+    <description>Full mock provider report as JSON, shown on the Credit Review panel.</description>
+    <inlineHelpText>Full mock provider report as JSON, shown on the Credit Review panel.</inlineHelpText>
+    <label>Report Data</label>
+    <type>LongTextArea</type>
+    <length>131072</length>
+    <visibleLines>3</visibleLines>
+</CustomField>

@@ -1,0 +1,135 @@
+:host {
+    --green: #2e844a;
+    --yellow: #f4bc25;
+    --yellow-text: #4a3b00;
+    --red: #ba0517;
+    --blue: #0176d3;
+    --grey: #e5e5e5;
+}
+
+.summary-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.verdict {
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    color: #fff;
+}
+.verdict_green { background: var(--green); }
+.verdict_yellow { background: var(--yellow); color: var(--yellow-text); }
+.verdict_red { background: var(--red); }
+.verdict_grey { background: var(--grey); color: #3e3e3c; }
+
+.tally { font-size: 0.8125rem; font-weight: 600; }
+.tally_green { color: var(--green); }
+.tally_yellow { color: #8c6a00; }
+.tally_red { color: var(--red); }
+
+/* Horizontal chevron stage gates */
+.gates {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.gate {
+    flex: 1 1 0;
+    min-width: 7.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: -6px;
+    padding: 0.5rem 1.1rem 0.5rem 1.4rem;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: #fff;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%);
+    transition: transform 0.1s ease, filter 0.1s ease;
+}
+.gate_first {
+    margin-left: 0;
+    padding-left: 0.8rem;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+}
+.gate:hover { filter: brightness(1.08); }
+.gate:focus { outline: none; filter: brightness(1.12); }
+.gate_selected { transform: translateY(3px); filter: brightness(0.92); }
+
+.gate_green { background: var(--green); }
+.gate_yellow { background: var(--yellow); color: var(--yellow-text); }
+.gate_red { background: var(--red); }
+.gate_blue { background: var(--blue); }
+.gate_grey { background: var(--grey); color: #514f4d; }
+
+.gate-symbol {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1;
+}
+.gate-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    overflow: hidden;
+}
+.gate-label { font-weight: 700; font-size: 0.8125rem; white-space: nowrap; }
+.gate-provider { font-size: 0.6875rem; opacity: 0.85; white-space: nowrap; }
+.gate-status { font-size: 0.75rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.legend { font-size: 0.75rem; color: #706e6b; }
+.dot {
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    margin: 0 0.25rem 0 0.75rem;
+    vertical-align: middle;
+}
+.dot:first-child { margin-left: 0; }
+.dot_green { background: var(--green); }
+.dot_yellow { background: var(--yellow); }
+.dot_red { background: var(--red); }
+.dot_blue { background: var(--blue); }
+.dot_grey { background: var(--grey); border: 1px solid #c9c9c9; }
+
+.panel, .memo {
+    border: 1px solid #e5e5e5;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    height: 100%;
+}
+.memo { background: #f8fafc; }
+.memo-headline { font-size: 1rem; font-weight: 700; }
+.memo-section { font-weight: 700; margin-top: 0.6rem; font-size: 0.8125rem; }
+.memo-section_good { color: var(--green); }
+.memo-section_warn { color: #8c4b02; }
+.memo-list { margin: 0.2rem 0 0 0; padding: 0; list-style: none; }
+.memo-list li { margin-bottom: 0.25rem; font-size: 0.8125rem; }
+
+.facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: 0.5rem 1rem;
+}
+.fact-label { font-size: 0.75rem; color: #706e6b; }
+.fact-value { font-weight: 600; }
+.fact-value_good { color: var(--green); }
+.fact-value_warn { color: #8c4b02; }
+.fact-value_bad { color: var(--red); }
+
+.flags { list-style: none; padding: 0; margin: 0; }
+.flags li { margin-bottom: 0.25rem; }
+
+.report-table { font-size: 0.8125rem; }
+.cell_good { color: var(--green); font-weight: 600; }
+.cell_warn { color: #8c4b02; font-weight: 600; }
+.cell_bad { color: var(--red); font-weight: 600; }
+
+.gate-badge_yellow { background: var(--yellow); color: var(--yellow-text); }

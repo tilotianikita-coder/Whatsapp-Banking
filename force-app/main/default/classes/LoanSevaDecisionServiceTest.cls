@@ -132,6 +132,35 @@ private class LoanSevaDecisionServiceTest {
     }
 
     @IsTest
+    static void decisionsAgainstTheRecommendationNeedNotes() {
+        Loan_Application__c refer = submitted('ABCPP1234R', '9123456784', 'EN');
+        LoanSevaDecisionService.Scorecard s = LoanSevaDecisionService.getScorecard(refer.Id);
+        System.assertEquals('Refer', s.memo.recommendation);
+        System.assert(s.memo.approveIsDeviation);
+        try {
+            LoanSevaDecisionService.approve(refer.Id, '  ');
+            System.assert(false, 'approving a Refer without notes should fail');
+        } catch (AuraHandledException e) {
+            System.assert(e.getMessage().contains('recommends Refer'), e.getMessage());
+        }
+        System.assertEquals(0, [SELECT COUNT() FROM Existing_Loan__c], 'no LAN without a reason');
+        LoanSevaDecisionService.approve(refer.Id, 'Delay explained - card payment missed while travelling');
+        System.assertEquals('Approved', [SELECT Decision__c FROM Loan_Application__c WHERE Id = :refer.Id].Decision__c);
+    }
+
+    @IsTest
+    static void rejectingACleanFileNeedsNotes() {
+        Loan_Application__c clean = submitted('ABCPP1234K', '9123456785', 'EN');
+        try {
+            LoanSevaDecisionService.reject(clean.Id, null);
+            System.assert(false, 'rejecting a clean file without notes should fail');
+        } catch (AuraHandledException e) {
+            System.assert(e.getMessage().contains('recommends Approve'), e.getMessage());
+        }
+        System.assertEquals(null, [SELECT Decision__c FROM Loan_Application__c WHERE Id = :clean.Id].Decision__c);
+    }
+
+    @IsTest
     static void rerunRefreshesChecksAndTopUpIsNotDecidable() {
         Loan_Application__c app = submitted('ABCPP1234K', '9123456783', 'EN');
         insert new Loan_Document__c(Loan_Application__c = app.Id, Document_Type__c = 'PAN Card');

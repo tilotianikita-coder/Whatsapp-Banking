@@ -72,6 +72,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LoanSevaInboundFiles</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LoanSevaJourneyService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -105,6 +109,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LoanSevaReplyAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LoanSevaReport</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -762,6 +770,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Underwriting_Check__c.Provider__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Underwriting_Check__c.Report_Data__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
