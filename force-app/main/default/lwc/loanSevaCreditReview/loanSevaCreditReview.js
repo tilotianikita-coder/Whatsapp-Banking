@@ -90,7 +90,7 @@ export default class LoanSevaCreditReview extends LightningElement {
             key: 'decision',
             label: 'RM decision',
             provider: 'Credit',
-            tone: decision === 'Approved' ? 'green' : decision === 'Rejected' ? 'red' : this.data && this.data.canDecide ? 'blue' : 'grey',
+            tone: decision === 'Approved' ? 'green' : decision === 'Rejected' ? 'red' : decision === 'Referred' ? 'yellow' : this.data && this.data.canDecide ? 'blue' : 'grey',
             status: decision || (this.data && this.data.canDecide ? 'Awaiting' : '—')
         });
         gates.push({
@@ -251,6 +251,9 @@ export default class LoanSevaCreditReview extends LightningElement {
         }
         if (a.Decision__c === 'Rejected') {
             return 'Rejected - the customer was sent a polite decline.';
+        }
+        if (a.Decision__c === 'Referred') {
+            return 'Referred - more details or documents are needed before a final decision. Re-run underwriting once they arrive, then Approve or Reject.';
         }
         return 'Awaiting the RM decision. Review the summary, then Approve or Reject from the scorecard.';
     }

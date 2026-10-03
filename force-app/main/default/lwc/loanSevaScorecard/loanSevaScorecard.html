@@ -59,6 +59,9 @@
                         <template lwc:if={approved}>
                             <div class="slds-text-heading_small slds-text-color_success">Approved — loan account {data.maskedLan}</div>
                         </template>
+                        <template lwc:elseif={referred}>
+                            <div class="slds-text-heading_small">Referred — more details or documents needed</div>
+                        </template>
                         <template lwc:else>
                             <div class="slds-text-heading_small slds-text-color_error">Rejected</div>
                         </template>

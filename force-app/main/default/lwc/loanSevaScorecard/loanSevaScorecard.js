@@ -83,6 +83,10 @@ export default class LoanSevaScorecard extends LightningElement {
         return this.app.Decision__c === 'Approved';
     }
 
+    get referred() {
+        return this.app.Decision__c === 'Referred';
+    }
+
     get decidedBy() {
         return this.app.Decision_By__r ? this.app.Decision_By__r.Name : '';
     }

@@ -84,7 +84,7 @@ FIELDS = {
         'Underwriting_Status__c': ('Underwriting Status', picklist(['Not Started', 'In Progress', 'Completed', 'Error'], 'Not Started'), None),
         'Recommendation__c': ('Recommendation', picklist(['Approve', 'Refer', 'Decline']), 'System recommendation from the mock underwriting checks; the RM decides.'),
         'Underwriting_Summary__c': ('Underwriting Summary', long_text(), None),
-        'Decision__c': ('Decision', picklist(['Approved', 'Rejected']), None),
+        'Decision__c': ('Decision', picklist(['Approved', 'Rejected', 'Referred']), None),
         'Decision_By__c': ('Decision By', lookup('User', 'LoanSeva_Decisions', 'LoanSeva Decisions'), None),
         'Decision_At__c': ('Decision At', DATETIME, None),
         'Decision_Notes__c': ('Decision Notes', long_text(4000, 3), 'Internal RM notes; never sent to the customer.'),

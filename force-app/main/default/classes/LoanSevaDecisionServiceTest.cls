@@ -161,6 +161,17 @@ private class LoanSevaDecisionServiceTest {
     }
 
     @IsTest
+    static void referredApplicationStaysOpen() {
+        Loan_Application__c app = submitted('ABCPP1234K', '9123456786', 'EN');
+        update new Loan_Application__c(Id = app.Id, Decision__c = LoanSevaDecisionService.REFERRED, Status__c = 'Under Review',
+            Decision_Notes__c = 'More details and documents required');
+        System.assert(LoanSevaDecisionService.getScorecard(app.Id).canDecide, 'a referral is not final');
+        System.assertEquals(6, LoanSevaDecisionService.rerunUnderwriting(app.Id).checks.size());
+        LoanSevaDecisionService.approve(app.Id, 'Documents received');
+        System.assertEquals('Approved', [SELECT Decision__c FROM Loan_Application__c WHERE Id = :app.Id].Decision__c);
+    }
+
+    @IsTest
     static void rerunRefreshesChecksAndTopUpIsNotDecidable() {
         Loan_Application__c app = submitted('ABCPP1234K', '9123456783', 'EN');
         insert new Loan_Document__c(Loan_Application__c = app.Id, Document_Type__c = 'PAN Card');

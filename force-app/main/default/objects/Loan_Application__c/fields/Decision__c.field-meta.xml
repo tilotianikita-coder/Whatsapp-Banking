@@ -17,6 +17,11 @@
                 <default>false</default>
                 <label>Rejected</label>
             </value>
+            <value>
+                <fullName>Referred</fullName>
+                <default>false</default>
+                <label>Referred</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

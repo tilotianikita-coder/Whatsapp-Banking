@@ -6,6 +6,8 @@
 public with sharing class LoanSevaDecisionService {
     public static final String APPROVED = 'Approved';
     public static final String REJECTED = 'Rejected';
+    /** Sent back for more details or documents; the application stays open for a final decision. */
+    public static final String REFERRED = 'Referred';
     private static final Set<String> DECIDABLE = new Set<String>{ 'Application Submitted', 'Under Review' };
 
     public class Scorecard {
@@ -107,7 +109,7 @@ public with sharing class LoanSevaDecisionService {
     }
 
     private static Boolean canDecide(Loan_Application__c app) {
-        return app.Application_Type__c == LoanSevaJourneyService.TYPE_NEW_LOAN && app.Decision__c == null && DECIDABLE.contains(app.Status__c);
+        return app.Application_Type__c == LoanSevaJourneyService.TYPE_NEW_LOAN && (app.Decision__c == null || app.Decision__c == REFERRED) && DECIDABLE.contains(app.Status__c);
     }
 
     /** PL + yyMMdd (IST) + 8-digit application sequence, e.g. PL26100100000042. */
