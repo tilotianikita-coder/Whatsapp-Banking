@@ -344,19 +344,19 @@ NEW_LOAN = {
         "✅ मोबाइल पडताळला, {name}! तुमच्याबद्दल काही छोटे प्रश्न — सुमारे 2 मिनिटे. ⏱️",
     ),
     'Voice_Heard': (
-        "🎙️ I heard: _{text}_",
-        "🎙️ मैंने सुना: _{text}_",
-        "🎙️ मी ऐकले: _{text}_",
+        "🎙️ Got it, I've listened to your voice note. I heard: _{text}_",
+        "🎙️ ठीक है, मैंने आपका वॉइस नोट सुन लिया। मैंने सुना: _{text}_",
+        "🎙️ ठीक आहे, मी तुमची व्हॉइस नोट ऐकली. मी ऐकले: _{text}_",
     ),
     'Voice_Received': (
-        "🎙️ Got your voice note.",
-        "🎙️ आपका वॉइस नोट मिल गया।",
-        "🎙️ तुमची व्हॉइस नोट मिळाली.",
+        "🎙️ Got it, I've listened to your voice note.",
+        "🎙️ ठीक है, मैंने आपका वॉइस नोट सुन लिया।",
+        "🎙️ ठीक आहे, मी तुमची व्हॉइस नोट ऐकली.",
     ),
     'Voice_Failed': (
-        "🎙️ Sorry, I couldn't make out that voice note. Please try again, or type your answer.",
-        "🎙️ माफ़ कीजिए, वॉइस नोट समझ नहीं आया। कृपया दोबारा भेजें या जवाब टाइप करें।",
-        "🎙️ माफ करा, व्हॉइस नोट समजली नाही. कृपया पुन्हा पाठवा किंवा उत्तर टाइप करा.",
+        "🎙️ I've listened to your voice note, but sorry, I couldn't make it out. Please try again, or type your answer.",
+        "🎙️ मैंने आपका वॉइस नोट सुना, पर माफ़ कीजिए, समझ नहीं आया। कृपया दोबारा भेजें या जवाब टाइप करें।",
+        "🎙️ मी तुमची व्हॉइस नोट ऐकली, पण माफ करा, ती समजली नाही. कृपया पुन्हा पाठवा किंवा उत्तर टाइप करा.",
     ),
     'Voice_Handoff': (
         "🙋 A Kotak loan specialist has been notified, and everything you've shared is saved. To chat with them right now, please *type* Agent. Otherwise they'll call you back within 24 hours.",

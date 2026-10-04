@@ -4,14 +4,14 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">🎙️ I heard: _{text}_</value>
+        <value xsi:type="xsd:string">🎙️ Got it, I've listened to your voice note. I heard: _{text}_</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:type="xsd:string">🎙️ मैंने सुना: _{text}_</value>
+        <value xsi:type="xsd:string">🎙️ ठीक है, मैंने आपका वॉइस नोट सुन लिया। मैंने सुना: _{text}_</value>
     </values>
     <values>
         <field>Marathi__c</field>
-        <value xsi:type="xsd:string">🎙️ मी ऐकले: _{text}_</value>
+        <value xsi:type="xsd:string">🎙️ ठीक आहे, मी तुमची व्हॉइस नोट ऐकली. मी ऐकले: _{text}_</value>
     </values>
 </CustomMetadata>
