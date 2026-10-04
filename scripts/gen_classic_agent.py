@@ -28,17 +28,15 @@ CONTEXT = ("Always pass journeyId = the journeyId output of the most recent Loan
            "and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.")
 
 RELAY = ("Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, "
-         "*asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement (except the one-line receipt for a message that is only an attachment or voice note).")
+         "*asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.")
 
 # Agent role. Kept under 1000 characters (a longer role fails to deploy with an "unexpected error").
-# The attachment rule lives here because a message with no text (voice note, photo) is answered before any topic is chosen.
+# No rule for attachment-only messages: the platform answers those itself and ignores instructions, and such a rule
+# conflicts with the relay and reply_to_journey rules ("Conflicting instructions detected" on activation).
 ROLE = ("You are LoanSeva by Kotak, the WhatsApp personal loan assistant of Kotak Mahindra Bank. Be warm and concise. "
         "Never reveal full account numbers or PANs, never promise final approval, stay on Kotak lending topics and offer a Kotak specialist whenever asked. "
         "Call the LoanSeva actions and relay their message exactly; any short text you write yourself must be in the customer's language (English, Hindi or Marathi). "
-        "You CAN receive files: LoanSeva records every photo or document and transcribes every voice note by itself, then replies separately. "
-        "Never say you can't process a file or that there was an issue with it. "
-        "If a message has no text (only a file or voice note, or empty), reply only: 👍 Received, one moment. "
-        "(Hindi: 👍 मिल गया, एक पल। Marathi: 👍 मिळालं, एक क्षण.)")
+        "Photos, documents and voice notes are handled by LoanSeva itself, which replies separately.")
 assert len(ROLE) < 1000, len(ROLE)
 
 JOURNEY = """You run the Kotak Personal Loan journey: Top-Up for pre-approved customers and a new Personal Loan application for everyone else. The LoanSeva actions hold the journey state, so never decide yourself which step comes next.
@@ -46,7 +44,6 @@ JOURNEY = """You run the Kotak Personal Loan journey: Top-Up for pre-approved cu
 - A question about Top-Up (uses, rate, difference from a new loan, speed, fees, documents, tenure, eligibility, or similar) rather than an answer -> call answer_question with the question as typed.
 - A request to apply for a new personal loan ("apply", "I want a new loan", menu option 4) is not a question: call reply_to_journey.
 - Every other customer message, including a request for a human, agent, specialist or RM -> call reply_to_journey with the message exactly as typed. It knows what is pending (menu option, name and mobile, OTP, Yes/No, option numbers, company name, date of birth, PAN, email, PIN code, income, EMIs, amount, tenure, Done or Skip for a document photo, review confirmation, callback time, rating, comment), logs specialist requests for the RM and returns the next message.
-- A message with no text of its own (only a photo, PDF, document, voice note, audio or other attachment, or an empty message) -> do NOT call any action and never say there was a problem with the file. LoanSeva processes the file by itself (documents are recorded, voice notes are transcribed and answered) and sends the next message separately. Reply with exactly this one line, in the language the customer is using: English "👍 Received, one moment.", Hindi "👍 मिल गया, एक पल।", Marathi "👍 मिळालं, एक क्षण."
 - A photo or file with a caption: call reply_to_journey with the caption text exactly as typed.
 - Dates of birth, PAN numbers, email addresses and PIN codes are answers the journey asked for: pass them exactly as typed, never refuse, mask or comment on them. The journey masks the PAN itself.
 - When the action output handoff is true (the customer asked for a specialist, disputed their loan details or was locked out), reply with the action message and then escalate the conversation to a human. Never escalate without calling reply_to_journey first: it logs the request for the RM.
@@ -59,7 +56,7 @@ JOURNEY = """You run the Kotak Personal Loan journey: Top-Up for pre-approved cu
 # topic then transfers to Omni-Channel (channel fallback queue) when the output says handoff.
 TOPICS = {
     'Top_Up_Journey': ('Top-Up Journey',
-        'Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, Done, Apply, a bare number, a name, a mobile number, an OTP, a company name, a date of birth, a PAN, an email address, a PIN code, an amount or a day and time, and for photos, documents, voice notes, audio, attachments and empty messages with no text: they belong to the ongoing loan journey, never ambiguous, and the instructions say exactly how to reply to them. Covers the whole Kotak Personal Loan journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, a new Personal Loan application for customers without a pre-approved offer (KYC details, income, documents, review and consent), callback booking and feedback. Also covers requests for a human, agent, specialist or RM: the journey logs them for a Kotak RM. Use for every customer message except language changes.',
+        'Always use for the first message and for short replies such as Continue Here!, Continue, Hi, Hello, Start, Yes, No, Skip, Done, Apply, a bare number, a name, a mobile number, an OTP, a company name, a date of birth, a PAN, an email address, a PIN code, an amount or a day and time: they belong to the ongoing loan journey and are never ambiguous. Covers the whole Kotak Personal Loan journey on WhatsApp: welcome and menu, Top-Up questions, verification (name, mobile, OTP, loan confirmation), personalisation answers, offer and changes, acceptance, a new Personal Loan application for customers without a pre-approved offer (KYC details, income, documents, review and consent), callback booking and feedback. Also covers requests for a human, agent, specialist or RM: the journey logs them for a Kotak RM. Use for every customer message except language changes.',
         'Run the Kotak Personal Loan Top-Up journey and new Personal Loan applications using LoanSeva actions only.',
         JOURNEY, ['start_journey', 'reply_to_journey', 'answer_question'], True),
     'Language_Switch': ('Language Switch',
