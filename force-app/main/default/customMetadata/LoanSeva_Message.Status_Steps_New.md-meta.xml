@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Status Steps New</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">{s1} Application submitted
+{s2} Documents{docs}
+{s3} Credit &amp; KYC checks
+{s4} Credit officer review
+{s5} Decision</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">{s1} आवेदन जमा हुआ
+{s2} दस्तावेज़{docs}
+{s3} क्रेडिट और KYC जाँच
+{s4} क्रेडिट अधिकारी की समीक्षा
+{s5} निर्णय</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">{s1} अर्ज सादर झाला
+{s2} कागदपत्रे{docs}
+{s3} क्रेडिट आणि KYC तपासणी
+{s4} क्रेडिट अधिकाऱ्यांचे पुनरावलोकन
+{s5} निर्णय</value>
+    </values>
+</CustomMetadata>

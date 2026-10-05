@@ -12,7 +12,8 @@
 &gt; 💳 EMI: *{emi}/month*
 &gt; 🧾 Processing fee: {fee} + GST
 
-Other tenures: {otherTenures}
+Other tenures:
+{otherTenures}
 
 _Indicative only — final terms after credit checks and document verification._
 
@@ -30,7 +31,8 @@ _Indicative only — final terms after credit checks and document verification._
 &gt; 💳 EMI: *{emi}/माह*
 &gt; 🧾 प्रोसेसिंग शुल्क: {fee} + GST
 
-अन्य अवधि: {otherTenures}
+अन्य अवधि:
+{otherTenures}
 
 _यह केवल अनुमान है — अंतिम शर्तें क्रेडिट जाँच और दस्तावेज़ सत्यापन के बाद।_
 
@@ -48,7 +50,8 @@ _यह केवल अनुमान है — अंतिम शर्त�
 &gt; 💳 EMI: *{emi}/महिना*
 &gt; 🧾 प्रोसेसिंग शुल्क: {fee} + GST
 
-इतर कालावधी: {otherTenures}
+इतर कालावधी:
+{otherTenures}
 
 _ही फक्त अंदाजित ऑफर आहे — अंतिम अटी क्रेडिट तपासणी आणि कागदपत्र पडताळणीनंतर._
 

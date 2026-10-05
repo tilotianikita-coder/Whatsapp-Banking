@@ -12,7 +12,8 @@
 &gt; 💳 EMI: *{emi}/month*
 &gt; 🧾 Processing fee: {fee} + GST
 
-Other tenures: {otherTenures}
+Other tenures:
+{otherTenures}
 
 _This is a preliminary offer, subject to final verification._
 
@@ -30,7 +31,8 @@ _This is a preliminary offer, subject to final verification._
 &gt; 💳 EMI: *{emi}/माह*
 &gt; 🧾 प्रोसेसिंग शुल्क: {fee} + GST
 
-अन्य अवधि: {otherTenures}
+अन्य अवधि:
+{otherTenures}
 
 _यह एक प्रारंभिक ऑफ़र है, अंतिम सत्यापन के अधीन।_
 
@@ -48,7 +50,8 @@ _यह एक प्रारंभिक ऑफ़र है, अंतिम 
 &gt; 💳 EMI: *{emi}/महिना*
 &gt; 🧾 प्रोसेसिंग शुल्क: {fee} + GST
 
-इतर कालावधी: {otherTenures}
+इतर कालावधी:
+{otherTenures}
 
 _ही प्राथमिक ऑफर आहे, अंतिम पडताळणीच्या अधीन._
 

@@ -231,7 +231,7 @@ def bot():
     <type>ExternalCopilot</type>
 </Bot>
 ''')
-    welcome = "Hi! 👋 I'm LoanSeva by Kotak. Reply Continue Here! to see your Personal Loan Top-Up offer."
+    welcome = "Hi! 👋 I'm LoanSeva by Kotak — Personal Loan Top-Up or a new Personal Loan, right here on WhatsApp. Reply Continue Here! to see the menu."
     error = "Sorry, I hit a small snag on my side. 🙏 Reply Agent to connect with a Kotak specialist."
     write(f'{base}/v1.botVersion-meta.xml', f'''<?xml version="1.0" encoding="UTF-8"?>
 <BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">

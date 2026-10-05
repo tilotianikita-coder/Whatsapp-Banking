@@ -4,34 +4,55 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">Hi! 👋 I'm *LoanSeva by Kotak*, your personal loan assistant. I can help you unlock a Personal Loan Top-Up on your existing Kotak loan.
+        <value xsi:type="xsd:string">Hi! 👋 I'm *LoanSeva by Kotak*, your personal loan assistant. I can help you get a *Top-Up on your existing Kotak loan* or apply for a *new Personal Loan* — right here on WhatsApp.
 
-1️⃣ See my personalised offer
-2️⃣ Ask a question about Top-Up
+1️⃣ Check my Top-Up offer (existing Kotak loan)
+2️⃣ Ask a question
 3️⃣ Talk to a specialist
 4️⃣ Apply for a new Personal Loan
+4️⃣ Apply for a new Personal Loan
+
+💡 *Type anytime:*
+• *EMI 3 lakh 36 months* — EMI calculator
+• *Status* — track your application
+• *Menu* — back here, your progress is saved
+• *Agent* — talk to a specialist
 
 Reply *HI* for हिंदी / *MR* for मराठी</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:type="xsd:string">नमस्ते! 👋 मैं हूँ *LoanSeva by Kotak*, आपका पर्सनल लोन असिस्टेंट। मैं आपके मौजूदा Kotak लोन पर पर्सनल लोन टॉप-अप पाने में मदद कर सकता हूँ।
+        <value xsi:type="xsd:string">नमस्ते! 👋 मैं हूँ *LoanSeva by Kotak*, आपका पर्सनल लोन असिस्टेंट। मैं आपके *मौजूदा Kotak लोन पर टॉप-अप* या *नए पर्सनल लोन* के आवेदन में मदद कर सकता हूँ — यहीं WhatsApp पर।
 
-1️⃣ मेरा पर्सनलाइज़्ड ऑफ़र देखें
-2️⃣ टॉप-अप के बारे में सवाल पूछें
+1️⃣ मेरा टॉप-अप ऑफ़र देखें (मौजूदा Kotak लोन)
+2️⃣ सवाल पूछें
 3️⃣ विशेषज्ञ से बात करें
 4️⃣ नए पर्सनल लोन के लिए आवेदन करें
+4️⃣ नए पर्सनल लोन के लिए आवेदन करें
+
+💡 *कभी भी लिखें:*
+• *EMI 3 lakh 36 months* — EMI कैलकुलेटर
+• *Status* — आवेदन की स्थिति
+• *Menu* — यहाँ वापस, आपकी जानकारी सेव रहती है
+• *Agent* — विशेषज्ञ से बात करें
 
 Reply *EN* for English / *MR* for मराठी</value>
     </values>
     <values>
         <field>Marathi__c</field>
-        <value xsi:type="xsd:string">नमस्कार! 👋 मी *LoanSeva by Kotak*, तुमचा पर्सनल लोन सहाय्यक. तुमच्या सध्याच्या Kotak कर्जावर पर्सनल लोन टॉप-अप मिळवण्यासाठी मी मदत करू शकतो.
+        <value xsi:type="xsd:string">नमस्कार! 👋 मी *LoanSeva by Kotak*, तुमचा पर्सनल लोन सहाय्यक. तुमच्या *सध्याच्या Kotak कर्जावर टॉप-अप* किंवा *नवीन पर्सनल लोन*साठी अर्ज करण्यात मी मदत करू शकतो — इथेच WhatsApp वर.
 
-1️⃣ माझी वैयक्तिक ऑफर पहा
-2️⃣ टॉप-अपबद्दल प्रश्न विचारा
+1️⃣ माझी टॉप-अप ऑफर पहा (सध्याचे Kotak कर्ज)
+2️⃣ प्रश्न विचारा
 3️⃣ तज्ज्ञांशी बोला
 4️⃣ नवीन पर्सनल लोनसाठी अर्ज करा
+4️⃣ नवीन पर्सनल लोनसाठी अर्ज करा
+
+💡 *केव्हाही लिहा:*
+• *EMI 3 lakh 36 months* — EMI कॅल्क्युलेटर
+• *Status* — अर्जाची स्थिती
+• *Menu* — इथे परत, तुमची माहिती जतन राहते
+• *Agent* — तज्ज्ञांशी बोला
 
 Reply *EN* for English / *HI* for हिंदी</value>
     </values>

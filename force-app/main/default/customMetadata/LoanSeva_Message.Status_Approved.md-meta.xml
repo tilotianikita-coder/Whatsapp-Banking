@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Status Approved</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">🎉 Approved! Loan account ```{lan}```. Your sanction letter has been sent to your email.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">🎉 मंज़ूर! लोन खाता ```{lan}```। आपका सैंक्शन लेटर आपके ईमेल पर भेज दिया गया है।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">🎉 मंजूर! कर्ज खाते ```{lan}```. तुमचे सँक्शन लेटर तुमच्या ईमेलवर पाठवले आहे.</value>
+    </values>
+</CustomMetadata>

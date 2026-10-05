@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Shortcut Tip</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">💡 *Type anytime:*
+• *EMI 3 lakh 36 months* — EMI calculator
+• *Status* — track your application
+• *Menu* — back here, your progress is saved
+• *Agent* — talk to a specialist</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">💡 *कभी भी लिखें:*
+• *EMI 3 lakh 36 months* — EMI कैलकुलेटर
+• *Status* — आवेदन की स्थिति
+• *Menu* — यहाँ वापस, आपकी जानकारी सेव रहती है
+• *Agent* — विशेषज्ञ से बात करें</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">💡 *केव्हाही लिहा:*
+• *EMI 3 lakh 36 months* — EMI कॅल्क्युलेटर
+• *Status* — अर्जाची स्थिती
+• *Menu* — इथे परत, तुमची माहिती जतन राहते
+• *Agent* — तज्ज्ञांशी बोला</value>
+    </values>
+</CustomMetadata>

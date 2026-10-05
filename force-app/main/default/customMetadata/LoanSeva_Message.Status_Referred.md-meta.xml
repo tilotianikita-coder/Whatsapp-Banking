@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Status Referred</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">📝 Our credit officer needs a few more details. A Kotak specialist will call you to help finish.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">📝 हमारे क्रेडिट अधिकारी को कुछ और जानकारी चाहिए। Kotak विशेषज्ञ आपको कॉल करके मदद करेंगे।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">📝 आमच्या क्रेडिट अधिकाऱ्यांना आणखी काही माहिती हवी आहे. Kotak तज्ज्ञ तुम्हाला कॉल करून मदत करतील.</value>
+    </values>
+</CustomMetadata>

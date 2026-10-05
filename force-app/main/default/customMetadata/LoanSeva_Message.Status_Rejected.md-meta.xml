@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Status Rejected</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">We couldn't approve this application right now. 🙏 Reply *Agent* to talk to a specialist.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">हम अभी यह आवेदन मंज़ूर नहीं कर सके। 🙏 विशेषज्ञ से बात करने के लिए *Agent* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">आम्ही सध्या हा अर्ज मंजूर करू शकलो नाही. 🙏 तज्ज्ञांशी बोलण्यासाठी *Agent* लिहा.</value>
+    </values>
+</CustomMetadata>

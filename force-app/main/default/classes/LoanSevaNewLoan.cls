@@ -357,7 +357,7 @@ public with sharing class LoanSevaNewLoan {
                 asked.add(f);
             }
         }
-        return '*' + (asked.indexOf(field) + 1) + '/' + asked.size() + '* — ' + text.replaceFirst('^\\*[0-9]+/[0-9]+\\* — ', '');
+        return LoanSevaEngine.withProgress('*' + (asked.indexOf(field) + 1) + '/' + asked.size() + '* — ' + text.replaceFirst('^\\*[0-9]+/[0-9]+\\* — ', ''));
     }
 
     /** Upper bound shown with the amount question: the product maximum, or the income multiple if lower. */

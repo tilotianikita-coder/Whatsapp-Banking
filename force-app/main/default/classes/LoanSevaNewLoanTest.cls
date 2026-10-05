@@ -53,7 +53,7 @@ private class LoanSevaNewLoanTest {
         System.assertEquals('otp', LoanSevaEngine.awaiting(j), 'name and mobile were already given');
         System.assert(last.message.startsWith(LoanSevaI18n.msg('NL_Intro', 'EN')));
         say(otp());
-        System.assert(last.message.contains('*1/10* — '), last.message);
+        System.assert(last.message.contains('*1/10* ▰'), last.message);
         System.assertEquals('dob', LoanSevaEngine.awaiting(j));
 
         for (String answer : new List<String>{ '15/08/1990', 'my PAN is abcpp1234k', 'Asha.Patil@Example.com', 'Pune 411 001',
@@ -135,6 +135,73 @@ private class LoanSevaNewLoanTest {
 
         say('5');
         System.assertEquals('feedback_resolution', LoanSevaEngine.awaiting(j));
+    }
+
+    private static void toDob() {
+        startUnknownCustomer();
+        say('4');
+        say('Asha Patil ' + MOBILE);
+        say(otp());
+        System.assertEquals('dob', LoanSevaEngine.awaiting(j));
+    }
+
+    @IsTest
+    static void specialistInWordsAtTheDobStep() {
+        toDob();
+        say('Actually, can I talk to a specialist?');
+        System.assert(last.handoff, last.message);
+        System.assertEquals(1, [SELECT COUNT() FROM Task WHERE WhatId = :j.Id], 'an RM task for the handoff');
+    }
+
+    @IsTest
+    static void bareSpecialistWordAtThePanStep() {
+        toDob();
+        say('15/08/1990');
+        say('agent');
+        System.assert(last.handoff, 'a PAN can never be "agent": ' + last.message);
+    }
+
+    @IsTest
+    static void anEmailWithAgentInItIsStillAnEmail() {
+        toDob();
+        say('15/08/1990');
+        say('ABCPP1234K');
+        say('agent.kumar@kotak.example');
+        System.assert(!last.handoff, last.message);
+        System.assertEquals('agent.kumar@kotak.example', j.Email__c);
+    }
+
+    @IsTest
+    static void emiAndStatusWorkOnThePanStep() {
+        toDob();
+        say('15/08/1990');
+        say('EMI 3 Lakhs 40 months');
+        System.assert(last.message.startsWith('🧮'), last.message);
+        System.assert(last.message.contains('👉 *40 months'), 'any tenure asked about: ' + last.message);
+        System.assert(last.message.contains('Please type your *PAN*'), 'then back to the PAN: ' + last.message);
+        say('status');
+        System.assert(last.message.startsWith(LoanSevaI18n.msg('Status_None', 'EN')), last.message);
+        System.assertEquals('pan', LoanSevaEngine.awaiting(j));
+        say('ABCPP1234K');
+        System.assertEquals('email', LoanSevaEngine.awaiting(j));
+    }
+
+    @IsTest
+    static void backToTheMenuMidFormAndPickUpAgain() {
+        toDob();
+        say('15/08/1990');
+        System.assertEquals('pan', LoanSevaEngine.awaiting(j));
+        say('I don\'t want to continue right now, take me back to the main menu');
+        System.assert(last.message.startsWith(LoanSevaI18n.msg('Menu_Paused', 'EN')), last.message);
+        System.assert(!last.handoff);
+        System.assert(j.Menu_Pending__c, 'the next 1/2/3 is a menu choice');
+        System.assertEquals(Date.newInstance(1990, 8, 15), j.Date_of_Birth__c, 'answers so far are kept');
+
+        say('1');
+        System.assertEquals('pan', LoanSevaEngine.awaiting(j));
+        System.assert(last.message.contains('Please type your *PAN*'), last.message);
+        say('ABCPP1234K');
+        System.assertEquals('email', LoanSevaEngine.awaiting(j));
     }
 
     @IsTest
@@ -280,7 +347,7 @@ private class LoanSevaNewLoanTest {
         System.assert(m.contains('Salaried @ Infosys'), 'employer from the earlier journey');
         System.assert(m.contains(LoanSevaI18n.inr(5000)), 'EMIs from the active Kotak loan');
         System.assert(m.contains('questions left: *2*'), m);
-        System.assert(m.contains('*1/2* — '), 'only purpose and amount are asked: ' + m);
+        System.assert(m.contains('*1/2* ▰'), 'only purpose and amount are asked: ' + m);
         System.assertEquals('purpose', LoanSevaEngine.awaiting(j));
         System.assertEquals('dob;pan;email;pincode;employment;company;income;obligations', j.Prefilled_Fields__c);
         System.assertEquals(120000, j.Monthly_Income__c);
@@ -288,7 +355,7 @@ private class LoanSevaNewLoanTest {
         System.assertEquals(5000, j.Existing_EMIs__c);
 
         say('1');
-        System.assert(last.message.startsWith('*2/2* — '), last.message);
+        System.assert(last.message.startsWith('*2/2* ▰'), last.message);
         say('3 lakh');
         System.assertEquals('offer_decision', LoanSevaEngine.awaiting(j), last.message);
         say('1');
@@ -316,12 +383,12 @@ private class LoanSevaNewLoanTest {
             Birthdate = Date.newInstance(1988, 3, 12), MailingPostalCode = '400060', MailingCity = 'Mumbai');
         returningCustomerVerified();
         System.assert(last.message.contains('12/03/1988') && last.message.contains('Mumbai 400060'), last.message);
-        System.assert(last.message.contains('*1/7* — '), 'DOB, email and PIN are on file: ' + last.message);
+        System.assert(last.message.contains('*1/7* ▰'), 'DOB, email and PIN are on file: ' + last.message);
         System.assertEquals('pan', LoanSevaEngine.awaiting(j));
 
         say('Change');
         System.assert(last.message.startsWith(LoanSevaI18n.msg('NL_Change', 'EN')), last.message);
-        System.assert(last.message.contains('*1/10* — '), last.message);
+        System.assert(last.message.contains('*1/10* ▰'), last.message);
         System.assertEquals('dob', LoanSevaEngine.awaiting(j));
         System.assertEquals(null, j.Prefilled_Fields__c);
         System.assertEquals(null, j.Email__c);
@@ -351,9 +418,9 @@ private class LoanSevaNewLoanTest {
     static void hindiQuestionsAreRenumbered() {
         Loan_Journey__c h = new Loan_Journey__c(Language__c = 'HI', Journey_Type__c = 'New Loan');
         String q = LoanSevaNewLoan.question(h, 'employment');
-        System.assert(q.startsWith('*5/10* — '), q);
+        System.assert(q.startsWith('*5/10* ▰'), q);
         System.assert(!q.contains('1/5'), q);
-        System.assert(LoanSevaNewLoan.question(h, 'amount').startsWith('*10/10* — '));
+        System.assert(LoanSevaNewLoan.question(h, 'amount').startsWith('*10/10* ▰'));
         h.Monthly_Income__c = 40000;
         System.assertEquals(800000, LoanSevaNewLoan.maxAmount(h));
     }

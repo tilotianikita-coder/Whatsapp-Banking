@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Status Steps TopUp</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">{s1} Offer ready
+{s2} Offer accepted
+{s3} Specialist call{when}
+{s4} Disbursal</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">{s1} ऑफ़र तैयार
+{s2} ऑफ़र स्वीकार किया
+{s3} विशेषज्ञ की कॉल{when}
+{s4} राशि का वितरण</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">{s1} ऑफर तयार
+{s2} ऑफर स्वीकारली
+{s3} तज्ज्ञांचा कॉल{when}
+{s4} रक्कम वितरण</value>
+    </values>
+</CustomMetadata>

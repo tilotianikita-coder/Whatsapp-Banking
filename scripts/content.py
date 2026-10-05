@@ -69,9 +69,9 @@ MESSAGES = {
         "नमस्कार {name}, Kotak कडून आनंदाची बातमी! 🎉 तुमच्या सध्याच्या कर्जावर तुम्ही *{limit}* पर्यंतच्या पर्सनल लोन टॉप-अपसाठी प्री-क्वालिफाइड आहात. सुमारे 90 सेकंदात तुमची वैयक्तिक ऑफर मिळवा — इथेच WhatsApp वर.\n\n👉 सुरू करण्यासाठी *Continue Here!* लिहा.",
     ),
     'Nudge_Generic': (
-        "Hi there! 👋 Thanks for your interest in the Kotak Personal Loan Top-Up. Unlock more for your plans with a personalised offer in about 90 seconds — right here on WhatsApp.\n\n👉 Reply *Continue Here!* to begin.",
-        "नमस्ते! 👋 Kotak पर्सनल लोन टॉप-अप में रुचि के लिए धन्यवाद। लगभग 90 सेकंड में पर्सनलाइज़्ड ऑफ़र के साथ अपने प्लान्स के लिए और पाएँ — यहीं WhatsApp पर।\n\n👉 शुरू करने के लिए *Continue Here!* लिखें।",
-        "नमस्कार! 👋 Kotak पर्सनल लोन टॉप-अपमध्ये रस दाखवल्याबद्दल धन्यवाद. सुमारे 90 सेकंदात वैयक्तिक ऑफरसह तुमच्या योजनांसाठी अधिक मिळवा — इथेच WhatsApp वर.\n\n👉 सुरू करण्यासाठी *Continue Here!* लिहा.",
+        "Hi there! 👋 Thanks for your interest in Kotak Personal Loans. Get a *Top-Up on your existing Kotak loan* or apply for a *new Personal Loan* — right here on WhatsApp, in a few minutes.\n\n👉 Reply *Continue Here!* to begin.",
+        "नमस्ते! 👋 Kotak पर्सनल लोन में रुचि के लिए धन्यवाद। अपने *मौजूदा Kotak लोन पर टॉप-अप* पाएँ या *नए पर्सनल लोन* के लिए आवेदन करें — यहीं WhatsApp पर, कुछ ही मिनटों में।\n\n👉 शुरू करने के लिए *Continue Here!* लिखें।",
+        "नमस्कार! 👋 Kotak पर्सनल लोनमध्ये रस दाखवल्याबद्दल धन्यवाद. तुमच्या *सध्याच्या Kotak कर्जावर टॉप-अप* मिळवा किंवा *नवीन पर्सनल लोन*साठी अर्ज करा — इथेच WhatsApp वर, काही मिनिटांत.\n\n👉 सुरू करण्यासाठी *Continue Here!* लिहा.",
     ),
     'Reengage_1': (
         "Hi {name} 👋 Your Kotak Top-Up{purpose} is just a few taps away — everything you shared is saved, so you can pick up right where you left off.\n\n👉 Reply *Continue* to see your personalised offer.",
@@ -84,14 +84,14 @@ MESSAGES = {
         "{name}, तुमचा प्री-क्वालिफाइड Kotak टॉप-अप अजूनही तुमच्यासाठी राखीव आहे ✨ पूर्ण करायला सुमारे एक मिनिट लागतो.\n\n👉 पुढे जाण्यासाठी *Continue* लिहा, किंवा *Agent* लिहा आणि आमचे तज्ज्ञ तुम्हाला कॉल करतील.",
     ),
     'Welcome': (
-        "Hi {name}! 👋 I'm *LoanSeva by Kotak*, your personal loan assistant.\n\nYou're pre-qualified for a Top-Up of up to *{limit}*. How can I help?\n\n1️⃣ See my personalised offer\n2️⃣ Ask a question about Top-Up\n3️⃣ Talk to a specialist\n\n" + LANG_FOOTER['en'],
-        "नमस्ते {name}! 👋 मैं हूँ *LoanSeva by Kotak*, आपका पर्सनल लोन असिस्टेंट।\n\nआप *{limit}* तक के टॉप-अप के लिए प्री-क्वालिफाइड हैं। मैं आपकी कैसे मदद करूँ?\n\n1️⃣ मेरा पर्सनलाइज़्ड ऑफ़र देखें\n2️⃣ टॉप-अप के बारे में सवाल पूछें\n3️⃣ विशेषज्ञ से बात करें\n\n" + LANG_FOOTER['hi'],
-        "नमस्कार {name}! 👋 मी *LoanSeva by Kotak*, तुमचा पर्सनल लोन सहाय्यक.\n\nतुम्ही *{limit}* पर्यंतच्या टॉप-अपसाठी प्री-क्वालिफाइड आहात. मी कशी मदत करू?\n\n1️⃣ माझी वैयक्तिक ऑफर पहा\n2️⃣ टॉप-अपबद्दल प्रश्न विचारा\n3️⃣ तज्ज्ञांशी बोला\n\n" + LANG_FOOTER['mr'],
+        "Hi {name}! 👋 I'm *LoanSeva by Kotak*, your personal loan assistant.\n\n🎉 You're pre-qualified for a *Top-Up of up to {limit}* on your existing loan. How can I help?\n\n1️⃣ See my Top-Up offer\n2️⃣ Ask a question\n3️⃣ Talk to a specialist\n4️⃣ Apply for a new Personal Loan\n\n" + LANG_FOOTER['en'],
+        "नमस्ते {name}! 👋 मैं हूँ *LoanSeva by Kotak*, आपका पर्सनल लोन असिस्टेंट।\n\n🎉 आपके मौजूदा लोन पर आप *{limit} तक के टॉप-अप* के लिए प्री-क्वालिफाइड हैं। मैं आपकी कैसे मदद करूँ?\n\n1️⃣ मेरा टॉप-अप ऑफ़र देखें\n2️⃣ सवाल पूछें\n3️⃣ विशेषज्ञ से बात करें\n4️⃣ नए पर्सनल लोन के लिए आवेदन करें\n\n" + LANG_FOOTER['hi'],
+        "नमस्कार {name}! 👋 मी *LoanSeva by Kotak*, तुमचा पर्सनल लोन सहाय्यक.\n\n🎉 तुमच्या सध्याच्या कर्जावर तुम्ही *{limit} पर्यंतच्या टॉप-अप*साठी प्री-क्वालिफाइड आहात. मी कशी मदत करू?\n\n1️⃣ माझी टॉप-अप ऑफर पहा\n2️⃣ प्रश्न विचारा\n3️⃣ तज्ज्ञांशी बोला\n4️⃣ नवीन पर्सनल लोनसाठी अर्ज करा\n\n" + LANG_FOOTER['mr'],
     ),
     'Welcome_Generic': (
-        "Hi! 👋 I'm *LoanSeva by Kotak*, your personal loan assistant. I can help you unlock a Personal Loan Top-Up on your existing Kotak loan.\n\n1️⃣ See my personalised offer\n2️⃣ Ask a question about Top-Up\n3️⃣ Talk to a specialist\n\n" + LANG_FOOTER['en'],
-        "नमस्ते! 👋 मैं हूँ *LoanSeva by Kotak*, आपका पर्सनल लोन असिस्टेंट। मैं आपके मौजूदा Kotak लोन पर पर्सनल लोन टॉप-अप पाने में मदद कर सकता हूँ।\n\n1️⃣ मेरा पर्सनलाइज़्ड ऑफ़र देखें\n2️⃣ टॉप-अप के बारे में सवाल पूछें\n3️⃣ विशेषज्ञ से बात करें\n\n" + LANG_FOOTER['hi'],
-        "नमस्कार! 👋 मी *LoanSeva by Kotak*, तुमचा पर्सनल लोन सहाय्यक. तुमच्या सध्याच्या Kotak कर्जावर पर्सनल लोन टॉप-अप मिळवण्यासाठी मी मदत करू शकतो.\n\n1️⃣ माझी वैयक्तिक ऑफर पहा\n2️⃣ टॉप-अपबद्दल प्रश्न विचारा\n3️⃣ तज्ज्ञांशी बोला\n\n" + LANG_FOOTER['mr'],
+        "Hi! 👋 I'm *LoanSeva by Kotak*, your personal loan assistant. I can help you get a *Top-Up on your existing Kotak loan* or apply for a *new Personal Loan* — right here on WhatsApp.\n\n1️⃣ Check my Top-Up offer (existing Kotak loan)\n2️⃣ Ask a question\n3️⃣ Talk to a specialist\n4️⃣ Apply for a new Personal Loan\n\n" + LANG_FOOTER['en'],
+        "नमस्ते! 👋 मैं हूँ *LoanSeva by Kotak*, आपका पर्सनल लोन असिस्टेंट। मैं आपके *मौजूदा Kotak लोन पर टॉप-अप* या *नए पर्सनल लोन* के आवेदन में मदद कर सकता हूँ — यहीं WhatsApp पर।\n\n1️⃣ मेरा टॉप-अप ऑफ़र देखें (मौजूदा Kotak लोन)\n2️⃣ सवाल पूछें\n3️⃣ विशेषज्ञ से बात करें\n4️⃣ नए पर्सनल लोन के लिए आवेदन करें\n\n" + LANG_FOOTER['hi'],
+        "नमस्कार! 👋 मी *LoanSeva by Kotak*, तुमचा पर्सनल लोन सहाय्यक. तुमच्या *सध्याच्या Kotak कर्जावर टॉप-अप* किंवा *नवीन पर्सनल लोन*साठी अर्ज करण्यात मी मदत करू शकतो — इथेच WhatsApp वर.\n\n1️⃣ माझी टॉप-अप ऑफर पहा (सध्याचे Kotak कर्ज)\n2️⃣ प्रश्न विचारा\n3️⃣ तज्ज्ञांशी बोला\n4️⃣ नवीन पर्सनल लोनसाठी अर्ज करा\n\n" + LANG_FOOTER['mr'],
     ),
     'FAQ_Nudge': (
         "Want to see your personalised offer? Reply *Yes* to verify in 30 seconds.",
@@ -215,9 +215,9 @@ MESSAGES = {
         "*5/5* — तुम्हाला किती रक्कम हवी आहे? ({limit} पर्यंत प्री-अप्रूव्ड)\n\n{options}\n\nकिंवा रक्कम लिहा, उदा. *3 lakh*.",
     ),
     'Offer_Card': (
-        "🎉 Great news, {name}! Here's your personalised Top-Up offer:\n\n> 💰 Amount: *{amount}*\n> 📈 Rate: *{rate}% p.a.*\n> 📅 Tenure: *{tenure} months*\n> 💳 EMI: *{emi}/month*\n> 🧾 Processing fee: {fee} + GST\n\nOther tenures: {otherTenures}\n\n_This is a preliminary offer, subject to final verification._\n\n1️⃣ Accept offer\n2️⃣ Change amount or tenure\n3️⃣ Ask a question",
-        "🎉 बधाई हो, {name}! यह रहा आपका पर्सनलाइज़्ड टॉप-अप ऑफ़र:\n\n> 💰 राशि: *{amount}*\n> 📈 ब्याज दर: *{rate}% प्रति वर्ष*\n> 📅 अवधि: *{tenure} महीने*\n> 💳 EMI: *{emi}/माह*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nअन्य अवधि: {otherTenures}\n\n_यह एक प्रारंभिक ऑफ़र है, अंतिम सत्यापन के अधीन।_\n\n1️⃣ ऑफ़र स्वीकार करें\n2️⃣ राशि या अवधि बदलें\n3️⃣ सवाल पूछें",
-        "🎉 अभिनंदन, {name}! ही तुमची वैयक्तिक टॉप-अप ऑफर:\n\n> 💰 रक्कम: *{amount}*\n> 📈 व्याजदर: *{rate}% प्रतिवर्ष*\n> 📅 कालावधी: *{tenure} महिने*\n> 💳 EMI: *{emi}/महिना*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nइतर कालावधी: {otherTenures}\n\n_ही प्राथमिक ऑफर आहे, अंतिम पडताळणीच्या अधीन._\n\n1️⃣ ऑफर स्वीकारा\n2️⃣ रक्कम किंवा कालावधी बदला\n3️⃣ प्रश्न विचारा",
+        "🎉 Great news, {name}! Here's your personalised Top-Up offer:\n\n> 💰 Amount: *{amount}*\n> 📈 Rate: *{rate}% p.a.*\n> 📅 Tenure: *{tenure} months*\n> 💳 EMI: *{emi}/month*\n> 🧾 Processing fee: {fee} + GST\n\nOther tenures:\n{otherTenures}\n\n_This is a preliminary offer, subject to final verification._\n\n1️⃣ Accept offer\n2️⃣ Change amount or tenure\n3️⃣ Ask a question",
+        "🎉 बधाई हो, {name}! यह रहा आपका पर्सनलाइज़्ड टॉप-अप ऑफ़र:\n\n> 💰 राशि: *{amount}*\n> 📈 ब्याज दर: *{rate}% प्रति वर्ष*\n> 📅 अवधि: *{tenure} महीने*\n> 💳 EMI: *{emi}/माह*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nअन्य अवधि:\n{otherTenures}\n\n_यह एक प्रारंभिक ऑफ़र है, अंतिम सत्यापन के अधीन।_\n\n1️⃣ ऑफ़र स्वीकार करें\n2️⃣ राशि या अवधि बदलें\n3️⃣ सवाल पूछें",
+        "🎉 अभिनंदन, {name}! ही तुमची वैयक्तिक टॉप-अप ऑफर:\n\n> 💰 रक्कम: *{amount}*\n> 📈 व्याजदर: *{rate}% प्रतिवर्ष*\n> 📅 कालावधी: *{tenure} महिने*\n> 💳 EMI: *{emi}/महिना*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nइतर कालावधी:\n{otherTenures}\n\n_ही प्राथमिक ऑफर आहे, अंतिम पडताळणीच्या अधीन._\n\n1️⃣ ऑफर स्वीकारा\n2️⃣ रक्कम किंवा कालावधी बदला\n3️⃣ प्रश्न विचारा",
     ),
     'Offer_Capped': (
         "ℹ️ Based on your income and current EMI, the best amount I can offer right now is {max}.",
@@ -414,9 +414,9 @@ NEW_LOAN = {
         "तुम्हाला किती कर्ज हवे आहे? 💰 ({min} – {max})\n\nरक्कम लिहा, उदा. *3 lakh*.",
     ),
     'NL_Offer_Card': (
-        "🎉 Good news, {name}! Here's your *indicative* Personal Loan offer:\n\n> 💰 Amount: *{amount}*\n> 📈 Rate: *{rate}% p.a.*\n> 📅 Tenure: *{tenure} months*\n> 💳 EMI: *{emi}/month*\n> 🧾 Processing fee: {fee} + GST\n\nOther tenures: {otherTenures}\n\n_Indicative only — final terms after credit checks and document verification._\n\n1️⃣ Accept and continue\n2️⃣ Change amount or tenure\n3️⃣ Ask a question",
-        "🎉 अच्छी खबर, {name}! यह रहा आपका *अनुमानित* पर्सनल लोन ऑफ़र:\n\n> 💰 राशि: *{amount}*\n> 📈 ब्याज दर: *{rate}% प्रति वर्ष*\n> 📅 अवधि: *{tenure} महीने*\n> 💳 EMI: *{emi}/माह*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nअन्य अवधि: {otherTenures}\n\n_यह केवल अनुमान है — अंतिम शर्तें क्रेडिट जाँच और दस्तावेज़ सत्यापन के बाद।_\n\n1️⃣ स्वीकार करें और आगे बढ़ें\n2️⃣ राशि या अवधि बदलें\n3️⃣ सवाल पूछें",
-        "🎉 आनंदाची बातमी, {name}! ही तुमची *अंदाजित* पर्सनल लोन ऑफर:\n\n> 💰 रक्कम: *{amount}*\n> 📈 व्याजदर: *{rate}% प्रतिवर्ष*\n> 📅 कालावधी: *{tenure} महिने*\n> 💳 EMI: *{emi}/महिना*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nइतर कालावधी: {otherTenures}\n\n_ही फक्त अंदाजित ऑफर आहे — अंतिम अटी क्रेडिट तपासणी आणि कागदपत्र पडताळणीनंतर._\n\n1️⃣ स्वीकारा आणि पुढे जा\n2️⃣ रक्कम किंवा कालावधी बदला\n3️⃣ प्रश्न विचारा",
+        "🎉 Good news, {name}! Here's your *indicative* Personal Loan offer:\n\n> 💰 Amount: *{amount}*\n> 📈 Rate: *{rate}% p.a.*\n> 📅 Tenure: *{tenure} months*\n> 💳 EMI: *{emi}/month*\n> 🧾 Processing fee: {fee} + GST\n\nOther tenures:\n{otherTenures}\n\n_Indicative only — final terms after credit checks and document verification._\n\n1️⃣ Accept and continue\n2️⃣ Change amount or tenure\n3️⃣ Ask a question",
+        "🎉 अच्छी खबर, {name}! यह रहा आपका *अनुमानित* पर्सनल लोन ऑफ़र:\n\n> 💰 राशि: *{amount}*\n> 📈 ब्याज दर: *{rate}% प्रति वर्ष*\n> 📅 अवधि: *{tenure} महीने*\n> 💳 EMI: *{emi}/माह*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nअन्य अवधि:\n{otherTenures}\n\n_यह केवल अनुमान है — अंतिम शर्तें क्रेडिट जाँच और दस्तावेज़ सत्यापन के बाद।_\n\n1️⃣ स्वीकार करें और आगे बढ़ें\n2️⃣ राशि या अवधि बदलें\n3️⃣ सवाल पूछें",
+        "🎉 आनंदाची बातमी, {name}! ही तुमची *अंदाजित* पर्सनल लोन ऑफर:\n\n> 💰 रक्कम: *{amount}*\n> 📈 व्याजदर: *{rate}% प्रतिवर्ष*\n> 📅 कालावधी: *{tenure} महिने*\n> 💳 EMI: *{emi}/महिना*\n> 🧾 प्रोसेसिंग शुल्क: {fee} + GST\n\nइतर कालावधी:\n{otherTenures}\n\n_ही फक्त अंदाजित ऑफर आहे — अंतिम अटी क्रेडिट तपासणी आणि कागदपत्र पडताळणीनंतर._\n\n1️⃣ स्वीकारा आणि पुढे जा\n2️⃣ रक्कम किंवा कालावधी बदला\n3️⃣ प्रश्न विचारा",
     ),
     'NL_Refer': (
         "Thanks {name}! 🙏 Based on your details, a Kotak loan specialist will work out the best option for you personally. They'll call you within 24 hours.",
@@ -496,6 +496,84 @@ _APPLY_OPTION = ("4️⃣ Apply for a new Personal Loan", "4️⃣ नए पर
 for _key in ('Welcome', 'Welcome_Generic'):
     MESSAGES[_key] = tuple(
         t.replace('\n\n' + footer, '\n' + opt + '\n\n' + footer) for t, opt, footer in zip(MESSAGES[_key], _APPLY_OPTION, LANG_FOOTER.values()))
+
+# Shortcuts that work at any step (LoanSevaShortcuts): EMI calculator and application status
+SHORTCUTS = {
+    'Menu_Paused': (
+        "No problem — I've saved everything so far, so you can pick up right where you left off anytime. 👍",
+        "कोई बात नहीं — अब तक की सारी जानकारी सेव है, आप कभी भी वहीं से आगे बढ़ सकते हैं। 👍",
+        "काही हरकत नाही — आतापर्यंतची सर्व माहिती जतन केली आहे, तुम्ही कधीही तिथूनच पुढे जाऊ शकता. 👍",
+    ),
+    'Shortcut_Tip': (
+        "💡 *Type anytime:*\n• *EMI 3 lakh 36 months* — EMI calculator\n• *Status* — track your application\n• *Menu* — back here, your progress is saved\n• *Agent* — talk to a specialist",
+        "💡 *कभी भी लिखें:*\n• *EMI 3 lakh 36 months* — EMI कैलकुलेटर\n• *Status* — आवेदन की स्थिति\n• *Menu* — यहाँ वापस, आपकी जानकारी सेव रहती है\n• *Agent* — विशेषज्ञ से बात करें",
+        "💡 *केव्हाही लिहा:*\n• *EMI 3 lakh 36 months* — EMI कॅल्क्युलेटर\n• *Status* — अर्जाची स्थिती\n• *Menu* — इथे परत, तुमची माहिती जतन राहते\n• *Agent* — तज्ज्ञांशी बोला",
+    ),
+    'Emi_Calc': (
+        "🧮 *EMI calculator* — *{amount}* at {rate}% p.a.\n\n{rows}\n\n> 📅 {tenure} months · EMI *{emi}/month*\n> 💸 Total interest: {interest}\n> 🧾 Total payable: {total}\n\n_Indicative only — your final rate and amount depend on your profile and checks._",
+        "🧮 *EMI कैलकुलेटर* — *{amount}*, {rate}% प्रति वर्ष पर\n\n{rows}\n\n> 📅 {tenure} महीने · EMI *{emi}/माह*\n> 💸 कुल ब्याज: {interest}\n> 🧾 कुल भुगतान: {total}\n\n_यह केवल अनुमान है — अंतिम दर और राशि आपकी प्रोफ़ाइल और जाँच पर निर्भर करती है।_",
+        "🧮 *EMI कॅल्क्युलेटर* — *{amount}*, {rate}% प्रतिवर्ष दराने\n\n{rows}\n\n> 📅 {tenure} महिने · EMI *{emi}/महिना*\n> 💸 एकूण व्याज: {interest}\n> 🧾 एकूण परतफेड: {total}\n\n_हा फक्त अंदाज आहे — अंतिम दर आणि रक्कम तुमच्या प्रोफाइल आणि तपासणीवर अवलंबून आहे._",
+    ),
+    'Emi_Row': (
+        "{tenure} months · {emi}/month",
+        "{tenure} महीने · {emi}/माह",
+        "{tenure} महिने · {emi}/महिना",
+    ),
+    'Status_Card': (
+        "📋 *Application status*{ref}\n\n> 💰 {product} · *{amount}*\n\n{steps}",
+        "📋 *आवेदन की स्थिति*{ref}\n\n> 💰 {product} · *{amount}*\n\n{steps}",
+        "📋 *अर्जाची स्थिती*{ref}\n\n> 💰 {product} · *{amount}*\n\n{steps}",
+    ),
+    'Status_Steps_New': (
+        "{s1} Application submitted\n{s2} Documents{docs}\n{s3} Credit & KYC checks\n{s4} Credit officer review\n{s5} Decision",
+        "{s1} आवेदन जमा हुआ\n{s2} दस्तावेज़{docs}\n{s3} क्रेडिट और KYC जाँच\n{s4} क्रेडिट अधिकारी की समीक्षा\n{s5} निर्णय",
+        "{s1} अर्ज सादर झाला\n{s2} कागदपत्रे{docs}\n{s3} क्रेडिट आणि KYC तपासणी\n{s4} क्रेडिट अधिकाऱ्यांचे पुनरावलोकन\n{s5} निर्णय",
+    ),
+    'Status_Steps_TopUp': (
+        "{s1} Offer ready\n{s2} Offer accepted\n{s3} Specialist call{when}\n{s4} Disbursal",
+        "{s1} ऑफ़र तैयार\n{s2} ऑफ़र स्वीकार किया\n{s3} विशेषज्ञ की कॉल{when}\n{s4} राशि का वितरण",
+        "{s1} ऑफर तयार\n{s2} ऑफर स्वीकारली\n{s3} तज्ज्ञांचा कॉल{when}\n{s4} रक्कम वितरण",
+    ),
+    'Status_Docs': (
+        "({received} received, {verified} verified)",
+        "({received} मिले, {verified} सत्यापित)",
+        "({received} मिळाली, {verified} पडताळली)",
+    ),
+    'Status_Approved': (
+        "🎉 Approved! Loan account ```{lan}```. Your sanction letter has been sent to your email.",
+        "🎉 मंज़ूर! लोन खाता ```{lan}```। आपका सैंक्शन लेटर आपके ईमेल पर भेज दिया गया है।",
+        "🎉 मंजूर! कर्ज खाते ```{lan}```. तुमचे सँक्शन लेटर तुमच्या ईमेलवर पाठवले आहे.",
+    ),
+    'Status_Rejected': (
+        "We couldn't approve this application right now. 🙏 Reply *Agent* to talk to a specialist.",
+        "हम अभी यह आवेदन मंज़ूर नहीं कर सके। 🙏 विशेषज्ञ से बात करने के लिए *Agent* लिखें।",
+        "आम्ही सध्या हा अर्ज मंजूर करू शकलो नाही. 🙏 तज्ज्ञांशी बोलण्यासाठी *Agent* लिहा.",
+    ),
+    'Status_Referred': (
+        "📝 Our credit officer needs a few more details. A Kotak specialist will call you to help finish.",
+        "📝 हमारे क्रेडिट अधिकारी को कुछ और जानकारी चाहिए। Kotak विशेषज्ञ आपको कॉल करके मदद करेंगे।",
+        "📝 आमच्या क्रेडिट अधिकाऱ्यांना आणखी काही माहिती हवी आहे. Kotak तज्ज्ञ तुम्हाला कॉल करून मदत करतील.",
+    ),
+    'Status_In_Review': (
+        "⏱️ This usually takes up to 24 hours. I'll message you right here as soon as there's an update.",
+        "⏱️ इसमें आमतौर पर 24 घंटे तक लगते हैं। कोई भी अपडेट होते ही मैं आपको यहीं मैसेज करूँगा।",
+        "⏱️ याला साधारणपणे 24 तासांपर्यंत लागतात. काहीही अपडेट आल्यावर मी तुम्हाला इथेच मेसेज करेन.",
+    ),
+    'Status_Not_Submitted': (
+        "Your application isn't submitted yet — just a few steps left.",
+        "आपका आवेदन अभी जमा नहीं हुआ है — बस कुछ ही कदम बाकी हैं।",
+        "तुमचा अर्ज अजून सादर झालेला नाही — फक्त काही पावले बाकी आहेत.",
+    ),
+    'Status_None': (
+        "I couldn't find a loan application on this number yet. 🙂",
+        "इस नंबर पर अभी कोई लोन आवेदन नहीं मिला। 🙂",
+        "या नंबरवर अजून कोणताही कर्ज अर्ज सापडला नाही. 🙂",
+    ),
+}
+MESSAGES.update(SHORTCUTS)
+for _key in ('Welcome', 'Welcome_Generic'):
+    MESSAGES[_key] = tuple(
+        t.replace('\n\n' + footer, '\n\n' + tip + '\n\n' + footer) for t, tip, footer in zip(MESSAGES[_key], SHORTCUTS['Shortcut_Tip'], LANG_FOOTER.values()))
 
 # FAQ: key -> (sort, question, keywords, en, hi, mr). Tokens come from LoanSeva_Config__mdt.
 FAQS = {

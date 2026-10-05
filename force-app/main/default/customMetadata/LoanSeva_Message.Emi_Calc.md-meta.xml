@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Emi Calc</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">🧮 *EMI calculator* — *{amount}* at {rate}% p.a.
+
+{rows}
+
+&gt; 📅 {tenure} months · EMI *{emi}/month*
+&gt; 💸 Total interest: {interest}
+&gt; 🧾 Total payable: {total}
+
+_Indicative only — your final rate and amount depend on your profile and checks._</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">🧮 *EMI कैलकुलेटर* — *{amount}*, {rate}% प्रति वर्ष पर
+
+{rows}
+
+&gt; 📅 {tenure} महीने · EMI *{emi}/माह*
+&gt; 💸 कुल ब्याज: {interest}
+&gt; 🧾 कुल भुगतान: {total}
+
+_यह केवल अनुमान है — अंतिम दर और राशि आपकी प्रोफ़ाइल और जाँच पर निर्भर करती है।_</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">🧮 *EMI कॅल्क्युलेटर* — *{amount}*, {rate}% प्रतिवर्ष दराने
+
+{rows}
+
+&gt; 📅 {tenure} महिने · EMI *{emi}/महिना*
+&gt; 💸 एकूण व्याज: {interest}
+&gt; 🧾 एकूण परतफेड: {total}
+
+_हा फक्त अंदाज आहे — अंतिम दर आणि रक्कम तुमच्या प्रोफाइल आणि तपासणीवर अवलंबून आहे._</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Status In Review</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">⏱️ This usually takes up to 24 hours. I'll message you right here as soon as there's an update.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">⏱️ इसमें आमतौर पर 24 घंटे तक लगते हैं। कोई भी अपडेट होते ही मैं आपको यहीं मैसेज करूँगा।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">⏱️ याला साधारणपणे 24 तासांपर्यंत लागतात. काहीही अपडेट आल्यावर मी तुम्हाला इथेच मेसेज करेन.</value>
+    </values>
+</CustomMetadata>

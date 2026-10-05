@@ -52,6 +52,11 @@ public with sharing class LoanSevaEngine {
     // ------------------------------------------------------------------ FAQ
     public static Result answerFaq(Loan_Journey__c j, String question) {
         String q = String.isBlank(question) ? '' : question.trim();
+        // "What's the EMI for 3 lakh?" and "status?" reach here when the agent reads them as questions
+        Result shortcut = LoanSevaShortcuts.handle(j, q);
+        if (shortcut != null) {
+            return shortcut;
+        }
         if (String.isNotBlank(q)) {
             String log = (String.isBlank(j.Questions_Asked__c) ? '' : j.Questions_Asked__c + '\n') +
                 '- ' + q.abbreviate(250);
@@ -301,6 +306,24 @@ public with sharing class LoanSevaEngine {
         if (LoanSevaJourneyService.isNewLoan(j)) {
             return LoanSevaNewLoan.question(j, field);
         }
+        return withProgress(topUpQuestion(j, field));
+    }
+
+    private static final Pattern COUNTER = Pattern.compile('^\\*([0-9]+)/([0-9]+)\\* — ');
+
+    /** "*2/5* — Which company…" becomes "*2/5* ▰▰▱▱▱ — Which company…". */
+    public static String withProgress(String text) {
+        Matcher m = text == null ? null : COUNTER.matcher(text);
+        if (m == null || !m.find()) {
+            return text;
+        }
+        Integer n = Integer.valueOf(m.group(1));
+        Integer total = Integer.valueOf(m.group(2));
+        String bar = '▰'.repeat(Math.min(n, total)) + '▱'.repeat(Math.max(total - n, 0));
+        return '*' + n + '/' + total + '* ' + bar + ' — ' + text.substring(m.end());
+    }
+
+    private static String topUpQuestion(Loan_Journey__c j, String field) {
         String lang = j.Language__c;
         if (field == 'employment') {
             return LoanSevaI18n.msg('Q_Employment', lang);
@@ -471,7 +494,7 @@ public with sharing class LoanSevaEngine {
         List<String> others = new List<String>();
         for (Integer t : e.emiByTenure.keySet()) {
             if (t != e.tenure) {
-                others.add(t + 'm: ' + LoanSevaI18n.inr(e.emiByTenure.get(t)));
+                others.add('▫️ ' + t + 'm · ' + LoanSevaI18n.inr(e.emiByTenure.get(t)));
             }
         }
         String message = LoanSevaI18n.msg(newLoan ? 'NL_Offer_Card' : 'Offer_Card', lang, new Map<String, Object>{
@@ -481,7 +504,7 @@ public with sharing class LoanSevaEngine {
             'tenure' => e.tenure,
             'emi' => LoanSevaI18n.inr(e.emi),
             'fee' => LoanSevaI18n.inr(e.processingFee),
-            'otherTenures' => String.join(others, ' | ')
+            'otherTenures' => String.join(others, '\n')
         });
         if (e.cappedBelowDesired) {
             message = LoanSevaI18n.msg('Offer_Capped', lang, new Map<String, Object>{ 'max' => LoanSevaI18n.inr(e.amount) }) + '\n\n' + message;
@@ -785,7 +808,18 @@ public with sharing class LoanSevaEngine {
             }
             update j;
         }
+        Result shortcut = LoanSevaShortcuts.handle(j, t);
+        if (shortcut != null) {
+            return shortcut;
+        }
         Boolean raw = RAW_INPUT.contains(state);
+        // Said in their own words at any step, even mid-PAN or mid-OTP: a person, or back to the menu
+        if (raw && wantsHumanWhileTyping(t, state)) {
+            return escalate(j, 'Asked for a specialist while entering ' + state + ': ' + t);
+        }
+        if (wantsMenu(t, state)) {
+            return backToMenu(j);
+        }
         if (j.Question_Pending__c == true && !raw) {
             // After "Ask a question" the next message is a question, so "Yes" or "tell me more" can
             // never accept the offer. A bare option number still picks that option.
@@ -915,8 +949,7 @@ public with sharing class LoanSevaEngine {
 
     private static Result offerDecision(Loan_Journey__c j, String t, Integer choice) {
         // An amount or tenure comes first, so "3 lakh for 48 months" is a change, not option 3
-        Matcher m = Pattern.compile('(?i)([0-9]+\\s*(?:months?|mo|mths?|years?|yrs?|y|साल|वर्ष|महीने|महिने|वर्षे))(?![a-z])').matcher(t);
-        String tenureText = m.find() ? m.group(1) : null;
+        String tenureText = tenurePhrase(t);
         String amountText = parseAmount(tenureText == null ? t : t.replace(tenureText, ' ')) != null
             ? (tenureText == null ? t : t.replace(tenureText, ' '))
             : null;
@@ -933,6 +966,17 @@ public with sharing class LoanSevaEngine {
             return result(j, LoanSevaI18n.msg('Offer_Change_Prompt', j.Language__c));
         }
         return faqOrPrompt(j, t);
+    }
+
+    private static final Pattern TENURE_PHRASE = Pattern.compile('(?i)([0-9]+\\s*(?:months?|mo|mths?|years?|yrs?|y|साल|वर्ष|महीने|महिने|वर्षे))(?![a-z])');
+
+    /** The tenure part of a message, e.g. "48 months" in "3 lakh for 48 months", or null. */
+    public static String tenurePhrase(String t) {
+        if (String.isBlank(t)) {
+            return null;
+        }
+        Matcher m = TENURE_PHRASE.matcher(t);
+        return m.find() ? m.group(1) : null;
     }
 
     /** A bare option such as 1, 2️⃣ or ३: picks that option even while a question is pending. */
@@ -968,6 +1012,50 @@ public with sharing class LoanSevaEngine {
 
     private static Boolean wantsHuman(String s) {
         return String.isNotBlank(s) && HUMAN.matcher(s.replace('\n', ' ')).matches();
+    }
+
+    /** A request in words ("can I talk to someone", "connect me to an agent", मुझे किसी से बात करनी है), never a typed answer. */
+    private static final Pattern ASK_FOR_PERSON = Pattern.compile(
+        '(?i).*(\\b(talk|speak|chat|connect me|transfer me|put me through)\\b.*\\b(to|with)\\b.*\\b(someone|somebody|person|human|agent|specialist|executive|rm|banker|manager|expert)\\b'
+        + '|\\b(want|need)\\b.*\\b(human|agent|specialist|real person|executive)\\b'
+        + '|बात कर|बात करनी|बात करना|बोलायचे|बोलायचं|बोलू इच्छितो|बोलू इच्छिते|विशेषज्ञ से|तज्ज्ञांशी|एजेंट से).*');
+
+    /**
+     * On a typed-data step (OTP, DOB, PAN, email, company) only a clear request counts, so "Agent Corp" stays a
+     * company and "rm@kotak.com" an email. A bare "agent" or "RM" can't be an OTP, a date or a PAN.
+     */
+    private static Boolean wantsHumanWhileTyping(String t, String state) {
+        if (String.isBlank(t) || state == 'email' && t.contains('@')) {
+            return false;
+        }
+        String line = t.replace('\n', ' ');
+        return ASK_FOR_PERSON.matcher(line).matches() || (new Set<String>{ 'otp', 'dob', 'pan' }.contains(state) && wantsHuman(line));
+    }
+
+    /** "Main menu", "go back", "start over", "I don't want to continue", "not now", रहने दो, मागे जा. */
+    private static final Pattern MENU = Pattern.compile(
+        '(?i)\\s*(menu|main menu|back|go back|cancel|stop|exit|quit|not now|start over|restart)\\s*[.!]*\\s*'
+        + '|.*(\\b(go|take me|back) (back )?to (the )?(main )?menu\\b|\\bshow (me )?(the )?(main )?menu\\b'
+        + '|\\b(don\'?t|do not|dont) want to (proceed|continue|go ahead|go on|apply)\\b|\\bnot interested\\b'
+        + '|\\bstop (this|the application|here)\\b|\\bstart (again|over)\\b'
+        + '|मेनू|मेन्यू|वापस जा|वापस मेन|रहने दो|आगे नहीं बढ़ना|नहीं करना|अभी नहीं|मागे जा|मुख्य मेनू|पुढे जायचे नाही|आत्ता नको).*');
+
+    private static Boolean wantsMenu(String t, String state) {
+        if (String.isBlank(t) || (state == 'menu' || state == 'feedback_comment') && !t.containsIgnoreCase('menu') || state == 'email' && t.contains('@')) {
+            return false;
+        }
+        return MENU.matcher(t.replace('\n', ' ')).matches();
+    }
+
+    /** Pauses where the customer is: everything is kept, and option 1 on the menu picks up the same step. */
+    private static Result backToMenu(Loan_Journey__c j) {
+        Boolean midJourney = awaiting(j) != 'menu';
+        j.Question_Pending__c = false;
+        Result r = start(j);
+        if (midJourney) {
+            r.message = LoanSevaI18n.msg('Menu_Paused', j.Language__c) + '\n\n' + r.message;
+        }
+        return r;
     }
 
     /** Asking to see their own offer or limit, e.g. "I want to know my offer", "how much can I get". */

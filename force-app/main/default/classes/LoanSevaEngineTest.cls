@@ -166,7 +166,7 @@ private class LoanSevaEngineTest {
         LoanSevaEngine.Result r = LoanSevaEngine.personalise(j, 'salaried');
         System.assert(r.journey.Loan_Confirmed__c);
         System.assertEquals('Salaried', r.journey.Employment_Type__c);
-        System.assertEquals(LoanSevaI18n.msg('Q_Company', 'EN'), r.message);
+        System.assertEquals(LoanSevaEngine.withProgress(LoanSevaI18n.msg('Q_Company', 'EN')), r.message);
     }
 
     @IsTest
@@ -174,12 +174,12 @@ private class LoanSevaEngineTest {
         Loan_Journey__c j = LoanSevaTestData.verifiedJourney(LoanSevaTestData.PRIYA_MOBILE, 'Priya Sharma');
         LoanSevaEngine.Result r = LoanSevaEngine.personalise(j, 'banana');
         System.assert(!r.success);
-        System.assert(r.message.contains(LoanSevaI18n.msg('Q_Employment', 'EN')));
+        System.assert(r.message.contains(LoanSevaEngine.withProgress(LoanSevaI18n.msg('Q_Employment', 'EN'))));
         System.assertEquals(null, r.journey.Employment_Type__c);
 
         r = LoanSevaEngine.personalise(r.journey, '2');
         System.assertEquals('Self-employed', r.journey.Employment_Type__c);
-        System.assertEquals(LoanSevaI18n.msg('Q_Business', 'EN'), r.message, 'Self-employed get the business question');
+        System.assertEquals(LoanSevaEngine.withProgress(LoanSevaI18n.msg('Q_Business', 'EN')), r.message, 'Self-employed get the business question');
         r = LoanSevaEngine.personalise(r.journey, 'x');
         System.assert(!r.success, 'One-letter company is rejected');
         r = LoanSevaEngine.personalise(r.journey, 'Sharma Traders');
@@ -293,7 +293,7 @@ private class LoanSevaEngineTest {
         Loan_Journey__c j = LoanSevaTestData.verifiedJourney(LoanSevaTestData.PRIYA_MOBILE, 'Priya Sharma');
         LoanSevaEngine.Result r = LoanSevaEngine.setLanguage(j, 'हिंदी');
         System.assertEquals('HI', r.journey.Language__c);
-        System.assert(r.message.contains(LoanSevaI18n.msg('Q_Employment', 'HI')));
+        System.assert(r.message.contains(LoanSevaEngine.withProgress(LoanSevaI18n.msg('Q_Employment', 'HI'))));
         System.assertNotEquals(LoanSevaI18n.msg('Q_Employment', 'HI'), LoanSevaI18n.msg('Q_Employment', 'EN'), 'Hindi copy exists');
         r = LoanSevaEngine.setLanguage(r.journey, 'marathi');
         System.assertEquals('MR', r.journey.Language__c);
@@ -319,7 +319,7 @@ private class LoanSevaEngineTest {
         Loan_Journey__c v = LoanSevaTestData.verifiedJourney(LoanSevaTestData.RAHUL_MOBILE, 'Rahul Deshmukh');
         r = LoanSevaEngine.answerFaq(v, 'what is the interest rate');
         System.assert(r.message.contains(LoanSevaI18n.msg('Resume_Prompt', 'EN')), 'Verified customers resume where they were');
-        System.assert(r.message.contains(LoanSevaI18n.msg('Q_Employment', 'EN')));
+        System.assert(r.message.contains(LoanSevaEngine.withProgress(LoanSevaI18n.msg('Q_Employment', 'EN'))));
     }
 
     @IsTest
@@ -568,5 +568,23 @@ private class LoanSevaEngineTest {
         System.assert(LoanSevaEngine.namesMatch('priya s', new Contact(FirstName = 'Priya', LastName = 'Sharma')));
         System.assert(!LoanSevaEngine.namesMatch('Anita', new Contact(FirstName = 'Priya', LastName = 'Sharma')));
         System.assertEquals('menu', LoanSevaEngine.awaiting(null));
+    }
+
+    @IsTest
+    static void mainMenuInWordsMidTopUp() {
+        Loan_Journey__c j = LoanSevaTestData.verifiedJourney(LoanSevaTestData.PRIYA_MOBILE, 'Priya Sharma');
+        System.assertEquals('employment', LoanSevaEngine.awaiting(j));
+        LoanSevaEngine.Result r = LoanSevaEngine.reply(j, 'main menu');
+        System.assert(r.message.startsWith(LoanSevaI18n.msg('Menu_Paused', 'EN')), r.message);
+        r = LoanSevaEngine.reply(r.journey, '1');
+        System.assertEquals('employment', LoanSevaEngine.awaiting(r.journey), 'option 1 picks up the same step');
+
+        r = LoanSevaEngine.reply(r.journey, 'रहने दो');
+        System.assert(r.journey.Menu_Pending__c, r.message);
+        System.assertEquals(false, r.handoff);
+
+        r = LoanSevaEngine.reply(r.journey, '1');
+        r = LoanSevaEngine.reply(r.journey, 'please connect me to a relationship manager');
+        System.assert(r.handoff, r.message);
     }
 }

@@ -4,19 +4,19 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">Hi there! 👋 Thanks for your interest in the Kotak Personal Loan Top-Up. Unlock more for your plans with a personalised offer in about 90 seconds — right here on WhatsApp.
+        <value xsi:type="xsd:string">Hi there! 👋 Thanks for your interest in Kotak Personal Loans. Get a *Top-Up on your existing Kotak loan* or apply for a *new Personal Loan* — right here on WhatsApp, in a few minutes.
 
 👉 Reply *Continue Here!* to begin.</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:type="xsd:string">नमस्ते! 👋 Kotak पर्सनल लोन टॉप-अप में रुचि के लिए धन्यवाद। लगभग 90 सेकंड में पर्सनलाइज़्ड ऑफ़र के साथ अपने प्लान्स के लिए और पाएँ — यहीं WhatsApp पर।
+        <value xsi:type="xsd:string">नमस्ते! 👋 Kotak पर्सनल लोन में रुचि के लिए धन्यवाद। अपने *मौजूदा Kotak लोन पर टॉप-अप* पाएँ या *नए पर्सनल लोन* के लिए आवेदन करें — यहीं WhatsApp पर, कुछ ही मिनटों में।
 
 👉 शुरू करने के लिए *Continue Here!* लिखें।</value>
     </values>
     <values>
         <field>Marathi__c</field>
-        <value xsi:type="xsd:string">नमस्कार! 👋 Kotak पर्सनल लोन टॉप-अपमध्ये रस दाखवल्याबद्दल धन्यवाद. सुमारे 90 सेकंदात वैयक्तिक ऑफरसह तुमच्या योजनांसाठी अधिक मिळवा — इथेच WhatsApp वर.
+        <value xsi:type="xsd:string">नमस्कार! 👋 Kotak पर्सनल लोनमध्ये रस दाखवल्याबद्दल धन्यवाद. तुमच्या *सध्याच्या Kotak कर्जावर टॉप-अप* मिळवा किंवा *नवीन पर्सनल लोन*साठी अर्ज करा — इथेच WhatsApp वर, काही मिनिटांत.
 
 👉 सुरू करण्यासाठी *Continue Here!* लिहा.</value>
     </values>

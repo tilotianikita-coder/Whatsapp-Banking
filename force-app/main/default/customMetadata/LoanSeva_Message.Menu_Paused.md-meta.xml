@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Menu Paused</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">No problem — I've saved everything so far, so you can pick up right where you left off anytime. 👍</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">कोई बात नहीं — अब तक की सारी जानकारी सेव है, आप कभी भी वहीं से आगे बढ़ सकते हैं। 👍</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">काही हरकत नाही — आतापर्यंतची सर्व माहिती जतन केली आहे, तुम्ही कधीही तिथूनच पुढे जाऊ शकता. 👍</value>
+    </values>
+</CustomMetadata>
