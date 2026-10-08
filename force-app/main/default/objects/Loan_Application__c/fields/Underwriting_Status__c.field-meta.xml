@@ -27,6 +27,11 @@
                 <default>false</default>
                 <label>Error</label>
             </value>
+            <value>
+                <fullName>Not Required</fullName>
+                <default>false</default>
+                <label>Not Required</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

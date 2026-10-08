@@ -27,6 +27,11 @@ for (User u : [SELECT Id FROM User WHERE IsActive = TRUE AND Profile.Name = 'Ein
     }
 }
 insert toAssign;
-// 4. Drop-off / re-engagement job (self-rescheduling every Job_Interval_Minutes__c)
+// 4. Running admin (the default RM) works the RM Callbacks queue that booked Top-Ups are assigned to
+Id rmQueue = LoanSevaJourneyService.rmQueueId();
+if (rmQueue != null && [SELECT COUNT() FROM GroupMember WHERE GroupId = :rmQueue AND UserOrGroupId = :UserInfo.getUserId()] == 0) {
+    insert new GroupMember(GroupId = rmQueue, UserOrGroupId = UserInfo.getUserId());
+}
+// 5. Drop-off / re-engagement job (self-rescheduling every Job_Interval_Minutes__c)
 LoanSevaDropOffJob.start();
 System.debug('### LoanSeva post-deploy: ' + toAssign.size() + ' permission set assignment(s); drop-off job scheduled');

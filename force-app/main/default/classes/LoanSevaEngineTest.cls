@@ -81,6 +81,17 @@ private class LoanSevaEngineTest {
         System.assertEquals(fin.Reference_Number__c, app.Reference_Number__c);
         System.assert(app.FOIR__c > 0 && app.FOIR__c <= 55, 'FOIR within policy: ' + app.FOIR__c);
 
+        // Pre-approved: booking the callback hands it to the RM queue and sanctions the Top-Up loan account
+        Loan_Application__c handed = [SELECT OwnerId, Offer_Amount__c, Underwriting_Status__c, Loan_Account__r.Status__c, Loan_Account__r.Outstanding_Principal__c FROM Loan_Application__c WHERE Id = :app.Id];
+        Id queueId = LoanSevaJourneyService.rmQueueId();
+        if (queueId != null) {
+            System.assertEquals(queueId, handed.OwnerId);
+        }
+        System.assertEquals('Sanctioned', handed.Loan_Account__r.Status__c);
+        System.assertEquals(LoanSevaEngine.UNDERWRITING_NOT_REQUIRED, handed.Underwriting_Status__c);
+        System.assertEquals(handed.Offer_Amount__c, handed.Loan_Account__r.Outstanding_Principal__c);
+        System.assertEquals(null, LoanSevaDecisionService.sanctionTopUp(app.Id), 'Only one loan account per Top-Up');
+
         System.assertEquals(1, [SELECT COUNT() FROM Task WHERE WhatId = :app.Id], 'RM task on the application');
         Event ev = [SELECT StartDateTime, EndDateTime, WhoId FROM Event WHERE WhatId = :app.Id];
         System.assertEquals(expected, ev.StartDateTime);

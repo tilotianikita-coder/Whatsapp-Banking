@@ -512,6 +512,9 @@ public with sharing class LoanSevaEngine {
         return result(j, message);
     }
 
+    /** A pre-approved Top-Up is priced from the existing loan and never goes to underwriting. */
+    public static final String UNDERWRITING_NOT_REQUIRED = 'Not Required';
+
     private static Loan_Application__c upsertApplication(Loan_Journey__c j, Existing_Loan__c loan, LoanSevaEligibilityEngine.Result e) {
         Loan_Application__c app = new Loan_Application__c(Id = j.Loan_Application__c);
         if (app.Id == null) {
@@ -521,6 +524,9 @@ public with sharing class LoanSevaEngine {
             Boolean newLoan = LoanSevaJourneyService.isNewLoan(j);
             app.Product__c = newLoan ? 'Personal Loan' : 'Personal Loan Top-Up';
             app.Application_Type__c = newLoan ? LoanSevaJourneyService.TYPE_NEW_LOAN : 'Top-Up';
+            if (!newLoan) {
+                app.Underwriting_Status__c = UNDERWRITING_NOT_REQUIRED;
+            }
         }
         app.Status__c = e.eligible ? 'Offer Presented' : 'Referred to RM';
         app.Requested_Amount__c = j.Desired_Amount__c;
@@ -644,7 +650,16 @@ public with sharing class LoanSevaEngine {
         LoanSevaJourneyService.advance(j, 'Feedback');
         j.Feedback_Step__c = 1;
         j.Intent_Summary__c = LoanSevaJourneyService.intentSummary(j).abbreviate(255);
-        update new Loan_Application__c(Id = j.Loan_Application__c, Status__c = 'Callback Scheduled', Callback_DateTime__c = slotTime);
+        Loan_Application__c booked = new Loan_Application__c(Id = j.Loan_Application__c, Status__c = 'Callback Scheduled', Callback_DateTime__c = slotTime);
+        Boolean topUp = !LoanSevaJourneyService.isNewLoan(j) && j.Loan_Application__c != null;
+        Id queueId = topUp ? LoanSevaJourneyService.rmQueueId() : null;
+        if (queueId != null) {
+            booked.OwnerId = queueId;
+        }
+        update booked;
+        if (topUp) {
+            LoanSevaDecisionService.sanctionTopUp(j.Loan_Application__c);
+        }
 
         String summary = j.Intent_Summary__c;
         Id ownerId = LoanSevaJourneyService.rmOwnerId(j);

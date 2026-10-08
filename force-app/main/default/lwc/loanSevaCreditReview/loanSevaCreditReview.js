@@ -11,7 +11,7 @@ const GATES = [
     { key: 'Dedupe & Fraud', label: 'Fraud', provider: 'Hunter' }
 ];
 const TONE_OF_RESULT = { Pass: 'green', Refer: 'yellow', Pending: 'yellow', Fail: 'red' };
-const SYMBOL = { green: '✓', yellow: '!', red: '✕', blue: '●', grey: '○' };
+const SYMBOL = { green: '✓', yellow: '!', red: '✕', blue: '●', grey: '○', skip: '–' };
 const BADGE = { green: 'slds-badge slds-theme_success', yellow: 'slds-badge gate-badge_yellow', red: 'slds-badge slds-theme_error', blue: 'slds-badge slds-badge_inverse', grey: 'slds-badge' };
 const FACT_CLASS = { good: 'fact-value fact-value_good', warn: 'fact-value fact-value_warn', bad: 'fact-value fact-value_bad' };
 const FLAG_ICON = { good: 'utility:success', warn: 'utility:warning', bad: 'utility:error' };
@@ -78,7 +78,10 @@ export default class LoanSevaCreditReview extends LightningElement {
         return this.app.Existing_Loan__r || {};
     }
 
-    /** Application -> Identity -> Pre-approval -> KYC & bureau on file -> Offer -> RM callback -> Disbursal. */
+    /**
+     * Application -> Identity -> Pre-approval -> Offer -> RM callback -> LAN; documents, bureau / underwriting and the
+     * credit decision are shown as not required.
+     */
     get topUpGates() {
         const a = this.app;
         const loan = this.loan;
@@ -89,17 +92,29 @@ export default class LoanSevaCreditReview extends LightningElement {
             { key: 'application', label: 'Application', provider: 'WhatsApp', tone: 'green', status: a.Reference_Number__c || a.Name },
             { key: 'identity', label: 'Identity', provider: 'OTP', tone: verified ? 'green' : 'yellow', status: verified ? 'Verified' : 'Pending' },
             { key: 'preapproval', label: 'Pre-approval', provider: 'Existing loan', tone: 'green', status: loan.Pre_Approved_Limit__c != null ? INR.format(loan.Pre_Approved_Limit__c) + ' limit' : track },
-            { key: 'kyc', label: 'KYC & bureau', provider: 'On file', tone: 'green', status: 'Existing customer' },
+            { key: 'documents', label: 'Documents', provider: 'KYC files', tone: 'skip', status: 'Not required' },
+            { key: 'underwriting', label: 'Bureau & checks', provider: 'CIBIL · underwriting', tone: 'skip', status: 'Not required' },
             { key: 'offer', label: 'Offer', provider: 'Customer', tone: accepted ? 'green' : 'yellow', status: accepted ? 'Accepted' : 'Presented' },
+            { key: 'decision', label: 'Credit decision', provider: 'Credit', tone: 'skip', status: 'Not required' },
             {
                 key: 'callback',
                 label: 'RM callback',
-                provider: 'Branch RM',
-                tone: a.Loan_Account__c ? 'green' : a.Callback_DateTime__c ? 'blue' : 'grey',
+                provider: this.inRmQueue ? 'RM queue' : 'Branch RM',
+                tone: a.Callback_DateTime__c ? 'blue' : 'grey',
                 status: a.Callback_DateTime__c ? WHEN.format(new Date(a.Callback_DateTime__c)) : '—'
             },
-            { key: 'lan', label: 'Disbursal', provider: 'LAN', tone: a.Loan_Account__c ? 'green' : 'grey', status: a.Loan_Account__c ? this.data.maskedLan || 'Created' : '—' }
+            {
+                key: 'lan',
+                label: 'Loan account',
+                provider: 'LAN',
+                tone: a.Loan_Account__c ? 'green' : 'grey',
+                status: a.Loan_Account__c ? [this.data.maskedLan, a.Loan_Account__r && a.Loan_Account__r.Status__c].filter(Boolean).join(' · ') : '—'
+            }
         ];
+    }
+
+    get inRmQueue() {
+        return !!(this.app.Owner && this.app.Owner.Type === 'Queue');
     }
 
     /** The detail panel for a Top-Up gate. */
@@ -111,8 +126,16 @@ export default class LoanSevaCreditReview extends LightningElement {
         switch (this.selectedKey) {
             case 'identity':
                 return { title: 'Identity', text: 'Verified with a one-time password sent to the mobile registered on the existing loan.', facts: [fact('Mobile', a.Mobile__c), fact('Applicant', a.Applicant_Name__c)] };
-            case 'kyc':
-                return { title: 'KYC & bureau', text: 'Already on file from the existing Kotak loan. A pre-approved Top-Up needs no fresh KYC, CIBIL pull or document upload.', facts: [fact('Existing loan', loan.Masked_Account__c)] };
+            case 'documents':
+                return { title: 'Documents - not required', text: 'KYC documents are already on file from the existing Kotak loan, so the customer uploads nothing.', facts: [fact('Existing loan', loan.Masked_Account__c)] };
+            case 'underwriting':
+                return {
+                    title: 'Bureau & checks - not required',
+                    text: 'The Top-Up is pre-approved from the repayment track on the existing loan, so there is no fresh CIBIL pull, bank statement or employment check.',
+                    facts: [fact('Repayment track', loan.EMIs_Due__c ? loan.EMIs_Paid_On_Time__c + ' of ' + loan.EMIs_Due__c + ' EMIs on time' : null), fact('Pre-approved limit', money(loan.Pre_Approved_Limit__c))]
+                };
+            case 'decision':
+                return { title: 'Credit decision - not required', text: 'The offer is within the pre-approved limit, so no RM credit approval is needed. The RM confirms the terms on the callback.', facts: [fact('Top-Up offer', money(a.Offer_Amount__c)), fact('Pre-approved limit', money(loan.Pre_Approved_Limit__c))] };
             case 'offer':
                 return {
                     title: 'Offer',
@@ -120,9 +143,17 @@ export default class LoanSevaCreditReview extends LightningElement {
                     facts: [fact('Amount', money(a.Offer_Amount__c)), fact('Rate', a.Rate__c != null ? a.Rate__c + '% p.a.' : null), fact('Tenure', a.Tenure_Months__c != null ? a.Tenure_Months__c + ' months' : null), fact('EMI', money(a.EMI__c)), fact('Reference', a.Reference_Number__c)]
                 };
             case 'callback':
-                return { title: 'RM callback', text: a.Callback_DateTime__c ? 'The customer booked this slot. Call to confirm the terms and send the e-sign link.' : 'No callback booked yet.', facts: [fact('Slot', a.Callback_DateTime__c ? WHEN.format(new Date(a.Callback_DateTime__c)) : null), fact('Mobile', a.Mobile__c)] };
+                return {
+                    title: 'RM callback',
+                    text: a.Callback_DateTime__c ? 'The customer booked this slot. Call to confirm the terms and send the e-sign link, then disburse.' : 'No callback booked yet.',
+                    facts: [fact('Slot', a.Callback_DateTime__c ? WHEN.format(new Date(a.Callback_DateTime__c)) : null), fact('Owner', a.Owner && a.Owner.Name), fact('Mobile', a.Mobile__c)]
+                };
             case 'lan':
-                return { title: 'Disbursal', text: a.Loan_Account__c ? 'Top-Up loan account created.' : 'Disbursed after the callback and e-sign.', facts: [fact('Loan account', this.data.maskedLan)] };
+                return {
+                    title: 'Loan account',
+                    text: a.Loan_Account__c ? 'The Top-Up loan account is sanctioned and is disbursed after the RM callback and e-sign.' : 'Created when the customer books the RM callback.',
+                    facts: [fact('Loan account', this.data.maskedLan), fact('Status', a.Loan_Account__r && a.Loan_Account__r.Status__c), fact('Amount', money(a.Offer_Amount__c))]
+                };
             default:
                 return {
                     title: 'Pre-approval',

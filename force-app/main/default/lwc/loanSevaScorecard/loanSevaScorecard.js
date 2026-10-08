@@ -14,6 +14,7 @@ const RECOMMENDATION_BADGE = {
     Refer: 'slds-badge slds-theme_warning',
     Decline: 'slds-badge slds-theme_error'
 };
+const NEW_LOAN = 'New Loan';
 const DOCUMENT_STATUS_CLASS = { Verified: 'slds-text-color_success', Rejected: 'slds-text-color_error' };
 const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
 
@@ -63,12 +64,35 @@ export default class LoanSevaScorecard extends LightningElement {
         return this.documents.length > 0;
     }
 
+    /** Pre-approved from the existing loan: no underwriting, documents or credit decision. */
+    get isTopUp() {
+        return this.loaded && this.app.Application_Type__c !== NEW_LOAN;
+    }
+
+    get loan() {
+        return this.app.Existing_Loan__r || {};
+    }
+
+    get sanctioned() {
+        return this.isTopUp && !!this.app.Loan_Account__c;
+    }
+
+    get lanStatus() {
+        return this.app.Loan_Account__r && this.app.Loan_Account__r.Status__c;
+    }
+
     get recommendationBadge() {
         return RECOMMENDATION_BADGE[this.app.Recommendation__c] || 'slds-badge';
     }
 
+    /** Underwriting starts when a new loan is submitted; before that the customer is still on WhatsApp. */
     get underwritingRunning() {
-        return this.app.Underwriting_Status__c === 'In Progress' || this.app.Underwriting_Status__c === 'Not Started';
+        const status = this.app.Underwriting_Status__c;
+        return !this.isTopUp && (status === 'In Progress' || (status === 'Not Started' && !!this.app.Submitted_At__c));
+    }
+
+    get awaitingSubmission() {
+        return !this.isTopUp && this.app.Underwriting_Status__c === 'Not Started' && !this.app.Submitted_At__c;
     }
 
     get underwritingError() {
@@ -101,6 +125,19 @@ export default class LoanSevaScorecard extends LightningElement {
 
     get terms() {
         const a = this.app;
+        if (this.isTopUp) {
+            const loan = this.loan;
+            return [
+                { label: 'Amount', value: a.Offer_Amount__c != null ? INR.format(a.Offer_Amount__c) : '—' },
+                { label: 'Rate', value: a.Rate__c != null ? a.Rate__c + '% p.a.' : '—' },
+                { label: 'Tenure', value: a.Tenure_Months__c != null ? a.Tenure_Months__c + ' months' : '—' },
+                { label: 'EMI', value: a.EMI__c != null ? INR.format(a.EMI__c) : '—' },
+                { label: 'Pre-approved limit', value: loan.Pre_Approved_Limit__c != null ? INR.format(loan.Pre_Approved_Limit__c) : '—' },
+                { label: 'Repayment track', value: loan.EMIs_Due__c ? loan.EMIs_Paid_On_Time__c + '/' + loan.EMIs_Due__c + ' EMIs on time' : '—' },
+                { label: 'Existing loan', value: loan.Masked_Account__c || '—' },
+                { label: 'Current EMI', value: loan.Current_EMI__c != null ? INR.format(loan.Current_EMI__c) : '—' }
+            ];
+        }
         return [
             { label: 'Amount', value: a.Offer_Amount__c != null ? INR.format(a.Offer_Amount__c) : '—' },
             { label: 'Rate', value: a.Rate__c != null ? a.Rate__c + '% p.a.' : '—' },
@@ -124,6 +161,9 @@ export default class LoanSevaScorecard extends LightningElement {
     get checkTally() {
         const checks = (this.data && this.data.checks) || [];
         const n = (results) => checks.filter((c) => results.includes(c.Result__c)).length;
+        if (this.isTopUp) {
+            return 'No fresh CIBIL pull, documents or credit decision needed';
+        }
         return checks.length ? n(['Pass']) + ' passed · ' + n(['Refer', 'Pending']) + ' to review · ' + n(['Fail']) + ' failed' : '';
     }
 
@@ -160,6 +200,10 @@ export default class LoanSevaScorecard extends LightningElement {
         } finally {
             this.busy = false;
         }
+    }
+
+    get showUpload() {
+        return !this.isTopUp;
     }
 
     get uploadDisabled() {

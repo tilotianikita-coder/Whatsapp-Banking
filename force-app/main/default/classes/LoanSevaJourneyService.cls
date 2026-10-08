@@ -265,6 +265,16 @@ public with sharing class LoanSevaJourneyService {
     private static Id configuredRmId;
     private static Boolean rmLookedUp = false;
 
+    public static final String RM_QUEUE = 'LoanSeva_RM_Callbacks';
+
+    /** The queue RMs work booked callbacks from; null if it isn't deployed. */
+    public static Id rmQueueId() {
+        for (Group g : [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = :RM_QUEUE LIMIT 1]) {
+            return g.Id;
+        }
+        return null;
+    }
+
     public static Id rmOwnerId(Loan_Journey__c j) {
         if (!rmLookedUp) {
             rmLookedUp = true;

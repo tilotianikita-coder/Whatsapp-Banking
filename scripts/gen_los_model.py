@@ -84,7 +84,7 @@ FIELDS = {
         'Consent_At__c': ('Consent At', DATETIME, None),
         'Submitted_At__c': ('Submitted At', DATETIME, None),
         'CIBIL_Score__c': ('CIBIL Score', number(3), 'Mock bureau score from the underwriting run.'),
-        'Underwriting_Status__c': ('Underwriting Status', picklist(['Not Started', 'In Progress', 'Completed', 'Error'], 'Not Started'), None),
+        'Underwriting_Status__c': ('Underwriting Status', picklist(['Not Started', 'In Progress', 'Completed', 'Error', 'Not Required'], 'Not Started'), None),
         'Recommendation__c': ('Recommendation', picklist(['Approve', 'Refer', 'Decline']), 'System recommendation from the mock underwriting checks; the RM decides.'),
         'Underwriting_Summary__c': ('Underwriting Summary', long_text(), None),
         'Decision__c': ('Decision', picklist(['Approved', 'Rejected', 'Referred']), None),

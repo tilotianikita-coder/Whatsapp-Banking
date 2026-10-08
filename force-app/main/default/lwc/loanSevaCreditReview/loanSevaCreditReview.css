@@ -67,6 +67,9 @@
 .gate_red { background: var(--red); }
 .gate_blue { background: var(--blue); }
 .gate_grey { background: var(--grey); color: #514f4d; }
+/* A step this product skips, e.g. underwriting on a pre-approved Top-Up */
+.gate_skip { background: repeating-linear-gradient(135deg, #f6f6f6 0 6px, #ebebeb 6px 12px); color: #706e6b; }
+.gate_skip .gate-status { font-style: italic; }
 
 .gate-symbol {
     font-size: 1.1rem;
@@ -98,6 +101,7 @@
 .dot_red { background: var(--red); }
 .dot_blue { background: var(--blue); }
 .dot_grey { background: var(--grey); border: 1px solid #c9c9c9; }
+.dot_skip { background: repeating-linear-gradient(135deg, #f6f6f6 0 2px, #d8d8d8 2px 4px); border: 1px solid #c9c9c9; }
 
 .panel, .memo {
     border: 1px solid #e5e5e5;

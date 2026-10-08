@@ -32,7 +32,11 @@
                         </button>
                     </template>
                 </div>
-                <div class="legend slds-m-top_xx-small slds-m-bottom_small">
+                <div lwc:if={isTopUp} class="legend slds-m-top_xx-small slds-m-bottom_small">
+                    <span class="dot dot_green"></span>Done <span class="dot dot_blue"></span>With the RM <span class="dot dot_skip"></span>Not required for a pre-approved Top-Up
+                    <span class="dot dot_grey"></span>Not reached · click a step for details
+                </div>
+                <div lwc:else class="legend slds-m-top_xx-small slds-m-bottom_small">
                     <span class="dot dot_green"></span>Pass <span class="dot dot_yellow"></span>Refer / pending <span class="dot dot_red"></span>Fail
                     <span class="dot dot_blue"></span>Awaiting you <span class="dot dot_grey"></span>Not reached · click a gate for its report
                 </div>
