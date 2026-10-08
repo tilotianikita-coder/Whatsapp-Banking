@@ -33,6 +33,9 @@ public with sharing class LoanSevaCreditMemo {
             byName.put(c.Check__c, c);
         }
         String first = app.Applicant_Name__c == null ? 'The applicant' : app.Applicant_Name__c.normalizeSpace().split(' ')[0];
+        if (app.Application_Type__c != LoanSevaJourneyService.TYPE_NEW_LOAN) {
+            return topUp(m, app, first);
+        }
         if (byName.isEmpty()) {
             m.headline = 'Underwriting has not run yet';
             m.narrative = 'No bureau, banking or fraud results are available. Re-run underwriting before deciding.';
@@ -95,6 +98,40 @@ public with sharing class LoanSevaCreditMemo {
         m.rejectGuidance = app.Recommendation__c == 'Approve'
             ? 'Rejecting a file that passed every check: record the reason. Notes are required and stay internal.'
             : 'Rejecting matches the risk on file. The customer gets a polite decline; your notes stay internal.';
+        return m;
+    }
+
+    /**
+     * A Top-Up is priced from the existing loan's repayment track and pre-approved limit; KYC and bureau are already
+     * on file, so there are no fresh underwriting checks. The RM confirms the offer on the callback and disburses.
+     */
+    private static Memo topUp(Memo m, Loan_Application__c app, String first) {
+        Existing_Loan__c loan = app.Existing_Loan__r;
+        if (app.Applicant_Name__c == null && String.isNotBlank(app.Contact__r?.FirstName)) {
+            first = app.Contact__r.FirstName;
+        }
+        m.recommendation = 'Pre-approved';
+        m.headline = 'Pre-approved Top-Up - no fresh underwriting needed';
+        String ask = app.Offer_Amount__c == null ? 'a Top-Up' : LoanSevaI18n.inr(app.Offer_Amount__c)
+            + (app.Tenure_Months__c == null ? '' : ' over ' + app.Tenure_Months__c.intValue() + ' months');
+        m.narrative = first + ' is an existing Kotak personal loan customer and accepted ' + ask + ' on WhatsApp'
+            + (loan?.Pre_Approved_Limit__c == null ? '' : ', within the pre-approved limit of ' + LoanSevaI18n.inr(loan.Pre_Approved_Limit__c))
+            + '. KYC and bureau are on file from the existing loan.';
+        if (loan != null && loan.EMIs_Paid_On_Time__c != null && loan.EMIs_Due__c != null) {
+            m.strengths.add(loan.EMIs_Paid_On_Time__c.intValue() + ' of the last ' + loan.EMIs_Due__c.intValue() + ' EMIs paid on time');
+        }
+        if (loan?.Pre_Approved_Limit__c != null && app.Offer_Amount__c != null) {
+            m.strengths.add('Offer ' + LoanSevaI18n.inr(app.Offer_Amount__c) + ' is within the ' + LoanSevaI18n.inr(loan.Pre_Approved_Limit__c) + ' pre-approved limit');
+        }
+        if (app.Loan_Journey__r?.OTP_Verified__c == true) {
+            m.strengths.add('Identity verified by OTP on the registered mobile');
+        }
+        m.conditions.add('Confirm the amount, tenure and EMI with the customer on the callback');
+        m.conditions.add('Customer e-signs the Top-Up agreement before disbursal');
+        m.approveGuidance = 'No RM credit decision is needed for a pre-approved Top-Up.';
+        m.rejectGuidance = m.approveGuidance;
+        m.approveIsDeviation = false;
+        m.rejectIsDeviation = false;
         return m;
     }
 

@@ -17,7 +17,11 @@ const FACT_CLASS = { good: 'fact-value fact-value_good', warn: 'fact-value fact-
 const FLAG_ICON = { good: 'utility:success', warn: 'utility:warning', bad: 'utility:error' };
 const FLAG_VARIANT = { good: 'success', warn: 'warning', bad: 'error' };
 const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+const WHEN = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' });
 const FIELDS = ['Loan_Application__c.LastModifiedDate'];
+const NEW_LOAN = 'New Loan';
+/** New-loan underwriting inputs a pre-approved Top-Up never asks for. */
+const TOP_UP_HIDDEN = ['PAN', 'Date of birth', 'Existing EMIs', 'Bureau consent', 'Email', 'City'];
 
 export default class LoanSevaCreditReview extends LightningElement {
     @api recordId;
@@ -65,8 +69,85 @@ export default class LoanSevaCreditReview extends LightningElement {
         return this.app.Employment_Type__c === 'Salaried' ? ['PAN Card', 'Bank Statement', 'Salary Slips'] : ['PAN Card', 'Bank Statement'];
     }
 
+    /** Top-Ups are pre-approved from the existing loan: no documents or underwriting gates. */
+    get isTopUp() {
+        return this.loaded && this.app.Application_Type__c !== NEW_LOAN;
+    }
+
+    get loan() {
+        return this.app.Existing_Loan__r || {};
+    }
+
+    /** Application -> Identity -> Pre-approval -> KYC & bureau on file -> Offer -> RM callback -> Disbursal. */
+    get topUpGates() {
+        const a = this.app;
+        const loan = this.loan;
+        const accepted = !!a.Reference_Number__c;
+        const verified = accepted || (a.Loan_Journey__r && a.Loan_Journey__r.OTP_Verified__c);
+        const track = loan.EMIs_Due__c ? loan.EMIs_Paid_On_Time__c + '/' + loan.EMIs_Due__c + ' EMIs on time' : 'Existing customer';
+        return [
+            { key: 'application', label: 'Application', provider: 'WhatsApp', tone: 'green', status: a.Reference_Number__c || a.Name },
+            { key: 'identity', label: 'Identity', provider: 'OTP', tone: verified ? 'green' : 'yellow', status: verified ? 'Verified' : 'Pending' },
+            { key: 'preapproval', label: 'Pre-approval', provider: 'Existing loan', tone: 'green', status: loan.Pre_Approved_Limit__c != null ? INR.format(loan.Pre_Approved_Limit__c) + ' limit' : track },
+            { key: 'kyc', label: 'KYC & bureau', provider: 'On file', tone: 'green', status: 'Existing customer' },
+            { key: 'offer', label: 'Offer', provider: 'Customer', tone: accepted ? 'green' : 'yellow', status: accepted ? 'Accepted' : 'Presented' },
+            {
+                key: 'callback',
+                label: 'RM callback',
+                provider: 'Branch RM',
+                tone: a.Loan_Account__c ? 'green' : a.Callback_DateTime__c ? 'blue' : 'grey',
+                status: a.Callback_DateTime__c ? WHEN.format(new Date(a.Callback_DateTime__c)) : '—'
+            },
+            { key: 'lan', label: 'Disbursal', provider: 'LAN', tone: a.Loan_Account__c ? 'green' : 'grey', status: a.Loan_Account__c ? this.data.maskedLan || 'Created' : '—' }
+        ];
+    }
+
+    /** The detail panel for a Top-Up gate. */
+    get topUpPanel() {
+        const a = this.app;
+        const loan = this.loan;
+        const fact = (label, value) => ({ key: label, label, value: value == null || value === '' ? '—' : value, className: 'fact-value' });
+        const money = (v) => (v != null ? INR.format(v) : null);
+        switch (this.selectedKey) {
+            case 'identity':
+                return { title: 'Identity', text: 'Verified with a one-time password sent to the mobile registered on the existing loan.', facts: [fact('Mobile', a.Mobile__c), fact('Applicant', a.Applicant_Name__c)] };
+            case 'kyc':
+                return { title: 'KYC & bureau', text: 'Already on file from the existing Kotak loan. A pre-approved Top-Up needs no fresh KYC, CIBIL pull or document upload.', facts: [fact('Existing loan', loan.Masked_Account__c)] };
+            case 'offer':
+                return {
+                    title: 'Offer',
+                    text: a.Reference_Number__c ? 'Accepted by the customer on WhatsApp.' : 'Presented on WhatsApp; not yet accepted.',
+                    facts: [fact('Amount', money(a.Offer_Amount__c)), fact('Rate', a.Rate__c != null ? a.Rate__c + '% p.a.' : null), fact('Tenure', a.Tenure_Months__c != null ? a.Tenure_Months__c + ' months' : null), fact('EMI', money(a.EMI__c)), fact('Reference', a.Reference_Number__c)]
+                };
+            case 'callback':
+                return { title: 'RM callback', text: a.Callback_DateTime__c ? 'The customer booked this slot. Call to confirm the terms and send the e-sign link.' : 'No callback booked yet.', facts: [fact('Slot', a.Callback_DateTime__c ? WHEN.format(new Date(a.Callback_DateTime__c)) : null), fact('Mobile', a.Mobile__c)] };
+            case 'lan':
+                return { title: 'Disbursal', text: a.Loan_Account__c ? 'Top-Up loan account created.' : 'Disbursed after the callback and e-sign.', facts: [fact('Loan account', this.data.maskedLan)] };
+            default:
+                return {
+                    title: 'Pre-approval',
+                    text: 'Priced from the existing loan\'s repayment track and pre-approved limit.',
+                    facts: [
+                        fact('Existing loan', loan.Masked_Account__c),
+                        fact('Pre-approved limit', money(loan.Pre_Approved_Limit__c)),
+                        fact('Repayment track', loan.EMIs_Due__c ? loan.EMIs_Paid_On_Time__c + ' of ' + loan.EMIs_Due__c + ' EMIs on time' : null),
+                        fact('Outstanding', money(loan.Outstanding_Principal__c)),
+                        fact('Current EMI', money(loan.Current_EMI__c)),
+                        fact('Top-Up offer', money(a.Offer_Amount__c))
+                    ]
+                };
+        }
+    }
+
+    get isTopUpPanelSelected() {
+        return this.isTopUp && this.selectedKey !== 'application';
+    }
+
     /** Application -> Documents -> six underwriting gates -> RM decision -> LAN. */
     get rawGates() {
+        if (this.isTopUp) {
+            return this.topUpGates;
+        }
         const a = this.app;
         const gates = [];
         gates.push({ key: 'application', label: 'Application', provider: 'WhatsApp', tone: 'green', status: a.Reference_Number__c || a.Name });
@@ -107,6 +188,9 @@ export default class LoanSevaCreditReview extends LightningElement {
         if (this.selected) {
             return this.selected;
         }
+        if (this.isTopUp) {
+            return 'preapproval';
+        }
         const gates = this.rawGates;
         const worst = gates.find((g) => g.tone === 'red' && GATES.some((x) => x.key === g.key)) || gates.find((g) => g.tone === 'yellow' && GATES.some((x) => x.key === g.key));
         return worst ? worst.key : 'Credit Bureau';
@@ -129,17 +213,20 @@ export default class LoanSevaCreditReview extends LightningElement {
     }
 
     get recommendationClass() {
-        const r = this.app.Recommendation__c;
+        const r = this.isTopUp ? 'Approve' : this.app.Recommendation__c;
         return 'verdict ' + (r === 'Approve' ? 'verdict_green' : r === 'Decline' ? 'verdict_red' : r === 'Refer' ? 'verdict_yellow' : 'verdict_grey');
     }
 
     get recommendationLabel() {
+        if (this.isTopUp) {
+            return 'Pre-approved Top-Up';
+        }
         return this.app.Recommendation__c || (this.app.Underwriting_Status__c === 'Error' ? 'Underwriting error' : 'Underwriting pending');
     }
 
     // ------------------------------------------------------------------ selected gate panel
     get isCheckSelected() {
-        return GATES.some((g) => g.key === this.selectedKey);
+        return !this.isTopUp && GATES.some((g) => g.key === this.selectedKey);
     }
 
     get isApplicationSelected() {
@@ -151,7 +238,7 @@ export default class LoanSevaCreditReview extends LightningElement {
     }
 
     get isDecisionSelected() {
-        return this.selectedKey === 'decision' || this.selectedKey === 'lan';
+        return !this.isTopUp && this.selectedKey === 'decision' || this.selectedKey === 'lan';
     }
 
     get selectedCheck() {
@@ -218,7 +305,9 @@ export default class LoanSevaCreditReview extends LightningElement {
             ['EMI', a.EMI__c != null ? INR.format(a.EMI__c) : null],
             ['Bureau consent', a.Bureau_Consent__c ? 'Given on WhatsApp' : 'Not recorded'],
             ['Status', a.Status__c]
-        ].map(([label, value]) => ({ key: label, label, value: value || '—', className: 'fact-value' }));
+        ]
+            .filter(([label]) => !this.isTopUp || !TOP_UP_HIDDEN.includes(label))
+            .map(([label, value]) => ({ key: label, label, value: value || '—', className: 'fact-value' }));
     }
 
     get documentRows() {

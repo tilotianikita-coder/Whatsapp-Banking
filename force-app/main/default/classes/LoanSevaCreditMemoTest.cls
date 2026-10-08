@@ -61,7 +61,7 @@ private class LoanSevaCreditMemoTest {
     static void openItemsBecomeConditions() {
         Loan_Application__c app = underwritten('ABCPP1234R', 'Salaried', 'Sunrise Foods', 5000, new List<String>());
         LoanSevaCreditMemo.Memo m = LoanSevaCreditMemo.build(
-            [SELECT Applicant_Name__c, Recommendation__c, Offer_Amount__c, Tenure_Months__c, EMI__c, Employment_Type__c, Company_Name__c, CIBIL_Score__c,
+            [SELECT Applicant_Name__c, Application_Type__c, Recommendation__c, Offer_Amount__c, Tenure_Months__c, EMI__c, Employment_Type__c, Company_Name__c, CIBIL_Score__c,
                 Monthly_Income__c, Existing_EMIs__c FROM Loan_Application__c WHERE Id = :app.Id],
             [SELECT Check__c, Result__c, Score__c, Summary__c FROM Underwriting_Check__c WHERE Loan_Application__c = :app.Id]
         );
@@ -128,9 +128,22 @@ private class LoanSevaCreditMemoTest {
 
     @IsTest
     static void notRunYet() {
-        LoanSevaCreditMemo.Memo m = LoanSevaCreditMemo.build(new Loan_Application__c(), new List<Underwriting_Check__c>());
+        LoanSevaCreditMemo.Memo m = LoanSevaCreditMemo.build(new Loan_Application__c(Application_Type__c = LoanSevaJourneyService.TYPE_NEW_LOAN), new List<Underwriting_Check__c>());
         System.assertEquals('Underwriting has not run yet', m.headline);
         System.assert(!m.approveIsDeviation);
         System.assert(!LoanSevaCreditMemo.isDeviation(null, LoanSevaDecisionService.APPROVED));
+    }
+
+    @IsTest
+    static void topUpIsPreApprovedWithoutChecks() {
+        Loan_Application__c app = new Loan_Application__c(Application_Type__c = 'Top-Up', Applicant_Name__c = 'Priya Sharma',
+            Offer_Amount__c = 400000, Tenure_Months__c = 36);
+        app.putSObject('Existing_Loan__r', new Existing_Loan__c(Pre_Approved_Limit__c = 500000, EMIs_Paid_On_Time__c = 12, EMIs_Due__c = 12));
+        LoanSevaCreditMemo.Memo m = LoanSevaCreditMemo.build(app, new List<Underwriting_Check__c>());
+        System.assertEquals('Pre-approved', m.recommendation);
+        System.assert(m.headline.startsWith('Pre-approved Top-Up'), m.headline);
+        System.assert(m.narrative.contains(LoanSevaI18n.inr(500000)), m.narrative);
+        System.assert(String.join(m.strengths, '|').contains('12 of the last 12 EMIs'), m.strengths);
+        System.assert(!m.approveIsDeviation);
     }
 }

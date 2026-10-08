@@ -243,6 +243,8 @@ public with sharing class LoanSevaDecisionService {
                 Offer_Amount__c, Rate__c, Tenure_Months__c, EMI__c, Reference_Number__c, CIBIL_Score__c, Recommendation__c,
                 Underwriting_Status__c, Underwriting_Summary__c, Decision__c, Decision_At__c, Decision_By__r.Name, Decision_Notes__c,
                 Loan_Account__c, Loan_Account__r.Masked_Account__c, Loan_Account__r.Loan_Account_Number__c, Loan_Account__r.Status__c, Bureau_Consent__c, Loan_Journey__c,
+                Callback_DateTime__c, Contact__r.FirstName, Loan_Journey__r.OTP_Verified__c, Existing_Loan__r.Masked_Account__c, Existing_Loan__r.Pre_Approved_Limit__c,
+                Existing_Loan__r.EMIs_Paid_On_Time__c, Existing_Loan__r.EMIs_Due__c, Existing_Loan__r.Outstanding_Principal__c, Existing_Loan__r.Current_EMI__c,
                 (SELECT Id, Check__c, Provider__c, Result__c, Score__c, Summary__c, Details__c, Report_Data__c, Request_Id__c, Run_At__c
                  FROM Underwriting_Checks__r ORDER BY Sort_Order__c),
                 (SELECT Id, Document_Type__c, File_Name__c, Status__c, Received_At__c, Content_Document_Id__c, Source__c

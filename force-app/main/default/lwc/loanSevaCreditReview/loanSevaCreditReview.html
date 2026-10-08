@@ -10,9 +10,14 @@
             <template lwc:if={loaded}>
                 <div class="summary-bar slds-m-bottom_small">
                     <span class={recommendationClass}>{recommendationLabel}</span>
-                    <span class="tally tally_green">✓ {tally.green} passed</span>
-                    <span class="tally tally_yellow">! {tally.yellow} to review</span>
-                    <span class="tally tally_red">✕ {tally.red} failed</span>
+                    <template lwc:if={isTopUp}>
+                        <span class="tally tally_green">✓ Existing customer · no fresh underwriting</span>
+                    </template>
+                    <template lwc:else>
+                        <span class="tally tally_green">✓ {tally.green} passed</span>
+                        <span class="tally tally_yellow">! {tally.yellow} to review</span>
+                        <span class="tally tally_red">✕ {tally.red} failed</span>
+                    </template>
                 </div>
 
                 <div class="gates" role="tablist" aria-label="Stage gates">
@@ -127,6 +132,19 @@
                                         </li>
                                     </template>
                                 </ul>
+                            </template>
+
+                            <template lwc:if={isTopUpPanelSelected}>
+                                <div class="slds-text-heading_small slds-m-bottom_x-small">{topUpPanel.title}</div>
+                                <p class="slds-m-bottom_small">{topUpPanel.text}</p>
+                                <div class="facts">
+                                    <template for:each={topUpPanel.facts} for:item="f">
+                                        <div key={f.key} class="fact">
+                                            <div class="fact-label">{f.label}</div>
+                                            <div class={f.className}>{f.value}</div>
+                                        </div>
+                                    </template>
+                                </div>
                             </template>
 
                             <template lwc:if={isDecisionSelected}>
