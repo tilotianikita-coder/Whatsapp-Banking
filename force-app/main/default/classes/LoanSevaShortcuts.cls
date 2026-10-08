@@ -14,10 +14,11 @@ public with sharing class LoanSevaShortcuts {
 
     /**
      * States where the reply is the answer itself: free text that could contain the word ("Status Infotech" as a
-     * company), or an amount/EMI the journey asked for ("my EMIs are 5000" at obligations; "3 lakh for 48 months"
-     * re-prices the offer at offer_decision). An OTP, date or PAN can never read as "status" or "EMI 3 lakh".
+     * company), or an amount/EMI the journey asked for ("my EMIs are 5000" at obligations). An OTP, date or PAN can
+     * never read as "status" or "EMI 3 lakh". On the offer "EMI 4 lakh 48 months" is the calculator; "4 lakh 48
+     * months" without the word still re-prices the offer.
      */
-    private static final Set<String> SKIP_EMI = new Set<String>{ 'company', 'income', 'obligations', 'offer_decision', 'feedback_comment' };
+    private static final Set<String> SKIP_EMI = new Set<String>{ 'company', 'income', 'obligations', 'feedback_comment' };
     private static final Set<String> SKIP_STATUS = new Set<String>{ 'company', 'feedback_comment' };
 
     /** Any whole-month tenure a customer might ask the calculator about, not just the offered ones. */

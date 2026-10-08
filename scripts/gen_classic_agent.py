@@ -231,21 +231,14 @@ def bot():
     <type>ExternalCopilot</type>
 </Bot>
 ''')
-    welcome = "Hi! 👋 I'm LoanSeva by Kotak — Personal Loan Top-Up or a new Personal Loan, right here on WhatsApp. Reply Continue Here! to see the menu."
+    # No greeting of its own: the session opens on the customer's first message (often "Continue Here!" after the
+    # nudge), and the journey's welcome answers it. A greeting here arrived first and asked for Continue Here! again.
     error = "Sorry, I hit a small snag on my side. 🙏 Reply Agent to connect with a Kotak specialist."
     write(f'{base}/v1.botVersion-meta.xml', f'''<?xml version="1.0" encoding="UTF-8"?>
 <BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>v1</fullName>
     <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
     <botDialogs>
-        <botSteps>
-            <botMessages>
-                <message>{x(welcome)}</message>
-                <messageIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f01</messageIdentifier>
-            </botMessages>
-            <stepIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f02</stepIdentifier>
-            <type>Message</type>
-        </botSteps>
         <botSteps>
             <stepIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f03</stepIdentifier>
             <type>Wait</type>

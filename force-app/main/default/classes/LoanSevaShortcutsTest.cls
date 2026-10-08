@@ -42,13 +42,23 @@ private class LoanSevaShortcutsTest {
     }
 
     @IsTest
-    static void emiWithoutAnAmountAndOnTheOfferAreNotShortcuts() {
+    static void onTheOfferEmiIsTheCalculatorAndAnAmountRePrices() {
         LoanSevaEngine.Result r = LoanSevaTestData.personalisedJourney(LoanSevaTestData.PRIYA_MOBILE, 'Priya Sharma');
         System.assertEquals('offer_decision', LoanSevaEngine.awaiting(r.journey));
-        r = LoanSevaEngine.reply(r.journey, 'EMI for 3 lakh');
-        System.assert(!r.message.contains('🧮'), 'on the offer an amount re-prices it: ' + r.message);
-        System.assertEquals(300000, r.journey.Offer_Amount__c);
+        Decimal offered = r.journey.Offer_Amount__c;
+        r = LoanSevaEngine.answerFaq(r.journey, 'EMI 4 lakh 36 months');
+        System.assert(r.message.startsWith('🧮'), 'not the tenure FAQ: ' + r.message);
+        System.assert(r.message.contains('👉 *36 months'), r.message);
+        System.assertEquals(offered, r.journey.Offer_Amount__c, 'the calculator leaves the offer as it is');
+        System.assertEquals('offer_decision', LoanSevaEngine.awaiting(r.journey));
 
+        r = LoanSevaEngine.reply(r.journey, '3 lakh for 48 months');
+        System.assert(!r.message.contains('🧮'), 'without the word EMI an amount re-prices the offer: ' + r.message);
+        System.assertEquals(300000, r.journey.Offer_Amount__c);
+    }
+
+    @IsTest
+    static void emiWithoutAnAmountIsNotAShortcut() {
         System.assertEquals(null, LoanSevaShortcuts.handle(LoanSevaTestData.startedJourney(LoanSevaTestData.RAHUL_MOBILE), 'what is an EMI'));
     }
 

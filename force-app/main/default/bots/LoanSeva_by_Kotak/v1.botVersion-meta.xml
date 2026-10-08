@@ -4,14 +4,6 @@
     <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
     <botDialogs>
         <botSteps>
-            <botMessages>
-                <message>Hi! 👋 I&apos;m LoanSeva by Kotak. Reply Continue Here! to see your Personal Loan Top-Up offer.</message>
-                <messageIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f01</messageIdentifier>
-            </botMessages>
-            <stepIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f02</stepIdentifier>
-            <type>Message</type>
-        </botSteps>
-        <botSteps>
             <stepIdentifier>6f1d8a52-3c1e-4b8e-9a51-1b2c3d4e5f03</stepIdentifier>
             <type>Wait</type>
         </botSteps>
