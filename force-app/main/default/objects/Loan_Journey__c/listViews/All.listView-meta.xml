@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Customer_Name__c</columns>
+    <columns>Mobile__c</columns>
+    <columns>Journey_Type__c</columns>
+    <columns>Stage__c</columns>
+    <columns>Status__c</columns>
+    <columns>Offer_Amount__c</columns>
+    <columns>Reference_Number__c</columns>
+    <columns>Escalated__c</columns>
+    <columns>Last_Activity__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Journeys</label>
+</ListView>
