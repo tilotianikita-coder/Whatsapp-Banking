@@ -39,7 +39,15 @@ public with sharing class LoanSevaEngine {
         return result(j, LoanSevaI18n.msg('Resume_Prompt', j.Language__c) + '\n' + pendingPrompt(j, false));
     }
 
+    /** No customer record on this number: new to Kotak, so there is no Top-Up to offer and option 1 is the application. */
+    private static Boolean newToBank(Loan_Journey__c j) {
+        return j.Contact__c == null;
+    }
+
     private static String welcome(Loan_Journey__c j) {
+        if (newToBank(j)) {
+            return LoanSevaI18n.msg('Welcome_New', j.Language__c);
+        }
         Existing_Loan__c loan = LoanSevaJourneyService.activeLoan(j.Contact__c);
         String name = LoanSevaJourneyService.firstName(j);
         String key = (loan != null && String.isNotBlank(name)) ? 'Welcome' : 'Welcome_Generic';
@@ -65,13 +73,17 @@ public with sharing class LoanSevaEngine {
         LoanSevaJourneyService.advance(j, 'Start');
         j.Question_Pending__c = false;
         LoanSeva_FAQ__mdt faq = LoanSevaFaqMatcher.bestMatch(q, true);
+        // New to Kotak: the Top-Up answers have a new-loan version (FAQ_New_<FAQ>)
+        String newAnswer = faq == null ? null : 'FAQ_New_' + faq.DeveloperName;
         String message = faq == null
-            ? LoanSevaI18n.msg('FAQ_Not_Found', j.Language__c)
-            : LoanSevaFaqMatcher.render(faq, j.Language__c);
+            ? LoanSevaI18n.msg(newToBank(j) ? 'FAQ_Not_Found_New' : 'FAQ_Not_Found', j.Language__c)
+            : newToBank(j) && LoanSevaI18n.has(newAnswer)
+                ? LoanSevaI18n.msg(newAnswer, j.Language__c, LoanSevaFaqMatcher.configTokens())
+                : LoanSevaFaqMatcher.render(faq, j.Language__c);
         String followUp = pendingPrompt(j, true);
         message += '\n\n' + (j.OTP_Verified__c && String.isNotBlank(followUp)
             ? LoanSevaI18n.msg('Resume_Prompt', j.Language__c) + '\n' + followUp
-            : LoanSevaI18n.msg('FAQ_Nudge', j.Language__c));
+            : LoanSevaI18n.msg(newToBank(j) ? 'FAQ_Nudge_New' : 'FAQ_Nudge', j.Language__c));
         update j;
         Result r = result(j, message);
         r.success = faq != null;
@@ -809,6 +821,9 @@ public with sharing class LoanSevaEngine {
         if (j.Menu_Pending__c == true) {
             j.Menu_Pending__c = false;
             Boolean option = NO_LETTERS.matcher(t).matches();
+            if (newToBank(j) && (option && choice == 1 || isYes(t))) {
+                return LoanSevaJourneyService.isNewLoan(j) ? resume(j) : LoanSevaNewLoan.start(j);
+            }
             if (option && choice == 1 || isYes(t) || wantsOffer(t)) {
                 return resume(j);
             }
@@ -841,14 +856,15 @@ public with sharing class LoanSevaEngine {
             j.Question_Pending__c = false;
             if (wantsOffer(t) || isYes(t) && t.split('\\s+').size() <= 2) {
                 // "Show my offer" (or the planner's "Yes") is a request to carry on, not a question
-                return state == 'menu' ? verifyCustomer(j, null, null) : resume(j);
+                return state != 'menu' ? resume(j) : newToBank(j) ? LoanSevaNewLoan.start(j) : verifyCustomer(j, null, null);
             }
             if (!NO_LETTERS.matcher(t).matches() && !wantsHuman(t)) {
                 return answerFaq(j, t);
             }
             update j;
         }
-        if (t.contains('?') && !raw && LoanSevaFaqMatcher.bestMatch(t) != null) {
+        // A question mid-step ("kitna interest lagega?" at date of birth) is answered, then the step is asked again; never at OTP or PAN
+        if (t.contains('?') && (!raw || state != 'otp' && state != 'pan') && LoanSevaFaqMatcher.bestMatch(t) != null) {
             return answerFaq(j, t);
         }
         if (!raw && wantsHuman(t)) {
@@ -856,6 +872,15 @@ public with sharing class LoanSevaEngine {
         }
         if ((state == 'menu' || state == 'identity') && wantsNewLoan(t) && !LoanSevaJourneyService.isNewLoan(j)) {
             return LoanSevaNewLoan.start(j);
+        }
+        // New to Kotak, in their own words: "I need a loan", or just their name and mobile, starts the application
+        if (state == 'menu' && newToBank(j) && !LoanSevaJourneyService.isNewLoan(j)) {
+            if (wantsALoan(t)) {
+                return LoanSevaNewLoan.start(j);
+            }
+            if (t.replaceAll('[^0-9]', '').length() >= 10 && String.isNotBlank(identityName(t).replaceAll('[^\\p{L} ]', '').trim())) {
+                return applyWithIdentity(j, t);
+            }
         }
         switch on state {
             when 'identity' {
@@ -901,6 +926,9 @@ public with sharing class LoanSevaEngine {
                 return faqOrPrompt(j, t);
             }
             when else {
+                if (newToBank(j) && (choice == 1 || isYes(t))) {
+                    return LoanSevaNewLoan.start(j);
+                }
                 if (choice == 1 || isYes(t) || wantsOffer(t)) {
                     return verifyCustomer(j, null, null);
                 }
@@ -954,6 +982,27 @@ public with sharing class LoanSevaEngine {
     private static final Pattern COMPARES = Pattern.compile(
         '(?i).*(\\b(differ\\w*|difference|vs|versus|compare\\w*|comparison|better|than)\\b|अंतर|फर्क|फ़र्क|फरक|तुलना).*');
 
+    /** "I need a loan", "looking for a personal loan", "mujhe loan chahiye", लोन चाहिए, कर्ज हवे: any loan, for someone new to Kotak. */
+    private static final Pattern WANTS_LOAN = Pattern.compile(
+        '(?i).*(\\b(want|need|looking for|get|take|avail|interested in)\\b.*\\b(loan|pl)\\b|\\b(loan|pl)\\b.*\\b(chahiye|chahie|chaiye|lena|leni|hava|have|pahije)\\b'
+        + '|लोन चाहिए|लोन लेना|लोन हवे|लोन हवा|लोन पाहिजे|कर्ज चाहिए|कर्ज हवे|कर्ज पाहिजे).*');
+
+    private static Boolean wantsALoan(String s) {
+        String line = String.isBlank(s) ? '' : s.replace('\n', ' ');
+        return wantsNewLoan(line) || WANTS_LOAN.matcher(line).matches() && !COMPARES.matcher(line).matches();
+    }
+
+    /** Name and mobile typed at the welcome by someone new to Kotak: start the application and send the OTP in one reply. */
+    private static Result applyWithIdentity(Loan_Journey__c j, String t) {
+        Result r = LoanSevaNewLoan.start(j);
+        if (awaiting(r.journey) != 'identity') {
+            return r;
+        }
+        Result v = LoanSevaNewLoan.verify(r.journey, identityName(t), t);
+        v.message = LoanSevaI18n.msg('NL_Intro', j.Language__c) + '\n\n' + v.message;
+        return v;
+    }
+
     private static Boolean wantsNewLoan(String s) {
         if (String.isBlank(s)) {
             return false;
@@ -1001,7 +1050,7 @@ public with sharing class LoanSevaEngine {
         j.Question_Pending__c = true;
         LoanSevaJourneyService.touch(j);
         update j;
-        return result(j, LoanSevaI18n.msg('Ask_Question_Prompt', j.Language__c));
+        return result(j, LoanSevaI18n.msg(newToBank(j) ? 'Ask_Question_Prompt_New' : 'Ask_Question_Prompt', j.Language__c));
     }
 
     public static Result faqOrPrompt(Loan_Journey__c j, String t) {

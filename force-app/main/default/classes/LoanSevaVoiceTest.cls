@@ -34,7 +34,6 @@ private class LoanSevaVoiceTest {
         j = LoanSevaEngine.start(LoanSevaJourneyService.resolve(null, null, MOBILE)).journey;
         say('1');
         say('Asha Patil ' + MOBILE);
-        say('1');
         say(LoanSevaConfig.get().Demo_OTP__c);
         say('15/08/1990');
         System.assertEquals('pan', LoanSevaEngine.awaiting(j));

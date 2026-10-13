@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ New About Top Up</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">A *Kotak Personal Loan* 💡 gives you up to {newMaxAmount} for your personal goals:
+
+✅ Rates from *{newRate}*, with EMI and fees shown upfront
+✅ Tenure from {minTenure} to {maxTenure} months
+✅ Apply right here on WhatsApp in about 3 minutes, with just your PAN card</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">*Kotak पर्सनल लोन* 💡 आपकी निजी ज़रूरतों के लिए {newMaxAmount} तक देता है:
+
+✅ ब्याज दर *{newRate}* से, EMI और शुल्क पहले ही दिखाए जाते हैं
+✅ {minTenure} से {maxTenure} महीने तक की अवधि
+✅ यहीं WhatsApp पर लगभग 3 मिनट में, बस PAN कार्ड से आवेदन करें</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">*Kotak पर्सनल लोन* 💡 तुमच्या वैयक्तिक गरजांसाठी {newMaxAmount} पर्यंत देतो:
+
+✅ व्याजदर *{newRate}* पासून, EMI आणि शुल्क आधीच दाखवले जातात
+✅ {minTenure} ते {maxTenure} महिन्यांचा कालावधी
+✅ इथेच WhatsApp वर सुमारे 3 मिनिटांत, फक्त PAN कार्डने अर्ज करा</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ New Vs New Loan</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">A Top-Up is only for customers who already have a Kotak loan. As you're new to Kotak, a *new Personal Loan* is the one for you:
+
+✅ Apply right here on WhatsApp in about 3 minutes
+✅ Just your PAN card to start
+✅ See your offer, EMI and fees before you decide</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">टॉप-अप सिर्फ़ उन ग्राहकों के लिए है जिनका पहले से Kotak लोन है। आप Kotak में नए हैं, इसलिए आपके लिए *नया पर्सनल लोन* सही है:
+
+✅ यहीं WhatsApp पर लगभग 3 मिनट में आवेदन करें
+✅ शुरू करने के लिए बस आपका PAN कार्ड
+✅ फ़ैसला लेने से पहले अपना ऑफ़र, EMI और शुल्क देखें</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">टॉप-अप फक्त ज्यांचे आधीच Kotak कर्ज आहे अशा ग्राहकांसाठी आहे. तुम्ही Kotak मध्ये नवीन आहात, त्यामुळे तुमच्यासाठी *नवीन पर्सनल लोन* योग्य आहे:
+
+✅ इथेच WhatsApp वर सुमारे 3 मिनिटांत अर्ज करा
+✅ सुरू करण्यासाठी फक्त तुमचे PAN कार्ड
+✅ निर्णय घेण्यापूर्वी तुमची ऑफर, EMI आणि शुल्क पहा</value>
+    </values>
+</CustomMetadata>

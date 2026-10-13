@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ New Documents</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Very little 📄 Just your *PAN card* to start. I'll check your KYC digitally, and you can upload your latest salary slips or bank statement right here on WhatsApp.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">बहुत कम 📄 शुरू करने के लिए बस आपका *PAN कार्ड*। मैं आपका KYC डिजिटल रूप से जाँचूँगा, और आप अपनी हाल की सैलरी स्लिप या बैंक स्टेटमेंट यहीं WhatsApp पर अपलोड कर सकते हैं।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">अगदी कमी 📄 सुरू करण्यासाठी फक्त तुमचे *PAN कार्ड*. मी तुमचा KYC डिजिटल पद्धतीने तपासेन, आणि तुम्ही तुमच्या अलीकडील पगार स्लिप किंवा बँक स्टेटमेंट इथेच WhatsApp वर अपलोड करू शकता.</value>
+    </values>
+</CustomMetadata>

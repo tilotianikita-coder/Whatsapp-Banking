@@ -73,6 +73,12 @@ MESSAGES = {
         "नमस्ते! 👋 Kotak पर्सनल लोन में रुचि के लिए धन्यवाद। अपने *मौजूदा Kotak लोन पर टॉप-अप* पाएँ या *नए पर्सनल लोन* के लिए आवेदन करें — यहीं WhatsApp पर, कुछ ही मिनटों में।\n\n👉 शुरू करने के लिए *Continue Here!* लिखें।",
         "नमस्कार! 👋 Kotak पर्सनल लोनमध्ये रस दाखवल्याबद्दल धन्यवाद. तुमच्या *सध्याच्या Kotak कर्जावर टॉप-अप* मिळवा किंवा *नवीन पर्सनल लोन*साठी अर्ज करा — इथेच WhatsApp वर, काही मिनिटांत.\n\n👉 सुरू करण्यासाठी *Continue Here!* लिहा.",
     ),
+    # New to Kotak (no customer record): no existing loan, so no Top-Up in the invite
+    'Nudge_New': (
+        "Hi {name}! 👋 Welcome to *Kotak Mahindra Bank*. Thanks for your interest in a *Kotak Personal Loan*. Apply right here on WhatsApp, in about 3 minutes.\n\n👉 Reply *Continue Here!* to begin.",
+        "नमस्ते {name}! 👋 *Kotak Mahindra Bank* में आपका स्वागत है। *Kotak पर्सनल लोन* में रुचि के लिए धन्यवाद। यहीं WhatsApp पर, लगभग 3 मिनट में आवेदन करें।\n\n👉 शुरू करने के लिए *Continue Here!* लिखें।",
+        "नमस्कार {name}! 👋 *Kotak Mahindra Bank* मध्ये तुमचे स्वागत आहे. *Kotak पर्सनल लोन*मध्ये रस दाखवल्याबद्दल धन्यवाद. इथेच WhatsApp वर, सुमारे 3 मिनिटांत अर्ज करा.\n\n👉 सुरू करण्यासाठी *Continue Here!* लिहा.",
+    ),
     'Reengage_1': (
         "Hi {name} 👋 Your Kotak Top-Up{purpose} is just a few taps away — everything you shared is saved, so you can pick up right where you left off.\n\n👉 Reply *Continue* to see your personalised offer.",
         "नमस्ते {name} 👋 आपका Kotak टॉप-अप{purpose} बस कुछ ही कदम दूर है — आपकी दी गई सारी जानकारी सेव है, जहाँ छोड़ा था वहीं से शुरू करें।\n\n👉 अपना पर्सनलाइज़्ड ऑफ़र देखने के लिए *Continue* लिखें।",
@@ -92,6 +98,17 @@ MESSAGES = {
         "Hi! 👋 I'm *LoanSeva by Kotak*, your personal loan assistant. I can help you get a *Top-Up on your existing Kotak loan* or apply for a *new Personal Loan* — right here on WhatsApp.\n\n1️⃣ Check my Top-Up offer (existing Kotak loan)\n2️⃣ Ask a question\n3️⃣ Talk to a specialist\n4️⃣ Apply for a new Personal Loan\n\n" + LANG_FOOTER['en'],
         "नमस्ते! 👋 मैं हूँ *LoanSeva by Kotak*, आपका पर्सनल लोन असिस्टेंट। मैं आपके *मौजूदा Kotak लोन पर टॉप-अप* या *नए पर्सनल लोन* के आवेदन में मदद कर सकता हूँ — यहीं WhatsApp पर।\n\n1️⃣ मेरा टॉप-अप ऑफ़र देखें (मौजूदा Kotak लोन)\n2️⃣ सवाल पूछें\n3️⃣ विशेषज्ञ से बात करें\n4️⃣ नए पर्सनल लोन के लिए आवेदन करें\n\n" + LANG_FOOTER['hi'],
         "नमस्कार! 👋 मी *LoanSeva by Kotak*, तुमचा पर्सनल लोन सहाय्यक. तुमच्या *सध्याच्या Kotak कर्जावर टॉप-अप* किंवा *नवीन पर्सनल लोन*साठी अर्ज करण्यात मी मदत करू शकतो — इथेच WhatsApp वर.\n\n1️⃣ माझी टॉप-अप ऑफर पहा (सध्याचे Kotak कर्ज)\n2️⃣ प्रश्न विचारा\n3️⃣ तज्ज्ञांशी बोला\n4️⃣ नवीन पर्सनल लोनसाठी अर्ज करा\n\n" + LANG_FOOTER['mr'],
+    ),
+    # New to Kotak (no customer record on this number): no Top-Up, so the menu leads with the application
+    'Welcome_New': (
+        "Hi! 👋 Welcome to *Kotak Mahindra Bank*. I'm *LoanSeva*, your loan assistant on WhatsApp.\n\nWhat would you like to apply for today?\n\n1️⃣ Apply for a Personal Loan (about 3 minutes)\n2️⃣ Ask a question\n3️⃣ Talk to a specialist (home, car or business loan)\n\n" + LANG_FOOTER['en'],
+        "नमस्ते! 👋 *Kotak Mahindra Bank* में आपका स्वागत है। मैं हूँ *LoanSeva*, WhatsApp पर आपका लोन असिस्टेंट।\n\nआज आप किसके लिए आवेदन करना चाहेंगे?\n\n1️⃣ पर्सनल लोन के लिए आवेदन करें (लगभग 3 मिनट)\n2️⃣ सवाल पूछें\n3️⃣ विशेषज्ञ से बात करें (होम, कार या बिज़नेस लोन)\n\n" + LANG_FOOTER['hi'],
+        "नमस्कार! 👋 *Kotak Mahindra Bank* मध्ये तुमचे स्वागत आहे. मी *LoanSeva*, WhatsApp वरील तुमचा लोन सहाय्यक.\n\nआज तुम्हाला कशासाठी अर्ज करायचा आहे?\n\n1️⃣ पर्सनल लोनसाठी अर्ज करा (सुमारे 3 मिनिटे)\n2️⃣ प्रश्न विचारा\n3️⃣ तज्ज्ञांशी बोला (होम, कार किंवा बिझनेस लोन)\n\n" + LANG_FOOTER['mr'],
+    ),
+    'FAQ_Nudge_New': (
+        "Ready to apply? Reply *1* to start your Kotak Personal Loan application, in about 3 minutes.",
+        "आवेदन के लिए तैयार हैं? अपना Kotak पर्सनल लोन आवेदन शुरू करने के लिए *1* लिखें, लगभग 3 मिनट में।",
+        "अर्ज करायला तयार आहात? तुमचा Kotak पर्सनल लोन अर्ज सुरू करण्यासाठी *1* लिहा, सुमारे 3 मिनिटांत.",
     ),
     'FAQ_Nudge': (
         "Want to see your personalised offer? Reply *Yes* to verify in 30 seconds.",
@@ -243,6 +260,17 @@ MESSAGES = {
         "Sure! Tell me the new amount (e.g. *3 lakh*) and/or tenure (e.g. *48 months*) you'd like to explore.",
         "ज़रूर! नई राशि (जैसे *3 लाख*) और/या अवधि (जैसे *48 महीने*) बताइए जो आप देखना चाहेंगे।",
         "नक्कीच! नवीन रक्कम (उदा. *3 लाख*) आणि/किंवा कालावधी (उदा. *48 महिने*) सांगा.",
+    ),
+    # New to Kotak (no customer record): the question prompt and fallback without Top-Up
+    'Ask_Question_Prompt_New': (
+        "Of course! What would you like to know about the Kotak Personal Loan? 🙂",
+        "ज़रूर! Kotak पर्सनल लोन के बारे में आप क्या जानना चाहेंगे? 🙂",
+        "नक्कीच! Kotak पर्सनल लोनबद्दल तुम्हाला काय जाणून घ्यायचे आहे? 🙂",
+    ),
+    'FAQ_Not_Found_New': (
+        "That's a great question — I want to make sure you get the exact answer, so I'll have a Kotak specialist confirm it. 🙏\n\nMeanwhile, I can help with rates, eligibility, documents and how quickly you get the money.",
+        "बहुत अच्छा सवाल — आपको सटीक जवाब मिले, इसलिए Kotak विशेषज्ञ इसकी पुष्टि करेंगे। 🙏\n\nतब तक मैं ब्याज दर, पात्रता, दस्तावेज़ और पैसे कितनी जल्दी मिलेंगे, इसके बारे में बता सकता हूँ।",
+        "छान प्रश्न — तुम्हाला अचूक उत्तर मिळावे म्हणून Kotak तज्ज्ञ याची खात्री करतील. 🙏\n\nतोपर्यंत मी व्याजदर, पात्रता, कागदपत्रे आणि पैसे किती लवकर मिळतील याबद्दल सांगू शकतो.",
     ),
     'Ask_Question_Prompt': (
         "Of course! What would you like to know about Personal Loan Top-Up? 🙂",
@@ -491,12 +519,6 @@ NEW_LOAN = {
 }
 MESSAGES.update(NEW_LOAN)
 
-# Both welcomes also offer a new-loan application (pre-approved customers can apply for a fresh loan instead of a Top-Up)
-_APPLY_OPTION = ("4️⃣ Apply for a new Personal Loan", "4️⃣ नए पर्सनल लोन के लिए आवेदन करें", "4️⃣ नवीन पर्सनल लोनसाठी अर्ज करा")
-for _key in ('Welcome', 'Welcome_Generic'):
-    MESSAGES[_key] = tuple(
-        t.replace('\n\n' + footer, '\n' + opt + '\n\n' + footer) for t, opt, footer in zip(MESSAGES[_key], _APPLY_OPTION, LANG_FOOTER.values()))
-
 # Shortcuts that work at any step (LoanSevaShortcuts): EMI calculator and application status
 SHORTCUTS = {
     'Menu_Paused': (
@@ -571,9 +593,46 @@ SHORTCUTS = {
     ),
 }
 MESSAGES.update(SHORTCUTS)
-for _key in ('Welcome', 'Welcome_Generic'):
+for _key in ('Welcome', 'Welcome_Generic', 'Welcome_New'):
     MESSAGES[_key] = tuple(
         t.replace('\n\n' + footer, '\n\n' + tip + '\n\n' + footer) for t, tip, footer in zip(MESSAGES[_key], SHORTCUTS['Shortcut_Tip'], LANG_FOOTER.values()))
+
+# New-to-Kotak answers (FAQ_New_<FAQ key>): used instead of the Top-Up answer when the number has no customer record.
+# Tokens: the FAQ tokens plus newRate, newMinIncome, newMaxAmount.
+MESSAGES.update({
+    'FAQ_New_Uses': (
+        "You can use a Kotak Personal Loan for almost any personal goal 🌟 — home renovation, higher education, medical needs, travel, a family wedding, or bringing other expenses together into one EMI.",
+        "आप Kotak पर्सनल लोन का उपयोग लगभग हर निजी ज़रूरत के लिए कर सकते हैं 🌟 — घर का नवीनीकरण, उच्च शिक्षा, इलाज, यात्रा, परिवार में शादी, या दूसरे खर्चों को एक EMI में लाने के लिए।",
+        "तुम्ही Kotak पर्सनल लोन जवळजवळ कोणत्याही वैयक्तिक गरजेसाठी वापरू शकता 🌟 — घराचे नूतनीकरण, उच्च शिक्षण, वैद्यकीय गरजा, प्रवास, कुटुंबातील लग्न, किंवा इतर खर्च एका EMI मध्ये आणण्यासाठी."),
+    'FAQ_New_Interest_Rate': (
+        "Kotak Personal Loan rates start from *{newRate}* 📈 Your exact rate depends on your income, credit score and existing EMIs. I'll show your rate, EMI and fees upfront before you decide anything.",
+        "Kotak पर्सनल लोन की ब्याज दरें *{newRate}* से शुरू होती हैं 📈 आपकी सटीक दर आपकी आय, क्रेडिट स्कोर और मौजूदा EMI पर निर्भर करती है। कोई भी फ़ैसला लेने से पहले मैं आपकी दर, EMI और शुल्क दिखाऊँगा।",
+        "Kotak पर्सनल लोनचे व्याजदर *{newRate}* पासून सुरू होतात 📈 तुमचा नेमका दर तुमचे उत्पन्न, क्रेडिट स्कोर आणि सध्याच्या EMI वर अवलंबून असतो. कोणताही निर्णय घेण्यापूर्वी मी तुमचा दर, EMI आणि शुल्क दाखवेन."),
+    'FAQ_New_Vs_New_Loan': (
+        "A Top-Up is only for customers who already have a Kotak loan. As you're new to Kotak, a *new Personal Loan* is the one for you:\n\n✅ Apply right here on WhatsApp in about 3 minutes\n✅ Just your PAN card to start\n✅ See your offer, EMI and fees before you decide",
+        "टॉप-अप सिर्फ़ उन ग्राहकों के लिए है जिनका पहले से Kotak लोन है। आप Kotak में नए हैं, इसलिए आपके लिए *नया पर्सनल लोन* सही है:\n\n✅ यहीं WhatsApp पर लगभग 3 मिनट में आवेदन करें\n✅ शुरू करने के लिए बस आपका PAN कार्ड\n✅ फ़ैसला लेने से पहले अपना ऑफ़र, EMI और शुल्क देखें",
+        "टॉप-अप फक्त ज्यांचे आधीच Kotak कर्ज आहे अशा ग्राहकांसाठी आहे. तुम्ही Kotak मध्ये नवीन आहात, त्यामुळे तुमच्यासाठी *नवीन पर्सनल लोन* योग्य आहे:\n\n✅ इथेच WhatsApp वर सुमारे 3 मिनिटांत अर्ज करा\n✅ सुरू करण्यासाठी फक्त तुमचे PAN कार्ड\n✅ निर्णय घेण्यापूर्वी तुमची ऑफर, EMI आणि शुल्क पहा"),
+    'FAQ_New_Disbursal_Speed': (
+        "Fast! 🚀 Apply here in about 3 minutes and you'll see your offer straight away. Once you accept and our specialist completes final verification, funds can be credited to your bank account {disbursal}.",
+        "बहुत जल्दी! 🚀 यहाँ लगभग 3 मिनट में आवेदन करें और आपको तुरंत अपना ऑफ़र दिखेगा। ऑफ़र स्वीकार करने और हमारे विशेषज्ञ द्वारा अंतिम सत्यापन के बाद, राशि आपके बैंक खाते में {disbursal} में जमा हो सकती है।",
+        "अगदी लवकर! 🚀 इथे सुमारे 3 मिनिटांत अर्ज करा आणि तुम्हाला लगेच तुमची ऑफर दिसेल. ऑफर स्वीकारल्यानंतर आणि आमच्या तज्ज्ञांनी अंतिम पडताळणी केल्यानंतर, रक्कम तुमच्या बँक खात्यात {disbursal} मध्ये जमा होऊ शकते."),
+    'FAQ_New_Fees': (
+        "Processing fee is {feePct}% of the loan amount (plus GST) 🧾 — shown clearly on your offer before you accept. No surprises.",
+        "प्रोसेसिंग शुल्क लोन राशि का {feePct}% (साथ में GST) है 🧾 — स्वीकार करने से पहले आपके ऑफ़र पर साफ़ दिखाया जाता है।",
+        "प्रोसेसिंग शुल्क कर्ज रकमेच्या {feePct}% (अधिक GST) आहे 🧾 — स्वीकारण्यापूर्वी तुमच्या ऑफरवर स्पष्ट दाखवले जाते."),
+    'FAQ_New_Documents': (
+        "Very little 📄 Just your *PAN card* to start. I'll check your KYC digitally, and you can upload your latest salary slips or bank statement right here on WhatsApp.",
+        "बहुत कम 📄 शुरू करने के लिए बस आपका *PAN कार्ड*। मैं आपका KYC डिजिटल रूप से जाँचूँगा, और आप अपनी हाल की सैलरी स्लिप या बैंक स्टेटमेंट यहीं WhatsApp पर अपलोड कर सकते हैं।",
+        "अगदी कमी 📄 सुरू करण्यासाठी फक्त तुमचे *PAN कार्ड*. मी तुमचा KYC डिजिटल पद्धतीने तपासेन, आणि तुम्ही तुमच्या अलीकडील पगार स्लिप किंवा बँक स्टेटमेंट इथेच WhatsApp वर अपलोड करू शकता."),
+    'FAQ_New_Eligibility': (
+        "You can apply if you earn at least *{newMinIncome}* a month 🎯 Your loan amount (up to {newMaxAmount}) depends on your income, credit score and existing EMIs. It takes about 3 minutes to check, right here.",
+        "अगर आपकी मासिक आय कम से कम *{newMinIncome}* है तो आप आवेदन कर सकते हैं 🎯 आपकी लोन राशि ({newMaxAmount} तक) आपकी आय, क्रेडिट स्कोर और मौजूदा EMI पर निर्भर करती है। यहीं जाँचने में लगभग 3 मिनट लगते हैं।",
+        "तुमचे मासिक उत्पन्न किमान *{newMinIncome}* असल्यास तुम्ही अर्ज करू शकता 🎯 तुमची कर्ज रक्कम ({newMaxAmount} पर्यंत) तुमचे उत्पन्न, क्रेडिट स्कोर आणि सध्याच्या EMI वर अवलंबून असते. इथेच तपासायला सुमारे 3 मिनिटे लागतात."),
+    'FAQ_New_About_Top_Up': (
+        "A *Kotak Personal Loan* 💡 gives you up to {newMaxAmount} for your personal goals:\n\n✅ Rates from *{newRate}*, with EMI and fees shown upfront\n✅ Tenure from {minTenure} to {maxTenure} months\n✅ Apply right here on WhatsApp in about 3 minutes, with just your PAN card",
+        "*Kotak पर्सनल लोन* 💡 आपकी निजी ज़रूरतों के लिए {newMaxAmount} तक देता है:\n\n✅ ब्याज दर *{newRate}* से, EMI और शुल्क पहले ही दिखाए जाते हैं\n✅ {minTenure} से {maxTenure} महीने तक की अवधि\n✅ यहीं WhatsApp पर लगभग 3 मिनट में, बस PAN कार्ड से आवेदन करें",
+        "*Kotak पर्सनल लोन* 💡 तुमच्या वैयक्तिक गरजांसाठी {newMaxAmount} पर्यंत देतो:\n\n✅ व्याजदर *{newRate}* पासून, EMI आणि शुल्क आधीच दाखवले जातात\n✅ {minTenure} ते {maxTenure} महिन्यांचा कालावधी\n✅ इथेच WhatsApp वर सुमारे 3 मिनिटांत, फक्त PAN कार्डने अर्ज करा"),
+})
 
 # FAQ: key -> (sort, question, keywords, en, hi, mr). Tokens come from LoanSeva_Config__mdt.
 FAQS = {

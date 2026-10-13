@@ -24,7 +24,6 @@ private class LoanSevaNewLoanTest {
         startUnknownCustomer();
         say('1');
         say('Asha Patil ' + MOBILE);
-        say('1');
         say(otp());
         for (String answer : new List<String>{ '15/08/1990', 'abcpp1234k', 'asha.patil@example.com', 'Pune 411001',
                 employmentChoice, company, '85k', '0', '1', '3 lakh' }) {
@@ -41,17 +40,13 @@ private class LoanSevaNewLoanTest {
     @IsTest
     static void notFoundOffersApplicationAndRunsFullJourney() {
         startUnknownCustomer();
-        say('1');
-        System.assertEquals('identity', LoanSevaEngine.awaiting(j));
-        say('Asha Patil ' + MOBILE);
-        System.assertEquals(LoanSevaI18n.msg('Verify_Not_Found', 'EN', new Map<String, Object>{ 'mobile' => '+91 XXXXXX6780' }), last.message);
-        System.assertEquals('apply_offer', LoanSevaEngine.awaiting(j));
-        System.assert(LoanSevaEngine.pendingPrompt(j, false).startsWith(LoanSevaI18n.msg('NL_Apply_Reprompt', 'EN').left(30)));
-
+        // New to Kotak: option 1 on the welcome is the application itself, with no Top-Up check first
         say('1');
         System.assert(LoanSevaJourneyService.isNewLoan(j));
-        System.assertEquals('otp', LoanSevaEngine.awaiting(j), 'name and mobile were already given');
-        System.assert(last.message.startsWith(LoanSevaI18n.msg('NL_Intro', 'EN')));
+        System.assert(last.message.startsWith(LoanSevaI18n.msg('NL_Intro', 'EN')), last.message);
+        System.assertEquals('identity', LoanSevaEngine.awaiting(j));
+        say('Asha Patil ' + MOBILE);
+        System.assertEquals('otp', LoanSevaEngine.awaiting(j));
         say(otp());
         System.assert(last.message.contains('*1/10* ▰'), last.message);
         System.assertEquals('dob', LoanSevaEngine.awaiting(j));

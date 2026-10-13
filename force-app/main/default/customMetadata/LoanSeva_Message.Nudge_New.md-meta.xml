@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Nudge New</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Hi {name}! 👋 Welcome to *Kotak Mahindra Bank*. Thanks for your interest in a *Kotak Personal Loan*. Apply right here on WhatsApp, in about 3 minutes.
+
+👉 Reply *Continue Here!* to begin.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">नमस्ते {name}! 👋 *Kotak Mahindra Bank* में आपका स्वागत है। *Kotak पर्सनल लोन* में रुचि के लिए धन्यवाद। यहीं WhatsApp पर, लगभग 3 मिनट में आवेदन करें।
+
+👉 शुरू करने के लिए *Continue Here!* लिखें।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">नमस्कार {name}! 👋 *Kotak Mahindra Bank* मध्ये तुमचे स्वागत आहे. *Kotak पर्सनल लोन*मध्ये रस दाखवल्याबद्दल धन्यवाद. इथेच WhatsApp वर, सुमारे 3 मिनिटांत अर्ज करा.
+
+👉 सुरू करण्यासाठी *Continue Here!* लिहा.</value>
+    </values>
+</CustomMetadata>

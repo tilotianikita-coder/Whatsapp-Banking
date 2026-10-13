@@ -101,7 +101,7 @@ public with sharing class LoanSevaRegistrationService {
                         Company = 'Individual',
                         MobilePhone = m,
                         LeadSource = 'Other',
-                        Description = 'Registered for Kotak PL Top-Up via LoanSeva (' + byMobile.get(m).source + ')'
+                        Description = 'Registered for a Kotak Personal Loan via LoanSeva (' + byMobile.get(m).source + ')'
                     );
                     newLeads.add(l);
                     leads.put(m, l);
@@ -146,13 +146,18 @@ public with sharing class LoanSevaRegistrationService {
             Loan_Journey__c j = journeys.get(m);
             Contact c = contacts.get(m);
             Existing_Loan__c loan = c == null ? null : loanByContact.get(c.Id);
-            outbound.add(new LoanSevaWhatsAppSender.Outbound(j.Id, nudgeText(c, loan, j.Language__c), definition));
+            outbound.add(new LoanSevaWhatsAppSender.Outbound(j.Id, nudgeText(c, loan, j.Language__c, j.Customer_Name__c), definition));
         }
         LoanSevaWhatsAppSender.enqueue(outbound);
         return journeys;
     }
 
-    public static String nudgeText(Contact c, Existing_Loan__c loan, String lang) {
+    public static String nudgeText(Contact c, Existing_Loan__c loan, String lang, String name) {
+        if (c == null) {
+            // New to Kotak: invite to apply, no Top-Up (no name on the form: "Hi !" becomes "Hi!")
+            String first = String.isBlank(name) ? '' : name.trim().substringBefore(' ');
+            return LoanSevaI18n.msg('Nudge_New', lang, new Map<String, Object>{ 'name' => first }).replace(' !', '!');
+        }
         if (c != null && loan != null && loan.Pre_Approved_Limit__c != null) {
             return LoanSevaI18n.msg('Nudge', lang, new Map<String, Object>{
                 'name' => String.isBlank(c.FirstName) ? c.LastName : c.FirstName,

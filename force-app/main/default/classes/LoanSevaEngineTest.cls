@@ -506,6 +506,53 @@ private class LoanSevaEngineTest {
     }
 
     @IsTest
+    static void newToBankWelcomeLeadsWithTheApplication() {
+        Loan_Journey__c j = LoanSevaTestData.startedJourney('9123400011');
+        LoanSevaEngine.Result r = LoanSevaEngine.start(j);
+        System.assertEquals(LoanSevaI18n.msg('Welcome_New', 'EN'), r.message);
+        System.assert(!r.message.contains('Top-Up'), 'No Top-Up offer for a customer new to Kotak');
+        r = LoanSevaEngine.reply(r.journey, '1');
+        System.assert(LoanSevaJourneyService.isNewLoan(r.journey), 'Option 1 starts the new-loan application');
+        System.assert(r.message.startsWith(LoanSevaI18n.msg('NL_Intro', 'EN')), r.message);
+
+        Loan_Journey__c k = LoanSevaTestData.startedJourney('9123400012');
+        r = LoanSevaEngine.start(k);
+        r = LoanSevaEngine.reply(r.journey, '2');
+        System.assertEquals(LoanSevaI18n.msg('Ask_Question_Prompt_New', 'EN'), r.message);
+        for (String q : new List<String>{ 'What is the interest rate?', 'Am I eligible?', 'Tell me more about the loan' }) {
+            r = LoanSevaEngine.answerFaq(r.journey, q);
+            System.assert(r.success && !r.message.containsIgnoreCase('top-up') && !r.message.contains('{'), q + ': ' + r.message);
+        }
+        r = LoanSevaEngine.answerFaq(r.journey, 'What documents do I need?');
+        System.assert(r.message.startsWith(LoanSevaI18n.msg('FAQ_New_Documents', 'EN')), r.message);
+        System.assert(r.message.endsWith(LoanSevaI18n.msg('FAQ_Nudge_New', 'EN')), r.message);
+        r = LoanSevaEngine.reply(r.journey, 'Yes');
+        System.assert(LoanSevaJourneyService.isNewLoan(r.journey), 'Yes after a question starts the application, not Top-Up verification');
+
+        for (String said : new List<String>{ 'I want a personal loan', 'mujhe loan chahiye', 'मुझे लोन चाहिए' }) {
+            r = LoanSevaEngine.start(LoanSevaTestData.startedJourney('9123400013'));
+            r = LoanSevaEngine.reply(r.journey, said);
+            System.assert(LoanSevaJourneyService.isNewLoan(r.journey), said + ' starts the application: ' + r.message);
+            delete r.journey;
+        }
+        LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
+        r = LoanSevaEngine.reply(LoanSevaTestData.startedJourney('9123400015'), 'EMI 4 lakh 36 months');
+        System.assert(r.message.contains((cfg.Base_Rate__c + cfg.New_Loan_Rate_Premium__c).setScale(2).toPlainString() + '% p.a.'), 'New-loan rate before applying: ' + r.message);
+        r = LoanSevaEngine.start(LoanSevaTestData.startedJourney('9123400014'));
+        r = LoanSevaEngine.reply(r.journey, 'Asha Patil, my number is 9123400014');
+        System.assertEquals('otp', LoanSevaEngine.awaiting(r.journey), 'Name and mobile at the welcome go straight to the OTP: ' + r.message);
+        System.assert(r.message.startsWith(LoanSevaI18n.msg('NL_Intro', 'EN')), r.message);
+        r = LoanSevaEngine.reply(r.journey, '123456');
+        System.assertEquals('dob', LoanSevaEngine.awaiting(r.journey));
+        r = LoanSevaEngine.reply(r.journey, 'kitna interest lagega?');
+        System.assert(r.message.startsWith(LoanSevaI18n.msg('FAQ_New_Interest_Rate', 'EN', LoanSevaFaqMatcher.configTokens())), 'Question mid-step is answered: ' + r.message);
+        System.assertEquals('dob', LoanSevaEngine.awaiting(r.journey), 'and the step is asked again');
+
+        Loan_Journey__c existing = LoanSevaTestData.startedJourney(LoanSevaTestData.PRIYA_MOBILE);
+        System.assert(LoanSevaEngine.start(existing).message.contains('Top-Up'), 'Existing customers still see their Top-Up');
+    }
+
+    @IsTest
     static void resumedJourneyMenuPicksMenuOptions() {
         Test.startTest();
         LoanSevaEngine.Result r = LoanSevaTestData.personalisedJourney(LoanSevaTestData.PRIYA_MOBILE, 'Priya Sharma');

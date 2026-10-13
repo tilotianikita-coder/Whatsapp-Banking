@@ -112,7 +112,8 @@ public with sharing class LoanSevaShortcuts {
         }
         LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
         Decimal rate = cfg.Base_Rate__c;
-        if (LoanSevaJourneyService.isNewLoan(j)) {
+        // New to Kotak: a new loan is the only product, so price it before they apply too
+        if (LoanSevaJourneyService.isNewLoan(j) || j.Contact__c == null) {
             rate += cfg.New_Loan_Rate_Premium__c;
         }
         if (j.Employment_Type__c == 'Self-employed') {
@@ -233,7 +234,7 @@ public with sharing class LoanSevaShortcuts {
     private static LoanSevaEngine.Result finish(Loan_Journey__c j, String message) {
         String state = LoanSevaEngine.awaiting(j);
         if (state == 'menu') {
-            message += '\n\n' + LoanSevaI18n.msg('FAQ_Nudge', j.Language__c);
+            message += '\n\n' + LoanSevaI18n.msg(j.Contact__c == null ? 'FAQ_Nudge_New' : 'FAQ_Nudge', j.Language__c);
         } else if (state != 'done' && state != 'handoff') {
             String pending = LoanSevaEngine.pendingPrompt(j, false);
             if (String.isNotBlank(pending)) {

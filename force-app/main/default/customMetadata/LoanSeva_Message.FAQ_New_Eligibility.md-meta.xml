@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ New Eligibility</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">You can apply if you earn at least *{newMinIncome}* a month 🎯 Your loan amount (up to {newMaxAmount}) depends on your income, credit score and existing EMIs. It takes about 3 minutes to check, right here.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">अगर आपकी मासिक आय कम से कम *{newMinIncome}* है तो आप आवेदन कर सकते हैं 🎯 आपकी लोन राशि ({newMaxAmount} तक) आपकी आय, क्रेडिट स्कोर और मौजूदा EMI पर निर्भर करती है। यहीं जाँचने में लगभग 3 मिनट लगते हैं।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">तुमचे मासिक उत्पन्न किमान *{newMinIncome}* असल्यास तुम्ही अर्ज करू शकता 🎯 तुमची कर्ज रक्कम ({newMaxAmount} पर्यंत) तुमचे उत्पन्न, क्रेडिट स्कोर आणि सध्याच्या EMI वर अवलंबून असते. इथेच तपासायला सुमारे 3 मिनिटे लागतात.</value>
+    </values>
+</CustomMetadata>

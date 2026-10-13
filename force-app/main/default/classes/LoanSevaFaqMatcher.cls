@@ -72,7 +72,10 @@ public with sharing class LoanSevaFaqMatcher {
             'feePct' => c.Processing_Fee_Pct__c,
             'minTenure' => tenures[0],
             'maxTenure' => tenures[tenures.size() - 1],
-            'minAmount' => LoanSevaI18n.inr(c.Min_Topup_Amount__c)
+            'minAmount' => LoanSevaI18n.inr(c.Min_Topup_Amount__c),
+            'newRate' => (c.Base_Rate__c + (c.New_Loan_Rate_Premium__c == null ? 0 : c.New_Loan_Rate_Premium__c)).setScale(2) + '% p.a.',
+            'newMinIncome' => LoanSevaI18n.inr(c.New_Loan_Min_Income__c),
+            'newMaxAmount' => LoanSevaI18n.inrShort(c.New_Loan_Max_Amount__c)
         };
     }
 }

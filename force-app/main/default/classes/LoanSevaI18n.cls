@@ -11,6 +11,10 @@ public with sharing class LoanSevaI18n {
 
     private static Map<String, LoanSeva_Message__mdt> messages;
 
+    public static Boolean has(String key) {
+        return all().containsKey(key);
+    }
+
     public static String msg(String key, String lang) {
         return msg(key, lang, null);
     }

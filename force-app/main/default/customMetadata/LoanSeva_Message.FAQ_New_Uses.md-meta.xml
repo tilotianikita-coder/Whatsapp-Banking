@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ New Uses</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">You can use a Kotak Personal Loan for almost any personal goal 🌟 — home renovation, higher education, medical needs, travel, a family wedding, or bringing other expenses together into one EMI.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">आप Kotak पर्सनल लोन का उपयोग लगभग हर निजी ज़रूरत के लिए कर सकते हैं 🌟 — घर का नवीनीकरण, उच्च शिक्षा, इलाज, यात्रा, परिवार में शादी, या दूसरे खर्चों को एक EMI में लाने के लिए।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">तुम्ही Kotak पर्सनल लोन जवळजवळ कोणत्याही वैयक्तिक गरजेसाठी वापरू शकता 🌟 — घराचे नूतनीकरण, उच्च शिक्षण, वैद्यकीय गरजा, प्रवास, कुटुंबातील लग्न, किंवा इतर खर्च एका EMI मध्ये आणण्यासाठी.</value>
+    </values>
+</CustomMetadata>

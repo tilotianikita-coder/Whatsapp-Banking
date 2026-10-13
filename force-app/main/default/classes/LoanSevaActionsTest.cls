@@ -128,7 +128,7 @@ private class LoanSevaActionsTest {
         LoanSevaActionResult r = LoanSevaStartAction.run(new List<LoanSevaStartAction.Request>{ start })[0];
         System.assert(r.success);
         System.assertEquals('menu', r.awaiting);
-        System.assertEquals(LoanSevaI18n.msg('Welcome_Generic', 'EN', new Map<String, Object>{ 'name' => '', 'limit' => '' }), r.message);
+        System.assertEquals(LoanSevaI18n.msg('Welcome_New', 'EN'), r.message, 'No customer record: the new-to-bank welcome');
 
         LoanSevaActionResult err = LoanSevaActionResult.error(new LoanSevaException('boom'), r.journeyId);
         System.assertEquals(false, err.success);

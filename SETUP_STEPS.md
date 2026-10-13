@@ -10,7 +10,7 @@ sf apex run -f scripts/apex/create_agent_user.apex -o kotak-demo   # once: Einst
 sf apex run -f scripts/apex/post_deploy.apex -o kotak-demo         # perm sets (guest, agent user, you) + drop-off job
 ```
 
-1. Edit the `DEMO_MOBILES` list at the top of `scripts/apex/seed.apex` with the presenters' WhatsApp numbers (10 digits, no +91). Order: Priya, Rahul, Ananya.
+1. Edit the `DEMO_MOBILES` list at the top of `scripts/apex/seed.apex` with the presenters' WhatsApp numbers (10 digits, no +91). Order: Priya, Rahul, Ananya. `NEW_TO_BANK_MOBILES` lists numbers that demo a customer new to Kotak (Asha): each run deletes any Contact, loan, application and journey on them. Rahul is parked on 9000000002 (`scripts/apex/park_rahul.apex`, run once) so his phone can demo Asha.
 2. Run `sf apex run -f scripts/apex/seed.apex -o kotak-demo`. Re-running resets the demo journeys for those numbers, so run it before every demo.
 
 ## 2. Public registration site (Stage 0)

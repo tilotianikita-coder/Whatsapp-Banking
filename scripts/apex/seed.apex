@@ -1,6 +1,9 @@
 // LoanSeva by Kotak — demo seed. Idempotent: re-running updates the same records.
 // >>> Replace these with the WhatsApp numbers of the people demoing (10 digits, no +91). <<<
-List<String> DEMO_MOBILES = new List<String>{ '9320484281', '9063480755', '9000000003' };
+List<String> DEMO_MOBILES = new List<String>{ '9320484281', '9000000002', '9000000003' };
+// Rahul is parked on 9000000002 (scripts/apex/park_rahul.apex); his real number demos Asha, a new-to-bank customer.
+// Every run resets these numbers to "never banked with Kotak": no Contact, loan, application or journey.
+List<String> NEW_TO_BANK_MOBILES = new List<String>{ '9063480755' };
 
 // Name, loan account, outstanding, EMI, rate, tenure left, on-time, due, pre-approved limit
 List<List<Object>> CUSTOMERS = new List<List<Object>>{
@@ -57,4 +60,20 @@ upsert loans Loan_Account_Number__c;
 
 // Reset demo journeys so every run starts clean.
 delete [SELECT Id FROM Loan_Journey__c WHERE Mobile__c IN :DEMO_MOBILES];
-System.debug('LoanSeva seed complete: ' + contacts.size() + ' customers, ' + loans.size() + ' loans');
+// Reset the new-to-bank numbers. Submitting an application creates a Contact (and approval a loan), so clear them.
+Set<String> ntbKeys = new Set<String>();
+for (String m : NEW_TO_BANK_MOBILES) {
+    ntbKeys.addAll(new List<String>{ m, '+91' + m, '+91 ' + m, '91' + m });
+}
+List<Contact> ntbContacts = [SELECT Id FROM Contact WHERE MobilePhone IN :ntbKeys];
+List<MessagingEndUser> ntbUsers = [SELECT Id, ContactId FROM MessagingEndUser WHERE MessagingPlatformKey IN :ntbKeys AND ContactId != null];
+for (MessagingEndUser u : ntbUsers) {
+    u.ContactId = null;
+}
+update ntbUsers;
+delete [SELECT Id FROM Loan_Journey__c WHERE Mobile__c IN :NEW_TO_BANK_MOBILES OR Contact__c IN :ntbContacts];
+delete [SELECT Id FROM Loan_Application__c WHERE Mobile__c IN :NEW_TO_BANK_MOBILES OR Contact__c IN :ntbContacts];
+delete [SELECT Id FROM Existing_Loan__c WHERE Contact__c IN :ntbContacts];
+Database.delete(ntbContacts, false);
+
+System.debug('LoanSeva seed complete: ' + contacts.size() + ' customers, ' + loans.size() + ' loans; reset ' + NEW_TO_BANK_MOBILES.size() + ' new-to-bank number(s), removed ' + ntbContacts.size() + ' contact(s)');

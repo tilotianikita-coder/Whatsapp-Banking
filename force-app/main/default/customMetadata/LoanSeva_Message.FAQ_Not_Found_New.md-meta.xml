@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ Not Found New</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">That's a great question — I want to make sure you get the exact answer, so I'll have a Kotak specialist confirm it. 🙏
+
+Meanwhile, I can help with rates, eligibility, documents and how quickly you get the money.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">बहुत अच्छा सवाल — आपको सटीक जवाब मिले, इसलिए Kotak विशेषज्ञ इसकी पुष्टि करेंगे। 🙏
+
+तब तक मैं ब्याज दर, पात्रता, दस्तावेज़ और पैसे कितनी जल्दी मिलेंगे, इसके बारे में बता सकता हूँ।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">छान प्रश्न — तुम्हाला अचूक उत्तर मिळावे म्हणून Kotak तज्ज्ञ याची खात्री करतील. 🙏
+
+तोपर्यंत मी व्याजदर, पात्रता, कागदपत्रे आणि पैसे किती लवकर मिळतील याबद्दल सांगू शकतो.</value>
+    </values>
+</CustomMetadata>

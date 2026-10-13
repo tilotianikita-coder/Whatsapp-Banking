@@ -45,7 +45,9 @@ private class LoanSevaRegistrationTest {
         System.assertEquals('Arjun Mehta', l.LastName);
         System.assertEquals('Individual', l.Company);
         System.assertEquals('MR', arjun.Language__c);
-        System.assert(arjun.Last_Send_Status__c.contains(LoanSevaI18n.msg('Nudge_Generic', 'MR').abbreviate(40).removeEnd('...')));
+        System.assert(arjun.Last_Send_Status__c.contains('Arjun'), 'New to Kotak: ' + arjun.Last_Send_Status__c);
+        System.assert(!arjun.Last_Send_Status__c.contains('टॉप-अप'), 'No Top-Up for a new-to-bank prospect: ' + arjun.Last_Send_Status__c);
+        System.assertEquals('Hi! 👋 Welcome', LoanSevaRegistrationService.nudgeText(null, null, 'EN', null).left(14));
     }
 
     @IsTest

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ New Disbursal Speed</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Fast! 🚀 Apply here in about 3 minutes and you'll see your offer straight away. Once you accept and our specialist completes final verification, funds can be credited to your bank account {disbursal}.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">बहुत जल्दी! 🚀 यहाँ लगभग 3 मिनट में आवेदन करें और आपको तुरंत अपना ऑफ़र दिखेगा। ऑफ़र स्वीकार करने और हमारे विशेषज्ञ द्वारा अंतिम सत्यापन के बाद, राशि आपके बैंक खाते में {disbursal} में जमा हो सकती है।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">अगदी लवकर! 🚀 इथे सुमारे 3 मिनिटांत अर्ज करा आणि तुम्हाला लगेच तुमची ऑफर दिसेल. ऑफर स्वीकारल्यानंतर आणि आमच्या तज्ज्ञांनी अंतिम पडताळणी केल्यानंतर, रक्कम तुमच्या बँक खात्यात {disbursal} मध्ये जमा होऊ शकते.</value>
+    </values>
+</CustomMetadata>
