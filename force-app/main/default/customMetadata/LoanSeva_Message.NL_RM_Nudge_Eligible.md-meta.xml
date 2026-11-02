@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL RM Nudge Eligible</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Based on what you've shared, you could be eligible for up to *{amount}* (indicative, subject to verification).</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">आपकी दी गई जानकारी के आधार पर आप *{amount}* तक के लिए पात्र हो सकते हैं (अनुमानित, सत्यापन के अधीन)।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">तुम्ही दिलेल्या माहितीनुसार तुम्ही *{amount}* पर्यंत पात्र असू शकता (अंदाजे, पडताळणीच्या अधीन).</value>
+    </values>
+</CustomMetadata>

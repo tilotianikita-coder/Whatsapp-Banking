@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Bureau Consent Skipped</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">No problem 👍 We'll check your credit only when you submit the application. Let's carry on.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">कोई बात नहीं 👍 हम आपका क्रेडिट केवल आवेदन जमा करने पर ही जाँचेंगे। चलिए आगे बढ़ते हैं।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">काही हरकत नाही 👍 तुम्ही अर्ज सबमिट केल्यावरच आम्ही तुमचे क्रेडिट तपासू. चला पुढे जाऊया.</value>
+    </values>
+</CustomMetadata>

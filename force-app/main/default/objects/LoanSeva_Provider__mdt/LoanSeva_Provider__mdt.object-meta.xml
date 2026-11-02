@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>External data providers for lead qualification and underwriting (CIBIL, Perfios, Karza / EPFO, Hunter): the Apex class that implements each (mock or live) and its Named Credential.</description>
+    <label>LoanSeva Provider</label>
+    <pluralLabel>LoanSeva Providers</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

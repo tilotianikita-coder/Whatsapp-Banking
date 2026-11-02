@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LoanSeva_Last_Nudged__c</fullName>
+    <label>LoanSeva Last Nudged</label>
+    <description>When the RM last nudged the customer on WhatsApp.</description>
+    <inlineHelpText>When the RM last nudged the customer on WhatsApp.</inlineHelpText>
+    <type>DateTime</type>
+</CustomField>

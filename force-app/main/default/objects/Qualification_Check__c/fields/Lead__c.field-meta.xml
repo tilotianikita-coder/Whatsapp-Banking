@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead__c</fullName>
+    <label>Lead</label>
+    <description>The prospect's Lead, once the journey has one.</description>
+    <inlineHelpText>The prospect's Lead, once the journey has one.</inlineHelpText>
+    <type>Lookup</type>
+    <referenceTo>Lead</referenceTo>
+    <relationshipName>LoanSeva_Qualification_Checks</relationshipName>
+    <relationshipLabel>LoanSeva Qualification Checks</relationshipLabel>
+    <deleteConstraint>SetNull</deleteConstraint>
+</CustomField>

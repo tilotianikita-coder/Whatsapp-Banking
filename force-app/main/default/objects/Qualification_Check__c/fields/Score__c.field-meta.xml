@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Score__c</fullName>
+    <label>Score</label>
+    <description>Provider score (CIBIL score, fraud score, FOIR %).</description>
+    <inlineHelpText>Provider score (CIBIL score, fraud score, FOIR %).</inlineHelpText>
+    <type>Number</type>
+    <precision>6</precision>
+    <scale>0</scale>
+</CustomField>

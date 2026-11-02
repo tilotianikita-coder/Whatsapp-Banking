@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Serviceable__c</fullName>
+    <label>Serviceable</label>
+    <description>Kotak serves Personal Loans in this region.</description>
+    <inlineHelpText>Kotak serves Personal Loans in this region.</inlineHelpText>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+</CustomField>

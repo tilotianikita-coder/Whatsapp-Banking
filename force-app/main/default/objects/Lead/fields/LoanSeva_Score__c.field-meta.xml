@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LoanSeva_Score__c</fullName>
+    <label>LoanSeva Intent Score</label>
+    <description>Intent score out of 100 (income, repayment capacity, employment, ask vs eligibility, age, journey depth). 70+ Hot, 40-69 Warm.</description>
+    <inlineHelpText>Intent score out of 100 (income, repayment capacity, employment, ask vs eligibility, age, journey depth). 70+ Hot, 40-69 Warm.</inlineHelpText>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+</CustomField>

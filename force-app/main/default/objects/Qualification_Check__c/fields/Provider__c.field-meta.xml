@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Provider__c</fullName>
+    <label>Provider</label>
+    <description>Provider called (mock or live), from LoanSeva Provider metadata.</description>
+    <inlineHelpText>Provider called (mock or live), from LoanSeva Provider metadata.</inlineHelpText>
+    <type>Text</type>
+    <length>80</length>
+</CustomField>

@@ -9,6 +9,15 @@
         <type>Flexipage</type>
         <pageOrSobjectType>Loan_Application__c</pageOrSobjectType>
     </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>WhatsApp drop-off leads: LoanSeva status path, stage gate and RM nudge</comment>
+        <content>SDO_Sales_Lead_Default</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#ED1C24</headerColor>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
@@ -17,6 +26,7 @@
     <formFactors>Large</formFactors>
     <label>LoanSeva LOS</label>
     <navType>Standard</navType>
+    <tabs>standard-Lead</tabs>
     <tabs>Loan_Application__c</tabs>
     <tabs>Existing_Loan__c</tabs>
     <tabs>Loan_Journey__c</tabs>

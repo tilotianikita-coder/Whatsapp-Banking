@@ -8,7 +8,7 @@
 
 {details}
 
-Anything out of date? Just reply *Change*. Otherwise, questions left: *{count}*. ⏱️</value>
+Anything out of date? Just reply *Change*. Otherwise, a few quick questions about your work, income and this loan: *{count}* left. ⏱️</value>
     </values>
     <values>
         <field>Hindi__c</field>
@@ -16,7 +16,7 @@ Anything out of date? Just reply *Change*. Otherwise, questions left: *{count}*.
 
 {details}
 
-कुछ बदल गया है? बस *बदलें* लिखें। बाकी सवाल: *{count}*। ⏱️</value>
+कुछ बदल गया है? बस *बदलें* लिखें। वरना आपके काम, आय और इस लोन के बारे में कुछ छोटे सवाल: *{count}* बाकी। ⏱️</value>
     </values>
     <values>
         <field>Marathi__c</field>
@@ -24,6 +24,6 @@ Anything out of date? Just reply *Change*. Otherwise, questions left: *{count}*.
 
 {details}
 
-काही बदलले आहे? फक्त *बदला* लिहा. उरलेले प्रश्न: *{count}*. ⏱️</value>
+काही बदलले आहे? फक्त *बदला* लिहा. नाहीतर तुमचे काम, उत्पन्न आणि या कर्जाबद्दल काही छोटे प्रश्न: *{count}* उरले. ⏱️</value>
     </values>
 </CustomMetadata>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Knockout__c</fullName>
+    <label>Knockout</label>
+    <description>A knock-out rule hit: the lead is Unqualified and gets no RM task.</description>
+    <inlineHelpText>A knock-out rule hit: the lead is Unqualified and gets no RM task.</inlineHelpText>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+</CustomField>

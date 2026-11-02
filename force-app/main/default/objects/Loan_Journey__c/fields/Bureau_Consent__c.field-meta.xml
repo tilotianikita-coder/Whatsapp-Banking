@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bureau_Consent__c</fullName>
+    <label>Bureau Consent</label>
+    <description>Asked right after PAN (new loan) or loan confirmation (Top-Up): Given allows a soft credit bureau pull during the journey; Skipped defers it to the application.</description>
+    <inlineHelpText>Asked right after PAN (new loan) or loan confirmation (Top-Up): Given allows a soft credit bureau pull during the journey; Skipped defers it to the application.</inlineHelpText>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Given</fullName>
+                <default>false</default>
+                <label>Given</label>
+            </value>
+            <value>
+                <fullName>Skipped</fullName>
+                <default>false</default>
+                <label>Skipped</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

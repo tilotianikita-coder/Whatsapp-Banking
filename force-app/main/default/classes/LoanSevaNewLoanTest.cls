@@ -25,7 +25,7 @@ private class LoanSevaNewLoanTest {
         say('1');
         say('Asha Patil ' + MOBILE);
         say(otp());
-        for (String answer : new List<String>{ '15/08/1990', 'abcpp1234k', 'asha.patil@example.com', 'Pune 411001',
+        for (String answer : new List<String>{ '15/08/1990', 'abcpp1234k', '1', 'asha.patil@example.com', 'Pune 411001',
                 employmentChoice, company, '85k', '0', '1', '3 lakh' }) {
             say(answer);
         }
@@ -51,11 +51,17 @@ private class LoanSevaNewLoanTest {
         System.assert(last.message.contains('*1/10* ▰'), last.message);
         System.assertEquals('dob', LoanSevaEngine.awaiting(j));
 
-        for (String answer : new List<String>{ '15/08/1990', 'my PAN is abcpp1234k', 'Asha.Patil@Example.com', 'Pune 411 001',
+        for (String answer : new List<String>{ '15/08/1990', 'my PAN is abcpp1234k', '1', 'Asha.Patil@Example.com', 'Pune 411 001',
                 '1', 'Infosys Ltd', '85,000', 'none', '1', '3 lakh' }) {
             say(answer);
             System.assert(last.success, answer + ' -> ' + last.message);
+            if (answer.contains('PAN')) {
+                // the soft credit check consent comes right after the PAN
+                System.assertEquals('bureau_consent', LoanSevaEngine.awaiting(j));
+                System.assertEquals(LoanSevaI18n.msg('Bureau_Consent', 'EN'), last.message);
+            }
         }
+        System.assertEquals(LoanSevaQualification.CONSENT_GIVEN, j.Bureau_Consent__c);
         System.assertEquals(Date.newInstance(1990, 8, 15), j.Date_Of_Birth__c);
         System.assertEquals('ABCPP1234K', j.PAN__c);
         System.assertEquals('asha.patil@example.com', j.Email__c);
@@ -161,6 +167,7 @@ private class LoanSevaNewLoanTest {
         toDob();
         say('15/08/1990');
         say('ABCPP1234K');
+        say('1');
         say('agent.kumar@kotak.example');
         System.assert(!last.handoff, last.message);
         System.assertEquals('agent.kumar@kotak.example', j.Email__c);
@@ -178,6 +185,8 @@ private class LoanSevaNewLoanTest {
         System.assert(last.message.startsWith(LoanSevaI18n.msg('Status_None', 'EN')), last.message);
         System.assertEquals('pan', LoanSevaEngine.awaiting(j));
         say('ABCPP1234K');
+        System.assertEquals('bureau_consent', LoanSevaEngine.awaiting(j));
+        say('Skip for now');
         System.assertEquals('email', LoanSevaEngine.awaiting(j));
     }
 
@@ -196,6 +205,8 @@ private class LoanSevaNewLoanTest {
         System.assertEquals('pan', LoanSevaEngine.awaiting(j));
         System.assert(last.message.contains('Please type your *PAN*'), last.message);
         say('ABCPP1234K');
+        System.assertEquals('bureau_consent', LoanSevaEngine.awaiting(j));
+        say('Skip for now');
         System.assertEquals('email', LoanSevaEngine.awaiting(j));
     }
 
@@ -218,6 +229,9 @@ private class LoanSevaNewLoanTest {
             System.assertEquals(field, LoanSevaEngine.awaiting(j));
             say(new Map<String, String>{ 'dob' => '1990-08-15', 'pan' => 'ABCPP1234K', 'email' => 'rm@kotak.example', 'pincode' => '560001' }.get(field));
             System.assert(last.success, field + ' -> ' + last.message);
+            if (field == 'pan') {
+                say('1');
+            }
         }
         System.assertEquals(false, j.Escalated__c, 'an email starting rm@ is data, not a request for an RM');
         System.assertEquals('Bengaluru', j.City__c, 'city from the PIN prefix');
@@ -302,7 +316,7 @@ private class LoanSevaNewLoanTest {
         say('4');
         say('Asha Patil ' + MOBILE);
         say(otp());
-        for (String answer : new List<String>{ '15/08/1990', 'ABCPP1234K', 'a@b.co', '411001', '1', 'Infosys', '30000', '25000', '2', '1 lakh' }) {
+        for (String answer : new List<String>{ '15/08/1990', 'ABCPP1234K', '1', 'a@b.co', '411001', '1', 'Infosys', '30000', '25000', '2', '1 lakh' }) {
             say(answer);
         }
         System.assert(last.handoff, last.message);
@@ -332,25 +346,38 @@ private class LoanSevaNewLoanTest {
         insert new Loan_Journey__c(Contact__c = c.Id, Status__c = 'Completed', Journey_Type__c = LoanSevaJourneyService.TYPE_NEW_LOAN,
             Employment_Type__c = 'Salaried', Company_Name__c = 'Infosys');
 
+        // someone else's application on the same number never prefills a known customer
+        insert new Loan_Application__c(Mobile__c = MOBILE, Product__c = 'Personal Loan', Application_Type__c = LoanSevaJourneyService.TYPE_NEW_LOAN,
+            Submitted_At__c = Datetime.now().addDays(-1), PAN__c = 'ZZZPZ9999Z', PIN_Code__c = '110001');
+
         returningCustomerVerified();
         String m = last.message;
         System.assert(m.startsWith(LoanSevaI18n.msg('NL_Prefilled', 'EN').left(15)), m);
         System.assert(m.contains('Welcome back'), m);
         System.assert(m.contains('XXXXX1234M') && !m.contains('ABCPJ1234M'), 'PAN on file is masked: ' + m);
+        System.assert(!m.contains('9999Z') && !m.contains('110001'), 'only the customer\'s own records: ' + m);
         System.assert(m.contains('meera@example.com'), 'email from the customer record');
         System.assert(m.contains('Pune 411001'), 'address from the earlier application');
-        System.assert(m.contains('Salaried @ Infosys'), 'employer from the earlier journey');
-        System.assert(m.contains(LoanSevaI18n.inr(5000)), 'EMIs from the active Kotak loan');
-        System.assert(m.contains('questions left: *2*'), m);
-        System.assert(m.contains('*1/2* ▰'), 'only purpose and amount are asked: ' + m);
-        System.assertEquals('purpose', LoanSevaEngine.awaiting(j));
-        System.assertEquals('dob;pan;email;pincode;employment;company;income;obligations', j.Prefilled_Fields__c);
-        System.assertEquals(120000, j.Monthly_Income__c);
-        System.assertEquals('1L-2L', j.Income_Bucket__c);
-        System.assertEquals(5000, j.Existing_EMIs__c);
+        System.assert(m.contains('12/03/1988'), 'date of birth from the earlier application');
+        System.assert(!m.contains('Infosys') && !m.contains(LoanSevaI18n.inr(5000)), 'work, income and EMIs are asked afresh: ' + m);
+        System.assert(m.contains('*6* left'), m);
+        System.assert(m.endsWith(LoanSevaI18n.msg('Bureau_Consent', 'EN')), 'PAN on file: the credit check consent comes first: ' + m);
+        System.assertEquals('bureau_consent', LoanSevaEngine.awaiting(j));
+        System.assertEquals('dob;pan;email;pincode', j.Prefilled_Fields__c);
+        System.assertEquals(null, j.Employment_Type__c);
+        System.assertEquals(null, j.Monthly_Income__c);
+        System.assertEquals(null, j.Existing_EMIs__c);
 
         say('1');
-        System.assert(last.message.startsWith('*2/2* ▰'), last.message);
+        System.assert(last.message.contains('*1/6* ▰'), 'employment is the first question asked: ' + last.message);
+        System.assertEquals('employment', LoanSevaEngine.awaiting(j));
+        for (String answer : new List<String>{ '1', 'Wipro', '1,40,000', '5000', '1' }) {
+            say(answer);
+            System.assert(last.success, answer + ' -> ' + last.message);
+        }
+        System.assert(last.message.startsWith('*6/6* ▰'), last.message);
+        System.assertEquals(140000, j.Monthly_Income__c, 'today\'s income, not the 1,20,000 on the earlier application');
+        System.assertEquals('Wipro', j.Company_Name__c);
         say('3 lakh');
         System.assertEquals('offer_decision', LoanSevaEngine.awaiting(j), last.message);
         say('1');
@@ -403,9 +430,9 @@ private class LoanSevaNewLoanTest {
         j = r.journey;
         System.assert(r.message.startsWith(LoanSevaI18n.msg('NL_Intro', 'EN')), r.message);
         System.assert(!r.message.contains(otp()), 'no second OTP');
-        System.assert(r.message.contains(LoanSevaI18n.inr(11800)), 'EMI of the Kotak loan: ' + r.message);
+        System.assert(!r.message.contains(LoanSevaI18n.inr(11800)), 'EMIs are asked afresh: ' + r.message);
         System.assertEquals('dob', LoanSevaEngine.awaiting(j));
-        System.assertEquals('obligations', j.Prefilled_Fields__c);
+        System.assertEquals(null, j.Prefilled_Fields__c);
         System.assertEquals(null, j.Purpose__c, 'the loan need is asked afresh');
     }
 

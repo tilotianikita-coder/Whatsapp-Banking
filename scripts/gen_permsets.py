@@ -5,7 +5,9 @@ import os, re
 BASE = 'force-app/main/default'
 OBJ = os.path.join(BASE, 'objects')
 OUT = os.path.join(BASE, 'permissionsets')
-CUSTOM_OBJECTS = ['Existing_Loan__c', 'Loan_Journey__c', 'Loan_Application__c', 'Journey_Feedback__c', 'Underwriting_Check__c', 'Loan_Document__c']
+CUSTOM_OBJECTS = ['Existing_Loan__c', 'Loan_Journey__c', 'Loan_Application__c', 'Journey_Feedback__c', 'Underwriting_Check__c', 'Loan_Document__c', 'Qualification_Check__c']
+# standard objects with LoanSeva fields: field permissions only (object permissions come from the profile or *_EXTRA)
+FIELD_OBJECTS = ['Lead']
 
 
 def fields(obj):
@@ -36,11 +38,13 @@ def permset(name, label, desc, obj_perms, field_edit=True, extra='', apps=(), pr
         parts.append(f'    <classAccesses>\n        <apexClass>{c}</apexClass>\n        <enabled>true</enabled>\n    </classAccesses>\n')
     parts.append('    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_Config__mdt</name>\n    </customMetadataTypeAccesses>\n'
                  '    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_FAQ__mdt</name>\n    </customMetadataTypeAccesses>\n'
-                 '    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_Message__mdt</name>\n    </customMetadataTypeAccesses>\n')
+                 '    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_Message__mdt</name>\n    </customMetadataTypeAccesses>\n'
+                 '    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_Provider__mdt</name>\n    </customMetadataTypeAccesses>\n'
+                 '    <customMetadataTypeAccesses>\n        <enabled>true</enabled>\n        <name>LoanSeva_Region__mdt</name>\n    </customMetadataTypeAccesses>\n')
     for principal in principals:
         parts.append(f'    <externalCredentialPrincipalAccesses>\n        <enabled>true</enabled>\n'
                      f'        <externalCredentialPrincipal>{principal}</externalCredentialPrincipal>\n    </externalCredentialPrincipalAccesses>\n')
-    for obj in CUSTOM_OBJECTS:
+    for obj in CUSTOM_OBJECTS + FIELD_OBJECTS:
         for fname, editable in fields(obj):
             parts.append(f'    <fieldPermissions>\n        <editable>{str(editable and field_edit).lower()}</editable>\n'
                          f'        <field>{obj}.{fname}</field>\n        <readable>true</readable>\n    </fieldPermissions>\n')

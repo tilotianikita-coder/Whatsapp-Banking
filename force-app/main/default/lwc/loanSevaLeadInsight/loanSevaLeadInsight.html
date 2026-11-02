@@ -1,0 +1,134 @@
+<template>
+    <div class="k-card">
+        <div class="k-head">
+            <div>
+                <div class="k-head-title">LoanSeva WhatsApp Lead</div>
+                <div class="k-head-sub">Kotak Personal Loan · new to bank</div>
+            </div>
+            <div class="k-head-right">
+                <template lwc:if={loaded}>
+                    <span class={ratingClass}>{ratingLabel}</span>
+                    <span class={serviceClass}>{serviceLabel}</span>
+                </template>
+                <button class="k-refresh" title="Refresh" onclick={handleRefresh}>⟳</button>
+            </div>
+        </div>
+
+        <div class="k-body">
+            <template lwc:if={error}>
+                <div class="k-alert k-alert-error">{error}</div>
+            </template>
+            <template lwc:if={loaded}>
+                <template lwc:if={dropLine}>
+                    <div class="k-alert k-alert-info">{dropLine}</div>
+                </template>
+                <template lwc:if={data.knockoutReason}>
+                    <div class="k-alert k-alert-error">✕ Knocked out at {data.qualificationGate}: {data.knockoutReason}</div>
+                </template>
+
+                <div class="k-tiles">
+                    <template for:each={tiles} for:item="t">
+                        <div key={t.label} class={t.cls}>
+                            <div class="k-tile-label">{t.label}</div>
+                            <div class="k-tile-value">{t.value}</div>
+                            <div class="k-tile-sub">{t.sub}</div>
+                        </div>
+                    </template>
+                </div>
+
+                <template lwc:if={hasGates}>
+                    <div class="k-section">
+                        <div class="k-section-title">Qualification stage gate · {data.stageGate}</div>
+                        <div class="k-path" role="list">
+                            <template for:each={gateSteps} for:item="s">
+                                <div key={s.key} class={s.cls} title={s.tip} role="listitem">{s.title}</div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="k-section">
+                        <div class="k-section-title">Checks</div>
+                        <table class="k-table">
+                            <thead>
+                                <tr><th>Gate</th><th>Provider</th><th>Result</th><th>Summary</th></tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={gateRows} for:item="g">
+                                    <tr key={g.gate}>
+                                        <td>{g.gate}</td>
+                                        <td>{g.provider}</td>
+                                        <td><span class={g.cls}>{g.result}</span></td>
+                                        <td>{g.summary}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+
+                <div class="k-section k-cols">
+                    <div>
+                        <div class="k-section-title">Journey</div>
+                        <div class="k-facts">
+                            <template for:each={journeyFacts} for:item="f">
+                                <div key={f.label} class="k-fact-label">{f.label}</div>
+                                <div key={f.valueKey} class="k-fact-value">{f.value}</div>
+                            </template>
+                        </div>
+                        <template lwc:if={data.hasJourney}>
+                            <div class="k-progress"><div class="k-progress-bar" style={progressStyle}></div></div>
+                        </template>
+                    </div>
+                    <div>
+                        <div class="k-section-title">Lead</div>
+                        <div class="k-facts">
+                            <template for:each={leadFacts} for:item="f">
+                                <div key={f.label} class="k-fact-label">{f.label}</div>
+                                <div key={f.valueKey} class="k-fact-value">{f.value}</div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="k-section k-cols">
+                    <template lwc:if={hasCredit}>
+                        <div>
+                            <div class="k-section-title">Credit score breakdown</div>
+                            <ul class="k-list">
+                                <template for:each={data.creditLines} for:item="line">
+                                    <li key={line}>{line}</li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+                    <template lwc:if={hasIntent}>
+                        <div>
+                            <div class="k-section-title">Intent score breakdown</div>
+                            <ul class="k-list">
+                                <template for:each={data.scoreLines} for:item="line">
+                                    <li key={line}>{line}</li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="k-section">
+                    <div class="k-section-title">WhatsApp nudge</div>
+                    <template lwc:if={showPreview}>
+                        <div class="k-bubble">{data.preview}</div>
+                    </template>
+                    <div class="k-actions">
+                        <button class="k-btn" onclick={handleNudge} disabled={nudgeDisabled}>Nudge on WhatsApp</button>
+                        <template lwc:if={journeyUrl}>
+                            <a href={journeyUrl} class="k-link">Open journey</a>
+                        </template>
+                    </div>
+                    <template lwc:if={data.blockedReason}>
+                        <div class="k-muted">{data.blockedReason}</div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

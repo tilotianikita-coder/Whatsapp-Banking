@@ -42,8 +42,11 @@ public with sharing class LoanSevaNewLoan {
     private static final Set<String> CHANGE_WORDS = new Set<String>{
         'change', 'update', 'edit', 'badlo', 'badalna', 'बदलें', 'बदलना', 'बदला', 'बदल', 'अपडेट'
     };
-    /** Questions that can be answered from data on file; purpose and amount are always asked for each application. */
-    private static final List<String> ON_FILE = new List<String>{ 'dob', 'pan', 'email', 'pincode', 'employment', 'company', 'income', 'obligations' };
+    /**
+     * Questions answered from data on file: the KYC that doesn't change between applications. Employment, company,
+     * income, EMIs, purpose and amount are always asked afresh, so each application is assessed on today's numbers.
+     */
+    private static final List<String> ON_FILE = new List<String>{ 'dob', 'pan', 'email', 'pincode' };
 
     // ------------------------------------------------------------------ Start and verify
     /** Switches the journey to a new-loan application and asks for (or, if already given, verifies) name and mobile. */
@@ -126,18 +129,20 @@ public with sharing class LoanSevaNewLoan {
             'details' => onFileSummary(j, onFile),
             'count' => FIELDS.size() - onFile.size()
         };
+        // PAN on file: the soft credit check consent comes straight away, before the remaining questions
         String message = LoanSevaI18n.msg(onFile.isEmpty() ? 'NL_Verified' : 'NL_Prefilled', j.Language__c, params)
-            + '\n\n' + question(j, pendingField(j));
+            + '\n\n' + (LoanSevaEngine.bureauConsentDue(j) ? LoanSevaI18n.msg('Bureau_Consent', j.Language__c) : question(j, pendingField(j)));
         update j;
         return LoanSevaEngine.result(j, message);
     }
 
     // ------------------------------------------------------------------ Existing customers: details on file
     /**
-     * Fills blank KYC answers from what is already known about this customer, most reliable first: earlier
-     * applications (checked, and corrected by the RM if needed), earlier journeys, the Contact, and the EMIs on
-     * their active Kotak loans. Every question answered before the first one is asked is recorded in
-     * Prefilled_Fields__c, so numbering counts only the questions actually asked.
+     * Fills blank KYC answers (date of birth, PAN, email, PIN code) from what is already known about this customer,
+     * most reliable first: earlier applications (checked, and corrected by the RM if needed), earlier journeys, then
+     * the Contact. A known customer's records are matched on the Contact only, so another person's application on the
+     * same number never leaks in; the mobile is used only for someone not yet a customer. Every question answered
+     * before the first one is asked is recorded in Prefilled_Fields__c, so numbering counts only the questions asked.
      */
     @TestVisible
     private static void prefill(Loan_Journey__c j) {
@@ -151,48 +156,32 @@ public with sharing class LoanSevaNewLoan {
         Set<String> mobiles = new Set<String>();
         if (contactId != null) {
             contactIds.add(contactId);
-        }
-        if (j.Mobile__c != null) {
+        } else if (j.Mobile__c != null) {
             mobiles.add(j.Mobile__c);
         }
         if (!contactIds.isEmpty() || !mobiles.isEmpty()) {
             Id appId = j.Loan_Application__c;
             Id journeyId = j.Id;
             for (Loan_Application__c a : [
-                SELECT Date_Of_Birth__c, PAN__c, Email__c, City__c, PIN_Code__c, Monthly_Income__c, Existing_EMIs__c
+                SELECT Date_Of_Birth__c, PAN__c, Email__c, City__c, PIN_Code__c
                 FROM Loan_Application__c
                 WHERE (Contact__c IN :contactIds OR Mobile__c IN :mobiles) AND Id != :appId AND Submitted_At__c != null
                 ORDER BY Submitted_At__c DESC LIMIT 5
             ]) {
-                fillFrom(j, a.Date_Of_Birth__c, a.PAN__c, a.Email__c, a.City__c, a.PIN_Code__c, a.Monthly_Income__c, a.Existing_EMIs__c);
+                fillFrom(j, a.Date_Of_Birth__c, a.PAN__c, a.Email__c, a.City__c, a.PIN_Code__c);
             }
             for (Loan_Journey__c p : [
-                SELECT Date_Of_Birth__c, PAN__c, Email__c, City__c, PIN_Code__c, Monthly_Income__c, Existing_EMIs__c,
-                    Employment_Type__c, Company_Name__c
+                SELECT Date_Of_Birth__c, PAN__c, Email__c, City__c, PIN_Code__c
                 FROM Loan_Journey__c
                 WHERE (Contact__c IN :contactIds OR Mobile__c IN :mobiles) AND Id != :journeyId
                 ORDER BY CreatedDate DESC LIMIT 10
             ]) {
-                fillFrom(j, p.Date_Of_Birth__c, p.PAN__c, p.Email__c, p.City__c, p.PIN_Code__c, p.Monthly_Income__c, p.Existing_EMIs__c);
-                if (String.isBlank(j.Employment_Type__c) && String.isNotBlank(p.Employment_Type__c)) {
-                    j.Employment_Type__c = p.Employment_Type__c;
-                    j.Company_Name__c = String.isBlank(j.Company_Name__c) ? p.Company_Name__c : j.Company_Name__c;
-                }
+                fillFrom(j, p.Date_Of_Birth__c, p.PAN__c, p.Email__c, p.City__c, p.PIN_Code__c);
             }
         }
         if (contactId != null) {
             for (Contact c : [SELECT Email, Birthdate, MailingCity, MailingPostalCode FROM Contact WHERE Id = :contactId]) {
-                fillFrom(j, c.Birthdate, null, c.Email, c.MailingCity, c.MailingPostalCode, null, null);
-            }
-            if (j.Existing_EMIs__c == null) {
-                AggregateResult[] emis = [
-                    SELECT SUM(Current_EMI__c) total, COUNT(Id) loans FROM Existing_Loan__c
-                    WHERE Contact__c = :contactId AND Status__c = 'Active'
-                ];
-                if ((Integer) emis[0].get('loans') > 0) {
-                    Decimal total = (Decimal) emis[0].get('total');
-                    j.Existing_EMIs__c = total == null ? 0 : total;
-                }
+                fillFrom(j, c.Birthdate, null, c.Email, c.MailingCity, c.MailingPostalCode);
             }
         }
         List<String> onFile = new List<String>();
@@ -205,7 +194,7 @@ public with sharing class LoanSevaNewLoan {
     }
 
     /** Copies each value only where the journey has none yet, and only if it would pass the question's own validation. */
-    private static void fillFrom(Loan_Journey__c j, Date dob, String pan, String email, String city, String pin, Decimal income, Decimal emis) {
+    private static void fillFrom(Loan_Journey__c j, Date dob, String pan, String email, String city, String pin) {
         if (j.Date_Of_Birth__c == null && dob != null) {
             Integer age = ageOn(dob, LoanSevaI18n.todayIst());
             j.Date_Of_Birth__c = age >= 18 && age <= 80 ? dob : null;
@@ -220,18 +209,11 @@ public with sharing class LoanSevaNewLoan {
             j.PIN_Code__c = pin;
             j.City__c = String.isNotBlank(city) ? city : PIN_CITIES.get(pin.left(3));
         }
-        if (j.Monthly_Income__c == null && income != null && income >= 1000) {
-            setIncome(j, income);
-        }
-        if (j.Existing_EMIs__c == null && emis != null && emis >= 0) {
-            j.Existing_EMIs__c = emis;
-        }
     }
 
     /** One line per answer on file, in the style of the review card. PAN is masked. */
     private static String onFileSummary(Loan_Journey__c j, List<String> onFile) {
         String lang = j.Language__c;
-        String perMonth = '/' + LoanSevaI18n.pick('month', 'माह', 'महिना', lang);
         List<String> lines = new List<String>();
         if (onFile.contains('dob')) {
             lines.add('🎂 ' + formatDate(j.Date_Of_Birth__c));
@@ -244,21 +226,6 @@ public with sharing class LoanSevaNewLoan {
         }
         if (onFile.contains('pincode')) {
             lines.add('📍 ' + ((j.City__c == null ? '' : j.City__c) + ' ' + j.PIN_Code__c).trim());
-        }
-        if (onFile.contains('employment') || onFile.contains('company')) {
-            List<String> work = new List<String>();
-            for (String part : new List<String>{ onFile.contains('employment') ? j.Employment_Type__c : null, onFile.contains('company') ? j.Company_Name__c : null }) {
-                if (String.isNotBlank(part)) {
-                    work.add(part);
-                }
-            }
-            lines.add('💼 ' + String.join(work, ' @ '));
-        }
-        if (onFile.contains('income')) {
-            lines.add('💵 ' + LoanSevaI18n.pick('Income', 'आय', 'उत्पन्न', lang) + ' ' + LoanSevaI18n.inr(j.Monthly_Income__c) + perMonth);
-        }
-        if (onFile.contains('obligations')) {
-            lines.add('🧾 EMI ' + LoanSevaI18n.inr(j.Existing_EMIs__c) + perMonth);
         }
         return '> ' + String.join(lines, '\n> ');
     }
@@ -313,7 +280,7 @@ public with sharing class LoanSevaNewLoan {
         return null;
     }
 
-    private static Boolean isAnswered(Loan_Journey__c j, String field) {
+    public static Boolean isAnswered(Loan_Journey__c j, String field) {
         List<Object> values = new List<Object>{
             j.Date_Of_Birth__c, j.PAN__c, j.Email__c, j.PIN_Code__c, j.Employment_Type__c, j.Company_Name__c,
             j.Monthly_Income__c, j.Existing_EMIs__c, j.Purpose__c, j.Desired_Amount__c
@@ -451,12 +418,15 @@ public with sharing class LoanSevaNewLoan {
     // ------------------------------------------------------------------ State
     /**
      * New-loan steps, in order: identity, otp, dob, pan, email, pincode, employment, company, income, obligations,
-     * purpose, amount, offer_decision, doc_pan, doc_bank, doc_salary, consent, feedback_csat, feedback_resolution,
+     * bureau_consent (after PAN), purpose, amount, offer_decision, doc_pan, doc_bank, doc_salary, consent, feedback_csat, feedback_resolution,
      * feedback_comment, done.
      */
     public static String awaiting(Loan_Journey__c j) {
         if (!j.OTP_Verified__c) {
             return String.isBlank(j.Customer_Name__c) ? 'identity' : 'otp';
+        }
+        if (LoanSevaEngine.bureauConsentDue(j)) {
+            return 'bureau_consent';
         }
         String field = pendingField(j);
         if (field != null) {
@@ -481,6 +451,9 @@ public with sharing class LoanSevaNewLoan {
         }
         if (state == 'otp') {
             return LoanSevaI18n.msg('OTP_Reprompt', lang);
+        }
+        if (state == 'bureau_consent') {
+            return LoanSevaI18n.msg('Bureau_Consent', lang);
         }
         if (FIELDS.contains(state)) {
             return question(j, state);
@@ -625,6 +598,8 @@ public with sharing class LoanSevaNewLoan {
         LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
         if (j.Contact__c == null) {
             j.Contact__c = createContact(j);
+            // a prospect who dropped off and came back after an RM nudge becomes the customer
+            LoanSevaLeadService.convert(j);
         } else {
             completeContact(j);
         }
@@ -681,7 +656,11 @@ public with sharing class LoanSevaNewLoan {
         for (Account a : [SELECT Id FROM Account WHERE Name = 'LoanSeva Demo Customers' LIMIT 1]) {
             c.AccountId = a.Id;
         }
-        insert c;
+        // the duplicate rules match the prospect's own LoanSeva Lead, which converts into this Contact
+        Database.DMLOptions dml = new Database.DMLOptions();
+        dml.DuplicateRuleHeader.allowSave = true;
+        dml.optAllOrNone = true;
+        Database.insert(c, dml);
         return c.Id;
     }
 

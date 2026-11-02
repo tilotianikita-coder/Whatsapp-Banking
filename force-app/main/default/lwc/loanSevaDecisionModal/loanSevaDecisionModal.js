@@ -21,8 +21,8 @@ export default class LoanSevaDecisionModal extends LightningModal {
         return this.approving ? 'Approve & create LAN' : 'Reject';
     }
 
-    get confirmVariant() {
-        return this.approving ? 'success' : 'destructive';
+    get confirmClass() {
+        return this.approving ? 'k-btn-navy' : 'k-btn';
     }
 
     get m() {
@@ -38,7 +38,7 @@ export default class LoanSevaDecisionModal extends LightningModal {
     }
 
     get guidanceClass() {
-        return 'slds-box slds-box_x-small slds-m-top_small ' + (this.deviation ? 'guidance guidance_warn' : 'guidance');
+        return 'k-alert slds-m-top_small ' + (this.deviation ? 'k-alert-warn' : 'k-alert-info');
     }
 
     get guidanceIcon() {
@@ -51,7 +51,7 @@ export default class LoanSevaDecisionModal extends LightningModal {
 
     get recommendationClass() {
         const r = this.m.recommendation;
-        return 'slds-badge ' + (r === 'Approve' ? 'slds-theme_success' : r === 'Decline' ? 'slds-theme_error' : 'slds-theme_warning');
+        return 'k-pill ' + (r === 'Approve' ? 'k-pill-green' : r === 'Decline' ? 'k-pill-red' : 'k-pill-amber');
     }
 
     get strengths() {

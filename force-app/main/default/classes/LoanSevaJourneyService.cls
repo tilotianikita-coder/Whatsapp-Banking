@@ -23,7 +23,9 @@ public with sharing class LoanSevaJourneyService {
         'RM_Followup_Created__c, Escalated__c, Nudge_Sent_At__c, Verified_At__c, Personalised_At__c, ' +
         'Offer_Presented_At__c, Accepted_At__c, Completed_At__c, Last_Send_Status__c, Journey_Type__c, Apply_Offered__c, ' +
         'Date_Of_Birth__c, PAN__c, Email__c, City__c, PIN_Code__c, Monthly_Income__c, Existing_EMIs__c, Doc_Step__c, ' +
-        'Docs_Skipped__c, Submitted_At__c, Prefilled_Fields__c, Last_Voice_Note__c, Last_Voice_File_Id__c';
+        'Docs_Skipped__c, Submitted_At__c, Prefilled_Fields__c, Last_Voice_Note__c, Last_Voice_File_Id__c, ' +
+        'Bureau_Consent__c, Bureau_Consent_At__c, Qualification_Status__c, Qualification_Gate__c, Knockout_Reason__c, ' +
+        'Credit_Score__c, CIBIL_Score__c, Indicative_Eligibility__c, Qualified_At__c';
 
     /** Test seam: lets tests exercise the actions' graceful-failure path. */
     @TestVisible
@@ -321,6 +323,11 @@ public with sharing class LoanSevaJourneyService {
         }
         if (String.isNotBlank(j.Reference_Number__c)) {
             lines.add('Reference: ' + j.Reference_Number__c);
+        }
+        if (j.Qualification_Status__c != null) {
+            lines.add('Qualification: ' + j.Qualification_Status__c + (String.isBlank(j.Qualification_Gate__c) ? '' : ' (' + j.Qualification_Gate__c + ')')
+                + (j.CIBIL_Score__c == null ? '' : ' | CIBIL ' + j.CIBIL_Score__c) + (j.Credit_Score__c == null ? '' : ' | Credit score ' + j.Credit_Score__c + '/100')
+                + (String.isBlank(j.Knockout_Reason__c) ? '' : ' | ' + j.Knockout_Reason__c));
         }
         if (String.isNotBlank(j.Questions_Asked__c)) {
             lines.add('Questions asked:\n' + j.Questions_Asked__c);

@@ -392,9 +392,9 @@ NEW_LOAN = {
         "🙋 Kotak कर्ज तज्ज्ञांना कळवले आहे, आणि तुम्ही दिलेली सर्व माहिती सेव्ह आहे. आत्ता त्यांच्याशी चॅट करण्यासाठी कृपया *Agent* टाइप करा. नाहीतर ते 24 तासांत कॉल करतील.",
     ),
     'NL_Prefilled': (
-        "✅ Mobile verified, {name}! Welcome back. 🙏 We've filled in what we already have on file:\n\n{details}\n\nAnything out of date? Just reply *Change*. Otherwise, questions left: *{count}*. ⏱️",
-        "✅ मोबाइल वेरिफ़ाई हो गया, {name}! फिर से स्वागत है। 🙏 आपकी जो जानकारी हमारे पास है, वह भर दी है:\n\n{details}\n\nकुछ बदल गया है? बस *बदलें* लिखें। बाकी सवाल: *{count}*। ⏱️",
-        "✅ मोबाइल पडताळला, {name}! पुन्हा स्वागत आहे. 🙏 तुमची जी माहिती आमच्याकडे आहे ती भरली आहे:\n\n{details}\n\nकाही बदलले आहे? फक्त *बदला* लिहा. उरलेले प्रश्न: *{count}*. ⏱️",
+        "✅ Mobile verified, {name}! Welcome back. 🙏 We've filled in what we already have on file:\n\n{details}\n\nAnything out of date? Just reply *Change*. Otherwise, a few quick questions about your work, income and this loan: *{count}* left. ⏱️",
+        "✅ मोबाइल वेरिफ़ाई हो गया, {name}! फिर से स्वागत है। 🙏 आपकी जो जानकारी हमारे पास है, वह भर दी है:\n\n{details}\n\nकुछ बदल गया है? बस *बदलें* लिखें। वरना आपके काम, आय और इस लोन के बारे में कुछ छोटे सवाल: *{count}* बाकी। ⏱️",
+        "✅ मोबाइल पडताळला, {name}! पुन्हा स्वागत आहे. 🙏 तुमची जी माहिती आमच्याकडे आहे ती भरली आहे:\n\n{details}\n\nकाही बदलले आहे? फक्त *बदला* लिहा. नाहीतर तुमचे काम, उत्पन्न आणि या कर्जाबद्दल काही छोटे प्रश्न: *{count}* उरले. ⏱️",
     ),
     'NL_Change': (
         "No problem — let's update your details. ✏️",
@@ -516,8 +516,50 @@ NEW_LOAN = {
         "{name}, आपका Kotak पर्सनल लोन आवेदन अभी भी आपका इंतज़ार कर रहा है ✨ पूरा करने में बस कुछ मिनट लगते हैं।\n\n👉 आगे बढ़ने के लिए *Continue* लिखें, या *Agent* लिखें और विशेषज्ञ आपको कॉल करेंगे।",
         "{name}, तुमचा Kotak पर्सनल लोन अर्ज अजूनही तुमची वाट पाहत आहे ✨ पूर्ण करायला फक्त काही मिनिटे लागतात.\n\n👉 पुढे जाण्यासाठी *Continue* लिहा, किंवा *Agent* लिहा आणि तज्ज्ञ तुम्हाला कॉल करतील.",
     ),
+    # RM nudge to a new-to-bank prospect who dropped off ({name} carries its leading space; blank when unknown)
+    'NL_RM_Nudge': (
+        "Hi{name} 👋 This is {rm}, your relationship manager at *Kotak Mahindra Bank*. Your Personal Loan application is saved — you've already shared {done} of {total} details, so there's nothing to re-enter.\n\n👉 Reply *Continue* to pick up right where you left off.",
+        "नमस्ते{name} 👋 मैं {rm}, *Kotak Mahindra Bank* में आपका रिलेशनशिप मैनेजर। आपका पर्सनल लोन आवेदन सेव है — आप {total} में से {done} जानकारी पहले ही दे चुके हैं, कुछ भी दोबारा भरने की ज़रूरत नहीं।\n\n👉 जहाँ छोड़ा था वहीं से आगे बढ़ने के लिए *Continue* लिखें।",
+        "नमस्कार{name} 👋 मी {rm}, *Kotak Mahindra Bank* मधील तुमचा रिलेशनशिप मॅनेजर. तुमचा पर्सनल लोन अर्ज सेव्ह आहे — तुम्ही {total} पैकी {done} माहिती आधीच दिली आहे, काहीही पुन्हा भरायची गरज नाही.\n\n👉 जिथे थांबलात तिथून पुढे जाण्यासाठी *Continue* लिहा.",
+    ),
+    'NL_RM_Nudge_Start': (
+        "Hi{name} 👋 This is {rm}, your relationship manager at *Kotak Mahindra Bank*. You were looking at a *Kotak Personal Loan* — you can apply right here on WhatsApp in about 3 minutes.\n\n👉 Reply *Continue* to begin.",
+        "नमस्ते{name} 👋 मैं {rm}, *Kotak Mahindra Bank* में आपका रिलेशनशिप मैनेजर। आप *Kotak पर्सनल लोन* देख रहे थे — यहीं WhatsApp पर लगभग 3 मिनट में आवेदन करें।\n\n👉 शुरू करने के लिए *Continue* लिखें।",
+        "नमस्कार{name} 👋 मी {rm}, *Kotak Mahindra Bank* मधील तुमचा रिलेशनशिप मॅनेजर. तुम्ही *Kotak पर्सनल लोन* पाहत होता — इथेच WhatsApp वर सुमारे 3 मिनिटांत अर्ज करा.\n\n👉 सुरू करण्यासाठी *Continue* लिहा.",
+    ),
+    'NL_Welcome_Back': (
+        "Welcome back{name}! 👋 Your application is just as you left it.",
+        "फिर से स्वागत है{name}! 👋 आपका आवेदन वैसा ही है जैसा आपने छोड़ा था।",
+        "पुन्हा स्वागत आहे{name}! 👋 तुमचा अर्ज तुम्ही सोडला तसाच आहे.",
+    ),
+    # Indicative amount in the RM nudge, inserted before its call to action
+    'NL_RM_Nudge_Eligible': (
+        "Based on what you've shared, you could be eligible for up to *{amount}* (indicative, subject to verification).",
+        "आपकी दी गई जानकारी के आधार पर आप *{amount}* तक के लिए पात्र हो सकते हैं (अनुमानित, सत्यापन के अधीन)।",
+        "तुम्ही दिलेल्या माहितीनुसार तुम्ही *{amount}* पर्यंत पात्र असू शकता (अंदाजे, पडताळणीच्या अधीन).",
+    ),
 }
 MESSAGES.update(NEW_LOAN)
+
+# Soft credit check consent: after PAN for a new loan, after loan confirmation for a Top-Up
+BUREAU_CONSENT = {
+    'Bureau_Consent': (
+        "🔒 To show you an offer that fits, may we run a *soft credit check* with TransUnion CIBIL?\n\nIt *doesn't affect your credit score*, and your report is used only for this loan, as per RBI guidelines and the DPDP Act.\n\n1️⃣ Yes, I agree\n2️⃣ Skip for now",
+        "🔒 आपके लिए सही ऑफ़र दिखाने के लिए, क्या हम TransUnion CIBIL से *सॉफ्ट क्रेडिट चेक* कर सकते हैं?\n\nइससे *आपके क्रेडिट स्कोर पर कोई असर नहीं पड़ता*, और आपकी रिपोर्ट RBI दिशानिर्देशों और DPDP अधिनियम के अनुसार केवल इसी लोन के लिए उपयोग होती है।\n\n1️⃣ हाँ, मैं सहमत हूँ\n2️⃣ अभी नहीं",
+        "🔒 तुमच्यासाठी योग्य ऑफर दाखवण्यासाठी, आम्ही TransUnion CIBIL कडून *सॉफ्ट क्रेडिट चेक* करू शकतो का?\n\nयाचा *तुमच्या क्रेडिट स्कोअरवर कोणताही परिणाम होत नाही*, आणि तुमचा अहवाल RBI मार्गदर्शक तत्त्वे व DPDP कायद्यानुसार फक्त याच कर्जासाठी वापरला जातो.\n\n1️⃣ होय, मी सहमत आहे\n2️⃣ आत्ता नको",
+    ),
+    'Bureau_Consent_Given': (
+        "Thank you! ✅ Your soft credit check is running in the background — let's carry on.",
+        "धन्यवाद! ✅ आपका सॉफ्ट क्रेडिट चेक बैकग्राउंड में चल रहा है — चलिए आगे बढ़ते हैं।",
+        "धन्यवाद! ✅ तुमचा सॉफ्ट क्रेडिट चेक पार्श्वभूमीत सुरू आहे — चला पुढे जाऊया.",
+    ),
+    'Bureau_Consent_Skipped': (
+        "No problem 👍 We'll check your credit only when you submit the application. Let's carry on.",
+        "कोई बात नहीं 👍 हम आपका क्रेडिट केवल आवेदन जमा करने पर ही जाँचेंगे। चलिए आगे बढ़ते हैं।",
+        "काही हरकत नाही 👍 तुम्ही अर्ज सबमिट केल्यावरच आम्ही तुमचे क्रेडिट तपासू. चला पुढे जाऊया.",
+    ),
+}
+MESSAGES.update(BUREAU_CONSENT)
 
 # Shortcuts that work at any step (LoanSevaShortcuts): EMI calculator and application status
 SHORTCUTS = {

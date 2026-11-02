@@ -1,0 +1,18 @@
+@import 'c/kotakTheme';
+
+.k-wrap {
+    background: #ffffff;
+    border-radius: 0.5rem;
+    border-top: 3px solid var(--k-red);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    padding: 0.75rem 1rem;
+}
+.k-step {
+    height: 2.25rem;
+    font-size: 0.8125rem;
+}
+.k-note {
+    margin-top: 0.5rem;
+    color: var(--k-maroon);
+    font-weight: 600;
+}

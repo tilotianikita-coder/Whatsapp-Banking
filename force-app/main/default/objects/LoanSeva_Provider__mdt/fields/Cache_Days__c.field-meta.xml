@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cache_Days__c</fullName>
+    <label>Cache Days</label>
+    <description>Days a result for the same PAN is reused instead of calling again (0 = never).</description>
+    <inlineHelpText>Days a result for the same PAN is reused instead of calling again (0 = never).</inlineHelpText>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+</CustomField>

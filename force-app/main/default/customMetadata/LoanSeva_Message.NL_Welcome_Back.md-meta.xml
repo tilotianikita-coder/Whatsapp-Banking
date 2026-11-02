@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>NL Welcome Back</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Welcome back{name}! 👋 Your application is just as you left it.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">फिर से स्वागत है{name}! 👋 आपका आवेदन वैसा ही है जैसा आपने छोड़ा था।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">पुन्हा स्वागत आहे{name}! 👋 तुमचा अर्ज तुम्ही सोडला तसाच आहे.</value>
+    </values>
+</CustomMetadata>

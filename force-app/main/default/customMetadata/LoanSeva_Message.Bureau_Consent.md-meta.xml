@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Bureau Consent</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">🔒 To show you an offer that fits, may we run a *soft credit check* with TransUnion CIBIL?
+
+It *doesn't affect your credit score*, and your report is used only for this loan, as per RBI guidelines and the DPDP Act.
+
+1️⃣ Yes, I agree
+2️⃣ Skip for now</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">🔒 आपके लिए सही ऑफ़र दिखाने के लिए, क्या हम TransUnion CIBIL से *सॉफ्ट क्रेडिट चेक* कर सकते हैं?
+
+इससे *आपके क्रेडिट स्कोर पर कोई असर नहीं पड़ता*, और आपकी रिपोर्ट RBI दिशानिर्देशों और DPDP अधिनियम के अनुसार केवल इसी लोन के लिए उपयोग होती है।
+
+1️⃣ हाँ, मैं सहमत हूँ
+2️⃣ अभी नहीं</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">🔒 तुमच्यासाठी योग्य ऑफर दाखवण्यासाठी, आम्ही TransUnion CIBIL कडून *सॉफ्ट क्रेडिट चेक* करू शकतो का?
+
+याचा *तुमच्या क्रेडिट स्कोअरवर कोणताही परिणाम होत नाही*, आणि तुमचा अहवाल RBI मार्गदर्शक तत्त्वे व DPDP कायद्यानुसार फक्त याच कर्जासाठी वापरला जातो.
+
+1️⃣ होय, मी सहमत आहे
+2️⃣ आत्ता नको</value>
+    </values>
+</CustomMetadata>

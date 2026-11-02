@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LoanSeva_Drop_Point__c</fullName>
+    <label>LoanSeva Drop Point</label>
+    <description>The step the customer was on when they went quiet.</description>
+    <inlineHelpText>The step the customer was on when they went quiet.</inlineHelpText>
+    <type>Text</type>
+    <length>255</length>
+</CustomField>

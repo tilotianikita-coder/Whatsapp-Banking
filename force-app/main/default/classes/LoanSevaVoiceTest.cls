@@ -62,7 +62,7 @@ private class LoanSevaVoiceTest {
 
         j = LoanSevaJourneyService.byId(j.Id);
         System.assertEquals('ABCPP1234K', j.PAN__c);
-        System.assertEquals('email', LoanSevaEngine.awaiting(j), 'the voice note answered the PAN step');
+        System.assertEquals('bureau_consent', LoanSevaEngine.awaiting(j), 'the voice note answered the PAN step; the credit check consent is next');
         System.assertEquals(fileId, j.Last_Voice_File_Id__c);
         System.assert(j.Last_Voice_Note__c.contains(LoanSevaNewLoan.maskPan('ABCPP1234K')), j.Last_Voice_Note__c);
         System.assert(!j.Last_Voice_Note__c.contains('ABCPP1234K'), 'the full PAN is never stored in the note');
@@ -88,7 +88,7 @@ private class LoanSevaVoiceTest {
         new LoanSevaVoice(note(fileId)).execute(null);
         System.assertEquals(callsAfterFirst, mock.calls, 'a redelivered event must not answer the next step');
         Test.stopTest();
-        System.assertEquals('email', LoanSevaEngine.awaiting(LoanSevaJourneyService.byId(j.Id)));
+        System.assertEquals('bureau_consent', LoanSevaEngine.awaiting(LoanSevaJourneyService.byId(j.Id)));
     }
 
     @IsTest
@@ -146,7 +146,7 @@ private class LoanSevaVoiceTest {
     @IsTest
     static void voiceNoteOnTheDocumentStepIsNotADocument() {
         atPanStep();
-        for (String answer : new List<String>{ 'abcpp1234k', 'asha.patil@example.com', 'Pune 411001', '1', 'Infosys', '85k', '0', '1', '3 lakh', '1' }) {
+        for (String answer : new List<String>{ 'abcpp1234k', '1', 'asha.patil@example.com', 'Pune 411001', '1', 'Infosys', '85k', '0', '1', '3 lakh', '1' }) {
             say(answer);
         }
         System.assertEquals('doc_pan', LoanSevaEngine.awaiting(j));

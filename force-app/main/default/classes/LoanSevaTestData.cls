@@ -59,7 +59,8 @@ public class LoanSevaTestData {
         Loan_Journey__c j = startedJourney(mobile);
         j = LoanSevaEngine.verifyCustomer(j, fullName, mobile).journey;
         j = LoanSevaEngine.verifyOtp(j, LoanSevaConfig.get().Demo_OTP__c).journey;
-        return LoanSevaEngine.confirmLoan(j, true).journey;
+        j = LoanSevaEngine.confirmLoan(j, true).journey;
+        return LoanSevaEngine.bureauConsent(j, '1', 1).journey;
     }
 
     /** Verified and fully personalised: Salaried @ Infosys, 1L-2L, home renovation, top option amount. */

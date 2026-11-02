@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Bureau Consent Given</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thank you! ✅ Your soft credit check is running in the background — let's carry on.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद! ✅ आपका सॉफ्ट क्रेडिट चेक बैकग्राउंड में चल रहा है — चलिए आगे बढ़ते हैं।</value>
+    </values>
+    <values>
+        <field>Marathi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद! ✅ तुमचा सॉफ्ट क्रेडिट चेक पार्श्वभूमीत सुरू आहे — चला पुढे जाऊया.</value>
+    </values>
+</CustomMetadata>

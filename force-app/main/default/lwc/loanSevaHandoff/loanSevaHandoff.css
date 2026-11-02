@@ -1,0 +1,46 @@
+@import 'c/kotakTheme';
+
+:host {
+    display: block;
+}
+.k-reason {
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+}
+.k-cols .k-section {
+    min-width: 0;
+}
+.k-answers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+    column-gap: 1.5rem;
+}
+.k-answer {
+    display: grid;
+    grid-template-columns: minmax(6.5rem, 9rem) minmax(0, 1fr) auto;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid #eef1f6;
+    font-size: 0.875rem;
+}
+.k-answer-value {
+    font-weight: 600;
+    color: #1f2937;
+    overflow-wrap: anywhere;
+}
+.k-facts {
+    font-size: 0.875rem;
+}
+.k-fact-value {
+    overflow-wrap: anywhere;
+}
+.k-src-file {
+    border: 1px solid var(--k-navy);
+}
+.k-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LoanSeva_Combined_Score__c</fullName>
+    <label>LoanSeva Combined Score</label>
+    <description>Intent score and credit score combined (average; intent alone until a credit score exists). Sets Rating: 70+ Hot, 40-69 Warm.</description>
+    <inlineHelpText>Intent score and credit score combined (average; intent alone until a credit score exists). Sets Rating: 70+ Hot, 40-69 Warm.</inlineHelpText>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+</CustomField>

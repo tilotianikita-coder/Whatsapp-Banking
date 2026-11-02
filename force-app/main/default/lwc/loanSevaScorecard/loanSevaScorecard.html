@@ -1,122 +1,127 @@
 <template>
-    <lightning-card title="Underwriting Scorecard" icon-name="standard:approval">
-        <div slot="actions">
-            <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" onclick={handleRefresh}></lightning-button-icon>
-        </div>
-        <div class="slds-p-horizontal_medium">
-            <template lwc:if={error}>
-                <div class="slds-text-color_error">{error}</div>
-            </template>
-            <template lwc:if={loaded}>
-                <div class="slds-m-bottom_small">
-                    <span class="slds-text-title_caps slds-m-right_x-small">Recommendation</span>
+    <div class="k-card">
+        <div class="k-head">
+            <div>
+                <div class="k-head-title">Underwriting Scorecard</div>
+                <div class="k-head-sub">Kotak Personal Loan · {productLabel}</div>
+            </div>
+            <div class="k-head-right">
+                <template lwc:if={loaded}>
                     <template lwc:if={isTopUp}>
-                        <span class="slds-badge slds-theme_success">Pre-approved Top-Up</span>
+                        <span class="k-pill k-pill-white">Pre-approved Top-Up</span>
                     </template>
                     <template lwc:elseif={app.Recommendation__c}>
                         <span class={recommendationBadge}>{app.Recommendation__c}</span>
                     </template>
-                    <template lwc:if={underwritingRunning}>
-                        <span class="slds-badge">Underwriting in progress — refresh in a moment</span>
-                    </template>
-                    <template lwc:if={awaitingSubmission}>
-                        <span class="slds-badge">Awaiting submission — the customer hasn't submitted on WhatsApp yet</span>
-                    </template>
-                    <template lwc:if={underwritingError}>
-                        <span class="slds-badge slds-theme_error">Underwriting error</span>
+                </template>
+                <button class="k-refresh" title="Refresh" onclick={handleRefresh}>⟳</button>
+            </div>
+        </div>
+
+        <div class="k-body">
+            <template lwc:if={error}>
+                <div class="k-alert k-alert-error">{error}</div>
+            </template>
+            <template lwc:if={loaded}>
+                <template lwc:if={underwritingRunning}>
+                    <div class="k-alert k-alert-info">Underwriting in progress — refresh in a moment</div>
+                </template>
+                <template lwc:if={awaitingSubmission}>
+                    <div class="k-alert k-alert-warn">Awaiting submission — the customer hasn't submitted on WhatsApp yet</div>
+                </template>
+                <template lwc:if={underwritingError}>
+                    <div class="k-alert k-alert-error">Underwriting error</div>
+                </template>
+
+                <div class="k-tiles">
+                    <template for:each={termTiles} for:item="t">
+                        <div key={t.label} class={t.cls}>
+                            <div class="k-tile-label">{t.label}</div>
+                            <div class="k-tile-value">{t.value}</div>
+                        </div>
                     </template>
                 </div>
 
-                <lightning-layout multiple-rows>
-                    <template for:each={terms} for:item="t">
-                        <lightning-layout-item key={t.label} size="6" medium-device-size="3" padding="around-x-small">
-                            <div class="slds-text-title">{t.label}</div>
-                            <div class="slds-text-body_regular slds-text-title_bold">{t.value}</div>
-                        </lightning-layout-item>
-                    </template>
-                </lightning-layout>
-
                 <template lwc:if={headline}>
-                    <div class="slds-box slds-box_x-small slds-theme_shade slds-m-top_small">
-                        <div class="slds-text-title_bold">{headline}</div>
-                        <div class="slds-text-body_small slds-text-color_weak">{checkTally} · full reports in Credit Review</div>
+                    <div class="k-alert k-alert-info k-headline">
+                        {headline}
+                        <div class="k-alert-sub">{checkTally} · full reports in Credit Review</div>
                     </div>
                 </template>
 
-                <h3 class="slds-text-heading_small slds-m-top_medium slds-m-bottom_x-small">Documents</h3>
-                <template lwc:if={isTopUp}>
-                    <p class="slds-text-color_weak">Not required — KYC is on file from the existing Kotak loan.</p>
-                </template>
-                <template lwc:elseif={hasDocuments}>
-                    <ul>
-                        <template for:each={documents} for:item="d">
-                            <li key={d.Id} class="slds-m-bottom_x-small slds-grid slds-grid_vertical-align-center">
-                                <div class="slds-col slds-truncate">
-                                    <lightning-icon icon-name="doctype:image" size="x-small" class="slds-m-right_x-small"></lightning-icon>
-                                    <strong>{d.Document_Type__c}</strong>&nbsp;
-                                    <template lwc:if={d.url}><a href={d.url} target="_blank">{d.File_Name__c}</a></template>
-                                    <template lwc:else>{d.File_Name__c}</template>
-                                    <div class="slds-text-body_small slds-text-color_weak">
-                                        <span class={d.statusClass}>{d.Status__c}</span> · {d.sourceLabel}
+                <div class="k-section">
+                    <div class="k-section-title">Documents</div>
+                    <template lwc:if={isTopUp}>
+                        <p class="k-muted">Not required — KYC is on file from the existing Kotak loan.</p>
+                    </template>
+                    <template lwc:elseif={hasDocuments}>
+                        <ul class="k-docs">
+                            <template for:each={documents} for:item="d">
+                                <li key={d.Id} class="k-doc">
+                                    <div class="k-doc-main">
+                                        <lightning-icon icon-name="doctype:image" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                                        <div class="k-doc-text">
+                                            <div>
+                                                <strong>{d.Document_Type__c}</strong>&nbsp;
+                                                <template lwc:if={d.url}><a href={d.url} target="_blank" class="k-link">{d.File_Name__c}</a></template>
+                                                <template lwc:else>{d.File_Name__c}</template>
+                                            </div>
+                                            <div class="k-doc-meta"><span class={d.statusClass}>{d.Status__c}</span> · {d.sourceLabel}</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <lightning-button-menu alternative-text="Document actions" icon-size="x-small" menu-alignment="right"
-                                    data-id={d.Id} onselect={handleDocumentStatus}>
-                                    <lightning-menu-item value="Verified" label="Mark verified"></lightning-menu-item>
-                                    <lightning-menu-item value="Rejected" label="Reject"></lightning-menu-item>
-                                    <lightning-menu-item value="Received" label="Reset to received"></lightning-menu-item>
-                                </lightning-button-menu>
-                            </li>
-                        </template>
-                    </ul>
-                </template>
-                <template lwc:else>
-                    <p class="slds-text-color_weak">No documents shared yet.</p>
-                </template>
+                                    <lightning-button-menu alternative-text="Document actions" icon-size="x-small" menu-alignment="right"
+                                        data-id={d.Id} onselect={handleDocumentStatus}>
+                                        <lightning-menu-item value="Verified" label="Mark verified"></lightning-menu-item>
+                                        <lightning-menu-item value="Rejected" label="Reject"></lightning-menu-item>
+                                        <lightning-menu-item value="Received" label="Reset to received"></lightning-menu-item>
+                                    </lightning-button-menu>
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                    <template lwc:else>
+                        <p class="k-muted">No documents shared yet.</p>
+                    </template>
 
-                <div lwc:if={showUpload} class="slds-box slds-box_x-small slds-m-top_small">
-                    <lightning-combobox label="Upload a document" placeholder="Document type" options={documentTypes}
-                        value={uploadType} onchange={handleUploadType}></lightning-combobox>
-                    <lightning-file-upload label="Files" record-id={recordId} multiple disabled={uploadDisabled}
-                        accept={acceptedFormats} onuploadfinished={handleUploadFinished} class="slds-m-top_x-small"></lightning-file-upload>
+                    <div lwc:if={showUpload} class="k-upload">
+                        <lightning-combobox label="Upload a document" placeholder="Document type" options={documentTypes}
+                            value={uploadType} onchange={handleUploadType}></lightning-combobox>
+                        <lightning-file-upload label="Files" record-id={recordId} multiple disabled={uploadDisabled}
+                            accept={acceptedFormats} onuploadfinished={handleUploadFinished} class="slds-m-top_x-small"></lightning-file-upload>
+                    </div>
                 </div>
 
                 <template lwc:if={sanctioned}>
-                    <div class="slds-box slds-m-top_medium">
-                        <div class="slds-text-heading_small slds-text-color_success">Sanctioned — loan account {data.maskedLan}</div>
-                        <div class="slds-text-body_small slds-text-color_weak">{lanStatus} · disbursed after the RM callback and e-sign</div>
+                    <div class="k-section k-alert k-alert-success">
+                        Sanctioned — loan account {data.maskedLan}
+                        <div class="k-alert-sub">{lanStatus} · disbursed after the RM callback and e-sign</div>
                     </div>
                 </template>
 
                 <template lwc:if={decided}>
-                    <div class="slds-box slds-m-top_medium">
-                        <template lwc:if={approved}>
-                            <div class="slds-text-heading_small slds-text-color_success">Approved — loan account {data.maskedLan}</div>
-                        </template>
-                        <template lwc:elseif={referred}>
-                            <div class="slds-text-heading_small">Referred — more details or documents needed</div>
-                        </template>
-                        <template lwc:else>
-                            <div class="slds-text-heading_small slds-text-color_error">Rejected</div>
-                        </template>
-                        <div class="slds-text-body_small slds-text-color_weak">
+                    <div class={decisionClass}>
+                        <template lwc:if={approved}>Approved — loan account {data.maskedLan}</template>
+                        <template lwc:elseif={referred}>Referred — more details or documents needed</template>
+                        <template lwc:else>Rejected</template>
+                        <div class="k-alert-sub">
                             by {decidedBy} · <lightning-formatted-date-time value={app.Decision_At__c} year="numeric" month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
                         </div>
-                        <template lwc:if={app.Decision_Notes__c}><p class="slds-m-top_x-small">{app.Decision_Notes__c}</p></template>
+                        <template lwc:if={app.Decision_Notes__c}><div class="k-alert-sub">{app.Decision_Notes__c}</div></template>
                     </div>
                 </template>
 
                 <template lwc:if={canDecide}>
-                    <div class="slds-m-top_medium">
-                        <div class="slds-m-top_small">
-                            <lightning-button variant="success" label="Approve &amp; create LAN" icon-name="utility:check" onclick={handleApprove} disabled={approveDisabled} class="slds-m-right_x-small"></lightning-button>
-                            <lightning-button variant="destructive" label="Reject" icon-name="utility:close" onclick={handleReject} disabled={busy} class="slds-m-right_x-small"></lightning-button>
-                            <lightning-button label="Re-run underwriting" icon-name="utility:refresh" onclick={handleRerun} disabled={busy}></lightning-button>
+                    <div class="k-section">
+                        <div class="k-section-title">RM decision</div>
+                        <div class="k-actions">
+                            <button class="k-btn-navy" onclick={handleApprove} disabled={approveDisabled}>✓ Approve &amp; create LAN</button>
+                            <button class="k-btn" onclick={handleReject} disabled={busy}>✕ Reject</button>
+                            <button class="k-btn-ghost" onclick={handleRerun} disabled={busy}>⟳ Re-run underwriting</button>
                         </div>
                     </div>
                 </template>
             </template>
             <template lwc:if={busy}><lightning-spinner alternative-text="Working" size="small"></lightning-spinner></template>
         </div>
-    </lightning-card>
+    </div>
 </template>

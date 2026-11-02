@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Callout__c</fullName>
+    <label>Makes Callouts</label>
+    <description>The class calls out over HTTP: it runs only in the qualification job, never inline.</description>
+    <inlineHelpText>The class calls out over HTTP: it runs only in the qualification job, never inline.</inlineHelpText>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+</CustomField>

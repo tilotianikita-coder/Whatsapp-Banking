@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LoanSeva_Credit_Score__c</fullName>
+    <label>LoanSeva Credit Score</label>
+    <description>Credit score out of 100 from the qualification gates (bureau, FOIR, employment, fraud, banking), scaled over the data available.</description>
+    <inlineHelpText>Credit score out of 100 from the qualification gates (bureau, FOIR, employment, fraud, banking), scaled over the data available.</inlineHelpText>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+</CustomField>

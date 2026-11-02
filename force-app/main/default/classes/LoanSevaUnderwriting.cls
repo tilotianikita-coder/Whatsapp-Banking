@@ -4,6 +4,8 @@
  * made: every check is deterministic so a demo can show each outcome on purpose (demo PANs in SETUP_STEPS.md),
  * and each one stores a full mock provider report (LoanSevaReport) for the RM. The provider names only label
  * what a real integration would call, each behind its own Named Credential.
+ * Providers come from LoanSevaProviders (mock or live, per LoanSeva_Provider__mdt). A CIBIL soft pull taken during the
+ * WhatsApp journey (LoanSevaQualification) is reused instead of pulling again.
  * Recommendation: any Fail -> Decline; any Refer or Pending -> Refer; else Approve. The RM makes the decision.
  */
 public with sharing class LoanSevaUnderwriting implements Queueable {
@@ -52,7 +54,8 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
                 docs.add(d.Document_Type__c);
             }
             List<Underwriting_Check__c> checks = new List<Underwriting_Check__c>{
-                panCheck(app), bureauCheck(app), bankStatementCheck(app, docs), employmentCheck(app, docs), policyCheck(app), dedupeCheck(app)
+                panCheck(app), bureau(app), LoanSevaProviders.bankStatements().analyse(app, docs),
+                LoanSevaProviders.employment().verify(app, docs), policyCheck(app), LoanSevaProviders.fraud().screen(app)
             };
             Datetime now = Datetime.now();
             Set<String> outcomes = new Set<String>();
@@ -61,8 +64,10 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
                 Underwriting_Check__c c = checks[i];
                 c.Loan_Application__c = app.Id;
                 c.Sort_Order__c = i + 1;
-                c.Run_At__c = now;
-                c.Request_Id__c = c.Provider__c.left(4).toUpperCase().replaceAll('[^A-Z]', '') + '-' + now.formatGmt('yyMMddHHmmss') + '-' + String.valueOf(i + 1).leftPad(2, '0');
+                if (c.Run_At__c == null) {
+                    c.Run_At__c = now;
+                    c.Request_Id__c = c.Provider__c.left(4).toUpperCase().replaceAll('[^A-Z]', '') + '-' + now.formatGmt('yyMMddHHmmss') + '-' + String.valueOf(i + 1).leftPad(2, '0');
+                }
                 c.Summary__c = c.Summary__c.abbreviate(255);
                 outcomes.add(c.Result__c);
                 lines.add(icon(c.Result__c) + ' ' + c.Check__c + ': ' + c.Result__c + ' - ' + c.Summary__c);
@@ -81,6 +86,20 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
             update new Loan_Application__c(Id = applicationId, Underwriting_Status__c = 'Error',
                 Underwriting_Summary__c = ('Underwriting failed: ' + e.getMessage()).abbreviate(32000));
         }
+    }
+
+    /** The soft pull taken during the journey, if it is recent enough (LoanSeva_Provider__mdt.CIBIL Cache_Days__c); else a new pull. */
+    private static Underwriting_Check__c bureau(Loan_Application__c app) {
+        Qualification_Check__c pulled = LoanSevaQualification.cachedBureau(app.PAN__c);
+        if (pulled == null) {
+            return LoanSevaProviders.bureau().pull(app);
+        }
+        return new Underwriting_Check__c(
+            Check__c = 'Credit Bureau', Provider__c = pulled.Provider__c, Result__c = pulled.Result__c, Score__c = pulled.Score__c,
+            Summary__c = pulled.Summary__c, Report_Data__c = pulled.Report_Data__c, Run_At__c = pulled.Run_At__c, Request_Id__c = pulled.Request_Id__c,
+            Details__c = 'Soft pull reused from the WhatsApp journey (' + pulled.Run_At__c.format('d MMM yyyy', 'Asia/Kolkata') + ', consent given then); no second enquiry\n'
+                + pulled.Details__c
+        );
     }
 
     private static String icon(String result) {
@@ -152,8 +171,7 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
      * CIBIL: the PAN's last character sets the demo band: Z -> 630 (fail), R -> 695 (refer),
      * otherwise 740-850 from the PAN digits (pass at Min_Cibil_Score__c and above).
      */
-    @TestVisible
-    private static Underwriting_Check__c bureauCheck(Loan_Application__c app) {
+    public static Underwriting_Check__c bureauCheck(Loan_Application__c app) {
         LoanSeva_Config__mdt cfg = LoanSevaConfig.get();
         String pan = app.PAN__c == null ? '' : app.PAN__c.toUpperCase();
         Integer digits = panDigits(pan);
@@ -247,14 +265,13 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
             r.flag(LoanSevaReport.GOOD, 'No missed payment in 24 months across ' + (active + closed) + ' accounts')
                 .flag(LoanSevaReport.GOOD, 'Card utilisation ' + utilisation + '% and ' + historyYears + ' years of credit history');
         }
-        String summary = 'CIBIL ' + score + (result == 'Pass' ? ' - clean bureau record' : result == 'Refer' ? ' - below ' + cfg.Min_Cibil_Score__c + ', recent 30 DPD' : ' - below ' + cfg.Decline_Cibil_Score__c + ', write-off on record');
+        String summary = 'CIBIL ' + score + (result == 'Pass' ? ' - clean bureau record' : result == 'Refer' ? ' - below ' + cfg.Min_Cibil_Score__c.intValue() + ', recent 30 DPD' : ' - below ' + cfg.Decline_Cibil_Score__c.intValue() + ', write-off on record');
         return check('Credit Bureau', 'TransUnion CIBIL (mock)', result, score, summary, details, r);
     }
 
     // ------------------------------------------------------------------ Perfios
     /** Perfios: needs the bank statement; verified income is 98% of declared, no bounces. */
-    @TestVisible
-    private static Underwriting_Check__c bankStatementCheck(Loan_Application__c app, Set<String> docs) {
+    public static Underwriting_Check__c bankStatementCheck(Loan_Application__c app, Set<String> docs) {
         Decimal income = app.Monthly_Income__c == null ? 0 : app.Monthly_Income__c;
         String provider = 'Perfios (mock)';
         if (!docs.contains('Bank Statement')) {
@@ -330,8 +347,7 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
 
     // ------------------------------------------------------------------ EPFO / GST
     /** Category A employers pass; other salaried need salary slips; self-employed need ITR / GST review. */
-    @TestVisible
-    private static Underwriting_Check__c employmentCheck(Loan_Application__c app, Set<String> docs) {
+    public static Underwriting_Check__c employmentCheck(Loan_Application__c app, Set<String> docs) {
         String company = app.Company_Name__c == null ? '' : app.Company_Name__c;
         String provider = 'Karza / EPFO (mock)';
         Decimal income = app.Monthly_Income__c == null ? 0 : app.Monthly_Income__c;
@@ -456,8 +472,7 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
 
     // ------------------------------------------------------------------ Hunter
     /** The same PAN on another application with a different mobile, or a disposable email, is referred. */
-    @TestVisible
-    private static Underwriting_Check__c dedupeCheck(Loan_Application__c app) {
+    public static Underwriting_Check__c dedupeCheck(Loan_Application__c app) {
         List<Loan_Application__c> others = String.isBlank(app.PAN__c) ? new List<Loan_Application__c>() : [
             SELECT Name, Mobile__c FROM Loan_Application__c
             WHERE PAN__c = :app.PAN__c AND Id != :app.Id AND Mobile__c != :app.Mobile__c LIMIT 5
@@ -469,7 +484,8 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
         for (Loan_Application__c o : others) {
             names.add(o.Name);
         }
-        Integer hits = (others.isEmpty() ? 0 : 1) + (disposable ? 1 : 0);
+        Boolean negative = String.isNotBlank(app.PAN__c) && app.PAN__c.toUpperCase().right(1) == 'X';
+        Integer hits = (others.isEmpty() ? 0 : 1) + (disposable ? 1 : 0) + (negative ? 1 : 0);
         Integer score = 6 + rng.next(14) + 35 * hits;
         List<List<String>> rules = new List<List<String>>{
             new List<String>{ 'PAN-MOB-01', 'Same PAN on another application with a different mobile', others.isEmpty() ? 'Clear' : 'Hit: ' + String.join(names, ', ') },
@@ -482,17 +498,17 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
         };
         List<List<String>> watchlists = new List<List<String>>{
             new List<String>{ 'RBI wilful defaulters (CRILC)', 'No match' },
-            new List<String>{ 'Kotak internal negative list', 'No match' },
+            new List<String>{ 'Kotak internal negative list', negative ? 'Match: confirmed fraud (demo)' : 'No match' },
             new List<String>{ 'UN / OFAC sanctions', 'No match' },
             new List<String>{ 'Politically exposed persons', 'No match' }
         };
-        List<String> details = new List<String>{ 'Internal dedupe on PAN and mobile', 'Fraud / negative list: no match' };
+        List<String> details = new List<String>{ 'Internal dedupe on PAN and mobile', 'Fraud / negative list: ' + (negative ? 'match' : 'no match') };
         LoanSevaReport r = new LoanSevaReport()
             .fact('Hunter fraud score', score + ' / 100', hits == 0 ? LoanSevaReport.GOOD : LoanSevaReport.WARN)
             .fact('Risk band', hits == 0 ? 'Low' : 'Medium', hits == 0 ? LoanSevaReport.GOOD : LoanSevaReport.WARN)
             .fact('Rules evaluated', rules.size())
             .fact('Rules hit', hits, hits == 0 ? LoanSevaReport.GOOD : LoanSevaReport.WARN)
-            .fact('Watchlists', 'No match on ' + watchlists.size(), LoanSevaReport.GOOD)
+            .fact('Watchlists', negative ? 'Match on Kotak internal negative list' : 'No match on ' + watchlists.size(), negative ? LoanSevaReport.BAD : LoanSevaReport.GOOD)
             .table('Fraud rules', new List<String>{ 'Rule', 'Description', 'Result' }, rules)
             .table('Watchlist screening', new List<String>{ 'List', 'Result' }, watchlists);
         if (!others.isEmpty()) {
@@ -502,6 +518,10 @@ public with sharing class LoanSevaUnderwriting implements Queueable {
         if (disposable) {
             details.add('Disposable email domain: ' + domain);
             r.flag(LoanSevaReport.WARN, 'Email uses a disposable domain (' + domain + ') - ask for a permanent email');
+        }
+        if (negative) {
+            r.flag(LoanSevaReport.BAD, 'PAN is on the Kotak internal negative list - do not proceed');
+            return check('Dedupe & Fraud', 'Hunter (mock)', 'Fail', hits, 'PAN on the internal negative list (fraud)', details, r);
         }
         if (hits > 0) {
             return check('Dedupe & Fraud', 'Hunter (mock)', 'Refer', hits,

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RM_Username__c</fullName>
+    <label>RM Username</label>
+    <description>Relationship manager who owns leads from this region. Blank = the default RM (LoanSeva Config).</description>
+    <inlineHelpText>Relationship manager who owns leads from this region. Blank = the default RM (LoanSeva Config).</inlineHelpText>
+    <type>Text</type>
+    <length>120</length>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+</CustomField>

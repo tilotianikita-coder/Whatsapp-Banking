@@ -18,6 +18,15 @@ public with sharing class LoanSevaEngine {
 
     // ------------------------------------------------------------------ Start / menu
     public static Result start(Loan_Journey__c j) {
+        if (comebackAfterDrop(j)) {
+            // a prospect back after the RM's nudge: straight to the step they left, nothing re-entered
+            LoanSevaLeadService.markResumed(j);
+            Result r = resume(j);
+            r.message = LoanSevaI18n.msg('NL_Welcome_Back', j.Language__c, new Map<String, Object>{
+                'name' => String.isBlank(LoanSevaJourneyService.firstName(j)) ? '' : ' ' + LoanSevaJourneyService.firstName(j)
+            }) + '\n\n' + r.message;
+            return r;
+        }
         LoanSevaJourneyService.advance(j, 'Start');
         // A resumed journey is mid-step, so the next 1/2/3 must mean the menu shown here, not a slot or answer
         j.Menu_Pending__c = awaiting(j) != 'menu';
@@ -37,6 +46,13 @@ public with sharing class LoanSevaEngine {
         LoanSevaJourneyService.touch(j);
         update j;
         return result(j, LoanSevaI18n.msg('Resume_Prompt', j.Language__c) + '\n' + pendingPrompt(j, false));
+    }
+
+    /** A new-to-bank application that dropped off mid-way (a Lead for the RM) and the customer is back. */
+    private static Boolean comebackAfterDrop(Loan_Journey__c j) {
+        String state = awaiting(j);
+        return j.Status__c == LoanSevaJourneyService.STATUS_DROPPED && newToBank(j) && LoanSevaJourneyService.isNewLoan(j)
+            && state != 'identity' && state != 'done' && state != 'handoff';
     }
 
     /** No customer record on this number: new to Kotak, so there is no Top-Up to offer and option 1 is the application. */
@@ -244,9 +260,51 @@ public with sharing class LoanSevaEngine {
         }
         j.Loan_Confirmed__c = true;
         LoanSevaJourneyService.advance(j, 'Personalise');
-        String message = LoanSevaI18n.msg('Personalise_Intro', lang) + '\n\n' + nextPersonaliseQuestion(j);
+        String message = awaiting(j) == 'bureau_consent'
+            ? LoanSevaI18n.msg('Bureau_Consent', lang)
+            : LoanSevaI18n.msg('Personalise_Intro', lang) + '\n\n' + nextPersonaliseQuestion(j);
         update j;
         return result(j, message);
+    }
+
+    // ------------------------------------------------------------------ Bureau consent
+    /** True once the journey should ask for the soft credit check consent: after PAN (new loan) or loan confirmation (Top-Up). */
+    public static Boolean bureauConsentDue(Loan_Journey__c j) {
+        if (String.isNotBlank(j.Bureau_Consent__c) || j.Offer_Accepted__c == true || j.Submitted_At__c != null || j.OTP_Verified__c != true) {
+            return false;
+        }
+        if (LoanSevaJourneyService.isNewLoan(j)) {
+            return LoanSevaNewLoan.isAnswered(j, 'dob') && LoanSevaNewLoan.isAnswered(j, 'pan');
+        }
+        return j.Existing_Loan__c != null && j.Loan_Confirmed__c == true;
+    }
+
+    /**
+     * "1 Yes, I agree" or "2 Skip for now" to the soft credit check. Either way the qualification gates run in the
+     * background (a skip leaves the bureau gate Skipped, pulled at submission instead) and the questions carry on.
+     */
+    public static Result bureauConsent(Loan_Journey__c j, String t, Integer choice) {
+        String lang = j.Language__c;
+        String l = t == null ? '' : t.toLowerCase();
+        Boolean given = choice == 1 || isYes(t) || l.contains('agree');
+        if (!given && choice != 2 && !isNo(t) && !l.contains('skip') && !l.contains('later')) {
+            return faqOrPrompt(j, t);
+        }
+        j.Bureau_Consent__c = given ? LoanSevaQualification.CONSENT_GIVEN : LoanSevaQualification.CONSENT_SKIPPED;
+        j.Bureau_Consent_At__c = Datetime.now();
+        LoanSevaJourneyService.touch(j);
+        update j;
+        LoanSevaQualification.start(j);
+        String message = LoanSevaI18n.msg(given ? 'Bureau_Consent_Given' : 'Bureau_Consent_Skipped', lang);
+        if (pendingField(j) == null) {
+            Result r = offer(j, null, null);
+            r.message = message + '\n\n' + r.message;
+            return r;
+        }
+        if (!LoanSevaJourneyService.isNewLoan(j)) {
+            message += '\n\n' + LoanSevaI18n.msg('Personalise_Intro', lang);
+        }
+        return result(j, message + '\n\n' + nextPersonaliseQuestion(j));
     }
 
     // ------------------------------------------------------------------ Personalise
@@ -277,10 +335,18 @@ public with sharing class LoanSevaEngine {
             return r;
         }
         LoanSevaJourneyService.touch(j);
+        if (bureauConsentDue(j)) {
+            update j;
+            return result(j, LoanSevaI18n.msg('Bureau_Consent', lang));
+        }
         if (pendingField(j) == null) {
             j.Personalised_At__c = Datetime.now();
             update j;
-            return offer(j, null, null);
+            Result r = offer(j, null, null);
+            if (LoanSevaJourneyService.isNewLoan(j)) {
+                LoanSevaQualification.start(r.journey);
+            }
+            return r;
         }
         String next = nextPersonaliseQuestion(j);
         update j;
@@ -816,6 +882,9 @@ public with sharing class LoanSevaEngine {
      */
     public static Result reply(Loan_Journey__c j, String text) {
         String t = text == null ? '' : text.trim();
+        if (comebackAfterDrop(j) && CONTINUE_WORDS.matcher(t).matches()) {
+            return start(j);
+        }
         String state = awaiting(j);
         Integer choice = choiceNumber(t);
         if (j.Menu_Pending__c == true) {
@@ -904,6 +973,9 @@ public with sharing class LoanSevaEngine {
             when 'employment', 'company', 'income', 'purpose', 'amount', 'dob', 'pan', 'email', 'pincode', 'obligations' {
                 return personalise(j, t);
             }
+            when 'bureau_consent' {
+                return bureauConsent(j, t, choice);
+            }
             when 'doc_pan', 'doc_bank', 'doc_salary' {
                 return LoanSevaNewLoan.document(j, t);
             }
@@ -983,6 +1055,10 @@ public with sharing class LoanSevaEngine {
         '(?i).*(\\b(differ\\w*|difference|vs|versus|compare\\w*|comparison|better|than)\\b|अंतर|फर्क|फ़र्क|फरक|तुलना).*');
 
     /** "I need a loan", "looking for a personal loan", "mujhe loan chahiye", लोन चाहिए, कर्ज हवे: any loan, for someone new to Kotak. */
+    /** The reply to a nudge: "Continue", "Continue Here!", "resume", "haan", जारी रखें, सुरू करा. */
+    private static final Pattern CONTINUE_WORDS = Pattern.compile(
+        '(?iu)^\\W*(continue( here)?|resume|carry on|go on|start|yes|ok|okay|haan?|ha|जारी रखें|जारी|आगे बढ़ें|हाँ|हां|सुरू करा|पुढे|हो)\\W*$'
+    );
     private static final Pattern WANTS_LOAN = Pattern.compile(
         '(?i).*(\\b(want|need|looking for|get|take|avail|interested in)\\b.*\\b(loan|pl)\\b|\\b(loan|pl)\\b.*\\b(chahiye|chahie|chaiye|lena|leni|hava|have|pahije)\\b'
         + '|लोन चाहिए|लोन लेना|लोन हवे|लोन हवा|लोन पाहिजे|कर्ज चाहिए|कर्ज हवे|कर्ज पाहिजे).*');
@@ -1147,7 +1223,7 @@ public with sharing class LoanSevaEngine {
     /** The question the customer should answer next, given where the journey is. */
     /**
      * What the journey is waiting for next; the agent routes on this rather than guessing from the text.
-     * menu, identity, otp, loan_confirm, employment, company, income, purpose, amount, offer_decision,
+     * menu, identity, otp, loan_confirm, bureau_consent, employment, company, income, purpose, amount, offer_decision,
      * callback, feedback_csat, feedback_resolution, feedback_comment, done, handoff; apply_offer when no
      * pre-approved offer was found. New-loan journeys: see LoanSevaNewLoan.awaiting.
      */
@@ -1172,6 +1248,9 @@ public with sharing class LoanSevaEngine {
         }
         if (!j.Loan_Confirmed__c) {
             return 'loan_confirm';
+        }
+        if (bureauConsentDue(j)) {
+            return 'bureau_consent';
         }
         String field = pendingField(j);
         if (field != null) {
@@ -1213,6 +1292,9 @@ public with sharing class LoanSevaEngine {
         }
         if (!j.Loan_Confirmed__c) {
             return LoanSevaI18n.msg('Loan_Confirm_Reprompt', lang);
+        }
+        if (bureauConsentDue(j)) {
+            return LoanSevaI18n.msg('Bureau_Consent', lang);
         }
         String field = pendingField(j);
         if (field != null) {

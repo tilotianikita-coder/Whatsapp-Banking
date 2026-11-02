@@ -1,0 +1,15 @@
+<template>
+    <div class="k-wrap">
+        <template lwc:if={error}>
+            <div class="k-note">{error}</div>
+        </template>
+        <div class="k-path" role="list">
+            <template for:each={steps} for:item="s">
+                <div key={s.key} class={s.itemClass} title={s.label} role="listitem">{s.title}</div>
+            </template>
+        </div>
+        <template lwc:if={note}>
+            <div class="k-note">{note}</div>
+        </template>
+    </div>
+</template>

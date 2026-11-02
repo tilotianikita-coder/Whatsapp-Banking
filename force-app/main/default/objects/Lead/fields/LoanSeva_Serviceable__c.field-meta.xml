@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LoanSeva_Serviceable__c</fullName>
+    <label>LoanSeva Serviceable</label>
+    <description>The PIN code is in a region Kotak serves for Personal Loans; non-serviceable leads get no RM task.</description>
+    <inlineHelpText>The PIN code is in a region Kotak serves for Personal Loans; non-serviceable leads get no RM task.</inlineHelpText>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+</CustomField>

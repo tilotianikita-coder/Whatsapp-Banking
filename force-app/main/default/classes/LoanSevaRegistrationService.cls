@@ -27,8 +27,11 @@ public with sharing class LoanSevaRegistrationService {
 
     public static void handleEvents(List<LoanSeva_Event__e> events) {
         List<Registration> regs = new List<Registration>();
+        Set<Id> converts = new Set<Id>();
         for (LoanSeva_Event__e e : events) {
-            if (e.Event_Type__c == EVENT_REGISTER) {
+            if (e.Event_Type__c == LoanSevaLeadService.EVENT_CONVERT && String.isNotBlank(e.Source__c)) {
+                converts.add(e.Source__c);
+            } else if (e.Event_Type__c == EVENT_REGISTER) {
                 Registration r = new Registration();
                 r.mobile = e.Mobile__c;
                 r.name = e.Customer_Name__c;
@@ -39,6 +42,9 @@ public with sharing class LoanSevaRegistrationService {
             }
         }
         register(regs);
+        if (!converts.isEmpty()) {
+            LoanSevaLeadService.convertJourneys(converts);
+        }
     }
 
     /** Returns journeys by mobile. Invalid mobiles and missing consent are skipped. */

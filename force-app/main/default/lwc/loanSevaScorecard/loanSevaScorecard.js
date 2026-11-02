@@ -10,12 +10,12 @@ import addDocuments from '@salesforce/apex/LoanSevaDecisionService.addDocuments'
 import setDocumentStatus from '@salesforce/apex/LoanSevaDecisionService.setDocumentStatus';
 
 const RECOMMENDATION_BADGE = {
-    Approve: 'slds-badge slds-theme_success',
-    Refer: 'slds-badge slds-theme_warning',
-    Decline: 'slds-badge slds-theme_error'
+    Approve: 'k-pill k-pill-green',
+    Refer: 'k-pill k-pill-amber',
+    Decline: 'k-pill k-pill-red'
 };
 const NEW_LOAN = 'New Loan';
-const DOCUMENT_STATUS_CLASS = { Verified: 'slds-text-color_success', Rejected: 'slds-text-color_error' };
+const DOCUMENT_STATUS_CLASS = { Verified: 'k-pill k-pill-green', Rejected: 'k-pill k-pill-bad', Received: 'k-pill k-pill-grey' };
 const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
 
 export default class LoanSevaScorecard extends LightningElement {
@@ -82,7 +82,7 @@ export default class LoanSevaScorecard extends LightningElement {
     }
 
     get recommendationBadge() {
-        return RECOMMENDATION_BADGE[this.app.Recommendation__c] || 'slds-badge';
+        return RECOMMENDATION_BADGE[this.app.Recommendation__c] || 'k-pill k-pill-white';
     }
 
     /** Underwriting starts when a new loan is submitted; before that the customer is still on WhatsApp. */
@@ -152,6 +152,19 @@ export default class LoanSevaScorecard extends LightningElement {
 
     get memo() {
         return this.data ? this.data.memo : null;
+    }
+
+    /** The terms as tiles; the amount is the navy headline tile. */
+    get termTiles() {
+        return this.terms.map((t, i) => ({ ...t, cls: i === 0 ? 'k-tile k-tile-main' : 'k-tile' }));
+    }
+
+    get productLabel() {
+        return this.isTopUp ? 'Top-Up' : 'New loan';
+    }
+
+    get decisionClass() {
+        return 'k-section k-alert ' + (this.approved ? 'k-alert-success' : this.referred ? 'k-alert-warn' : 'k-alert-error');
     }
 
     get headline() {

@@ -1,0 +1,106 @@
+<template>
+    <template lwc:if={error}>
+        <div class="k-card"><div class="k-body"><div class="k-alert k-alert-error">{error}</div></div></div>
+    </template>
+    <template lwc:if={empty}>
+        <div class="k-card">
+            <div class="k-head">
+                <div>
+                    <div class="k-head-title">LoanSeva handoff</div>
+                    <div class="k-head-sub">No LoanSeva journey for this chat</div>
+                </div>
+                <div class="k-head-right">
+                    <button class="k-refresh" title="Refresh" onclick={handleRefresh}>⟳</button>
+                </div>
+            </div>
+            <div class="k-body k-muted">The customer's journey, answers and offer show here once they chat with LoanSeva on WhatsApp.</div>
+        </div>
+    </template>
+    <template lwc:if={show}>
+        <div class="k-card">
+            <div class="k-head">
+                <div>
+                    <div class="k-head-title">LoanSeva handoff</div>
+                    <div class="k-head-sub">{subtitle}</div>
+                </div>
+                <div class="k-head-right">
+                    <span class={customerPill}>{customerLabel}</span>
+                    <button class="k-refresh" title="Refresh" onclick={handleRefresh}>⟳</button>
+                </div>
+            </div>
+
+            <div class="k-body">
+                <template lwc:if={reasonLine}>
+                    <div class="k-alert k-alert-warn k-reason">🙋 Asked for a person: {reasonLine}</div>
+                </template>
+
+                <div class="k-cols">
+                <div class="k-section">
+                    <div class="k-section-title">Customer</div>
+                    <div class="k-facts">
+                        <template for:each={journeyFacts} for:item="f">
+                            <div key={f.label} class="k-fact-label">{f.label}</div>
+                            <div key={f.valueKey} class="k-fact-value">{f.value}</div>
+                        </template>
+                    </div>
+                </div>
+
+                <template lwc:if={hasLoan}>
+                    <div class="k-section">
+                        <div class="k-section-title">Kotak relationship</div>
+                        <div class="k-facts">
+                            <template for:each={loanFacts} for:item="f">
+                                <div key={f.label} class="k-fact-label">{f.label}</div>
+                                <div key={f.valueKey} class="k-fact-value">{f.value}</div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+                </div>
+
+                <template lwc:if={hasAnswers}>
+                    <div class="k-section">
+                        <div class="k-section-title">{answersTitle}</div>
+                        <div class="k-answers">
+                        <template for:each={answerRows} for:item="a">
+                            <div key={a.label} class="k-answer">
+                                <span class="k-fact-label">{a.label}</span>
+                                <span class="k-answer-value">{a.value}</span>
+                                <span class={a.cls}>{a.source}</span>
+                            </div>
+                        </template>
+                        </div>
+                    </div>
+                </template>
+
+                <div class="k-cols">
+                <template lwc:if={hasOffer}>
+                    <div class="k-section">
+                        <div class="k-section-title">Indicative offer</div>
+                        <div class="k-alert k-alert-info">{offerLine}</div>
+                    </div>
+                </template>
+                <template lwc:if={creditLine}>
+                    <div class="k-section">
+                        <div class="k-section-title">Soft credit check</div>
+                        <div class="k-fact-value">{creditLine}</div>
+                    </div>
+                </template>
+                </div>
+                <template lwc:if={data.questionsAsked}>
+                    <div class="k-section">
+                        <div class="k-section-title">Questions asked on WhatsApp</div>
+                        <div class="k-list k-muted">{data.questionsAsked}</div>
+                    </div>
+                </template>
+
+                <div class="k-links">
+                    <a class="k-link" data-id={data.journeyId} onclick={openRecord}>Open journey {data.journeyName}</a>
+                    <template lwc:if={customerRecordId}>
+                        <a class="k-link" data-id={customerRecordId} onclick={openRecord}>Open customer</a>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

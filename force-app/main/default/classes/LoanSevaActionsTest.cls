@@ -57,6 +57,12 @@ private class LoanSevaActionsTest {
         confirm.journeyId = jid;
         confirm.confirmed = true;
         r = LoanSevaConfirmLoanAction.run(new List<LoanSevaConfirmLoanAction.Request>{ confirm })[0];
+        System.assertEquals('bureau_consent', r.awaiting);
+
+        LoanSevaReplyAction.Request agree = new LoanSevaReplyAction.Request();
+        agree.journeyId = jid;
+        agree.message = '1';
+        r = LoanSevaReplyAction.run(new List<LoanSevaReplyAction.Request>{ agree })[0];
         System.assertEquals('employment', r.awaiting);
 
         List<String> expectedNext = new List<String>{ 'company', 'income', 'purpose', 'amount', 'offer_decision' };

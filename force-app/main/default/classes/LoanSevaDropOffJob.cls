@@ -3,6 +3,8 @@
  * (a scheduled flow cannot run at minute granularity, which the demo needs).
  *
  *  1. Active journeys idle for Idle_Minutes_Before_Drop__c -> Dropped, drop point recorded, RM task with the intent summary.
+ *     New-to-bank journeys (no Contact) become a scored Lead instead, owned by the region's RM, who nudges them
+ *     (LoanSevaLeadService); they get no automatic nudges.
  *  2. Dropped journeys get re-engagement nudge 1 at Dropped_At + Nudge_1_Delay and nudge 2 at Dropped_At + Nudge_2_Delay
  *     (demo 2 / 5 minutes; production 24h / 72h). A customer reply re-activates the journey (LoanSevaJourneyService.touch).
  *
@@ -41,6 +43,7 @@ public with sharing class LoanSevaDropOffJob implements Schedulable {
         }
         Integer delay1 = cfg.Nudge_1_Delay_Minutes__c == null ? 1440 : cfg.Nudge_1_Delay_Minutes__c.intValue();
         List<Task> tasks = new List<Task>();
+        List<Loan_Journey__c> prospects = new List<Loan_Journey__c>();
         for (Loan_Journey__c j : stale) {
             j.Status__c = LoanSevaJourneyService.STATUS_DROPPED;
             j.Dropped_At__c = now;
@@ -51,7 +54,12 @@ public with sharing class LoanSevaDropOffJob implements Schedulable {
             if (j.Nudges_Sent__c == null) {
                 j.Nudges_Sent__c = 0;
             }
-            if (j.RM_Followup_Created__c != true) {
+            if (j.Contact__c == null) {
+                // new to Kotak: a scored Lead for the region's RM (LoanSevaLeadService)
+                j.Drop_Point__c = LoanSevaLeadService.stepLabel(j) + ' (' + LoanSevaLeadScoring.answeredSteps(j) + '/'
+                    + LoanSevaNewLoan.FIELDS.size() + ' details)';
+                prospects.add(j);
+            } else if (j.RM_Followup_Created__c != true) {
                 tasks.add(LoanSevaJourneyService.buildRmTask(
                     j,
                     'Drop-off at ' + j.Stage__c + ' — ' + LoanSevaJourneyService.intentSummary(j),
@@ -62,6 +70,7 @@ public with sharing class LoanSevaDropOffJob implements Schedulable {
                 j.RM_Followup_Created__c = true;
             }
         }
+        tasks.addAll(LoanSevaLeadService.captureDropOffs(prospects));
         insert tasks;
         update stale;
     }

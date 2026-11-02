@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Qualification_Gate__c</fullName>
+    <label>Qualification Gate</label>
+    <description>The gate the lead is at (first gate not passed), or the gate that knocked it out.</description>
+    <inlineHelpText>The gate the lead is at (first gate not passed), or the gate that knocked it out.</inlineHelpText>
+    <type>Text</type>
+    <length>80</length>
+</CustomField>

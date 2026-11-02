@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LoanSeva_Journey__c</fullName>
+    <label>LoanSeva Journey</label>
+    <description>The WhatsApp journey this prospect left; an RM nudge picks it up from the same step.</description>
+    <inlineHelpText>The WhatsApp journey this prospect left; an RM nudge picks it up from the same step.</inlineHelpText>
+    <type>Lookup</type>
+    <referenceTo>Loan_Journey__c</referenceTo>
+    <relationshipName>LoanSeva_Leads</relationshipName>
+    <relationshipLabel>LoanSeva Leads</relationshipLabel>
+    <deleteConstraint>SetNull</deleteConstraint>
+</CustomField>

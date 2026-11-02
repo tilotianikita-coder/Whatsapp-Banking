@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Id__c</fullName>
+    <label>Request Id</label>
+    <description>Provider request reference; a reused result keeps the original reference.</description>
+    <inlineHelpText>Provider request reference; a reused result keeps the original reference.</inlineHelpText>
+    <type>Text</type>
+    <length>40</length>
+</CustomField>

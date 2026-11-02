@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LoanSeva_Score_Detail__c</fullName>
+    <label>LoanSeva Score Detail</label>
+    <description>Points per scoring parameter.</description>
+    <inlineHelpText>Points per scoring parameter.</inlineHelpText>
+    <type>LongTextArea</type>
+    <length>2000</length>
+    <visibleLines>8</visibleLines>
+</CustomField>

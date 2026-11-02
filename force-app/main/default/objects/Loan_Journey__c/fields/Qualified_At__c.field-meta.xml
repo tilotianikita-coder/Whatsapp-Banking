@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Qualified_At__c</fullName>
+    <label>Qualified At</label>
+    <description>Last qualification run.</description>
+    <inlineHelpText>Last qualification run.</inlineHelpText>
+    <type>DateTime</type>
+</CustomField>

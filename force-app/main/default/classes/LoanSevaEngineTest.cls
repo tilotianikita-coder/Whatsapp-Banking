@@ -29,6 +29,12 @@ private class LoanSevaEngineTest {
         System.assertEquals('loan_confirm', LoanSevaEngine.awaiting(r.journey));
 
         r = LoanSevaEngine.confirmLoan(r.journey, true);
+        System.assertEquals('bureau_consent', LoanSevaEngine.awaiting(r.journey), 'Soft credit check consent right after the loan is confirmed');
+        System.assertEquals(LoanSevaI18n.msg('Bureau_Consent', 'EN'), r.message);
+        r = LoanSevaEngine.bureauConsent(r.journey, 'Yes, I agree', null);
+        System.assertEquals(LoanSevaQualification.CONSENT_GIVEN, r.journey.Bureau_Consent__c);
+        System.assert(r.message.startsWith(LoanSevaI18n.msg('Bureau_Consent_Given', 'EN')), r.message);
+        System.assert(r.message.contains(LoanSevaI18n.msg('Personalise_Intro', 'EN')), r.message);
         System.assertEquals('employment', LoanSevaEngine.awaiting(r.journey));
         r = LoanSevaEngine.personalise(r.journey, '1');
         System.assertEquals('Salaried', r.journey.Employment_Type__c);
@@ -173,11 +179,18 @@ private class LoanSevaEngineTest {
         j = LoanSevaEngine.verifyOtp(j, '123456').journey;
         System.assertEquals(LoanSevaI18n.msg('Loan_Confirm_Reprompt', 'EN'), LoanSevaEngine.pendingPrompt(j, false));
 
-        // answering a personalisation question implies the snapshot was accepted
+        // answering a personalisation question implies the snapshot was accepted; the credit check consent comes next
         LoanSevaEngine.Result r = LoanSevaEngine.personalise(j, 'salaried');
         System.assert(r.journey.Loan_Confirmed__c);
         System.assertEquals('Salaried', r.journey.Employment_Type__c);
-        System.assertEquals(LoanSevaEngine.withProgress(LoanSevaI18n.msg('Q_Company', 'EN')), r.message);
+        System.assertEquals(LoanSevaI18n.msg('Bureau_Consent', 'EN'), r.message);
+        System.assertEquals(LoanSevaI18n.msg('Bureau_Consent', 'EN'), LoanSevaEngine.pendingPrompt(r.journey, false));
+        r = LoanSevaEngine.reply(r.journey, 'not sure');
+        System.assertEquals('bureau_consent', LoanSevaEngine.awaiting(r.journey), 'An unclear reply re-asks');
+        r = LoanSevaEngine.reply(r.journey, '2');
+        System.assertEquals(LoanSevaQualification.CONSENT_SKIPPED, r.journey.Bureau_Consent__c);
+        System.assert(r.message.startsWith(LoanSevaI18n.msg('Bureau_Consent_Skipped', 'EN')), r.message);
+        System.assert(r.message.endsWith(LoanSevaEngine.withProgress(LoanSevaI18n.msg('Q_Company', 'EN'))), r.message);
     }
 
     @IsTest
@@ -364,7 +377,9 @@ private class LoanSevaEngineTest {
         r = LoanSevaEngine.reply(r.journey, 'maybe');
         System.assertEquals('loan_confirm', LoanSevaEngine.awaiting(r.journey), 'An unclear reply re-asks');
         r = LoanSevaEngine.reply(r.journey, 'हाँ, सही है');
-        System.assertEquals('employment', LoanSevaEngine.awaiting(r.journey), 'Hindi yes confirms the loan');
+        System.assertEquals('bureau_consent', LoanSevaEngine.awaiting(r.journey), 'Hindi yes confirms the loan');
+        r = LoanSevaEngine.reply(r.journey, 'हाँ');
+        System.assertEquals('employment', LoanSevaEngine.awaiting(r.journey), 'Hindi yes gives the credit check consent');
         for (String answer : new List<String>{ '1', 'Infosys', '3', '1', '4' }) {
             r = LoanSevaEngine.reply(r.journey, answer);
         }
