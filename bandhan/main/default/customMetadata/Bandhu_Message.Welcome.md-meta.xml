@@ -10,10 +10,14 @@ Tell me a little about how you spend and I'll match you with the right card — 
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">नमस्ते{name}! 👋 मैं *Bandhu* हूँ, आपका Bandhan Bank credit card सलाहकार।
+
+मुझे थोड़ा बताइए कि आप कैसे खर्च करते हैं, और मैं आपके लिए सही card चुन दूँगा — और आप यहीं लगभग 5 मिनट में apply कर सकते हैं। पूरी तरह paperless, और approval मिलते ही virtual card।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">নমস্কার{name}! 👋 আমি *Bandhu*, আপনার Bandhan Bank credit card উপদেষ্টা।
+
+আপনি কীভাবে খরচ করেন একটু বলুন, আমি আপনার জন্য সঠিক card খুঁজে দেব — আর এখানেই প্রায় 5 মিনিটে apply করতে পারবেন। সম্পূর্ণ paperless, approval হলেই virtual card।</value>
     </values>
 </CustomMetadata>

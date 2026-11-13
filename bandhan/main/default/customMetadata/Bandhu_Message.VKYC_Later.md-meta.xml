@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">कोई बात नहीं — आपकी application save हो गई है। कभी भी यही link इस्तेमाल करें, फिर *Done* लिखें।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">কোনো সমস্যা নেই — আপনার application save করা আছে। যেকোনো সময় একই link ব্যবহার করুন, তারপর *Done* লিখুন।</value>
     </values>
 </CustomMetadata>

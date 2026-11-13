@@ -19,4 +19,8 @@
         <enabled>true</enabled>
         <name>Bandhu_Message__mdt</name>
     </customMetadataTypeAccesses>
+    <pageAccesses>
+        <apexPage>BandhuWeb</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
 </PermissionSet>

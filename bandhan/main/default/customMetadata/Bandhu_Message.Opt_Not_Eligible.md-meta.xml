@@ -9,10 +9,12 @@ Back to the menu</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">किसी specialist से बात करें
+वापस menu पर जाएँ</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">একজন specialist-এর সঙ্গে কথা বলুন
+menu-তে ফিরে যান</value>
     </values>
 </CustomMetadata>

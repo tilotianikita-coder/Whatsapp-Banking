@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Joining fee ₹499 (Sparks) से ₹9,999 (Lumina) तक है, और साल भर में पर्याप्त खर्च करने पर हर card की annual fee माफ़ हो जाती है। आपके recommendation के साथ मैं सही fee दिखाऊँगा। _(इस demo के लिए अनुमानित।)_</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Joining fee ₹499 (Sparks) থেকে ₹9,999 (Lumina) পর্যন্ত, আর বছরে যথেষ্ট খরচ করলে প্রতিটি card-এর annual fee মকুব হয়ে যায়। আপনার recommendation-এর সঙ্গে আমি সঠিক fee দেখাব। _(এই demo-র জন্য আনুমানিক।)_</value>
     </values>
 </CustomMetadata>

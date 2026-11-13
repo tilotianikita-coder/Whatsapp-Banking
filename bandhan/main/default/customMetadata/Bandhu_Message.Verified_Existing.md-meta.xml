@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">✅ Verify हो गया! आपसे फिर मिलकर अच्छा लगा{name}। मुझे आपका Bandhan Bank {relationship} दिख रहा है — इसलिए income proof या अलग से KYC की ज़रूरत नहीं। बस आपके खर्च के बारे में कुछ सवाल।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">✅ যাচাই হয়ে গেছে! আপনাকে আবার দেখে ভালো লাগল{name}। আমি আপনার Bandhan Bank {relationship} দেখতে পাচ্ছি — তাই income proof বা আলাদা KYC লাগবে না। শুধু আপনার খরচ নিয়ে কয়েকটা প্রশ্ন।</value>
     </values>
 </CustomMetadata>

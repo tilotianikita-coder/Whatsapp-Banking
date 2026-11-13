@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">इस number पर मुझे अभी तक कोई application नहीं मिली। अपना card ढूँढने के लिए *Menu* लिखें। 🙂</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">এই number-এ এখনও কোনো application খুঁজে পাইনি। আপনার card খুঁজতে *Menu* লিখুন। 🙂</value>
     </values>
 </CustomMetadata>

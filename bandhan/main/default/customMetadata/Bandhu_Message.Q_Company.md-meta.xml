@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आप किस company में काम करते हैं (या आपके business का नाम)?</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আপনি কোন company-তে কাজ করেন (বা আপনার business-এর নাম)?</value>
     </values>
 </CustomMetadata>

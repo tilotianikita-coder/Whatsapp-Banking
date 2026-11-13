@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>Send_Mode__c</field>
-        <value xsi:type="xsd:string">LogOnly</value>
+        <value xsi:type="xsd:string">ConversationMessage</value>
     </values>
     <values>
         <field>WhatsApp_Channel__c</field>
@@ -52,7 +52,7 @@
     </values>
     <values>
         <field>Site_Url__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">https://trailsignup-fbf7dadaec8000.my.site.com/consumer/BandhuWeb</value>
     </values>
     <values>
         <field>Reference_Prefix__c</field>

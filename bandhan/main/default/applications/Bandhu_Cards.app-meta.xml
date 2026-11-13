@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Underwriter review: stage gates, recommendation and decision</comment>
+        <content>Card_Application_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Card_Application__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Bandhu card leads: intent and credit scores, drop point and the WhatsApp nudge</comment>
+        <content>SDO_Sales_Lead_Default</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+    </actionOverrides>
+    <brand>
+        <headerColor>#C8102E</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Bandhan Bank credit card onboarding: Bandhu card leads, applications, underwriting decisions and journeys.</description>
+    <formFactors>Large</formFactors>
+    <label>Bandhu Cards</label>
+    <navType>Standard</navType>
+    <tabs>standard-Lead</tabs>
+    <tabs>Card_Application__c</tabs>
+    <tabs>Card_Journey__c</tabs>
+    <tabs>standard-Contact</tabs>
+    <tabs>standard-report</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

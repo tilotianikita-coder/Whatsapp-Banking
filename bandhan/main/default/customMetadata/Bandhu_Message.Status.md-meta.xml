@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">📋 Bandhan *{card}* के लिए आपकी application ```{ref}``` का status: *{status}*।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">📋 Bandhan *{card}*-এর জন্য আপনার application ```{ref}```-এর status: *{status}*।</value>
     </values>
 </CustomMetadata>

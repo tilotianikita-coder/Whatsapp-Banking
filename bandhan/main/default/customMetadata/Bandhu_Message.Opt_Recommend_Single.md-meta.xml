@@ -10,10 +10,14 @@ Talk to a specialist</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">{card} के लिए apply करें
+सभी cards की तुलना करें
+किसी specialist से बात करें</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">{card}-এর জন্য apply করুন
+সব card তুলনা করুন
+একজন specialist-এর সঙ্গে কথা বলুন</value>
     </values>
 </CustomMetadata>

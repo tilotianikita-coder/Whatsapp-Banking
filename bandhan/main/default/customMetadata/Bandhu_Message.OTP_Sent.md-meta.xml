@@ -10,10 +10,14 @@ _(Demo OTP: {otp})_</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">धन्यवाद{name}! मैंने {mobile} पर 6 अंकों का OTP भेजा है। कृपया उसे यहाँ डालें। 🔐
+
+_(Demo OTP: {otp})_</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ধন্যবাদ{name}! আমি {mobile}-এ একটি 6 সংখ্যার OTP পাঠিয়েছি। অনুগ্রহ করে এখানে লিখুন। 🔐
+
+_(Demo OTP: {otp})_</value>
     </values>
 </CustomMetadata>

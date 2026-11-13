@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">हर ₹200 पर reward points: Sparks 2 · Ignite 4 · Flare 10 · Lumina 16 — groceries, travel या international खर्च पर accelerated points के साथ। Bandhan reward points कभी expire नहीं होते।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">প্রতি ₹200-এ reward points: Sparks 2 · Ignite 4 · Flare 10 · Lumina 16 — groceries, travel বা international খরচে accelerated points সহ। Bandhan reward points কখনো expire হয় না।</value>
     </values>
 </CustomMetadata>

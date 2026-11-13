@@ -13,10 +13,20 @@ Fuel</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Travel और flights
+विदेश यात्राएँ
+Dining और movies
+Groceries और रोज़ का खर्च
+Online shopping
+Fuel (पेट्रोल/डीज़ल)</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Travel ও flights
+বিদেশ ভ্রমণ
+Dining ও movies
+Groceries ও রোজকার খরচ
+Online shopping
+Fuel (পেট্রোল/ডিজেল)</value>
     </values>
 </CustomMetadata>

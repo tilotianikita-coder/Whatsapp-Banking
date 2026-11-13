@@ -9,10 +9,12 @@ Do it later</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Done — हो गया
+बाद में करें</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Done — হয়ে গেছে
+পরে করব</value>
     </values>
 </CustomMetadata>

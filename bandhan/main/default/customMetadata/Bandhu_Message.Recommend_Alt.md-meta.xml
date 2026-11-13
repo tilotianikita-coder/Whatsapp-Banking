@@ -4,16 +4,14 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">
-
-Also a good fit: *{card}* — {tagline}.</value>
+        <value xsi:type="xsd:string">Also a good fit: *{card}* — {tagline}.</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">यह भी आपके लिए अच्छा रहेगा: *{card}* — {tagline}।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">এটিও আপনার জন্য ভালো হবে: *{card}* — {tagline}।</value>
     </values>
 </CustomMetadata>

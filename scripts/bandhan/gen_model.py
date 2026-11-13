@@ -247,6 +247,19 @@ MDT = {
 }
 
 
+OVERRIDES = {
+    'Card_Application__c': '''    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Underwriter review: stage gates, recommendation and decision</comment>
+        <content>Card_Application_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+''',
+}
+
+
 def field_xml(name, label, body, desc, mdt):
     d = (f'    <description>{escape(desc)}</description>\n' + ('' if mdt else f'    <inlineHelpText>{escape(desc)}</inlineHelpText>\n')) if desc else ''
     extra = '    <fieldManageability>DeveloperControlled</fieldManageability>\n' if mdt else ''
@@ -264,7 +277,7 @@ def main():
         with open(f'{OBJ}/{obj}/{obj}.object-meta.xml', 'w') as fh:
             fh.write(f'''<?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <deploymentStatus>Deployed</deploymentStatus>
+{OVERRIDES.get(obj, '')}    <deploymentStatus>Deployed</deploymentStatus>
     <description>{escape(desc)}</description>
     <enableActivities>true</enableActivities>
     <enableHistory>false</enableHistory>

@@ -3,6 +3,10 @@
     <description>Full access to the Bandhu credit card objects, fields and Apex (RMs, underwriters, admins).</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Bandhu Admin</label>
+    <applicationVisibilities>
+        <application>Bandhu_Cards</application>
+        <visible>true</visible>
+    </applicationVisibilities>
     <classAccesses>
         <apexClass>BandhuActionResult</apexClass>
         <enabled>true</enabled>
@@ -669,12 +673,20 @@
         <object>Bank_Relationship__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <pageAccesses>
+        <apexPage>BandhuWeb</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <tabSettings>
         <tab>Card_Journey__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Card_Application__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>WhatsApp_Demo_Component</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

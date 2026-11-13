@@ -4,16 +4,14 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">
-
-Good news — you're eligible for the *Bandhan {alt}* instead. Shall I apply for it?</value>
+        <value xsi:type="xsd:string">Good news — you're eligible for the *Bandhan {alt}* instead. Shall I apply for it?</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">अच्छी ख़बर — इसके बजाय आप *Bandhan {alt}* के लिए eligible हैं। क्या मैं इसके लिए apply कर दूँ?</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">সুখবর — তার বদলে আপনি *Bandhan {alt}*-এর জন্য যোগ্য। আমি কি এটির জন্য apply করে দেব?</value>
     </values>
 </CustomMetadata>

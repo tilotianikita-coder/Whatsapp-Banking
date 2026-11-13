@@ -9,10 +9,12 @@ Talk to a specialist</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Confirm करें और submit करें
+किसी specialist से बात करें</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Confirm করে submit করুন
+একজন specialist-এর সঙ্গে কথা বলুন</value>
     </values>
 </CustomMetadata>

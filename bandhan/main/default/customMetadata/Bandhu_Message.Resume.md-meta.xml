@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">फिर से स्वागत है{name}! 👋 आपकी card application save है — चलिए वहीं से आगे बढ़ते हैं जहाँ आपने छोड़ा था। 👇</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আবার স্বাগতম{name}! 👋 আপনার card application save করা আছে — চলুন যেখানে থেমেছিলেন সেখান থেকেই শুরু করি। 👇</value>
     </values>
 </CustomMetadata>

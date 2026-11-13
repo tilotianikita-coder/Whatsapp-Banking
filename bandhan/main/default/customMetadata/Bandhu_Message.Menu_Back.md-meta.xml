@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">वापस menu पर — आपके जवाब save हैं। 👇</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">menu-তে ফিরে এলাম — আপনার উত্তরগুলো save করা আছে। 👇</value>
     </values>
 </CustomMetadata>

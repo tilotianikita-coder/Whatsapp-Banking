@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आपकी उम्र 21–60 (salaried) या 21–65 (self-employed) होनी चाहिए, नियमित income के साथ — Sparks के लिए ₹25,000 महीना से लेकर Lumina के लिए ₹2 लाख तक — और अच्छी credit history। मौजूदा Bandhan Bank ग्राहक अक्सर जल्दी qualify करते हैं। _(इस demo के लिए अनुमानित।)_</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আপনার বয়স 21–60 (salaried) বা 21–65 (self-employed) হতে হবে, নিয়মিত income সহ — Sparks-এর জন্য মাসে ₹25,000 থেকে Lumina-র জন্য ₹2 লাখ পর্যন্ত — আর ভালো credit history। Bandhan Bank-এর বর্তমান গ্রাহকরা প্রায়ই দ্রুত qualify করেন। _(এই demo-র জন্য আনুমানিক।)_</value>
     </values>
 </CustomMetadata>

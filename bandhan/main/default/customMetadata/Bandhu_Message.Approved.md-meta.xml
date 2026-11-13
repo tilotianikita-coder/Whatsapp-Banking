@@ -14,10 +14,22 @@ Your virtual card is ready to use online now 👉 {link} (set your PIN in the Ba
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🎉 *बधाई हो{name}! आपका Bandhan {card} approve हो गया है।*
+
+&gt; 💳 Virtual card: *{masked}*
+&gt; 💰 Credit limit: *{limit}*
+&gt; 🔖 Reference: ```{ref}```
+
+आपका virtual card अभी online इस्तेमाल के लिए तैयार है 👉 {link} (Bandhan mBanking app में अपना PIN set करें)। आपका physical card 5–7 कामकाजी दिनों में पहुँच जाएगा।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🎉 *অভিনন্দন{name}! আপনার Bandhan {card} approve হয়েছে।*
+
+&gt; 💳 Virtual card: *{masked}*
+&gt; 💰 Credit limit: *{limit}*
+&gt; 🔖 Reference: ```{ref}```
+
+আপনার virtual card এখনই online ব্যবহারের জন্য তৈরি 👉 {link} (Bandhan mBanking app-এ আপনার PIN set করুন)। আপনার physical card 5–7 কার্যদিবসের মধ্যে পৌঁছে যাবে।</value>
     </values>
 </CustomMetadata>

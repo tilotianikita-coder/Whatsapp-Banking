@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">*1/3* — आप सबसे ज़्यादा किस पर खर्च करते हैं? जितने लागू हों सब चुनें, जैसे *1, 3*</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">*1/3* — আপনি সবচেয়ে বেশি কীসে খরচ করেন? যতগুলো প্রযোজ্য সব বেছে নিন, যেমন *1, 3*</value>
     </values>
 </CustomMetadata>

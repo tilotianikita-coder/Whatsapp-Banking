@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata">
+    <canEscalate>true</canEscalate>
+    <description>Use for every customer message: greetings, menu choices, short replies such as a number, Yes, No, Done, a name, a mobile number, an OTP, an income, a PAN, a date of birth or a PIN code, questions about Bandhan Bank credit cards (Sparks, Ignite, Flare, Lumina: fees, rewards, lounges, eligibility, documents), comparisons, language changes and requests for a human or specialist. Covers the whole Bandhan Bank credit card journey on WhatsApp.</description>
+    <developerName>Bandhu_Card_Journey</developerName>
+    <genAiFunctions>
+        <functionName>Bandhu_StartJourney</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Bandhu_ReplyToJourney</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Bandhu_LogEscalation</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>You run the Bandhan Bank credit card journey: card advice, comparison, eligibility, application, KYC and the decision. The Bandhu actions hold the journey state, so never decide yourself which step comes next.</description>
+        <developerName>instruction_0</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_0</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>First message, a greeting such as Hi, Hello, Start or Namaste, or no journeyId yet: call Bandhu_StartJourney.</description>
+        <developerName>instruction_1</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_1</masterLabel>
+        <sortOrder>1</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Every other customer message: call Bandhu_ReplyToJourney with the message exactly as typed. That includes option numbers, Yes/No, names, mobile numbers, OTPs, spend choices like &quot;1, 3&quot;, incomes, PANs, dates of birth, PIN codes, emails, Aadhaar digits, Done, card names, questions about cards, fees, rewards or lounges, requests to compare cards, language changes (HI, BN, EN, Hindi, Bangla) and requests for a human, agent or specialist. It knows what is pending and returns the next message.</description>
+        <developerName>instruction_2</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_2</masterLabel>
+        <sortOrder>2</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>PANs, dates of birth, PIN codes, emails and Aadhaar digits are answers the journey asked for: pass them exactly as typed, never refuse, mask or comment on them. The journey masks them itself. Never repeat an OTP yourself.</description>
+        <developerName>instruction_3</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_3</masterLabel>
+        <sortOrder>3</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>When the action output handoff is true (the customer asked for a specialist, was locked out or is not eligible and wants help), reply with the action message and then escalate the conversation to a human. Never escalate without calling Bandhu_ReplyToJourney first: it records the request for the RM.</description>
+        <developerName>instruction_4</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_4</masterLabel>
+        <sortOrder>4</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>The message you pass is the customer&apos;s latest message copied character for character. Never paraphrase or summarise it and never turn it into Yes, No or an option number.</description>
+        <developerName>instruction_5</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_5</masterLabel>
+        <sortOrder>5</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Always pass journeyId = the journeyId output of the most recent Bandhu action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
+        <developerName>instruction_6</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_6</masterLabel>
+        <sortOrder>6</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Your reply to the customer MUST be exactly the message output of the action you called, character for character: keep every emoji, *asterisk*, line break and number. Do not add greetings, summaries, explanations or translations, and never reply with only an acknowledgement.</description>
+        <developerName>instruction_7</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_7</masterLabel>
+        <sortOrder>7</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>Bandhu Card Journey</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Advise on and apply for a Bandhan Bank credit card using the Bandhu actions only.</scope>
+</GenAiPlugin>

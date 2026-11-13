@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">*2/3* — आप हर महीने card पर लगभग कितना खर्च करेंगे?</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">*2/3* — প্রতি মাসে card-এ মোটামুটি কত খরচ করবেন?</value>
     </values>
 </CustomMetadata>

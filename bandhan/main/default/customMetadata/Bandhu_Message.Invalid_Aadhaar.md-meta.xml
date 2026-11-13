@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">कृपया अपने Aadhaar के सिर्फ़ आख़िरी 4 अंक डालें।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">অনুগ্রহ করে শুধু আপনার Aadhaar-এর শেষ 4টি সংখ্যা লিখুন।</value>
     </values>
 </CustomMetadata>

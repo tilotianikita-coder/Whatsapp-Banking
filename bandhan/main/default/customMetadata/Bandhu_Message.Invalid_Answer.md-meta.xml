@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">हम्म, यह कुछ ठीक नहीं लग रहा। 🙂 कृपया फिर से कोशिश करें।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">হুম, এটা ঠিক মনে হচ্ছে না। 🙂 অনুগ্রহ করে আবার চেষ্টা করুন।</value>
     </values>
 </CustomMetadata>

@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">धन्यवाद{name}! 🙏 आपकी *Bandhan {card}* application ```{ref}``` एक छोटे-से review के लिए हमारी card team के पास है। 24 घंटे के अंदर हम आपसे संपर्क करेंगे — कुछ भी दोबारा submit करने की ज़रूरत नहीं।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ধন্যবাদ{name}! 🙏 আপনার *Bandhan {card}* application ```{ref}``` একটি দ্রুত review-এর জন্য আমাদের card team-এর কাছে আছে। 24 ঘণ্টার মধ্যে আমরা আপনার সঙ্গে যোগাযোগ করব — কিছুই আবার submit করতে হবে না।</value>
     </values>
 </CustomMetadata>

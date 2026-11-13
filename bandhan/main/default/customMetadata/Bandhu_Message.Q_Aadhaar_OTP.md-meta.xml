@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आपके Aadhaar से जुड़े mobile पर भेजा गया 6 अंकों का OTP डालें। _(Demo OTP: {otp})_</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আপনার Aadhaar-লিঙ্ক করা mobile-এ পাঠানো 6 সংখ্যার OTP লিখুন। _(Demo OTP: {otp})_</value>
     </values>
 </CustomMetadata>

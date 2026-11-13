@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आपकी हर महीने की net income कितनी है? जैसे *85,000* या *1.2 lakh* (1.2 लाख)</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আপনার মাসিক net income কত? যেমন *85,000* বা *1.2 lakh* (1.2 লাখ)</value>
     </values>
 </CustomMetadata>

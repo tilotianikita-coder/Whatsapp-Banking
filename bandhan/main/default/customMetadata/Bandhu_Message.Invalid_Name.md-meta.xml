@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">कृपया अपना पूरा नाम लिखें, जैसा आपके PAN पर है।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">অনুগ্রহ করে PAN-এ যেমন আছে, সেভাবে আপনার পুরো নাম লিখুন।</value>
     </values>
 </CustomMetadata>

@@ -18,10 +18,30 @@ Why it fits you:
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">✨ *आपके लिए सबसे सही: Bandhan {card}*
+_{tagline}_
+
+यह आपके लिए क्यों सही है:
+{why}
+
+&gt; 🎁 {welcome}
+&gt; 💳 {rewards}
+&gt; ✈️ {lounge}
+&gt; 🧾 Joining fee ₹{fee} · {waiver}
+&gt; 💰 अनुमानित credit limit: *{limit}*{alt}{upgrade}</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">✨ *আপনার জন্য সেরা: Bandhan {card}*
+_{tagline}_
+
+কেন এটি আপনার জন্য উপযুক্ত:
+{why}
+
+&gt; 🎁 {welcome}
+&gt; 💳 {rewards}
+&gt; ✈️ {lounge}
+&gt; 🧾 Joining fee ₹{fee} · {waiver}
+&gt; 💰 আনুমানিক credit limit: *{limit}*{alt}{upgrade}</value>
     </values>
 </CustomMetadata>

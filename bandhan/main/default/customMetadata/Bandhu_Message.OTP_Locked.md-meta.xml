@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आपकी सुरक्षा के लिए, कई बार गलत OTP डालने के कारण मैंने यह application रोक दी है। एक specialist आपको call करेंगे।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আপনার নিরাপত্তার জন্য, বারবার ভুল OTP দেওয়ায় আমি এই application আপাতত থামিয়ে রেখেছি। একজন specialist আপনাকে call করবেন।</value>
     </values>
 </CustomMetadata>

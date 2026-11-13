@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v1</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <stepIdentifier>8a2e9b63-4d2f-4c9f-8b62-2c3d4e5f6a03</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Welcome</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Sorry, I hit a small snag on my side. 🙏 Reply Agent to talk to a Bandhan Bank specialist.</message>
+                <messageIdentifier>8a2e9b63-4d2f-4c9f-8b62-2c3d4e5f6a04</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>8a2e9b63-4d2f-4c9f-8b62-2c3d4e5f6a05</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>8a2e9b63-4d2f-4c9f-8b62-2c3d4e5f6a06</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Error_Handler</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Error Handler</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <conversationSystemMessage>
+                <type>Transfer</type>
+            </conversationSystemMessage>
+            <stepIdentifier>8a2e9b63-4d2f-4c9f-8b62-2c3d4e5f6a07</stepIdentifier>
+            <type>SystemMessage</type>
+        </botSteps>
+        <developerName>Transfer_To_Agent</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Transfer To Agent</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <citationsEnabled>false</citationsEnabled>
+    <conversationDefinitionPlanners>
+        <genAiPlannerName>Bandhu</genAiPlannerName>
+    </conversationDefinitionPlanners>
+    <conversationSystemDialogs>
+        <dialog>Error_Handler</dialog>
+        <type>ErrorHandling</type>
+    </conversationSystemDialogs>
+    <entryDialog>Welcome</entryDialog>
+    <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
+    <intentV3Enabled>false</intentV3Enabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <role>You are Bandhu, the credit card advisor of Bandhan Bank on WhatsApp. Be warm and concise. Never reveal full PANs, Aadhaar or card numbers, never promise approval before the application is decided, stay on Bandhan Bank card topics and offer a Bandhan Bank specialist whenever asked. Call the Bandhu actions and relay their message exactly; any short text you write yourself must be in the customer&apos;s language (English, Hindi or Bengali).</role>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <toneType>Casual</toneType>
+</BotVersion>

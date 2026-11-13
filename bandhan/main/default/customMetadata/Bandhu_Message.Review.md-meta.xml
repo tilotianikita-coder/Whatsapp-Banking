@@ -16,10 +16,26 @@ By confirming, you agree to the card's terms (MITC) and to Bandhan Bank verifyin
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">📝 *कृपया अपनी application confirm करें*
+
+&gt; 💳 Bandhan *{card}* · limit *{limit}*
+&gt; 👤 {fullname} · PAN {pan}
+&gt; 🎂 {dob} · 📍 {city}
+&gt; 💼 {employment} · {income}/महीना
+&gt; 🪪 KYC: {kyc}
+
+Confirm करके, आप card की शर्तों (MITC) से और इस application के लिए Bandhan Bank द्वारा आपकी जानकारी verify किए जाने से सहमत होते हैं।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">📝 *অনুগ্রহ করে আপনার application confirm করুন*
+
+&gt; 💳 Bandhan *{card}* · limit *{limit}*
+&gt; 👤 {fullname} · PAN {pan}
+&gt; 🎂 {dob} · 📍 {city}
+&gt; 💼 {employment} · {income}/মাস
+&gt; 🪪 KYC: {kyc}
+
+Confirm করার মাধ্যমে, আপনি card-এর শর্তাবলি (MITC) এবং এই application-এর জন্য Bandhan Bank-কে আপনার তথ্য যাচাই করার সম্মতি দিচ্ছেন।</value>
     </values>
 </CustomMetadata>

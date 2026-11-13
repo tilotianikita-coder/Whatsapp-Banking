@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">*3/3* — आपके लिए क्या ज़्यादा ज़रूरी है?</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">*3/3* — আপনার কাছে কোনটা বেশি গুরুত্বপূর্ণ?</value>
     </values>
 </CustomMetadata>

@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">यह PAN जैसा नहीं लग रहा — PAN में 10 characters होते हैं, जैसे *ABCPS1234K*।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">এটা PAN বলে মনে হচ্ছে না — PAN-এ 10টি character থাকে, যেমন *ABCPS1234K*।</value>
     </values>
 </CustomMetadata>

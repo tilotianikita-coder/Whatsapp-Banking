@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">कोई बात नहीं — अभी मैं आपकी income के आधार पर सुझाव दूँगा; credit check apply करते समय होगा।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">কোনো সমস্যা নেই — আপাতত আমি আপনার income দেখে সুপারিশ করব; credit check হবে apply করার সময়।</value>
     </values>
 </CustomMetadata>

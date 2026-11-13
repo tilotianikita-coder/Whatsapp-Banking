@@ -9,10 +9,12 @@ Not now</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">मैं सहमत हूँ, शुरू करें
+अभी नहीं</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আমি সম্মত, শুরু করুন
+এখন নয়</value>
     </values>
 </CustomMetadata>

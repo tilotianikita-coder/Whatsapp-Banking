@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">✅ Verify हो गया! अब आपके खर्च के बारे में कुछ छोटे सवाल, ताकि मैं आपके लिए सबसे अच्छा card ढूँढ सकूँ।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">✅ যাচাই হয়ে গেছে! এবার আপনার খরচ নিয়ে কয়েকটা ছোট প্রশ্ন, যাতে আমি আপনার জন্য সেরা card খুঁজে দিতে পারি।</value>
     </values>
 </CustomMetadata>

@@ -9,10 +9,12 @@ Self-employed</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">नौकरीपेशा (Salaried)
+स्व-रोज़गार (Self-employed)</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">চাকরিজীবী (Salaried)
+স্বনিযুক্ত (Self-employed)</value>
     </values>
 </CustomMetadata>

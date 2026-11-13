@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">📊 एक और बात: अपनी income तुरंत verify करने के लिए *Account Aggregator* के ज़रिए अपना bank account link करें — salary slip की ज़रूरत नहीं। यह RBI-regulated है और बस एक मिनट लगता है।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">📊 আর একটা কথা: আপনার income সঙ্গে সঙ্গে যাচাই করতে *Account Aggregator*-এর মাধ্যমে আপনার bank account link করুন — salary slip লাগবে না। এটি RBI-regulated, আর মাত্র এক মিনিট লাগে।</value>
     </values>
 </CustomMetadata>

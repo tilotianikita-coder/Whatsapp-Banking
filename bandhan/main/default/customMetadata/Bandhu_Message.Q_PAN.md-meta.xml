@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आपका PAN? जैसे *ABCPS1234K* — आपको यह सिर्फ़ masked रूप में ही दिखाया जाएगा। 🔒</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আপনার PAN? যেমন *ABCPS1234K* — এটি আপনাকে শুধু masked অবস্থায় দেখানো হবে। 🔒</value>
     </values>
 </CustomMetadata>

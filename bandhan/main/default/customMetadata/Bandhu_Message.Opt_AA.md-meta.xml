@@ -9,10 +9,12 @@ Skip for now</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Account Aggregator से verify करें
+अभी के लिए छोड़ दें</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Account Aggregator দিয়ে যাচাই করুন
+আপাতত বাদ দিন</value>
     </values>
 </CustomMetadata>

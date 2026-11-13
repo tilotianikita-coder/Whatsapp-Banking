@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">अच्छा सवाल! मैं इनमें मदद कर सकता हूँ: कौन-सा card आपके लिए सही है, fees, rewards, lounges, eligibility और apply कैसे करें। किसी और चीज़ के लिए, specialist से बात करने हेतु *Agent* लिखें।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ভালো প্রশ্ন! আমি এগুলোতে সাহায্য করতে পারি: কোন card আপনার জন্য উপযুক্ত, fees, rewards, lounge, eligibility আর কীভাবে apply করবেন। অন্য কিছুর জন্য, specialist-এর সঙ্গে কথা বলতে *Agent* লিখুন।</value>
     </values>
 </CustomMetadata>

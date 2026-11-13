@@ -10,10 +10,14 @@ You can also talk to a specialist about other options.</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Apply करने के लिए धन्यवाद{name}। हम अभी *{card}* approve नहीं कर पा रहे हैं।{alt}
+
+दूसरे विकल्पों के बारे में आप किसी specialist से भी बात कर सकते हैं।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Apply করার জন্য ধন্যবাদ{name}। এই মুহূর্তে আমরা *{card}* approve করতে পারছি না।{alt}
+
+অন্য বিকল্প নিয়ে আপনি একজন specialist-এর সঙ্গেও কথা বলতে পারেন।</value>
     </values>
 </CustomMetadata>

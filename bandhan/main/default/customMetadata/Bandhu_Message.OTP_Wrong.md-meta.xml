@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">यह OTP मेल नहीं खाया — {left} प्रयास बाकी हैं। कृपया फिर से कोशिश करें।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">এই OTP মেলেনি — আর {left} বার চেষ্টা করতে পারবেন। অনুগ্রহ করে আবার চেষ্টা করুন।</value>
     </values>
 </CustomMetadata>

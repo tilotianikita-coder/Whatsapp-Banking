@@ -12,7 +12,7 @@ OUT = os.path.join(BASE, 'permissionsets')
 CUSTOM = ['Card_Journey__c', 'Card_Application__c', 'Card_Check__c', 'Bank_Relationship__c']
 FIELD_ONLY = ['Lead']
 MDT = ['Bandhu_Card__mdt', 'Bandhu_Config__mdt', 'Bandhu_Message__mdt']
-TABS = ['Card_Journey__c', 'Card_Application__c']
+TABS = ['Card_Journey__c', 'Card_Application__c', 'WhatsApp_Demo_Component']
 
 
 def fields(obj):
@@ -40,6 +40,8 @@ def objperm(obj, c, e, d, v, m):
 def write(name, label, desc, class_list, pages=(), objects=True, perms=None, tabs=True, extra_objects=''):
     parts = [f'<?xml version="1.0" encoding="UTF-8"?>\n<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">\n'
              f'    <description>{desc}</description>\n    <hasActivationRequired>false</hasActivationRequired>\n    <label>{label}</label>\n']
+    if name == 'Bandhu_Admin':
+        parts.append('    <applicationVisibilities>\n        <application>Bandhu_Cards</application>\n        <visible>true</visible>\n    </applicationVisibilities>\n')
     for c in class_list:
         parts.append(f'    <classAccesses>\n        <apexClass>{c}</apexClass>\n        <enabled>true</enabled>\n    </classAccesses>\n')
     for m in MDT:

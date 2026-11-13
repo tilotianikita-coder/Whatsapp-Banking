@@ -11,10 +11,16 @@ Reply *Done* once you've finished.</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🎥 आख़िरी कदम: हमारे officer के साथ एक छोटा-सा *Video KYC* (लगभग 2 मिनट)।
+👉 {link}
+
+पूरा होने के बाद *Done* लिखें।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🎥 শেষ ধাপ: আমাদের officer-এর সঙ্গে একটি ছোট *Video KYC* (প্রায় 2 মিনিট)।
+👉 {link}
+
+শেষ হলে *Done* লিখুন।</value>
     </values>
 </CustomMetadata>

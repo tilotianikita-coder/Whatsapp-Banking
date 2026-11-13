@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">बढ़िया चुनाव! 🎉 चलिए आपका *Bandhan {card}* बनवाते हैं — बस KYC और काम पूरा।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">দারুণ পছন্দ! 🎉 চলুন আপনার *Bandhan {card}* নিয়ে নিই — শুধু KYC, তারপরই কাজ শেষ।</value>
     </values>
 </CustomMetadata>

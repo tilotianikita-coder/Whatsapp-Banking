@@ -10,10 +10,14 @@ A specialist can look at other options with you — for example a card against a
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">यह सब बताने के लिए धन्यवाद{name}। 🙏 आपने जो बताया उसके आधार पर, मैं अभी आपको Bandhan credit card नहीं दे पा रहा हूँ ({reason})।
+
+एक specialist आपके साथ दूसरे विकल्प देख सकते हैं — जैसे fixed deposit के बदले card।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">এত কিছু জানানোর জন্য ধন্যবাদ{name}। 🙏 আপনি যা বলেছেন তার ভিত্তিতে, এই মুহূর্তে আমি আপনাকে Bandhan credit card দিতে পারছি না ({reason})।
+
+একজন specialist আপনার সঙ্গে অন্য বিকল্পগুলো দেখতে পারেন — যেমন fixed deposit-এর বিপরীতে card।</value>
     </values>
 </CustomMetadata>

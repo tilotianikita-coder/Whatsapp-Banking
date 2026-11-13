@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Router portal for the WhatsApp BYOC Demo (Meta) package (wpbyocdemo3): connects this org's WhatsApp channel and registers the presenter phone numbers.</description>
+    <frameHeight>900</frameHeight>
+    <hasSidebar>false</hasSidebar>
+    <label>[Meta] WhatsApp Demo Component</label>
+    <motif>Custom25: Alarm clock</motif>
+    <url>https://trailsignup-dbbab11c8f3410.my.site.com/whatsapp?username={!User.Username}</url>
+    <urlEncodingKey>UTF-8</urlEncodingKey>
+</CustomTab>

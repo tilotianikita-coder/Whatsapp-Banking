@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">कृपया सही email लिखें, जैसे *name@example.com*।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">অনুগ্রহ করে সঠিক email দিন, যেমন *name@example.com*।</value>
     </values>
 </CustomMetadata>

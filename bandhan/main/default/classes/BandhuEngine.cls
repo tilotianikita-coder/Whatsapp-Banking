@@ -627,6 +627,7 @@ public inherited sharing class BandhuEngine {
         j.Credit_Limit__c = out.best.creditLimit;
         j.Recommendation_Reason__c = String.join(out.best.why, '\n');
         j.Step__c = 'choose';
+        BandhuLeadService.upsertLead(j);
         return recommendation(j, out);
     }
 
@@ -645,11 +646,11 @@ public inherited sharing class BandhuEngine {
         });
         if (j.Alternative_Card__c != null) {
             Bandhu_Card__mdt a = BandhuConfig.card(j.Alternative_Card__c);
-            tk.put('alt', BandhuI18n.msg('Recommend_Alt', lang, new Map<String, Object>{ 'card' => a.DeveloperName, 'tagline' => a.Tagline__c }));
+            tk.put('alt', '\n\n' + BandhuI18n.msg('Recommend_Alt', lang, new Map<String, Object>{ 'card' => a.DeveloperName, 'tagline' => a.Tagline__c }));
         }
         if (j.Upgrade_Card__c != null) {
             Bandhu_Card__mdt u = BandhuConfig.card(j.Upgrade_Card__c);
-            tk.put('upgrade', BandhuI18n.msg('Recommend_Upgrade', lang, new Map<String, Object>{
+            tk.put('upgrade', '\n\n' + BandhuI18n.msg('Recommend_Upgrade', lang, new Map<String, Object>{
                 'card' => u.DeveloperName, 'income' => BandhuI18n.inrShort(u.Min_Monthly_Income__c) }));
         }
         Result r = new Result();
@@ -696,7 +697,7 @@ public inherited sharing class BandhuEngine {
             BandhuLeadService.rmTask(j, 'Bandhu: card application to review - ' + label(j), o.application.Recommendation_Reasons__c);
         } else {
             j.Alternative_Card__c = o.alternativeCard;
-            tk.put('alt', o.alternativeCard == null ? '' : BandhuI18n.msg('Declined_Alt', lang, new Map<String, Object>{ 'alt' => o.alternativeCard }));
+            tk.put('alt', o.alternativeCard == null ? '' : '\n\n' + BandhuI18n.msg('Declined_Alt', lang, new Map<String, Object>{ 'alt' => o.alternativeCard }));
             r.message = BandhuI18n.msg('Declined', lang, tk);
             if (o.alternativeCard != null) {
                 j.Step__c = 'declined_alt';
@@ -706,6 +707,9 @@ public inherited sharing class BandhuEngine {
             }
         }
         r.step = j.Step__c;
+        if (o.recommendation != BandhuDecision.APPROVE) {
+            BandhuLeadService.upsertLead(j);
+        }
         return r;
     }
 

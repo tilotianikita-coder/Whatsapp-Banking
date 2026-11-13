@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">कोई बात नहीं 🙂 कुछ भी save नहीं किया गया है। जब भी अपना card ढूँढना हो, बस *Hi* लिखें।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">কোনো সমস্যা নেই 🙂 কিছুই save করা হয়নি। যখনই আপনার card খুঁজতে চান, শুধু *Hi* লিখুন।</value>
     </values>
 </CustomMetadata>

@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आमतौर पर कोई नहीं! PAN, Aadhaar eKYC और एक छोटा-सा Video KYC — और income तुरंत Account Aggregator से verify हो सकती है। मौजूदा Bandhan ग्राहकों को इनमें से ज़्यादातर की ज़रूरत ही नहीं पड़ती।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">সাধারণত কিছুই লাগে না! PAN, Aadhaar eKYC আর একটি ছোট Video KYC — আর income সঙ্গে সঙ্গে Account Aggregator-এর মাধ্যমে যাচাই করা যায়। Bandhan-এর বর্তমান গ্রাহকদের এর বেশিরভাগই লাগে না।</value>
     </values>
 </CustomMetadata>

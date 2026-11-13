@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">बढ़िया, अब eligibility के लिए आपकी जानकारी। आप…</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">দারুণ, এবার eligibility-র জন্য আপনার তথ্য। আপনি…</value>
     </values>
 </CustomMetadata>

@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ज़रूर! 🙋 आपको Bandhan Bank के card specialist से जोड़ रहा हूँ। आपकी दी हुई सारी जानकारी save है, इसलिए आपको कुछ भी दोहराना नहीं पड़ेगा।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">অবশ্যই! 🙋 আপনাকে Bandhan Bank-এর একজন card specialist-এর সঙ্গে যুক্ত করছি। আপনার দেওয়া সব তথ্য save করা আছে, তাই আবার কিছু বলতে হবে না।</value>
     </values>
 </CustomMetadata>

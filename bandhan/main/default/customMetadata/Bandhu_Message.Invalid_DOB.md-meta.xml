@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">कृपया अपनी जन्मतिथि *DD/MM/YYYY* के रूप में लिखें, जैसे *15/08/1990*।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">অনুগ্রহ করে আপনার জন্মতারিখ *DD/MM/YYYY* আকারে লিখুন, যেমন *15/08/1990*।</value>
     </values>
 </CustomMetadata>

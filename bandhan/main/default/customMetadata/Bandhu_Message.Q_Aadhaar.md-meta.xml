@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🪪 *Aadhaar eKYC* — अपने Aadhaar के *आख़िरी 4 अंक* डालें। मैं आपके Aadhaar से जुड़े mobile पर OTP भेजूँगा।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🪪 *Aadhaar eKYC* — আপনার Aadhaar-এর *শেষ 4টি সংখ্যা* লিখুন। আমি আপনার Aadhaar-লিঙ্ক করা mobile-এ একটি OTP পাঠাব।</value>
     </values>
 </CustomMetadata>

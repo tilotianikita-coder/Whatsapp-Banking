@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आपका शहर और 6 अंकों का PIN code? जैसे *Kolkata 700091*</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আপনার শহর ও 6 সংখ্যার PIN code? যেমন *Kolkata 700091*</value>
     </values>
 </CustomMetadata>

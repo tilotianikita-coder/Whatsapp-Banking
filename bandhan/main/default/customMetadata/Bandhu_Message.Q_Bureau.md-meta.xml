@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🔍 क्या मैं CIBIL से एक *soft credit check* कर सकता हूँ? इससे आपके credit score पर *कोई असर नहीं* पड़ता, और इससे पक्का हो जाता है कि आप किन cards के लिए eligible हैं।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🔍 আমি কি CIBIL-এ একটি *soft credit check* করতে পারি? এতে আপনার credit score-এ *কোনো প্রভাব পড়ে না*, আর আপনি কোন card-গুলোর জন্য যোগ্য তা নিশ্চিত করতে সাহায্য হয়।</value>
     </values>
 </CustomMetadata>

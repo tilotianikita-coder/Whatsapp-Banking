@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Bandhu planner: routes WhatsApp messages to the Bandhan Bank credit card journey.</description>
+    <genAiPlugins>
+        <genAiPluginName>Bandhu_Card_Journey</genAiPluginName>
+    </genAiPlugins>
+    <masterLabel>Bandhu</masterLabel>
+    <plannerType>AiCopilot__ReAct</plannerType>
+</GenAiPlannerBundle>

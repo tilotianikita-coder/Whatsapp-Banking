@@ -10,10 +10,14 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">नमस्ते{name} 👋 Bandhan Bank से {rm} यहाँ। आप Bandhu के साथ अपना credit card ढूँढ रहे थे — आप पहले ही {done} details दे चुके हैं, इसलिए पूरा करने में बस एक मिनट लगेगा।
+
+👉 जहाँ छोड़ा था वहीं से आगे बढ़ने के लिए *Continue* लिखें।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">নমস্কার{name} 👋 আমি Bandhan Bank থেকে {rm}। আপনি Bandhu-র সঙ্গে আপনার credit card খুঁজছিলেন — আপনি ইতিমধ্যেই {done} details দিয়েছেন, তাই শেষ করতে মাত্র এক মিনিট লাগবে।
+
+👉 যেখানে থেমেছিলেন সেখান থেকে শুরু করতে *Continue* লিখুন।</value>
     </values>
 </CustomMetadata>

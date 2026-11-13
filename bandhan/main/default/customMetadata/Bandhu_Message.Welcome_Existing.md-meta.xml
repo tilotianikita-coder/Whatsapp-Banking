@@ -10,10 +10,14 @@ As a Bandhan Bank customer you get a faster journey — I already have most of y
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">फिर से स्वागत है{name}! 👋 मैं *Bandhu* हूँ, आपका Bandhan Bank card सलाहकार।
+
+Bandhan Bank ग्राहक होने के नाते आपकी journey और भी तेज़ है — आपकी ज़्यादातर जानकारी मेरे पास पहले से है, बस कुछ ही सवाल पूछने हैं।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আবার স্বাগতম{name}! 👋 আমি *Bandhu*, আপনার Bandhan Bank card উপদেষ্টা।
+
+Bandhan Bank-এর গ্রাহক হিসেবে আপনার journey আরও দ্রুত — আপনার বেশিরভাগ তথ্য আমার কাছে আগে থেকেই আছে, তাই শুধু কয়েকটা প্রশ্ন।</value>
     </values>
 </CustomMetadata>

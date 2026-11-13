@@ -4,16 +4,14 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">
-
-💡 With a monthly income of {income} or more, you'd also qualify for *{card}*.</value>
+        <value xsi:type="xsd:string">💡 With a monthly income of {income} or more, you'd also qualify for *{card}*.</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">💡 अगर आपकी monthly income {income} या उससे ज़्यादा है, तो आप *{card}* के लिए भी eligible होंगे।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">💡 আপনার মাসিক income {income} বা তার বেশি হলে, আপনি *{card}*-এর জন্যও যোগ্য হবেন।</value>
     </values>
 </CustomMetadata>

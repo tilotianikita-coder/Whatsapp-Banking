@@ -9,10 +9,12 @@ No, skip</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">हाँ, कर लीजिए
+नहीं, छोड़ दें</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">হ্যাঁ, করুন
+না, বাদ দিন</value>
     </values>
 </CustomMetadata>

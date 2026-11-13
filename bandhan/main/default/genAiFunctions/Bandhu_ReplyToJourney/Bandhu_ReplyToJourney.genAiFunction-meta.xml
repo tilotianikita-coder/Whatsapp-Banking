@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Handles every customer reply in the credit card journey and returns the next message. Routes on the saved journey state, so pass the customer message exactly as typed. Always pass journeyId = the journeyId output of the most recent Bandhu action in this conversation (empty on the first call) and sessionId = the Routable Id (MessagingSession Id) of this conversation; leave sessionId empty if no Routable Id is available.</description>
+    <invocationTarget>BandhuReplyAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <masterLabel>Bandhu - Reply to Card Journey</masterLabel>
+</GenAiFunction>

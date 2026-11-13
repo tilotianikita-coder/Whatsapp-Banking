@@ -9,10 +9,12 @@ The best benefits, even with a fee</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">सबसे कम fee
+सबसे अच्छे benefits, भले ही fee लगे</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">সবচেয়ে কম fee
+সেরা benefits, fee লাগলেও</value>
     </values>
 </CustomMetadata>

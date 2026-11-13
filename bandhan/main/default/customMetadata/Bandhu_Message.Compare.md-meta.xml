@@ -12,10 +12,18 @@ _Fees are indicative for this demo._</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">📋 *Bandhan Bank credit cards*
+
+{lines}
+
+_इस demo में fees अनुमानित हैं।_</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">📋 *Bandhan Bank credit cards*
+
+{lines}
+
+_এই demo-তে fees আনুমানিক।_</value>
     </values>
 </CustomMetadata>

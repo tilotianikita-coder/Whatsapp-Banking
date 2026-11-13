@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आपकी जन्मतिथि? जैसे *15/08/1990*</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আপনার জন্মতারিখ? যেমন *15/08/1990*</value>
     </values>
 </CustomMetadata>

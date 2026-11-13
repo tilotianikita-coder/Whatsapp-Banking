@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🔒 शुरू करने से पहले: आप जो जानकारी देंगे, Bandhan Bank उसका इस्तेमाल सिर्फ़ आपको card सुझाने और आपकी application process करने के लिए करेगा, RBI दिशानिर्देशों और Digital Personal Data Protection Act, 2023 के अनुसार। आप कभी भी अपनी सहमति वापस ले सकते हैं।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🔒 শুরু করার আগে: আপনি যে তথ্য দেবেন, Bandhan Bank তা শুধু আপনাকে card সুপারিশ করতে ও আপনার application process করতে ব্যবহার করবে, RBI নির্দেশিকা এবং Digital Personal Data Protection Act, 2023 অনুযায়ী। আপনি যেকোনো সময় সম্মতি প্রত্যাহার করতে পারেন।</value>
     </values>
 </CustomMetadata>

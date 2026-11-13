@@ -14,10 +14,22 @@ Activate it here 👉 {link}</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🎉 अच्छी ख़बर{name}! हमारी card team ने आपका *Bandhan {card}* *approve* कर दिया है।
+
+&gt; 💳 Virtual card: *{masked}*
+&gt; 💰 Credit limit: *{limit}*
+&gt; 🔖 Reference: ```{ref}```
+
+इसे यहाँ activate करें 👉 {link}</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">🎉 সুখবর{name}! আমাদের card team আপনার *Bandhan {card}* *approve* করেছে।
+
+&gt; 💳 Virtual card: *{masked}*
+&gt; 💰 Credit limit: *{limit}*
+&gt; 🔖 Reference: ```{ref}```
+
+এখানে activate করুন 👉 {link}</value>
     </values>
 </CustomMetadata>

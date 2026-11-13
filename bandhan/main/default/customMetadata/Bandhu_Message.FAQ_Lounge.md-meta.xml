@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">हर card पर lounge access: Sparks — हर तिमाही 1 domestic · Ignite — 1 domestic + 1 international · Flare — 4 domestic + 1 international · Lumina — 8 domestic + unlimited international।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">card অনুযায়ী lounge access: Sparks — প্রতি ত্রৈমাসিকে 1 domestic · Ignite — 1 domestic + 1 international · Flare — 4 domestic + 1 international · Lumina — 8 domestic + unlimited international।</value>
     </values>
 </CustomMetadata>

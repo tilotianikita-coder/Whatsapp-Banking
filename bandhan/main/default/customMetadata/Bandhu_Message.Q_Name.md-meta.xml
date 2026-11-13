@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">आपका पूरा नाम क्या है, जैसा आपके PAN पर लिखा है?</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">আপনার পুরো নাম কী, যেমন PAN-এ লেখা আছে?</value>
     </values>
 </CustomMetadata>

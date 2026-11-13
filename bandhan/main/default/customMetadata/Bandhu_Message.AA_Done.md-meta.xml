@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">✅ Account Aggregator से income verify हो गई: *{income}/महीना*।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">✅ Account Aggregator-এর মাধ্যমে income যাচাই হয়েছে: *{income}/মাস*।</value>
     </values>
 </CustomMetadata>
