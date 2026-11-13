@@ -125,6 +125,38 @@ public with sharing class BandhuConsoleController {
         @AuraEnabled public String blockedReason;
         @AuraEnabled public Datetime lastNudged;
         @AuraEnabled public Id applicationId;
+        @AuraEnabled public String stageGate;
+        @AuraEnabled public String region;
+        @AuraEnabled public String confidence;
+        @AuraEnabled public String leadStatus;
+        @AuraEnabled public List<Gate> gates = new List<Gate>();
+        @AuraEnabled public List<String> path = new List<String>();
+        @AuraEnabled public Integer pathIndex;
+    }
+
+    public class Gate {
+        @AuraEnabled public String gate;
+        @AuraEnabled public String provider;
+        @AuraEnabled public String result;
+        @AuraEnabled public String summary;
+        @AuraEnabled public Decimal points;
+        @AuraEnabled public Decimal maxPoints;
+        @AuraEnabled public Boolean knockout;
+    }
+
+    /** The prospect's journey milestones, for the path on the Lead page. */
+    private static final List<String> PATH = new List<String>{ 'Verified', 'Needs', 'Profile', 'Credit check', 'Recommendation', 'KYC', 'Submitted' };
+
+    private static Integer pathIndex(Card_Journey__c j) {
+        if (j.Status__c == BandhuJourneyService.STATUS_COMPLETED || j.Card_Application__c != null) {
+            return 6;
+        }
+        Map<String, Integer> byStep = new Map<String, Integer>{ 'menu' => -1, 'consent' => -1, 'name' => -1, 'mobile' => -1, 'otp' => -1,
+            'spend' => 0, 'monthly_spend' => 0, 'fee' => 0, 'employment' => 1, 'income' => 1, 'company' => 1, 'pan' => 1, 'dob' => 1,
+            'pincode' => 1, 'bureau' => 2, 'aa' => 3, 'choose' => 3, 'not_eligible' => 3, 'email' => 4, 'aadhaar' => 4, 'aadhaar_otp' => 4,
+            'vkyc' => 5, 'review' => 5 };
+        Integer idx = byStep.get(j.Step__c);
+        return idx == null ? 0 : idx;
     }
 
     @AuraEnabled
@@ -133,7 +165,7 @@ public with sharing class BandhuConsoleController {
         Lead l = [
             SELECT Id, Name, MobilePhone, Rating, Status, IsConverted, Bandhu_Journey__c, Bandhu_Intent_Score__c, Bandhu_Credit_Score__c,
                 Bandhu_Combined_Score__c, Bandhu_CIBIL__c, Bandhu_Recommended_Card__c, Bandhu_Eligible_Cards__c, Bandhu_Drop_Point__c,
-                Bandhu_Score_Detail__c, Bandhu_Last_Nudged__c
+                Bandhu_Score_Detail__c, Bandhu_Last_Nudged__c, Bandhu_Stage_Gate__c, Bandhu_Region__c, Bandhu_Credit_Confidence__c
             FROM Lead WHERE Id = :leadId
         ];
         i.customerName = l.Name;
@@ -147,6 +179,27 @@ public with sharing class BandhuConsoleController {
         i.dropPoint = l.Bandhu_Drop_Point__c;
         i.lastNudged = l.Bandhu_Last_Nudged__c;
         i.scoreLines = String.isBlank(l.Bandhu_Score_Detail__c) ? new List<String>() : l.Bandhu_Score_Detail__c.split('\n');
+        i.stageGate = l.Bandhu_Stage_Gate__c;
+        i.region = l.Bandhu_Region__c;
+        i.confidence = l.Bandhu_Credit_Confidence__c;
+        i.leadStatus = l.Status;
+        Boolean knocked = false;
+        for (Bandhu_Lead_Check__c c : [
+            SELECT Gate__c, Provider__c, Result__c, Summary__c, Points__c, Max_Points__c, Knockout__c
+            FROM Bandhu_Lead_Check__c WHERE Lead__c = :leadId ORDER BY Sort_Order__c
+        ]) {
+            Gate g = new Gate();
+            g.gate = c.Gate__c;
+            g.provider = c.Provider__c;
+            g.result = c.Result__c;
+            g.summary = c.Summary__c;
+            g.points = c.Points__c;
+            g.maxPoints = c.Max_Points__c;
+            g.knockout = c.Knockout__c;
+            knocked = knocked || c.Knockout__c;
+            i.gates.add(g);
+        }
+        i.path = PATH;
         if (l.Bandhu_Journey__c == null) {
             i.blockedReason = 'No Bandhu card journey on this lead.';
             return i;
@@ -163,7 +216,10 @@ public with sharing class BandhuConsoleController {
         i.income = income == null ? null : BandhuI18n.inr(income) + (j.Verified_Income__c != null ? ' (verified)' : ' (declared)');
         i.creditLimit = j.Credit_Limit__c == null ? null : BandhuI18n.inr(j.Credit_Limit__c);
         i.applicationId = j.Card_Application__c;
-        if (l.IsConverted || j.Status__c == BandhuJourneyService.STATUS_COMPLETED) {
+        i.pathIndex = pathIndex(j);
+        if (knocked) {
+            i.blockedReason = 'Unqualified: ' + l.Bandhu_Stage_Gate__c.toLowerCase() + ' - no nudge.';
+        } else if (l.IsConverted || j.Status__c == BandhuJourneyService.STATUS_COMPLETED) {
             i.blockedReason = 'Application completed - no nudge needed.';
         } else if (j.Mobile__c == null) {
             i.blockedReason = 'No mobile number yet.';

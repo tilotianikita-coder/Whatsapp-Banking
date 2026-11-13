@@ -11,3 +11,47 @@
 .nudge {
     width: 100%;
 }
+.b-stage {
+    font-weight: 700;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+.b-stage-pass { background: var(--b-green-tint); color: var(--b-green); }
+.b-stage-wait { background: var(--b-amber-tint); color: var(--b-amber); }
+.b-stage-fail { background: var(--b-red-tint); color: var(--b-red-dark); }
+.b-path {
+    display: flex;
+    gap: 2px;
+}
+.b-path-step {
+    flex: 1;
+    text-align: center;
+    font-size: 0.68rem;
+    color: var(--b-grey);
+}
+.b-path-dot {
+    display: block;
+    margin: 0 auto 2px;
+    width: 1.3rem;
+    height: 1.3rem;
+    line-height: 1.3rem;
+    border-radius: 50%;
+    background: var(--b-grey-bg);
+    font-weight: 700;
+}
+.b-path-step.done .b-path-dot { background: var(--b-green); color: #ffffff; }
+.b-path-step.current .b-path-dot { background: var(--b-red); color: #ffffff; }
+.b-path-step.current { color: var(--b-red-dark); font-weight: 700; }
+.b-gate {
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--b-grey-bg);
+}
+.b-gate-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.b-gate-name { font-weight: 700; }
+.b-gate-right { display: flex; gap: 0.4rem; align-items: center; }
+.b-gate-sub { font-size: 0.75rem; margin-top: 2px; }

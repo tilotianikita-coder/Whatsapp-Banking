@@ -19,6 +19,10 @@
         <enabled>true</enabled>
         <name>Bandhu_Message__mdt</name>
     </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>Bandhu_Region__mdt</name>
+    </customMetadataTypeAccesses>
     <pageAccesses>
         <apexPage>BandhuWeb</apexPage>
         <enabled>true</enabled>

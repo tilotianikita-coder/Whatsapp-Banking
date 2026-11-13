@@ -55,6 +55,7 @@ CARDS = ['Sparks', 'Ignite', 'Flare', 'Lumina']
 LANGS = ['EN', 'HI', 'BN']
 CHANNELS = ['WhatsApp', 'Web']
 STAGES = ['Start', 'Verify', 'Needs', 'Profile', 'Recommend', 'KYC', 'Decision', 'Issued']
+GATES = ['Serviceability', 'Consent', 'Dedupe & Fraud', 'Credit Bureau', 'Income', 'Employment', 'Card Eligibility']
 CHECKS = ['PAN Verification', 'Aadhaar eKYC', 'Credit Bureau', 'Income Verification', 'Video KYC', 'Dedupe & Fraud', 'Card Policy']
 RESULTS = ['Pass', 'Refer', 'Fail', 'Pending']
 
@@ -173,6 +174,31 @@ FIELDS = {
         'Bandhu_Drop_Point__c': ('Drop Point', text(80), None),
         'Bandhu_Score_Detail__c': ('Score Detail', long_text(32768, 6), None),
         'Bandhu_Last_Nudged__c': ('Last Nudged', DATETIME, None),
+        'Bandhu_Stage_Gate__c': ('Card Stage Gate', text(80), 'Qualified, Waiting at <gate> or Knocked out at <gate>.'),
+        'Bandhu_Region__c': ('Card Region', text(80), None),
+        'Bandhu_Serviceable__c': ('Serviceable', CHECKBOX, None),
+        'Bandhu_Credit_Confidence__c': ('Credit Confidence', text(20), 'High / Medium / Low: how many credit gates had data.'),
+    },
+    'Bandhu_Lead_Check__c': {
+        'Lead__c': ('Lead', lookup('Lead', 'Bandhu_Lead_Checks', 'Card Qualification Checks'), None),
+        'Card_Journey__c': ('Card Journey', lookup('Card_Journey__c', 'Lead_Checks', 'Lead Checks'), None),
+        'Gate__c': ('Gate', picklist(GATES), None),
+        'Check__c': ('Check', text(80), None),
+        'Provider__c': ('Provider', text(80), None),
+        'Result__c': ('Result', picklist(RESULTS + ['Skipped']), None),
+        'Score__c': ('Score', number(6), 'Provider score (CIBIL score, verified income, fraud hits).'),
+        'Points__c': ('Credit Points', number(3), 'Points this gate adds to the credit score.'),
+        'Max_Points__c': ('Max Points', number(3), None),
+        'Knockout__c': ('Knock-out', CHECKBOX, 'This gate disqualifies the lead (no RM task, no nudge).'),
+        'Summary__c': ('Summary', text(255), None),
+        'Details__c': ('Details', long_text(32768, 4), None),
+        'Sort_Order__c': ('Sort Order', number(3), None),
+        'Run_At__c': ('Run At', DATETIME, None),
+    },
+    'Bandhu_Region__mdt': {
+        'PIN_Prefixes__c': ('PIN Prefixes', text(255), 'Comma-separated PIN code prefixes; the longest match wins; * = everything else.'),
+        'Serviceable__c': ('Serviceable', CHECKBOX, None),
+        'RM_Username__c': ('RM Username', text(120), 'Username of the RM who owns leads in this region (blank = Bandhu_Config RM).'),
     },
     'Bandhu_Card__mdt': {
         'Tier__c': ('Tier', number(2), '1 = entry ... 4 = premium.'),
@@ -237,12 +263,15 @@ OBJECTS = {
                             'A submitted Bandhan Bank credit card application with its checks and decision.', 'ReadWrite'),
     'Card_Check__c': ('Card Check', 'Card Checks', 'CC-{000000}', 'Check Number',
                       'One verification on a card application (PAN, Aadhaar, bureau, income, Video KYC, fraud, policy).', 'ControlledByParent'),
+    'Bandhu_Lead_Check__c': ('Card Qualification Check', 'Card Qualification Checks', 'LQ-{000000}', 'Check Number',
+                             'One lead-stage qualification gate for a Bandhu card prospect (serviceability, consent, fraud, bureau, income, employment, card eligibility).', 'ReadWrite'),
     'Bank_Relationship__c': ('Bank Relationship', 'Bank Relationships', 'BR-{000000}', 'Relationship Number',
                              'An existing customer\'s Bandhan Bank account or deposit (mock core banking).', 'ReadWrite'),
 }
 MDT = {
     'Bandhu_Card__mdt': ('Bandhu Card', 'Bandhu Cards', 'Bandhan Bank credit cards: benefits, fees, eligibility and fit weights.'),
     'Bandhu_Config__mdt': ('Bandhu Config', 'Bandhu Configs', 'Bandhu journey settings.'),
+    'Bandhu_Region__mdt': ('Bandhu Region', 'Bandhu Regions', 'Card serviceability and RM ownership by PIN code prefix.'),
     'Bandhu_Message__mdt': ('Bandhu Message', 'Bandhu Messages', 'Customer copy in English, Hindi and Bengali.'),
 }
 

@@ -85,6 +85,19 @@ CARDS = {
     },
 }
 
+# Card serviceability by PIN prefix (PLACEHOLDER footprint: Bandhan Bank's eastern and north-eastern heartland plus metros).
+# name: (label, prefixes, serviceable)
+REGIONS = {
+    'Kolkata': ('Kolkata', '700,711,712', True),
+    'West_Bengal': ('Rest of West Bengal', '713,721,722,731,732,733,734,735,736,741,742,743', True),
+    'North_East': ('Assam & North East', '78,79', True),
+    'Bihar_Jharkhand': ('Bihar & Jharkhand', '80,81,82,83,84,85', True),
+    'Odisha': ('Odisha', '75,76,77', True),
+    'Metros': ('Metros', '11,40,41,56,60,50', True),
+    'Rest_Of_India': ('Rest of India', '*', True),
+    'Not_Serviceable': ('Not serviceable (Andaman, Ladakh, Lakshadweep)', '744,194,682555', False),
+}
+
 LANG_HINT = ('Reply *HI* for हिंदी / *BN* for বাংলা', 'Reply *EN* for English / *BN* for বাংলা', 'Reply *EN* for English / *HI* for हिंदी')
 
 # key: (English, Hindi, Bengali). Hindi/Bengali are filled in by the translation pass; empty falls back to English.
@@ -243,6 +256,8 @@ def record(type_name, dev_name, label, values):
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     record('Bandhu_Config', 'Default', 'Default', CONFIG)
+    for name, (label, prefixes, serviceable) in REGIONS.items():
+        record('Bandhu_Region', name, label, {'PIN_Prefixes__c': prefixes, 'Serviceable__c': serviceable, 'RM_Username__c': ''})
     for name, values in CARDS.items():
         record('Bandhu_Card', name, name, values)
     for key, (en, hi, bn) in MESSAGES.items():

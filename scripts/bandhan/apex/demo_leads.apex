@@ -3,7 +3,7 @@
 //   for i in 0 1 2 3; do sed "s/^Integer WHICH = .*/Integer WHICH = $i;/" scripts/bandhan/apex/demo_leads.apex > /tmp/dl.apex; sf apex run -f /tmp/dl.apex -o bandhan; done
 //   Priya Das      - Hot:  Lumina match, CIBIL 772, dropped at Aadhaar eKYC
 //   Arjun Roy      - Hot:  Ignite match, CIBIL 730, dropped at the recommendation
-//   Moumita Saha   - Cold: not eligible (CIBIL 630), dropped at the not-eligible step
+//   Moumita Saha   - Unqualified, Cold: knocked out at the Credit Bureau gate (CIBIL 630), no RM task or nudge
 //   Sourav Ghosh   - application in the underwriter's queue: Flare, CIBIL 730 refer band (Card Policy: Refer)
 Integer WHICH = 0;
 String OTP = BandhuConfig.get().Demo_OTP__c;
@@ -21,6 +21,7 @@ for (List<Object> p : PROSPECTS) {
 }
 List<Lead> oldLeads = [SELECT Id FROM Lead WHERE MobilePhone IN :mobiles];
 delete [SELECT Id FROM Task WHERE WhoId IN :oldLeads];
+delete [SELECT Id FROM Bandhu_Lead_Check__c WHERE Lead__c IN :oldLeads];
 List<Card_Journey__c> oldJourneys = [SELECT Id, Card_Application__c FROM Card_Journey__c WHERE Mobile__c IN :mobiles];
 Set<Id> apps = new Set<Id>();
 for (Card_Journey__c j : oldJourneys) {
@@ -53,9 +54,9 @@ for (Id jid : dropped) {
 }
 update quiet;
 BandhuDropOffJob.run();
-for (Lead l : [SELECT Name, Rating, Bandhu_Intent_Score__c, Bandhu_Credit_Score__c, Bandhu_CIBIL__c, Bandhu_Recommended_Card__c, Bandhu_Drop_Point__c
+for (Lead l : [SELECT Name, Status, Bandhu_Stage_Gate__c, Rating, Bandhu_Intent_Score__c, Bandhu_Credit_Score__c, Bandhu_CIBIL__c, Bandhu_Recommended_Card__c, Bandhu_Drop_Point__c
                FROM Lead WHERE MobilePhone IN :mobiles]) {
-    System.debug('### lead ' + l.Name + ' ' + l.Rating + ' intent ' + l.Bandhu_Intent_Score__c + ' credit ' + l.Bandhu_Credit_Score__c
+    System.debug('### lead ' + l.Name + ' ' + l.Status + ' [' + l.Bandhu_Stage_Gate__c + '] ' + l.Rating + ' intent ' + l.Bandhu_Intent_Score__c + ' credit ' + l.Bandhu_Credit_Score__c
         + ' CIBIL ' + l.Bandhu_CIBIL__c + ' card ' + l.Bandhu_Recommended_Card__c + ' @ ' + l.Bandhu_Drop_Point__c);
 }
 for (Card_Application__c a : [SELECT Applicant_Name__c, Card_Product__c, Status__c, Recommendation__c FROM Card_Application__c WHERE Mobile__c IN :mobiles]) {

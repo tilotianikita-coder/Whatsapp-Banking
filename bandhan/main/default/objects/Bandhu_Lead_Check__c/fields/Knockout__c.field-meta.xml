@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Knockout__c</fullName>
+    <description>This gate disqualifies the lead (no RM task, no nudge).</description>
+    <inlineHelpText>This gate disqualifies the lead (no RM task, no nudge).</inlineHelpText>
+    <label>Knock-out</label>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+</CustomField>

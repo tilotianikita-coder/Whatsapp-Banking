@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bandhu_Stage_Gate__c</fullName>
+    <description>Qualified, Waiting at &lt;gate&gt; or Knocked out at &lt;gate&gt;.</description>
+    <inlineHelpText>Qualified, Waiting at &lt;gate&gt; or Knocked out at &lt;gate&gt;.</inlineHelpText>
+    <label>Card Stage Gate</label>
+    <type>Text</type>
+    <length>80</length>
+</CustomField>

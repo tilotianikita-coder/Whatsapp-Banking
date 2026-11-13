@@ -38,6 +38,33 @@
                 </div>
 
                 <div class="b-section">
+                    <div class={stageClass}>{stageText}</div>
+                    <div class="b-path">
+                        <template for:each={pathSteps} for:item="p">
+                            <div key={p.key} class={p.cls}><span class="b-path-dot">{p.mark}</span><span class="b-path-label">{p.label}</span></div>
+                        </template>
+                    </div>
+                </div>
+
+                <template lwc:if={hasGates}>
+                    <div class="b-section">
+                        <div class="b-section-title">Qualification gates</div>
+                        <template for:each={gates} for:item="g">
+                            <div key={g.key} class="b-gate">
+                                <div class="b-gate-head">
+                                    <span class="b-gate-name">{g.gate}</span>
+                                    <span class="b-gate-right">
+                                        <template lwc:if={g.showPoints}><span class="b-muted">{g.pointsText}</span></template>
+                                        <span class={g.cls}>{g.resultText}</span>
+                                    </span>
+                                </div>
+                                <div class="b-gate-sub">{g.summary}<template lwc:if={g.provider}><span class="b-muted"> · {g.provider}</span></template></div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <div class="b-section">
                     <dl class="b-kv">
                         <template for:each={facts} for:item="f">
                             <dt key={f.keyL}>{f.label}</dt>

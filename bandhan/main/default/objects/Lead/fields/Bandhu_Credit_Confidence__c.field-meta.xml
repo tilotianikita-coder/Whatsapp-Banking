@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bandhu_Credit_Confidence__c</fullName>
+    <description>High / Medium / Low: how many credit gates had data.</description>
+    <inlineHelpText>High / Medium / Low: how many credit gates had data.</inlineHelpText>
+    <label>Credit Confidence</label>
+    <type>Text</type>
+    <length>20</length>
+</CustomField>

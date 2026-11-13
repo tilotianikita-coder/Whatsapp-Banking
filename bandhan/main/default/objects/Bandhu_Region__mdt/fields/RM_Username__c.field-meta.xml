@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RM_Username__c</fullName>
+    <description>Username of the RM who owns leads in this region (blank = Bandhu_Config RM).</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>RM Username</label>
+    <type>Text</type>
+    <length>120</length>
+</CustomField>

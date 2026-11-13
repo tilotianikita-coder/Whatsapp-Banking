@@ -29,6 +29,26 @@ schedule of charges and credit policy.
   All pass → straight-through approval and a virtual card; any refer/pending → underwriter; any fail → decline with the
   best lower card offered.
 
+## Lead qualification and scoring (BandhuQualification)
+Every refresh of a prospect's Lead runs seven stage gates (records `Bandhu_Lead_Check__c`, shown on the Lead page),
+cheapest first; a knock-out stops the rest and makes the Lead **Unqualified / Cold** with no RM task or nudge.
+
+| Gate | Source | Knock-out |
+|---|---|---|
+| Serviceability | PIN → `Bandhu_Region__mdt` (Kolkata, Rest of WB, North East, Bihar & Jharkhand, Odisha, Metros, Rest of India) | Andaman, Ladakh, Lakshadweep |
+| Consent | DPDP + soft-check consent | — |
+| Dedupe & Fraud | fraud & dedupe (mock) | negative list (PAN …X) |
+| Credit Bureau | CIBIL soft pull (mock) | below 650 |
+| Income | Account Aggregator / declared | below ₹25,000 |
+| Employment | declared | — |
+| Card Eligibility | BandhuEligibility | no card (e.g. age) |
+
+- **Credit score** (0–100): CIBIL 40, income 20 (verified 20 / declared 10), fraud 15, employment 10, best eligible card 15,
+  scaled over the gates with data (confidence High / Medium / Low by how many had data).
+- **Intent score** (0–100): income 25, employment 10, monthly card spend 10, age 5, journey depth 40, needs 10.
+- **Rating** from the average: 70+ Hot, 40–69 Warm, below 40 Cold. Lead fields: Card Stage Gate (Qualified / Waiting at X /
+  Knocked out at X), Card Region, Serviceable, Credit Confidence. Owner: the region's RM (`RM_Username__c`), else Config RM.
+
 ## Demo levers (mock providers, by PAN)
 | PAN ends with | CIBIL / result |
 |---|---|
@@ -43,7 +63,7 @@ schedule of charges and credit policy.
 - Objects: Card_Journey__c, Card_Application__c, Card_Check__c, Bank_Relationship__c; Lead fields Bandhu_*; metadata
   Bandhu_Card / Bandhu_Config / Bandhu_Message (English, Hindi, Bengali — machine-drafted, needs native review).
 - Apex: BandhuEngine (journey), BandhuEligibility, BandhuDecision, BandhuProviders (mocks), BandhuLeadService,
-  BandhuDropOffJob, BandhuWebController, BandhuConsoleController, agent actions; 24 tests.
+  BandhuQualification (lead gates), BandhuDropOffJob, BandhuWebController, BandhuConsoleController, agent actions; 24 tests.
 - Agentforce: agent **Bandhu** (classic metadata, `scripts/bandhan/gen_agent.py`), active, user bandhu.agent.00dbm000019hbvj@example.com.
 - WhatsApp: package wpbyocdemo3 0.16, channel `WhatsApp_BYOC` (channel address `be8a17cb-de27-466b-ae1b-ea5d19149492`),
   routed by `Bandhu_WhatsApp_Inbound_Routing` to the agent, fallback queue SDO_Service_Messaging. Send_Mode ConversationMessage.
@@ -70,9 +90,9 @@ schedule of charges and credit policy.
    eKYC, Video KYC → review → **approved, virtual card issued**.
 2. **WhatsApp (5 min)** — from 9063480755: *Hi* → the same journey on WhatsApp; type *BN* to switch to Bengali; stop after
    the recommendation (drop-off).
-3. **Lead management (5 min)** — Bandhu Cards → Leads: Priya (Hot, Lumina), Arjun (Hot, Ignite), Moumita (Cold, not
-   eligible) and the presenter's own drop-off (after ~2 minutes). Open one: intent and credit scores with the breakdown,
-   CIBIL, eligible and recommended cards, drop point, RM task → **Nudge on WhatsApp** → the phone gets the RM message →
+3. **Lead management (5 min)** — Bandhu Cards → Leads: Priya (Hot, Lumina), Arjun (Hot, Ignite), Moumita (Unqualified:
+   knocked out at the Credit Bureau gate) and the presenter's own drop-off (after ~2 minutes). Open one: stage gate and journey path, the seven qualification gates,
+   intent and credit scores with the breakdown, CIBIL, eligible and recommended cards, drop point, RM task → **Nudge on WhatsApp** → the phone gets the RM message →
    *Continue* resumes where it stopped.
 4. **Underwriting (5 min)** — Card Applications → Sourav Ghosh (Flare, Refer: CIBIL 730 in the refer band): stage gates,
    each check's detail, recommendation and reasons, why this card → **Approve & issue card** (notes needed only against

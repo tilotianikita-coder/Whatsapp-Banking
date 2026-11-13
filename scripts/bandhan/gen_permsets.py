@@ -9,9 +9,9 @@ import os
 BASE = 'bandhan/main/default'
 OBJ = os.path.join(BASE, 'objects')
 OUT = os.path.join(BASE, 'permissionsets')
-CUSTOM = ['Card_Journey__c', 'Card_Application__c', 'Card_Check__c', 'Bank_Relationship__c']
+CUSTOM = ['Card_Journey__c', 'Card_Application__c', 'Card_Check__c', 'Bank_Relationship__c', 'Bandhu_Lead_Check__c']
 FIELD_ONLY = ['Lead']
-MDT = ['Bandhu_Card__mdt', 'Bandhu_Config__mdt', 'Bandhu_Message__mdt']
+MDT = ['Bandhu_Card__mdt', 'Bandhu_Config__mdt', 'Bandhu_Message__mdt', 'Bandhu_Region__mdt']
 TABS = ['Card_Journey__c', 'Card_Application__c', 'WhatsApp_Demo_Component']
 
 

@@ -82,6 +82,9 @@ export default class BandhuLeadInsight extends NavigationMixin(LightningElement)
     get facts() {
         const i = this.i;
         return [
+            ['Lead status', i.leadStatus],
+            ['Region', i.region],
+            ['Credit confidence', i.confidence],
             ['CIBIL', i.cibil != null ? String(i.cibil) : null],
             ['Recommended card', i.recommended],
             ['Eligible cards', i.eligible],
@@ -96,6 +99,41 @@ export default class BandhuLeadInsight extends NavigationMixin(LightningElement)
         ]
             .filter(([, v]) => v)
             .map(([label, value]) => ({ label, value, keyL: label + '-l', keyV: label + '-v' }));
+    }
+
+    get stageText() {
+        return this.i.stageGate || 'Not qualified yet';
+    }
+
+    get stageClass() {
+        const s = this.i.stageGate || '';
+        return 'b-stage ' + (s.startsWith('Knocked') ? 'b-stage-fail' : s === 'Qualified' ? 'b-stage-pass' : 'b-stage-wait');
+    }
+
+    get pathSteps() {
+        const at = this.i.pathIndex == null ? -1 : this.i.pathIndex;
+        return (this.i.path || []).map((label, idx) => ({
+            key: 'p' + idx,
+            label,
+            mark: idx < at || (idx === at && idx === 6) ? '✓' : String(idx + 1),
+            cls: 'b-path-step ' + (idx < at || (idx === at && idx === 6) ? 'done' : idx === at ? 'current' : '')
+        }));
+    }
+
+    get gates() {
+        const RESULT = { Pass: 'b-pill b-pill-green', Refer: 'b-pill b-pill-orange', Fail: 'b-pill b-pill-red', Pending: 'b-pill b-pill-white', Skipped: 'b-pill b-pill-grey' };
+        return (this.i.gates || []).map((g, idx) => ({
+            ...g,
+            key: 'g' + idx,
+            cls: RESULT[g.result] || 'b-pill b-pill-white',
+            resultText: g.knockout ? 'Knock-out' : g.result,
+            showPoints: g.maxPoints > 0 && g.result !== 'Pending' && g.result !== 'Skipped',
+            pointsText: `${g.points}/${g.maxPoints}`
+        }));
+    }
+
+    get hasGates() {
+        return this.gates.length > 0;
     }
 
     get scoreLines() {
