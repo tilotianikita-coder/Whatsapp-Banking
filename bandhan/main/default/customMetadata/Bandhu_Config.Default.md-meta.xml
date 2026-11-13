@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Default</label>
+    <protected>false</protected>
+    <values>
+        <field>Demo_OTP__c</field>
+        <value xsi:type="xsd:string">123456</value>
+    </values>
+    <values>
+        <field>Max_OTP_Attempts__c</field>
+        <value xsi:type="xsd:double">3</value>
+    </values>
+    <values>
+        <field>Min_Age__c</field>
+        <value xsi:type="xsd:double">21</value>
+    </values>
+    <values>
+        <field>Max_Age_Salaried__c</field>
+        <value xsi:type="xsd:double">60</value>
+    </values>
+    <values>
+        <field>Max_Age_Self_Employed__c</field>
+        <value xsi:type="xsd:double">65</value>
+    </values>
+    <values>
+        <field>Decline_Cibil__c</field>
+        <value xsi:type="xsd:double">650</value>
+    </values>
+    <values>
+        <field>Send_Mode__c</field>
+        <value xsi:type="xsd:string">LogOnly</value>
+    </values>
+    <values>
+        <field>WhatsApp_Channel__c</field>
+        <value xsi:type="xsd:string">WhatsApp_BYOC</value>
+    </values>
+    <values>
+        <field>Nudge_Definition__c</field>
+        <value xsi:type="xsd:string">Bandhu_Text</value>
+    </values>
+    <values>
+        <field>Country_Code__c</field>
+        <value xsi:type="xsd:string">91</value>
+    </values>
+    <values>
+        <field>Idle_Minutes__c</field>
+        <value xsi:type="xsd:double">2</value>
+    </values>
+    <values>
+        <field>RM_Username__c</field>
+        <value xsi:type="xsd:string">trailsignup.fbf7dadaec8000@salesforce.com</value>
+    </values>
+    <values>
+        <field>Site_Url__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Reference_Prefix__c</field>
+        <value xsi:type="xsd:string">BBL-CC</value>
+    </values>
+    <values>
+        <field>Card_Bin__c</field>
+        <value xsi:type="xsd:string">524193</value>
+    </values>
+</CustomMetadata>

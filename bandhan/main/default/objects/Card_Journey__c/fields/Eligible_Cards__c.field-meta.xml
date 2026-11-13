@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Eligible_Cards__c</fullName>
+    <description>Semicolon-separated cards the applicant qualifies for.</description>
+    <inlineHelpText>Semicolon-separated cards the applicant qualifies for.</inlineHelpText>
+    <label>Eligible Cards</label>
+    <type>Text</type>
+    <length>255</length>
+</CustomField>

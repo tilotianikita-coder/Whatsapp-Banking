@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tier__c</fullName>
+    <description>1 = entry ... 4 = premium.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Tier</label>
+    <type>Number</type>
+    <precision>2</precision>
+    <scale>0</scale>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Web_Token__c</fullName>
+    <description>Opaque token binding a web chat to this journey.</description>
+    <inlineHelpText>Opaque token binding a web chat to this journey.</inlineHelpText>
+    <label>Web Session Token</label>
+    <type>Text</type>
+    <length>40</length>
+</CustomField>

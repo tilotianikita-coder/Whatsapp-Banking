@@ -1,0 +1,87 @@
+<template>
+    <div class="b-card b-spinner-host">
+        <template lwc:if={loading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+        <div class="b-head">
+            <div>
+                <div class="b-head-title">Bandhu handoff</div>
+                <template lwc:if={hasJourney}><div class="b-head-sub">{h.customerName} · {h.mobile}</div></template>
+            </div>
+            <div class="b-head-right">
+                <template lwc:if={hasJourney}><span class={typeClass}>{h.customerType}</span></template>
+                <button class="b-icon-btn" onclick={handleRefresh} title="Refresh">↻</button>
+            </div>
+        </div>
+
+        <div class="b-body">
+            <template lwc:if={error}>
+                <div class="b-alert b-alert-error">{error}</div>
+            </template>
+
+            <template lwc:if={noJourney}>
+                <div class="b-alert b-alert-info">No Bandhu card journey on this conversation</div>
+            </template>
+
+            <template lwc:if={hasJourney}>
+                <div class="b-tiles">
+                    <div class="b-tile">
+                        <div class="b-tile-label">Language</div>
+                        <div class="b-tile-value small">{h.language}</div>
+                    </div>
+                    <div class="b-tile">
+                        <div class="b-tile-label">Current step</div>
+                        <div class="b-tile-value small">{h.step}</div>
+                    </div>
+                </div>
+
+                <div class="b-section">
+                    <div class="b-section-title">Why they asked for a person</div>
+                    <template lwc:if={h.reason}>
+                        <div class="reason">{h.reason}</div>
+                    </template>
+                    <template lwc:else>
+                        <div class="b-muted">No reason recorded.</div>
+                    </template>
+                </div>
+
+                <div class="b-section">
+                    <div class="b-section-title">What they've told Bandhu</div>
+                    <template lwc:if={hasAnswers}>
+                        <dl class="b-kv">
+                            <template for:each={answers} for:item="a">
+                                <dt key={a.key}>{a.label}</dt>
+                                <dd key={a.keyV}>{a.value}</dd>
+                            </template>
+                        </dl>
+                    </template>
+                    <template lwc:else>
+                        <div class="b-muted">Nothing shared yet.</div>
+                    </template>
+                </div>
+
+                <template lwc:if={h.recommendation}>
+                    <div class="b-section">
+                        <div class="b-section-title">Recommendation</div>
+                        <div class="rec">{h.recommendation}</div>
+                    </div>
+                </template>
+
+                <div class="b-section">
+                    <div class="b-section-title">Application</div>
+                    <template lwc:if={h.applicationId}>
+                        <span class={statusClass}>{h.applicationStatus}</span>
+                        <button class="b-link slds-m-left_small" onclick={openApplication}>Open Card Application →</button>
+                    </template>
+                    <template lwc:else>
+                        <div class="b-muted">Not submitted yet.</div>
+                    </template>
+                    <div class="links slds-m-top_x-small">
+                        <template lwc:if={h.leadId}><button class="b-link" onclick={openLead}>Lead</button></template>
+                        <template lwc:if={h.contactId}><button class="b-link" onclick={openContact}>Contact</button></template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

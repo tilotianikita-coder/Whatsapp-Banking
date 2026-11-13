@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Lang Hint</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Reply *HI* for हिंदी / *BN* for বাংলা</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">Reply *EN* for English / *BN* for বাংলা</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">Reply *EN* for English / *HI* for हिंदी</value>
+    </values>
+</CustomMetadata>

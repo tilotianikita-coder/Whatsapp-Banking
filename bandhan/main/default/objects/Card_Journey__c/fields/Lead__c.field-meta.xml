@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead__c</fullName>
+    <description>Prospect lead for a new-to-bank applicant.</description>
+    <inlineHelpText>Prospect lead for a new-to-bank applicant.</inlineHelpText>
+    <label>Lead</label>
+    <type>Lookup</type>
+    <referenceTo>Lead</referenceTo>
+    <relationshipName>Card_Journeys</relationshipName>
+    <relationshipLabel>Card Journeys</relationshipLabel>
+    <deleteConstraint>SetNull</deleteConstraint>
+</CustomField>

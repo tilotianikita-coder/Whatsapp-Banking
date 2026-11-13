@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Nudge RM</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Hi{name} 👋 This is {rm} from Bandhan Bank. You were finding your credit card with Bandhu — you'd already shared {done} details, so it takes just a minute to finish.
+
+👉 Reply *Continue* to pick up where you left off.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

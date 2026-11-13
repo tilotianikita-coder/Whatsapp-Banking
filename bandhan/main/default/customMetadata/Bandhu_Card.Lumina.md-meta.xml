@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Lumina</label>
+    <protected>false</protected>
+    <values>
+        <field>Tier__c</field>
+        <value xsi:type="xsd:double">4</value>
+    </values>
+    <values>
+        <field>Tagline__c</field>
+        <value xsi:type="xsd:string">Premium travel: unlimited international lounges, 1% forex</value>
+    </values>
+    <values>
+        <field>Joining_Fee__c</field>
+        <value xsi:type="xsd:double">9999</value>
+    </values>
+    <values>
+        <field>Annual_Fee__c</field>
+        <value xsi:type="xsd:double">9999</value>
+    </values>
+    <values>
+        <field>Fee_Waiver__c</field>
+        <value xsi:type="xsd:string">Annual fee waived on ₹10 lakh spend a year</value>
+    </values>
+    <values>
+        <field>Rewards__c</field>
+        <value xsi:type="xsd:string">16 reward points per ₹200</value>
+    </values>
+    <values>
+        <field>Accelerated__c</field>
+        <value xsi:type="xsd:string">24 points per ₹200 on international spends · 1% forex mark-up</value>
+    </values>
+    <values>
+        <field>Welcome__c</field>
+        <value xsi:type="xsd:string">₹10,000 Oberoi e-gift voucher on ₹20,000 spend in 30 days</value>
+    </values>
+    <values>
+        <field>Milestone__c</field>
+        <value xsi:type="xsd:string">10,000 points on ₹1 lakh monthly spend</value>
+    </values>
+    <values>
+        <field>Lounge__c</field>
+        <value xsi:type="xsd:string">8 domestic + unlimited international lounge visits a quarter</value>
+    </values>
+    <values>
+        <field>Dining__c</field>
+        <value xsi:type="xsd:string">25% off EazyDiner, up to ₹1,000 a month</value>
+    </values>
+    <values>
+        <field>Movies__c</field>
+        <value xsi:type="xsd:string">25% off BookMyShow, up to ₹1,000 a month</value>
+    </values>
+    <values>
+        <field>Fuel__c</field>
+        <value xsi:type="xsd:string">1% fuel surcharge waiver, up to ₹1,000 a cycle</value>
+    </values>
+    <values>
+        <field>Extras__c</field>
+        <value xsi:type="xsd:string">Concierge · 4 golf games &amp; 4 lessons · 4 airport meet &amp; greets · ₹1 Cr air accident cover</value>
+    </values>
+    <values>
+        <field>Min_Monthly_Income__c</field>
+        <value xsi:type="xsd:double">200000</value>
+    </values>
+    <values>
+        <field>Min_Cibil__c</field>
+        <value xsi:type="xsd:double">760</value>
+    </values>
+    <values>
+        <field>Refer_Cibil__c</field>
+        <value xsi:type="xsd:double">740</value>
+    </values>
+    <values>
+        <field>ETB_Min_Balance__c</field>
+        <value xsi:type="xsd:double">1000000</value>
+    </values>
+    <values>
+        <field>Limit_Multiple__c</field>
+        <value xsi:type="xsd:double">3</value>
+    </values>
+    <values>
+        <field>Limit_Min__c</field>
+        <value xsi:type="xsd:double">300000</value>
+    </values>
+    <values>
+        <field>Limit_Max__c</field>
+        <value xsi:type="xsd:double">1500000</value>
+    </values>
+    <values>
+        <field>Fit_Travel__c</field>
+        <value xsi:type="xsd:double">5</value>
+    </values>
+    <values>
+        <field>Fit_International__c</field>
+        <value xsi:type="xsd:double">5</value>
+    </values>
+    <values>
+        <field>Fit_Dining__c</field>
+        <value xsi:type="xsd:double">5</value>
+    </values>
+    <values>
+        <field>Fit_Groceries__c</field>
+        <value xsi:type="xsd:double">1</value>
+    </values>
+    <values>
+        <field>Fit_Shopping__c</field>
+        <value xsi:type="xsd:double">3</value>
+    </values>
+    <values>
+        <field>Fit_Fuel__c</field>
+        <value xsi:type="xsd:double">3</value>
+    </values>
+    <values>
+        <field>Fit_Low_Fee__c</field>
+        <value xsi:type="xsd:double">0</value>
+    </values>
+    <values>
+        <field>Fit_High_Spend__c</field>
+        <value xsi:type="xsd:double">5</value>
+    </values>
+    <values>
+        <field>Color__c</field>
+        <value xsi:type="xsd:string">#B8860B</value>
+    </values>
+</CustomMetadata>

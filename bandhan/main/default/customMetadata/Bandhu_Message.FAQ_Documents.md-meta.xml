@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ Documents</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Usually none! PAN, Aadhaar eKYC and a quick Video KYC — and income can be verified instantly through Account Aggregator. Existing Bandhan customers skip most of this.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

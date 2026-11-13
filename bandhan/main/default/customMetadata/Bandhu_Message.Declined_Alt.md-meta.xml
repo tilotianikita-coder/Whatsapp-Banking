@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Declined Alt</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">
+
+Good news — you're eligible for the *Bandhan {alt}* instead. Shall I apply for it?</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

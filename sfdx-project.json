@@ -1,5 +1,14 @@
 {
-  "packageDirectories": [{ "path": "force-app", "default": true }],
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true
+    },
+    {
+      "path": "bandhan",
+      "default": false
+    }
+  ],
   "name": "kotak-loanseva",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",

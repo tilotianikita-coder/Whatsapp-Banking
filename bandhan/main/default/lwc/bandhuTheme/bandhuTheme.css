@@ -1,0 +1,136 @@
+/*
+ * Bandhan Bank theme shared by the Bandhu components: @import 'c/bandhuTheme'; in a component's CSS.
+ * Deep red for structure and the main action, warm orange accent, navy text, green/amber/red for results.
+ */
+:host {
+    --b-red: #c8102e;
+    --b-red-bright: #e31e24;
+    --b-red-dark: #8f0b20;
+    --b-red-tint: #fde8ea;
+    --b-orange: #f58220;
+    --b-orange-tint: #fff1e3;
+    --b-navy: #1b2a4a;
+    --b-navy-tint: #e9edf5;
+    --b-green: #1e7b45;
+    --b-green-bg: #2e9e5b;
+    --b-green-tint: #e3f4ea;
+    --b-amber: #8a5a00;
+    --b-amber-bg: #f2a516;
+    --b-amber-tint: #fff4d6;
+    --b-grey: #5b6677;
+    --b-grey-bg: #e4e8ee;
+    --b-line: #e3e6ec;
+    --b-bg: #f7f5f3;
+}
+
+.b-card {
+    background: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    color: var(--b-navy);
+}
+.b-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    background: linear-gradient(90deg, var(--b-red) 0%, var(--b-red-bright) 100%);
+    border-bottom: 3px solid var(--b-orange);
+    color: #ffffff;
+    padding: 0.625rem 1rem;
+}
+.b-head-title { font-size: 1rem; font-weight: 700; }
+.b-head-sub { font-size: 0.75rem; opacity: 0.9; }
+.b-head-right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.b-icon-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 0.25rem;
+    color: #ffffff;
+    padding: 0.125rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+.b-body { padding: 0.75rem 1rem 1rem; }
+.b-section { margin-top: 1rem; }
+.b-section-title {
+    color: var(--b-navy);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-left: 3px solid var(--b-orange);
+    padding-left: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.b-muted { color: var(--b-grey); font-size: 0.75rem; }
+
+/* alerts */
+.b-alert { border-radius: 0.375rem; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; font-weight: 600; }
+.b-alert-info { background: var(--b-navy-tint); color: var(--b-navy); }
+.b-alert-error { background: var(--b-red-tint); color: var(--b-red-dark); }
+.b-alert-success { background: var(--b-green-tint); color: var(--b-green); }
+.b-alert-warn { background: var(--b-amber-tint); color: var(--b-amber); }
+.b-alert-sub { font-weight: 400; font-size: 0.75rem; margin-top: 0.125rem; }
+
+/* pills */
+.b-pill {
+    display: inline-block;
+    border-radius: 1rem;
+    padding: 0.125rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.b-pill-red { background: var(--b-red-tint); color: var(--b-red-dark); }
+.b-pill-solid { background: var(--b-red); color: #ffffff; }
+.b-pill-amber { background: var(--b-amber-tint); color: var(--b-amber); }
+.b-pill-green { background: var(--b-green-tint); color: var(--b-green); }
+.b-pill-grey { background: var(--b-grey-bg); color: var(--b-grey); }
+.b-pill-orange { background: var(--b-orange-tint); color: #a24d06; }
+.b-pill-white { background: #ffffff; color: var(--b-red); }
+
+/* tiles */
+.b-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: 0.5rem; }
+.b-tile { border: 1px solid var(--b-line); border-radius: 0.375rem; padding: 0.5rem 0.75rem; background: #ffffff; }
+.b-tile-main { background: var(--b-navy); border-color: var(--b-navy); color: #ffffff; }
+.b-tile-label { font-size: 0.75rem; opacity: 0.8; }
+.b-tile-value { font-size: 1.125rem; font-weight: 700; line-height: 1.3; }
+.b-tile-sub { font-size: 0.75rem; opacity: 0.8; }
+
+/* key/value grid */
+.b-kv { display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 0.75rem; font-size: 0.8125rem; }
+.b-kv dt { color: var(--b-grey); }
+.b-kv dd { font-weight: 600; margin: 0; }
+
+/* bars */
+.b-bar { height: 0.375rem; background: var(--b-grey-bg); border-radius: 0.25rem; overflow: hidden; margin-top: 0.375rem; }
+.b-bar-fill { height: 100%; background: var(--b-orange); border-radius: 0.25rem; }
+
+/* lists */
+.b-list { margin: 0; padding: 0; list-style: none; font-size: 0.8125rem; }
+.b-list li { padding: 0.25rem 0; border-bottom: 1px dashed var(--b-line); }
+.b-list li:last-child { border-bottom: 0; }
+
+/* buttons */
+.b-btn, .b-btn-navy, .b-btn-ghost, .b-btn-green {
+    border-radius: 0.375rem;
+    padding: 0.4375rem 1rem;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+.b-btn { background: var(--b-red); color: #ffffff; }
+.b-btn:hover { background: var(--b-red-dark); }
+.b-btn-green { background: var(--b-green-bg); color: #ffffff; }
+.b-btn-green:hover { background: var(--b-green); }
+.b-btn-navy { background: var(--b-navy); color: #ffffff; }
+.b-btn-ghost { background: #ffffff; color: var(--b-navy); border-color: var(--b-line); }
+.b-btn[disabled], .b-btn-green[disabled], .b-btn-navy[disabled] { opacity: 0.5; cursor: default; }
+
+.b-link { color: var(--b-red); font-weight: 600; cursor: pointer; text-decoration: underline; background: none; border: 0; padding: 0; }
+.b-footer { display: flex; justify-content: flex-end; gap: 0.5rem; }
+.b-spinner-host { position: relative; min-height: 4rem; }

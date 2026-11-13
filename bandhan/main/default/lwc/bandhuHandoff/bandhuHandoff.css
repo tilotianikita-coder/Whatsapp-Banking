@@ -1,0 +1,21 @@
+@import 'c/bandhuTheme';
+
+.small {
+    font-size: 0.9375rem;
+}
+.reason {
+    background: var(--b-orange-tint);
+    border-left: 3px solid var(--b-orange);
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    white-space: pre-line;
+}
+.rec {
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+.links {
+    display: flex;
+    gap: 1rem;
+}

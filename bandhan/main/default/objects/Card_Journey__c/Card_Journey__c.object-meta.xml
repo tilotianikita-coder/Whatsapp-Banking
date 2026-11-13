@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>One Bandhu credit card conversation (WhatsApp or web): answers, recommendation, KYC and outcome.</description>
+    <enableActivities>true</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Card Journey</label>
+    <nameField><displayFormat>CJ-{000000}</displayFormat><label>Journey Number</label><type>AutoNumber</type></nameField>
+    <pluralLabel>Card Journeys</pluralLabel>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

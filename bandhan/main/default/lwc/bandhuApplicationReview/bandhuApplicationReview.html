@@ -1,0 +1,139 @@
+<template>
+    <div class="b-card b-spinner-host">
+        <template lwc:if={loading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+        <template lwc:if={busy}>
+            <lightning-spinner alternative-text="Recording decision" size="medium"></lightning-spinner>
+        </template>
+
+        <template lwc:if={error}>
+            <div class="b-body"><div class="b-alert b-alert-error">{error}</div></div>
+        </template>
+
+        <template lwc:if={hasData}>
+            <!-- header -->
+            <div class="b-head">
+                <div>
+                    <div class="b-head-title">{app.Applicant_Name__c}</div>
+                    <div class="b-head-sub">
+                        {app.Reference_Number__c}
+                        <template lwc:if={app.Channel__c}> · {app.Channel__c}</template>
+                        <template lwc:if={app.Submitted_At__c}>
+                            · Submitted <lightning-formatted-date-time value={app.Submitted_At__c} year="numeric" month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                        </template>
+                    </div>
+                </div>
+                <div class="b-head-right">
+                    <span class={statusClass}>{app.Status__c}</span>
+                    <button class="b-icon-btn" onclick={handleRefresh} title="Refresh">↻ Refresh</button>
+                </div>
+            </div>
+
+            <div class="b-body">
+                <!-- card art + quick facts -->
+                <div class="top">
+                    <template lwc:if={card}>
+                        <div class="card-art" style={cardStyle}>
+                            <div class="card-bank">Bandhan Bank</div>
+                            <div class="card-chip"></div>
+                            <div class="card-name">{card.name}</div>
+                            <div class="card-tagline">{card.tagline}</div>
+                            <div class="card-limit">Limit {card.creditLimit}</div>
+                        </div>
+                    </template>
+                    <div class="b-tiles facts">
+                        <div class="b-tile b-tile-main">
+                            <div class="b-tile-label">CIBIL</div>
+                            <div class="b-tile-value">{cibil}</div>
+                        </div>
+                        <div class="b-tile">
+                            <div class="b-tile-label">Declared income</div>
+                            <div class="b-tile-value">{declaredIncome}</div>
+                            <div class="b-tile-sub">per month</div>
+                        </div>
+                        <div class="b-tile">
+                            <div class="b-tile-label">Verified income</div>
+                            <div class="b-tile-value">{verifiedIncome}</div>
+                            <div class="b-tile-sub">per month</div>
+                        </div>
+                        <div class="b-tile">
+                            <div class="b-tile-label">Customer</div>
+                            <div class="b-tile-value small">{customerType}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- stage gates -->
+                <div class="b-section">
+                    <div class="b-section-title">Stage gates</div>
+                    <div class="gates">
+                        <template for:each={gates} for:item="g">
+                            <button key={g.key} class={g.cls} data-key={g.key} title={g.title} onclick={handleGate}>{g.label}</button>
+                        </template>
+                    </div>
+                    <div class="legend b-muted">
+                        <span class="dot dot-pass"></span>Pass <span class="dot dot-refer"></span>Refer <span class="dot dot-fail"></span>Fail <span class="dot dot-pending"></span>Pending
+                    </div>
+                    <template lwc:if={selected}>
+                        <div class="gate-detail">
+                            <div class="gate-detail-head">
+                                <span class="gate-detail-title">{selected.label}</span>
+                                <span class={selected.resultClass}>{selected.result}</span>
+                                <template lwc:if={selected.hasScore}><span class="b-pill b-pill-orange">Score {selected.score}</span></template>
+                                <template lwc:if={selected.provider}><span class="b-muted">via {selected.provider}</span></template>
+                            </div>
+                            <div class="gate-summary">{selected.summary}</div>
+                            <template lwc:if={hasSelectedLines}>
+                                <ul class="b-list">
+                                    <template for:each={selected.lines} for:item="l"><li key={l.key}>{l.text}</li></template>
+                                </ul>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- recommendation -->
+                <div class="b-section">
+                    <div class="b-section-title">Recommendation</div>
+                    <div class="rec-row">
+                        <span class={recommendationClass}>{app.Recommendation__c}</span>
+                        <ul class="b-list reasons">
+                            <template for:each={reasonItems} for:item="r"><li key={r.key}>{r.text}</li></template>
+                        </ul>
+                    </div>
+                    <dl class="b-kv slds-m-top_small">
+                        <template lwc:if={review.why}><dt>Why this card</dt><dd>{review.why}</dd></template>
+                        <template lwc:if={review.needs}><dt>Customer needs</dt><dd>{review.needs}</dd></template>
+                        <template lwc:if={review.eligible}><dt>Eligible cards</dt><dd>{review.eligible}</dd></template>
+                    </dl>
+                </div>
+
+                <!-- decision -->
+                <div class="b-section">
+                    <template lwc:if={decided}>
+                        <div class={outcomeClass}>
+                            {outcomeText}
+                            <div class="b-alert-sub">
+                                By {decisionBy}
+                                <template lwc:if={app.Decision_At__c}>
+                                    on <lightning-formatted-date-time value={app.Decision_At__c} year="numeric" month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                                </template>
+                                <template lwc:if={app.Decision_Notes__c}><br />Notes: {app.Decision_Notes__c}</template>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <div class="decision-bar">
+                            <div class="b-muted">This application needs an underwriter decision.</div>
+                            <div class="b-footer">
+                                <button class="b-btn" onclick={handleDecline} disabled={busy}>✕ Decline</button>
+                                <button class="b-btn-green" onclick={handleApprove} disabled={busy}>✓ Approve &amp; issue card</button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

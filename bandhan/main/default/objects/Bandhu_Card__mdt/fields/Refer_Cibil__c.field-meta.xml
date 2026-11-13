@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refer_Cibil__c</fullName>
+    <description>Between this and Min CIBIL: underwriter refer.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Refer CIBIL</label>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+</CustomField>

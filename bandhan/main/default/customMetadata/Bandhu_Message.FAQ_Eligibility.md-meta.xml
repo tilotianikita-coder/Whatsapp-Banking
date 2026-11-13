@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ Eligibility</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">You need to be 21–60 (salaried) or 21–65 (self-employed) with a steady income — from ₹25,000 a month for Sparks up to ₹2 lakh for Lumina — and a healthy credit history. Existing Bandhan Bank customers often qualify faster. _(Indicative for this demo.)_</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

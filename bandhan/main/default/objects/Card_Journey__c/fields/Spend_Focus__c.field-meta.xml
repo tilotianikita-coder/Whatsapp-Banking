@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Spend_Focus__c</fullName>
+    <description>Semicolon-separated: Travel; International; Dining; Groceries; Shopping; Fuel.</description>
+    <inlineHelpText>Semicolon-separated: Travel; International; Dining; Groceries; Shopping; Fuel.</inlineHelpText>
+    <label>Spend Focus</label>
+    <type>Text</type>
+    <length>255</length>
+</CustomField>

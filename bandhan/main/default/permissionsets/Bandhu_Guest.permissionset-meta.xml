@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Public site guest: the Bandhu web journey page and its controller only (the controller runs without sharing behind a per-journey token).</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Bandhu Guest</label>
+    <classAccesses>
+        <apexClass>BandhuWebController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>Bandhu_Card__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>Bandhu_Config__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>Bandhu_Message__mdt</name>
+    </customMetadataTypeAccesses>
+</PermissionSet>

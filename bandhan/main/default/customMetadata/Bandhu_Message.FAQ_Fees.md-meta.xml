@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>FAQ Fees</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Joining fees range from ₹499 (Sparks) to ₹9,999 (Lumina), and each card's annual fee is waived when you spend enough in a year. I'll show the exact fee with your recommendation. _(Indicative for this demo.)_</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

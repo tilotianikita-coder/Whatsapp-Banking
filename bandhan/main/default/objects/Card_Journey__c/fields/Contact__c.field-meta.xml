@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact__c</fullName>
+    <description>Existing customer, when the mobile matches.</description>
+    <inlineHelpText>Existing customer, when the mobile matches.</inlineHelpText>
+    <label>Contact</label>
+    <type>Lookup</type>
+    <referenceTo>Contact</referenceTo>
+    <relationshipName>Card_Journeys</relationshipName>
+    <relationshipLabel>Card Journeys</relationshipLabel>
+    <deleteConstraint>SetNull</deleteConstraint>
+</CustomField>

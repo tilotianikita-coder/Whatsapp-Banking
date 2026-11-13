@@ -1,0 +1,82 @@
+<template>
+    <div class="b-card b-spinner-host">
+        <template lwc:if={loading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+        <div class="b-head">
+            <div>
+                <div class="b-head-title">Bandhu card lead</div>
+                <template lwc:if={hasJourney}><div class="b-head-sub">{i.customerName} · {i.status}</div></template>
+            </div>
+            <div class="b-head-right">
+                <template lwc:if={hasJourney}><span class={ratingClass}>{rating}</span></template>
+                <button class="b-icon-btn" onclick={handleRefresh} title="Refresh">↻</button>
+            </div>
+        </div>
+
+        <div class="b-body">
+            <template lwc:if={error}>
+                <div class="b-alert b-alert-error">{error}</div>
+            </template>
+
+            <template lwc:if={noJourney}>
+                <div class="b-alert b-alert-info">
+                    Not a Bandhu card lead
+                    <div class="b-alert-sub">{i.blockedReason}</div>
+                </div>
+            </template>
+
+            <template lwc:if={hasJourney}>
+                <div class="b-tiles">
+                    <template for:each={tiles} for:item="t">
+                        <div key={t.key} class={t.cls}>
+                            <div class="b-tile-label">{t.label}</div>
+                            <div class="b-tile-value">{t.value}<span class="out-of"> / 100</span></div>
+                            <div class="b-bar"><div class="b-bar-fill" style={t.barStyle}></div></div>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="b-section">
+                    <dl class="b-kv">
+                        <template for:each={facts} for:item="f">
+                            <dt key={f.keyL}>{f.label}</dt>
+                            <dd key={f.keyV}>{f.value}</dd>
+                        </template>
+                    </dl>
+                    <template lwc:if={i.applicationId}>
+                        <div class="slds-m-top_x-small">
+                            <button class="b-link" onclick={openApplication}>Open Card Application →</button>
+                        </div>
+                    </template>
+                </div>
+
+                <template lwc:if={hasScoreLines}>
+                    <div class="b-section">
+                        <div class="b-section-title">How the score was built</div>
+                        <ul class="b-list">
+                            <template for:each={scoreLines} for:item="s"><li key={s.key}>{s.text}</li></template>
+                        </ul>
+                    </div>
+                </template>
+
+                <div class="b-section">
+                    <template lwc:if={canNudge}>
+                        <button class="b-btn nudge" onclick={handleNudge} disabled={sending}>
+                            <template lwc:if={sending}>Sending…</template>
+                            <template lwc:else>Nudge on WhatsApp</template>
+                        </button>
+                        <template lwc:if={i.lastNudged}>
+                            <div class="b-muted slds-m-top_xx-small">
+                                Last nudged <lightning-formatted-date-time value={i.lastNudged} month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                            </div>
+                        </template>
+                    </template>
+                    <template lwc:else>
+                        <div class="b-alert b-alert-info">{i.blockedReason}</div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

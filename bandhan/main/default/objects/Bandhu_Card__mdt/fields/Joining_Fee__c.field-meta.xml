@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Joining_Fee__c</fullName>
+    <description>PLACEHOLDER: confirm with the Bandhan Bank schedule of charges.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Joining Fee</label>
+    <type>Number</type>
+    <precision>8</precision>
+    <scale>0</scale>
+</CustomField>

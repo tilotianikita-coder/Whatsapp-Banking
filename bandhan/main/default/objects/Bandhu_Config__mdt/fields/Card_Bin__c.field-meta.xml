@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Card_Bin__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Card BIN (mock)</label>
+    <type>Text</type>
+    <length>6</length>
+</CustomField>

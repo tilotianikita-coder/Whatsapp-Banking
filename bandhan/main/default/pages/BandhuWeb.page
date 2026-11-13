@@ -1,0 +1,519 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0" cache="false" controller="BandhuWebController">
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Bandhu | Bandhan Bank Credit Cards</title>
+<style>
+:root{--red:#E31E24;--deep:#B3121A;--wine:#7A0E14;--orange:#F58220;--navy:#1B2A4A;--muted:#5B6478;--line:#E6E8EE;--bg:#F7F7FA;--r:16px;--sh:0 6px 24px rgba(27,42,74,.10)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Noto Sans Devanagari","Noto Sans Bengali",sans-serif;color:var(--navy);background:var(--bg);line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+a{color:var(--red)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+/* header */
+.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top .wrap{display:flex;align-items:center;gap:28px;height:64px}
+.top img{height:36px;width:auto;display:block}
+.nav{display:flex;gap:4px;flex:1}
+.nav button{background:none;border:0;padding:20px 12px;color:var(--muted);font-weight:600;border-bottom:3px solid transparent}
+.nav button.on{color:var(--red);border-bottom-color:var(--red)}
+.signin{background:var(--red);color:#fff;border:0;border-radius:10px;padding:9px 18px;font-weight:700}
+/* hero */
+.hero{background:radial-gradient(circle at 85% 10%,rgba(245,130,32,.35),transparent 40%),linear-gradient(120deg,var(--wine) 0%,var(--deep) 55%,var(--red) 100%);color:#fff;padding:56px 0 64px;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600;color:#FFD9B8}
+h1{font-size:52px;line-height:1.08;margin:18px 0 16px;font-weight:800;letter-spacing:-.5px}
+h1 em{font-style:normal;color:var(--orange)}
+.sub{font-size:18px;max-width:560px;opacity:.92;margin:0 0 22px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px;padding:0;list-style:none}
+.chips li{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600}
+.ctas{display:flex;flex-wrap:wrap;gap:14px}
+.btn{border-radius:12px;padding:15px 28px;font-weight:700;font-size:17px;border:2px solid transparent}
+.btn.primary{background:#fff;color:var(--deep)}
+.btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.btn.primary:hover{background:#FFF3EA}
+.btn.ghost:hover{background:rgba(255,255,255,.1)}
+.meet{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:22px;padding:28px;backdrop-filter:blur(4px)}
+.meet h2{margin:8px 0 4px;font-size:26px}
+.meet p{margin:0 0 20px;opacity:.88}
+.mascot{width:150px;height:150px;display:block}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:rgba(0,0,0,.18);border-radius:14px;padding:16px 8px;text-align:center}
+.stat b{display:block;font-size:26px}
+.stat span{font-size:13px;opacity:.85}
+/* cards */
+.range{padding:44px 0 120px}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:14px;font-weight:800;color:var(--muted);margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.tile{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:16px;position:relative;display:flex;flex-direction:column;gap:6px;border:2px solid transparent}
+.tile.pick{border-color:var(--orange)}
+.tile.off{filter:grayscale(.9);opacity:.6}
+.art{border-radius:12px;aspect-ratio:1.586;padding:14px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;margin-bottom:8px}
+.art:after{content:"";position:absolute;right:-30%;top:-40%;width:90%;height:140%;border-radius:50%;background:rgba(255,255,255,.12)}
+.art .bk{font-size:12px;font-weight:700;letter-spacing:1px;opacity:.9}
+.art .chip{width:34px;height:24px;border-radius:5px;background:linear-gradient(135deg,#F7D28B,#C9963B)}
+.art .nm{font-weight:800;font-size:17px;z-index:1}
+.tile h3{margin:0;font-size:18px}
+.tile .tag{color:var(--muted);font-size:14px;margin:0 0 4px}
+.tile dl{margin:0;font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px}
+.tile dt{color:var(--muted)}
+.tile dd{margin:0}
+.fee{font-weight:700}
+.limit{background:#FFF3EA;color:#9A4A00;border-radius:8px;padding:6px 10px;font-weight:700;font-size:14px;margin-top:6px}
+.ribbon{position:absolute;top:-10px;left:16px;background:var(--orange);color:#fff;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;z-index:2;box-shadow:0 2px 8px rgba(245,130,32,.4)}
+.noel{position:absolute;top:-10px;left:16px;background:#6B7280;color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;z-index:2}
+.skel{height:300px;background:linear-gradient(90deg,#eee,#f6f6f6,#eee);border-radius:var(--r)}
+.foot{color:var(--muted);font-size:13px;text-align:center;padding:24px}
+/* chat */
+.scrim{position:fixed;inset:0;background:rgba(27,42,74,.45);z-index:40;display:none}
+.chat{position:fixed;top:0;right:0;bottom:0;width:440px;max-width:100%;background:#fff;z-index:50;display:none;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.open .scrim{display:block}
+.open .chat{display:flex}
+.ch-head{background:linear-gradient(120deg,var(--wine),var(--red));color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.ch-head svg{width:40px;height:40px;background:#fff;border-radius:50%;padding:2px}
+.ch-head .t{flex:1}
+.ch-head b{display:block}
+.ch-head small{opacity:.85}
+.x{background:rgba(255,255,255,.15);border:0;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px}
+.langs{display:flex;align-items:center;gap:6px;padding:8px 14px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted);flex-wrap:wrap}
+.langs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px;color:var(--navy);font-weight:600}
+.langs button[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.msgs{flex:1;overflow-y:auto;padding:16px 14px;background:#FBF7F4;display:flex;flex-direction:column;gap:10px}
+.b{max-width:86%;padding:10px 13px;border-radius:14px;font-size:15px;word-wrap:break-word;overflow-wrap:anywhere}
+.b.bot{background:#fff;align-self:flex-start;border-top-left-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.b.me{background:var(--red);color:#fff;align-self:flex-end;border-top-right-radius:4px}
+.b.err{background:#FDECEC;color:#8A1116;align-self:flex-start;border:1px solid #F5B5B7}
+.b code{background:#F1F2F5;padding:1px 5px;border-radius:4px;font-size:13px}
+.b .q{border-left:3px solid var(--orange);background:#FFF6EE;padding:6px 10px;margin:4px 0;border-radius:4px;display:block}
+.b a{word-break:break-all}
+.note{align-self:center;background:#E9F4EC;color:#1E6B34;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px}
+.typing{align-self:flex-start;background:#fff;border-radius:14px;padding:12px 14px;display:flex;gap:4px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.typing i{width:7px;height:7px;border-radius:50%;background:#B9BECB;animation:bl 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes bl{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.cscroll{display:flex;gap:12px;overflow-x:auto;padding:12px 2px 6px;align-self:stretch;scroll-snap-type:x mandatory}
+.cscroll .tile{min-width:240px;max-width:240px;scroll-snap-align:start;box-shadow:0 2px 10px rgba(27,42,74,.1)}
+.opts{display:flex;flex-wrap:wrap;gap:8px;padding:10px 14px 0;background:#fff;border-top:1px solid var(--line)}
+.opts:empty{display:none}
+.opts button{border:1.5px solid var(--red);color:var(--red);background:#fff;border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;text-align:left}
+.opts button:hover{background:#FFF0F0}
+.opts button[aria-pressed="true"]{background:var(--red);color:#fff}
+.opts button.go{background:var(--orange);border-color:var(--orange);color:#fff}
+.opts button:disabled{opacity:.5;cursor:default}
+.inbar{display:flex;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#fff}
+.inbar input{flex:1;border:1.5px solid var(--line);border-radius:999px;padding:11px 16px;font:inherit;font-size:15px;min-width:0}
+.inbar button{background:var(--red);color:#fff;border:0;border-radius:999px;padding:0 18px;font-weight:700}
+.inbar button:disabled,.inbar input:disabled{opacity:.55}
+/* consent */
+.consent{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;width:min(1140px,calc(100% - 24px));background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.18);border-top:4px solid var(--red);padding:18px 22px;z-index:30;display:flex;gap:20px;align-items:center}
+.consent h2{margin:0 0 4px;font-size:17px}
+.consent p{margin:0;color:var(--muted);font-size:14px}
+.consent .acts{display:flex;flex-direction:column;gap:8px;min-width:150px}
+.consent .acts button{border-radius:10px;padding:10px 16px;font-weight:700;border:2px solid var(--red)}
+.acc{background:var(--red);color:#fff}
+.rej{background:#fff;color:var(--red)}
+.consent[hidden]{display:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}h1{font-size:42px}}
+@media (max-width:767px){
+ .nav{display:none}
+ .top .wrap{justify-content:space-between}
+ .hero{padding:32px 0 40px;text-align:center}
+ .hero .wrap{grid-template-columns:1fr;gap:28px}
+ .hero .meet{order:-1;padding:20px}
+ .mascot{margin:0 auto;width:120px;height:120px}
+ h1{font-size:34px}
+ .sub{font-size:16px;margin-left:auto;margin-right:auto}
+ .chips,.ctas{justify-content:center}
+ .ctas .btn{width:100%}
+ .grid{grid-template-columns:1fr}
+ .chat{width:100%;box-shadow:none}
+ .consent{flex-direction:column;align-items:stretch;bottom:8px;padding:14px 16px}
+ .consent .acts{flex-direction:row}
+ .consent .acts button{flex:1}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <img src="{!URLFOR($Resource.BandhuLogo)}" alt="Bandhan Bank"/>
+    <nav class="nav" aria-label="Main">
+      <button type="button" class="on" aria-current="page">Credit Cards</button>
+      <button type="button">Loans</button>
+      <button type="button">Savings</button>
+      <button type="button">Help</button>
+    </nav>
+    <button type="button" class="signin">Sign in</button>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="pill">&#9733; Powered by Bandhu &#8212; Bandhan Bank AI card advisor</span>
+      <h1>Find your <em>perfect</em><br/>credit card.<br/>In just 5 minutes.</h1>
+      <p class="sub">Tell Bandhu what you spend on and get a personalised match. Completely paperless, with an Account Aggregator-powered income check and a virtual card the moment you are approved.</p>
+      <ul class="chips">
+        <li>&#9889; Value-first flow</li>
+        <li>&#128274; DPDP compliant</li>
+        <li>&#128196; Paperless</li>
+        <li>&#128179; Virtual card in minutes</li>
+      </ul>
+      <div class="ctas">
+        <button type="button" class="btn primary" id="talk">Talk to Bandhu &#8594;</button>
+        <button type="button" class="btn ghost" id="browse">Browse card range</button>
+      </div>
+    </div>
+    <div class="meet">
+      <svg class="mascot" viewBox="0 0 160 160" role="img" aria-label="Bandhu, a friendly round robot waving">
+        <circle cx="80" cy="84" r="70" fill="rgba(255,255,255,.08)"/>
+        <line x1="80" y1="22" x2="80" y2="38" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="80" cy="18" r="7" fill="#F58220"/>
+        <ellipse cx="80" cy="94" rx="46" ry="50" fill="#fff"/>
+        <rect x="46" y="52" width="68" height="46" rx="23" fill="#B3121A"/>
+        <circle cx="66" cy="74" r="9" fill="#fff"/><circle cx="94" cy="74" r="9" fill="#fff"/>
+        <circle cx="68" cy="76" r="4.5" fill="#1B2A4A"/><circle cx="96" cy="76" r="4.5" fill="#1B2A4A"/>
+        <path d="M70 88q10 8 20 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="56" cy="88" r="4" fill="#F58220" opacity=".7"/><circle cx="104" cy="88" r="4" fill="#F58220" opacity=".7"/>
+        <path d="M44 116q36 20 72 0v8q-36 18-72 0z" fill="#E31E24"/>
+        <ellipse cx="34" cy="104" rx="8" ry="12" fill="#fff"/>
+        <path d="M122 98q14-14 16-32" stroke="#fff" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <circle cx="139" cy="62" r="7" fill="#fff"/>
+        <path d="M148 52l6-4M150 62h7" stroke="#F58220" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <h2>Meet Bandhu</h2>
+      <p>Your personal Bandhan Bank credit card advisor</p>
+      <div class="stats">
+        <div class="stat"><b id="nCards">4</b><span>Card variants</span></div>
+        <div class="stat"><b>5 min</b><span>To apply</span></div>
+        <div class="stat"><b>24/7</b><span>Always on</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="range" id="range" aria-labelledby="rangeTitle">
+  <div class="wrap">
+    <h2 class="eyebrow" id="rangeTitle">Browse card range &#8212; or let Bandhu recommend</h2>
+    <div class="grid" id="grid"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+  </div>
+  <p class="foot">Demo experience. Card features are indicative and subject to Bandhan Bank policy and approval.</p>
+</section>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<section class="chat" id="chat" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+  <div class="ch-head">
+    <svg viewBox="0 0 160 160" aria-hidden="true"><ellipse cx="80" cy="94" rx="50" ry="54" fill="#fff"/><rect x="40" y="50" width="80" height="50" rx="25" fill="#B3121A"/><circle cx="64" cy="75" r="10" fill="#fff"/><circle cx="96" cy="75" r="10" fill="#fff"/><circle cx="66" cy="77" r="5" fill="#1B2A4A"/><circle cx="98" cy="77" r="5" fill="#1B2A4A"/><path d="M40 118q40 22 80 0v10q-40 20-80 0z" fill="#E31E24"/><circle cx="80" cy="20" r="8" fill="#F58220"/></svg>
+    <div class="t"><b id="chatTitle">Bandhu</b><small>Bandhan Bank AI card advisor</small></div>
+    <button type="button" class="x" id="close" aria-label="Close chat">&#215;</button>
+  </div>
+  <div class="langs" role="group" aria-label="Chat language">
+    <span>I'd like to chat in:</span>
+    <button type="button" data-lang="EN" aria-pressed="true">English</button>
+    <button type="button" data-lang="HI" aria-pressed="false" lang="hi">&#2361;&#2367;&#2306;&#2342;&#2368;</button>
+    <button type="button" data-lang="BN" aria-pressed="false" lang="bn">&#2476;&#2494;&#2434;&#2482;&#2494;</button>
+  </div>
+  <div class="msgs" id="msgs" aria-live="polite" aria-relevant="additions"></div>
+  <div class="opts" id="opts"></div>
+  <form class="inbar" id="form" autocomplete="off">
+    <label for="inp" class="sr">Type your message</label>
+    <input id="inp" type="text" maxlength="500" placeholder="Type a message..."/>
+    <button type="submit" id="sendBtn">Send</button>
+  </form>
+</section>
+
+<aside class="consent" id="consent" aria-labelledby="ckTitle" hidden="hidden">
+  <div style="flex:1">
+    <h2 id="ckTitle">&#127850; Cookie preferences &amp; privacy notice</h2>
+    <p>We use cookies and similar technologies to run this site and improve your experience. Your chat data is processed under the DPDP Act, 2023 only to recommend and process your card application. You can change your choice anytime in the Privacy Centre.</p>
+  </div>
+  <div class="acts">
+    <button type="button" class="acc" id="ckAcc">Accept all</button>
+    <button type="button" class="rej" id="ckRej">Reject all</button>
+  </div>
+</aside>
+
+<script>
+var BW = {
+  start: '{!$RemoteAction.BandhuWebController.start}',
+  send: '{!$RemoteAction.BandhuWebController.send}',
+  language: '{!$RemoteAction.BandhuWebController.language}'
+};
+</script>
+<script>
+//<![CDATA[
+(function () {
+  'use strict';
+  var IN_CHAT_STEPS = { choose: 1, not_eligible: 1, after_compare: 1 };
+  var state = { token: null, busy: false, first: null, shown: false, lang: 'EN', picks: {} };
+  var $ = function (id) { return document.getElementById(id); };
+  var msgs = $('msgs'), opts = $('opts'), inp = $('inp'), sendBtn = $('sendBtn');
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /* WhatsApp-style markdown on already-escaped text */
+  function md(text) {
+    var keep = [];
+    var hold = function (html) { keep.push(html); return '\u0000' + (keep.length - 1) + '\u0000'; };
+    var s = esc(text);
+    s = s.replace(/```([\s\S]+?)```/g, function (m, c) { return hold('<code>' + c + '</code>'); });
+    s = s.replace(/https?:\/\/[^\s<]+[^\s<.,;:!?)\]]/g, function (u) {
+      return hold('<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + u + '</a>');
+    });
+    s = s.replace(/(^|[\s(])\*(\S[^*\n]*?)\*(?=$|[\s.,;:!?)])/g, '$1<b>$2</b>');
+    s = s.replace(/(^|[\s(])_(\S[^_\n]*?)_(?=$|[\s.,;:!?)])/g, '$1<i>$2</i>');
+    var lines = s.split(/\r?\n/), out = [];
+    for (var i = 0; i < lines.length; i++) {
+      var ln = lines[i];
+      if (ln.indexOf('&gt; ') === 0) { out.push('<span class="q">' + ln.substring(5) + '</span>'); }
+      else { out.push(ln + (i < lines.length - 1 && !(lines[i + 1].indexOf('&gt; ') === 0) ? '<br>' : '')); }
+    }
+    s = out.join('');
+    return s.replace(/\u0000(\d+)\u0000/g, function (m, n) { return keep[+n]; });
+  }
+
+  function rupee(n) {
+    if (n == null) { return ''; }
+    return '₹' + Number(n).toLocaleString('en-IN');
+  }
+
+  function shade(hex, amt) {
+    var h = /^#?([0-9a-f]{6})$/i.exec(hex || '');
+    if (!h) { return '#7A0E14'; }
+    var v = parseInt(h[1], 16), r = (v >> 16) + amt, g = ((v >> 8) & 255) + amt, b = (v & 255) + amt;
+    var c = function (x) { return Math.max(0, Math.min(255, x)); };
+    return '#' + ((1 << 24) + (c(r) << 16) + (c(g) << 8) + c(b)).toString(16).slice(1);
+  }
+
+  function tile(c) {
+    var col = /^#[0-9a-f]{6}$/i.test(c.color || '') ? c.color : '#B3121A';
+    var cls = 'tile' + (c.recommended ? ' pick' : '') + (c.eligible === false ? ' off' : '');
+    var h = '<article class="' + cls + '">';
+    if (c.recommended) { h += '<span class="ribbon">&#9733; Bandhu\'s pick for you</span>'; }
+    else if (c.eligible === false) { h += '<span class="noel">Not eligible yet</span>'; }
+    h += '<div class="art" style="background:linear-gradient(135deg,' + col + ',' + shade(col, -60) + ')" role="img" aria-label="' + esc(c.name) + ' card design">'
+      + '<span class="bk">BANDHAN BANK</span><span class="chip"></span><span class="nm">' + esc(c.name) + '</span></div>';
+    h += '<h3>' + esc(c.name) + '</h3><p class="tag">' + esc(c.tagline) + '</p><dl>';
+    h += '<dt>Fee</dt><dd class="fee">' + (c.joiningFee ? 'Joining ' + rupee(c.joiningFee) : 'Joining ₹0 (Lifetime free)') + '</dd>';
+    if (c.rewards) { h += '<dt>Rewards</dt><dd>' + esc(c.rewards) + '</dd>'; }
+    if (c.lounge) { h += '<dt>Lounge</dt><dd>' + esc(c.lounge) + '</dd>'; }
+    if (c.welcome) { h += '<dt>Welcome</dt><dd>' + esc(c.welcome) + '</dd>'; }
+    h += '</dl>';
+    if (c.creditLimit) { h += '<div class="limit">Indicative limit ' + esc(String(c.creditLimit).replace(/^₹\s*/, '₹')) + '</div>'; }
+    return h + '</article>';
+  }
+
+  function renderGrid(cards) {
+    if (!cards || !cards.length) { $('grid').innerHTML = '<p>Talk to Bandhu to see the card range.</p>'; return; }
+    $('grid').innerHTML = cards.map(tile).join('');
+    $('nCards').textContent = cards.length;
+  }
+
+  function scrollDown() { msgs.scrollTop = msgs.scrollHeight; }
+
+  function addBubble(kind, html) {
+    var d = document.createElement('div');
+    d.className = 'b ' + kind;
+    d.innerHTML = html;
+    msgs.appendChild(d);
+    scrollDown();
+    return d;
+  }
+
+  function setBusy(b) {
+    state.busy = b;
+    inp.disabled = b; sendBtn.disabled = b;
+    var bs = opts.querySelectorAll('button');
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = b; }
+    var t = $('typing');
+    if (b && !t) {
+      t = document.createElement('div'); t.id = 'typing'; t.className = 'typing';
+      t.setAttribute('aria-label', 'Bandhu is typing'); t.innerHTML = '<i></i><i></i><i></i>';
+      msgs.appendChild(t); scrollDown();
+    } else if (!b && t) { t.parentNode.removeChild(t); }
+  }
+
+  function renderOptions(turn) {
+    opts.innerHTML = '';
+    state.picks = {};
+    var list = turn.options || [];
+    if (!list.length) { return; }
+    var multi = turn.step === 'spend';
+    opts.setAttribute('aria-label', multi ? 'Pick all that apply' : 'Quick replies');
+    list.forEach(function (label, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = label;
+      if (multi) {
+        b.setAttribute('aria-pressed', 'false');
+        b.onclick = function () {
+          var on = b.getAttribute('aria-pressed') !== 'true';
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          if (on) { state.picks[i + 1] = label; } else { delete state.picks[i + 1]; }
+          go.disabled = !Object.keys(state.picks).length;
+        };
+      } else {
+        b.onclick = function () { send(String(i + 1), label); };
+      }
+      opts.appendChild(b);
+    });
+    if (multi) {
+      var go = document.createElement('button');
+      go.type = 'button'; go.className = 'go'; go.textContent = 'Continue →'; go.disabled = true;
+      go.onclick = function () {
+        var nums = Object.keys(state.picks).map(Number).sort(function (a, b) { return a - b; });
+        if (!nums.length) { return; }
+        send(nums.join(', '), nums.map(function (n) { return state.picks[n]; }).join(', '));
+      };
+      opts.appendChild(go);
+    }
+  }
+
+  function setLangUi(lang) {
+    state.lang = lang || 'EN';
+    document.documentElement.lang = { EN: 'en', HI: 'hi', BN: 'bn' }[state.lang] || 'en';
+    var bs = document.querySelectorAll('.langs button');
+    for (var i = 0; i < bs.length; i++) { bs[i].setAttribute('aria-pressed', bs[i].getAttribute('data-lang') === state.lang ? 'true' : 'false'); }
+  }
+
+  function showTurn(turn) {
+    if (turn.token) { state.token = turn.token; }
+    if (turn.language) { setLangUi(turn.language); }
+    if (turn.message) { addBubble('bot', md(turn.message)); }
+    if (turn.cards && turn.cards.length && IN_CHAT_STEPS[turn.step]) {
+      var row = document.createElement('div');
+      row.className = 'cscroll';
+      row.setAttribute('role', 'list');
+      row.innerHTML = turn.cards.map(tile).join('');
+      msgs.appendChild(row);
+      if (turn.step !== 'after_compare') { renderGrid(turn.cards); }
+    }
+    if (turn.handoff) {
+      var n = document.createElement('div'); n.className = 'note';
+      n.textContent = '☎ A Bandhan Bank specialist will contact you';
+      msgs.appendChild(n);
+    }
+    renderOptions(turn);
+    scrollDown();
+  }
+
+  function errBubble(event) {
+    var m = event && event.message ? String(event.message) : '';
+    var friendly = /session|refresh/i.test(m) ? m : 'Sorry, something went wrong on our side. Please try again in a moment.';
+    addBubble('err', esc(friendly));
+    if (window.console) { console.warn('Bandhu remoting error', event && event.type); }
+  }
+
+  function call(action, args, done) {
+    var a = [action].concat(args);
+    a.push(function (result, event) {
+      if (event.status && result) { done(result); } else { done(null, event); }
+    });
+    a.push({ escape: false, buffer: false, timeout: 60000 });
+    Visualforce.remoting.Manager.invokeAction.apply(Visualforce.remoting.Manager, a);
+  }
+
+  var starting = null;
+  function startJourney(cb) {
+    if (state.token) { cb && cb(true); return; }
+    if (starting) { starting.push(cb); return; }
+    starting = [cb];
+    call(BW.start, [state.lang, 'Web'], function (turn, event) {
+      var q = starting; starting = null;
+      if (turn) {
+        state.token = turn.token; state.first = turn;
+        renderGrid(turn.cards);
+      } else {
+        state.startErr = event;
+        if (!$('grid').querySelector('.tile')) { $('grid').innerHTML = '<p>We could not load the card range right now. Talk to Bandhu or refresh to try again.</p>'; }
+      }
+      q.forEach(function (f) { f && f(!!turn, event); });
+    });
+  }
+
+  function send(text, display) {
+    if (state.busy || !text) { return; }
+    addBubble('me', esc(display || text));
+    opts.innerHTML = '';
+    setBusy(true);
+    var go = function () {
+      call(BW.send, [state.token, text], function (turn, event) {
+        setBusy(false);
+        if (turn) { showTurn(turn); } else { errBubble(event); }
+        inp.focus();
+      });
+    };
+    if (state.token) { go(); }
+    else { startJourney(function (ok, ev) { if (ok) { go(); } else { setBusy(false); errBubble(ev); } }); }
+  }
+
+  function openChat() {
+    document.body.classList.add('open');
+    if (window.matchMedia('(max-width:767px)').matches) { document.body.style.overflow = 'hidden'; }
+    inp.focus();
+    if (state.shown) { return; }
+    setBusy(true);
+    startJourney(function (ok, ev) {
+      setBusy(false);
+      if (ok && state.first) { state.shown = true; showTurn(state.first); }
+      else if (!ok) { errBubble(ev); }
+    });
+  }
+
+  function closeChat() {
+    document.body.classList.remove('open');
+    document.body.style.overflow = '';
+    $('talk').focus();
+  }
+
+  function changeLang(lang) {
+    if (state.busy || lang === state.lang) { return; }
+    if (!state.token) { state.lang = lang; setLangUi(lang); return; }
+    setBusy(true);
+    call(BW.language, [state.token, lang], function (turn, event) {
+      setBusy(false);
+      if (turn) { state.shown = true; showTurn(turn); } else { errBubble(event); }
+    });
+  }
+
+  $('talk').onclick = openChat;
+  $('browse').onclick = function () { $('range').scrollIntoView({ behavior: 'smooth' }); };
+  $('close').onclick = closeChat;
+  $('scrim').onclick = closeChat;
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.body.classList.contains('open')) { closeChat(); } });
+  $('form').onsubmit = function (e) {
+    e.preventDefault();
+    var t = inp.value.trim();
+    if (!t) { return; }
+    inp.value = '';
+    send(t);
+  };
+  var lb = document.querySelectorAll('.langs button');
+  for (var i = 0; i < lb.length; i++) {
+    lb[i].onclick = (function (b) { return function () { changeLang(b.getAttribute('data-lang')); }; })(lb[i]);
+  }
+
+  /* cosmetic consent banner */
+  var ck = null;
+  try { ck = sessionStorage.getItem('bandhuConsent'); } catch (e) { ck = null; }
+  if (!ck) { $('consent').hidden = false; }
+  var setCk = function (v) { try { sessionStorage.setItem('bandhuConsent', v); } catch (e) {} $('consent').hidden = true; };
+  $('ckAcc').onclick = function () { setCk('all'); };
+  $('ckRej').onclick = function () { setCk('none'); };
+
+  startJourney();
+})();
+//]]>
+</script>
+</body>
+</html>
+</apex:page>

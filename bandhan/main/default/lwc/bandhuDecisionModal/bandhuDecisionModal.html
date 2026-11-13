@@ -1,0 +1,27 @@
+<template>
+    <lightning-modal-header label={title}>
+        <span class={recommendationClass}>System recommends: {recommendation}</span>
+    </lightning-modal-header>
+    <lightning-modal-body>
+        <p class="summary">{summary}</p>
+        <template lwc:if={hasReasons}>
+            <div class="b-section-title slds-m-top_small">Why the system recommends this</div>
+            <ul class="b-list">
+                <template for:each={reasonItems} for:item="r"><li key={r.key}>{r.text}</li></template>
+            </ul>
+        </template>
+        <div class={guidanceClass}>
+            <lightning-icon icon-name={guidanceIcon} size="x-small" class="slds-m-right_x-small"></lightning-icon>{guidance}
+        </div>
+        <lightning-textarea class="slds-m-top_small" label={notesLabel} value={notes} onchange={handleNotes} max-length="4000" required={deviation}></lightning-textarea>
+        <template lwc:if={showError}>
+            <div class="slds-text-color_error slds-text-body_small">Add a note before going against the recommendation.</div>
+        </template>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <div class="b-footer">
+            <button class="b-btn-ghost" onclick={handleCancel}>Cancel</button>
+            <button class={confirmClass} onclick={handleConfirm}>{confirmLabel}</button>
+        </div>
+    </lightning-modal-footer>
+</template>

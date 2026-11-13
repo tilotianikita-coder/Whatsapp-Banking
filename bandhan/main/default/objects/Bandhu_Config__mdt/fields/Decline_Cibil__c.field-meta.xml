@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decline_Cibil__c</fullName>
+    <description>Below this: decline for every card.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Decline CIBIL</label>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+</CustomField>

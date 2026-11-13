@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Review</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">📝 *Please confirm your application*
+
+&gt; 💳 Bandhan *{card}* · limit *{limit}*
+&gt; 👤 {fullname} · PAN {pan}
+&gt; 🎂 {dob} · 📍 {city}
+&gt; 💼 {employment} · {income}/month
+&gt; 🪪 KYC: {kyc}
+
+By confirming, you agree to the card's terms (MITC) and to Bandhan Bank verifying your details for this application.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

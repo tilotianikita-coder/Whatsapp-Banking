@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Report_Data__c</fullName>
+    <description>Mock provider report as JSON.</description>
+    <inlineHelpText>Mock provider report as JSON.</inlineHelpText>
+    <label>Report Data</label>
+    <type>LongTextArea</type>
+    <length>131072</length>
+    <visibleLines>3</visibleLines>
+</CustomField>

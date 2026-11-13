@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bandhu_Credit_Score__c</fullName>
+    <description>Out of 100: CIBIL, income headroom and checks run so far.</description>
+    <inlineHelpText>Out of 100: CIBIL, income headroom and checks run so far.</inlineHelpText>
+    <label>Card Credit Score</label>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+</CustomField>

@@ -1,0 +1,13 @@
+@import 'c/bandhuTheme';
+
+.out-of {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.7;
+}
+.b-tile-main .b-bar {
+    background: rgba(255, 255, 255, 0.25);
+}
+.nudge {
+    width: 100%;
+}
