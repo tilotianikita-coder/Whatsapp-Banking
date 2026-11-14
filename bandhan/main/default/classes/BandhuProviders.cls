@@ -82,7 +82,24 @@ public inherited sharing class BandhuProviders {
         return declared == null ? null : (declared * 0.96 / 100).round(System.RoundingMode.DOWN) * 100;
     }
 
+    /** Income verification plus the AIS / GST cross-checks: a flagged cross-check refers. */
     public static Report income(Card_Journey__c j) {
+        Report r = incomeSource(j);
+        List<String> flags = new List<String>();
+        for (BandhuRisk.IncomeCheck c : BandhuRisk.incomeChecks(j)) {
+            r.details.addAll(c.lines);
+            if (c.flagged) {
+                flags.add(c.source);
+            }
+        }
+        if (!flags.isEmpty() && r.result == 'Pass') {
+            r.result = 'Refer';
+            r.summary = (r.summary + ' · ' + String.join(flags, ', ') + ' disagree').abbreviate(255);
+        }
+        return r;
+    }
+
+    private static Report incomeSource(Card_Journey__c j) {
         Report r = new Report();
         if (j.Customer_Type__c == 'Existing' && j.Verified_Income__c != null) {
             r.provider = 'Bandhan Bank salary credits';

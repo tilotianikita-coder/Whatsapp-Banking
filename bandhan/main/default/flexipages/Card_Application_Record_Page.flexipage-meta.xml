@@ -25,6 +25,12 @@
                 <identifier>c_bandhuApplicationReview</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>bandhuDocuments</componentName>
+                <identifier>c_bandhuDocuments</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>header</name>
         <type>Region</type>
     </flexiPageRegions>

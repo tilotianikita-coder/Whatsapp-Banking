@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PAN_On_Document__c</fullName>
+    <description>Masked.</description>
+    <inlineHelpText>Masked.</inlineHelpText>
+    <label>PAN on Document</label>
+    <type>Text</type>
+    <length>10</length>
+</CustomField>

@@ -146,7 +146,7 @@ public inherited sharing class BandhuQualification {
         if (String.isBlank(j.PAN__c)) {
             return gate(GATE_FRAUD, 'Fraud & dedupe', 'Bandhan fraud & dedupe (mock)', 'Pending', null, 0, 15, 'PAN not shared yet', null);
         }
-        BandhuProviders.Report r = BandhuProviders.fraud(j.PAN__c, j.Mobile__c, j.Card_Application__c);
+        BandhuProviders.Report r = BandhuRisk.fraud(j, j.Card_Application__c);
         Bandhu_Lead_Check__c c = gate(GATE_FRAUD, 'Fraud & dedupe', r.provider, r.result, r.score, r.result == 'Pass' ? 15 : r.result == 'Refer' ? 5 : 0, 15, r.summary, null);
         c.Knockout__c = r.result == 'Fail';
         return c;

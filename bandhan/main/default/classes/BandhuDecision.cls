@@ -72,7 +72,7 @@ public inherited sharing class BandhuDecision {
             bureau,
             income,
             BandhuProviders.videoKyc(j),
-            BandhuProviders.fraud(j.PAN__c, j.Mobile__c, app.Id),
+            BandhuRisk.fraud(j, app.Id),
             BandhuProviders.dueDiligence(j)
         };
         List<String> names = new List<String>{ 'PAN Verification', 'Aadhaar eKYC', 'Credit Bureau', 'Income Verification', 'Video KYC', 'Dedupe & Fraud', 'Customer Due Diligence' };

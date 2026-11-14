@@ -54,6 +54,18 @@ schedule of charges and credit policy.
 
 Seed customers: `ON_DEMO_PHONE = 'Rina'` (microfinance only: Sparks) or `'Debasish'` (dormant: journey on hold).
 
+## Risk signals, income cross-checks and documents (phase 4a)
+- **Dedupe & Fraud** (`BandhuRisk`): negative list, open applications on the PAN, application velocity (3+ journeys from
+  the PAN or mobile in 24 hours, a device / session proxy), credit-hungry enquiries across 4+ lenders, and the declared
+  city vs the PIN's city (mock geocoder). AA synthetic-income patterns are flagged by `BandhuCashFlow`.
+- **Income cross-checks** on the Income Verification check: Form 26AS / AIS for everyone, GST (GSTIN, 12 months of
+  returns, turnover vs declared income) for self-employed and business owners. Lever: PAN digits ending **2** -> GST filed
+  7/12 months and AIS 45% below declared.
+- **Documents** (Card Application page, *Income documents*): upload a salary slip, Form 16, ITR or bank statement -> read
+  (OCR / NLP is a MOCK: figures simulated from the application; Einstein Document AI or an OCR vendor slots into
+  `BandhuDocuments.extract`) -> PAN match and income cross-check; more than 15% below declared refers. A file name with
+  *mismatch* reads 30% lower. Income Verification updates from the documents (and sets the verified income).
+
 ## Journey order and compliance (phase 3)
 - **Order**: consent → name → OTP → **income source** (salaried / self-employed professional / business owner) →
   income → PAN → **Account Aggregator** ("connect your accounts for instant approval, no documents needed") → a live

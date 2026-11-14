@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Variance_Pct__c</fullName>
+    <description>How far below the declared income the document is.</description>
+    <inlineHelpText>How far below the declared income the document is.</inlineHelpText>
+    <label>Variance %</label>
+    <type>Number</type>
+    <precision>5</precision>
+    <scale>1</scale>
+</CustomField>

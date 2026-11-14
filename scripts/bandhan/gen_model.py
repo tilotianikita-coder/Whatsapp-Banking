@@ -214,6 +214,22 @@ FIELDS = {
         'Bandhu_Serviceable__c': ('Serviceable', CHECKBOX, None),
         'Bandhu_Credit_Confidence__c': ('Credit Confidence', text(20), 'High / Medium / Low: how many credit gates had data.'),
     },
+    'Bandhu_Document__c': {
+        'Card_Application__c': ('Card Application', lookup('Card_Application__c', 'Documents', 'Documents'), None),
+        'Type__c': ('Type', picklist(['Salary slip', 'Form 16', 'ITR', 'Bank statement']), None),
+        'Content_Document_Id__c': ('File', text(18), 'ContentDocument Id of the uploaded file.'),
+        'File_Name__c': ('File Name', text(255), None),
+        'Employer__c': ('Employer / Payer', text(120), None),
+        'PAN_On_Document__c': ('PAN on Document', text(10), 'Masked.'),
+        'PAN_Match__c': ('PAN Matches', CHECKBOX, None),
+        'Period__c': ('Period', text(40), None),
+        'Extracted_Monthly_Income__c': ('Extracted Monthly Income', MONEY, None),
+        'Declared_Monthly_Income__c': ('Declared Monthly Income', MONEY, None),
+        'Variance_Pct__c': ('Variance %', number(5, 1), 'How far below the declared income the document is.'),
+        'Result__c': ('Result', picklist(['Pass', 'Refer']), None),
+        'Summary__c': ('Summary', text(255), None),
+        'Extracted_Data__c': ('Extracted Data', long_text(32768, 3), 'OCR + NLP fields (JSON).'),
+    },
     'Bandhu_Consent__c': {
         'Card_Journey__c': ('Card Journey', lookup('Card_Journey__c', 'Consents', 'Consents'), None),
         'Card_Application__c': ('Card Application', lookup('Card_Application__c', 'Consents', 'Consents'), None),
@@ -313,6 +329,8 @@ FIELDS = {
 }
 
 OBJECTS = {
+    'Bandhu_Document__c': ('Card Document', 'Card Documents', 'CD-{000000}', 'Document Number',
+                           'An income document read for a card application (salary slip, Form 16, ITR, bank statement): extracted figures and the cross-check.', 'ReadWrite'),
     'Bandhu_Consent__c': ('Card Consent', 'Card Consents', 'CN-{000000}', 'Consent Number',
                           'Consent and disclosure log (DPDP Act 2023, RBI credit card and KYC directions, AA): what, when, purpose, expiry and retention.', 'ReadWrite'),
     'Card_Journey__c': ('Card Journey', 'Card Journeys', 'CJ-{000000}', 'Journey Number',

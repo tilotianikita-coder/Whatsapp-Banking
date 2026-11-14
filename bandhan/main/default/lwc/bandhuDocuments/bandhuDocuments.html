@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="Income documents" icon-name="standard:document">
+        <div class="slds-p-horizontal_medium">
+            <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_small">
+                Upload a salary slip, Form 16, ITR or bank statement: it is read (OCR, mock) and cross-checked against the declared income.
+                More than 15% below declared, or a PAN mismatch, refers.
+            </p>
+            <div class="slds-grid slds-gutters slds-grid_vertical-align-end">
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning-combobox label="Document type" value={docType} options={typeOptions} onchange={handleType}></lightning-combobox>
+                </div>
+                <div class="slds-col">
+                    <lightning-file-upload label="File" record-id={recordId} accept=".pdf,.png,.jpg,.jpeg" onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                </div>
+            </div>
+            <template lwc:if={busy}><lightning-spinner size="small" alternative-text="Reading"></lightning-spinner></template>
+            <template lwc:if={hasDocs}>
+                <ul class="slds-has-dividers_bottom-space slds-m-top_small">
+                    <template for:each={docs} for:item="d">
+                        <li key={d.Id} class="slds-item">
+                            <span class={d.badge}>{d.Result__c}</span>
+                            <b class="slds-m-left_x-small">{d.Type__c}</b> · {d.Period__c} · {d.income} · {d.pan}
+                            <div class="slds-text-body_small slds-text-color_weak">{d.Summary__c}</div>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </lightning-card>
+</template>
