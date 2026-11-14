@@ -153,6 +153,14 @@ public inherited sharing class BandhuQualification {
     }
 
     private static Bandhu_Lead_Check__c bureau(Card_Journey__c j) {
+        BandhuBureau.Report report = BandhuBureau.fromJourney(j);
+        if (report != null && (report.noHit || !BandhuBureau.assess(report).reviews.isEmpty() || report.maxDpd24 > 90)) {
+            BandhuBureau.Assessment a = BandhuBureau.assess(report);
+            Bandhu_Lead_Check__c c = gate(GATE_BUREAU, 'CIBIL soft pull', BandhuBureau.PROVIDER, a.result, report.score,
+                a.result == 'Fail' ? 0 : report.noHit ? 8 : 10, 40, a.summary, String.join(report.lines(), '\n'));
+            c.Knockout__c = a.result == 'Fail';
+            return c;
+        }
         if (j.CIBIL_Score__c == null) {
             return gate(GATE_BUREAU, 'CIBIL soft pull', 'TransUnion CIBIL (mock)', 'Pending', null, 0, 40,
                 String.isBlank(j.PAN__c) ? 'PAN not shared yet' : j.Bureau_Consent__c ? 'Soft pull pending' : 'No soft-check consent yet', null);

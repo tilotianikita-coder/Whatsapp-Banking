@@ -29,6 +29,29 @@ schedule of charges and credit policy.
   All pass → straight-through approval and a virtual card; any refer/pending → underwriter; any fail → decline with the
   best lower card offered.
 
+## Existing customers and the bureau report (BandhuCustomer, BandhuBureau)
+- **Tiers** from the bank's records: Wealth (balances + FDs + demat of ₹10L+), Loan (retail loan), Deposit (savings,
+  salary, current, FD), Microfinance (microfinance loans only). Cards are offered per tier (`ETB_Tiers__c`): microfinance
+  customers get Sparks only, and only on a clean repayment track. Relationship score /100: balance 30, vintage 25,
+  products 25, repayment 20.
+- **Holds before anything else**: a dormant / inoperative account, KYC not complete or an AML flag stops the journey
+  (step `hold`), tells the customer what to do (AML is never disclosed: "a routine review") and gives the RM a task.
+- **Silent soft pull** for existing customers on the PAN on file (the consent at the start covers it), cached on the
+  Contact for 30 days; new-to-bank customers are still asked.
+- **Full bureau report** (JSON on the journey and the check): tradelines, DPD, enquiries, utilisation, write-offs.
+  Rules: below 650 or DPD over 90 in 24 months -> decline; write-off, settlement, 6+ enquiries in 6 months or 90%+
+  utilisation -> manual review; no footprint -> refer.
+- Underwriting has a new **Customer Due Diligence** check (8 checks now).
+
+| PAN digits ending | Bureau shows |
+|---|---|
+| 5 (ABCPS1235K) | no bureau footprint |
+| 6 | 8 enquiries in 6 months (credit hungry) |
+| 7 | settled credit card: manual review |
+| 3 | card utilisation 92% |
+
+Seed customers: `ON_DEMO_PHONE = 'Rina'` (microfinance only: Sparks) or `'Debasish'` (dormant: journey on hold).
+
 ## Account Aggregator cash-flow analysis (BandhuAccountAggregator, BandhuCashFlow)
 New-to-bank customers who choose *Connect my accounts* give a consent (purpose credit underwriting, 24 months of
 statements, valid 30 days). The mock FIU returns 24 months from two banks (HDFC-style and SBI-style JSON with different

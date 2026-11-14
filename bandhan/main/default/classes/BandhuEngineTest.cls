@@ -24,7 +24,7 @@ private class BandhuEngineTest {
         System.assertEquals('Approve', app.Recommendation__c);
         System.assertEquals('Lumina', app.Card_Product__c);
         System.assert(app.Card_Number_Masked__c.startsWith('5241 XXXX XXXX '), app.Card_Number_Masked__c);
-        System.assertEquals(7, app.Card_Checks__r.size());
+        System.assertEquals(8, app.Card_Checks__r.size());
         System.assertEquals('Qualified', [SELECT Status FROM Lead WHERE Id = :r.journey.Lead__c].Status);
     }
 
@@ -40,8 +40,11 @@ private class BandhuEngineTest {
         System.assert(r.message.contains('salary account'), r.message);
         r = BandhuTestData.sayAll(r, new List<String>{ '1, 3', '3', '2' });
         System.assertEquals('company', r.step, 'employment, income, PAN, DOB and PIN come from the bank: ' + r.message);
-        r = BandhuTestData.sayAll(r, new List<String>{ 'Tata Steel', '1' });
-        System.assertEquals('choose', r.step, 'no Account Aggregator for an existing customer: ' + r.message);
+        r = BandhuTestData.sayAll(r, new List<String>{ 'Tata Steel' });
+        System.assertEquals('choose', r.step, 'silent soft pull and no Account Aggregator for an existing customer: ' + r.message);
+        System.assertEquals(779, r.journey.CIBIL_Score__c, 'soft pull on the PAN on file');
+        System.assertEquals('Deposit', r.journey.ETB_Tier__c);
+        System.assertNotEquals(null, [SELECT Bandhu_Bureau_At__c FROM Contact WHERE Id = :r.journey.Contact__c].Bandhu_Bureau_At__c, 'report cached');
         System.assertEquals('Flare', r.journey.Recommended_Card__c);
         System.assertEquals(350000, r.journey.Credit_Limit__c, 'the pre-approved limit');
         r = BandhuTestData.say(r, '1');

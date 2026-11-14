@@ -38,6 +38,11 @@
                 <label>Dedupe &amp; Fraud</label>
             </value>
             <value>
+                <fullName>Customer Due Diligence</fullName>
+                <default>false</default>
+                <label>Customer Due Diligence</label>
+            </value>
+            <value>
                 <fullName>Card Policy</fullName>
                 <default>false</default>
                 <label>Card Policy</label>

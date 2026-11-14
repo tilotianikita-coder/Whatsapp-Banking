@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ETB_Tier__c</fullName>
+    <description>Existing customers: Microfinance only / Deposit (savings, current, salary, FD) / Loan / Wealth (balances, FDs and holdings of 10 lakh+).</description>
+    <inlineHelpText>Existing customers: Microfinance only / Deposit (savings, current, salary, FD) / Loan / Wealth (balances, FDs and holdings of 10 lakh+).</inlineHelpText>
+    <label>Customer Tier</label>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Microfinance</fullName>
+                <default>false</default>
+                <label>Microfinance</label>
+            </value>
+            <value>
+                <fullName>Deposit</fullName>
+                <default>false</default>
+                <label>Deposit</label>
+            </value>
+            <value>
+                <fullName>Loan</fullName>
+                <default>false</default>
+                <label>Loan</label>
+            </value>
+            <value>
+                <fullName>Wealth</fullName>
+                <default>false</default>
+                <label>Wealth</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

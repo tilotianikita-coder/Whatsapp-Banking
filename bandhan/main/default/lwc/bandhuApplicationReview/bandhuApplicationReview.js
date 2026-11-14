@@ -14,6 +14,7 @@ const GATES = [
     { key: 'income', label: 'Income', check: 'Income Verification' },
     { key: 'vkyc', label: 'Video KYC', check: 'Video KYC' },
     { key: 'fraud', label: 'Fraud & Dedupe', check: 'Dedupe & Fraud' },
+    { key: 'cdd', label: 'Due Diligence', check: 'Customer Due Diligence' },
     { key: 'policy', label: 'Card Policy', check: 'Card Policy' },
     { key: 'decision', label: 'Decision' },
     { key: 'issued', label: 'Card issued' }

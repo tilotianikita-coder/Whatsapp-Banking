@@ -18,6 +18,11 @@
                 <label>Salary Account</label>
             </value>
             <value>
+                <fullName>Current Account</fullName>
+                <default>false</default>
+                <label>Current Account</label>
+            </value>
+            <value>
                 <fullName>Fixed Deposit</fullName>
                 <default>false</default>
                 <label>Fixed Deposit</label>
@@ -26,6 +31,31 @@
                 <fullName>Loan</fullName>
                 <default>false</default>
                 <label>Loan</label>
+            </value>
+            <value>
+                <fullName>Home Loan</fullName>
+                <default>false</default>
+                <label>Home Loan</label>
+            </value>
+            <value>
+                <fullName>Personal Loan</fullName>
+                <default>false</default>
+                <label>Personal Loan</label>
+            </value>
+            <value>
+                <fullName>Microfinance Loan</fullName>
+                <default>false</default>
+                <label>Microfinance Loan</label>
+            </value>
+            <value>
+                <fullName>Demat</fullName>
+                <default>false</default>
+                <label>Demat</label>
+            </value>
+            <value>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+                <label>Insurance</label>
             </value>
         </valueSetDefinition>
     </valueSet>

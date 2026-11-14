@@ -26,7 +26,7 @@ public inherited sharing class BandhuConfig {
             cards = [
                 SELECT DeveloperName, MasterLabel, Tier__c, Tagline__c, Joining_Fee__c, Annual_Fee__c, Fee_Waiver__c, Rewards__c,
                     Accelerated__c, Welcome__c, Milestone__c, Lounge__c, Dining__c, Movies__c, Fuel__c, Extras__c,
-                    Min_Monthly_Income__c, Min_Cibil__c, Refer_Cibil__c, ETB_Min_Balance__c, Limit_Multiple__c, Limit_Min__c,
+                    Min_Monthly_Income__c, Min_Cibil__c, Refer_Cibil__c, ETB_Min_Balance__c, ETB_Tiers__c, Limit_Multiple__c, Limit_Min__c,
                     Limit_Max__c, Fit_Travel__c, Fit_International__c, Fit_Dining__c, Fit_Groceries__c, Fit_Shopping__c,
                     Fit_Fuel__c, Fit_Low_Fee__c, Fit_High_Spend__c, Color__c
                 FROM Bandhu_Card__mdt

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Hold KYC</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thanks{name}. Your KYC with Bandhan Bank is due for a periodic update (Re-KYC), as RBI requires — once that's done we can go ahead with your card. 🙏 Your relationship manager will call you, or you can update it at any branch.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद{name}। RBI के नियमों के अनुसार Bandhan Bank में आपका KYC update (Re-KYC) होना बाकी है — यह होते ही हम आपके card के साथ आगे बढ़ सकते हैं। 🙏 आपके relationship manager आपको call करेंगे, या आप किसी भी branch पर इसे update कर सकते हैं।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">ধন্যবাদ{name}। RBI-র নিয়ম অনুযায়ী Bandhan Bank-এ আপনার KYC update (Re-KYC) বাকি আছে — এটা হয়ে গেলেই আমরা আপনার card নিয়ে এগোতে পারব। 🙏 আপনার relationship manager আপনাকে call করবেন, অথবা যেকোনো branch-এ update করতে পারেন।</value>
+    </values>
+</CustomMetadata>

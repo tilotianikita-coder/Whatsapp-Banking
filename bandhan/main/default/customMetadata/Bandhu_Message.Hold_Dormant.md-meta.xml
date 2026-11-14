@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Hold Dormant</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thanks{name}. Your Bandhan Bank account has been inactive for a while, so it needs a quick reactivation before we can go ahead with a card. 🙏 Your relationship manager will call you to help — or visit any Bandhan Bank branch with your PAN and Aadhaar.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">धन्यवाद{name}। आपका Bandhan Bank account कुछ समय से inactive है, इसलिए card से पहले इसे एक बार reactivate करना होगा। 🙏 आपके relationship manager आपको call करके मदद करेंगे — या PAN और Aadhaar के साथ किसी भी Bandhan Bank branch पर जाएँ।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">ধন্যবাদ{name}। আপনার Bandhan Bank account কিছুদিন ধরে inactive, তাই card-এর আগে একবার reactivate করতে হবে। 🙏 আপনার relationship manager আপনাকে call করে সাহায্য করবেন — অথবা PAN ও Aadhaar নিয়ে যেকোনো Bandhan Bank branch-এ যান।</value>
+    </values>
+</CustomMetadata>

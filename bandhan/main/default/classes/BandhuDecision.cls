@@ -44,8 +44,9 @@ public inherited sharing class BandhuDecision {
         Outcome o = new Outcome();
         o.application = app;
         delete [SELECT Id FROM Card_Check__c WHERE Card_Application__c = :app.Id];
-        BandhuProviders.Report bureau = BandhuProviders.bureau(j.PAN__c);
-        j.CIBIL_Score__c = bureau.score;
+        BandhuBureau.Report hard = BandhuBureau.pull(j.PAN__c, 'Hard');
+        BandhuBureau.apply(j, hard);
+        BandhuProviders.Report bureau = BandhuProviders.bureauReport(hard);
         app.CIBIL_Score__c = bureau.score;
         List<BandhuProviders.Report> reports = new List<BandhuProviders.Report>{
             BandhuProviders.panCheck(j.PAN__c, j.Customer_Name__c),
@@ -53,9 +54,10 @@ public inherited sharing class BandhuDecision {
             bureau,
             BandhuProviders.income(j),
             BandhuProviders.videoKyc(j),
-            BandhuProviders.fraud(j.PAN__c, j.Mobile__c, app.Id)
+            BandhuProviders.fraud(j.PAN__c, j.Mobile__c, app.Id),
+            BandhuProviders.dueDiligence(j)
         };
-        List<String> names = new List<String>{ 'PAN Verification', 'Aadhaar eKYC', 'Credit Bureau', 'Income Verification', 'Video KYC', 'Dedupe & Fraud' };
+        List<String> names = new List<String>{ 'PAN Verification', 'Aadhaar eKYC', 'Credit Bureau', 'Income Verification', 'Video KYC', 'Dedupe & Fraud', 'Customer Due Diligence' };
         for (Integer i = 0; i < reports.size(); i++) {
             o.checks.add(check(app.Id, names[i], reports[i], i + 1));
         }
@@ -76,14 +78,14 @@ public inherited sharing class BandhuDecision {
             app.Credit_Limit__c = chosen.creditLimit;
         } else if (chosen != null && chosen.eligible) {
             policy.result = 'Refer';
-            policy.summary = j.Chosen_Card__c + ': CIBIL ' + bureau.score + ' in the refer band';
+            policy.summary = j.Chosen_Card__c + ': ' + (chosen.referNote != null ? chosen.referNote : 'CIBIL ' + bureau.score + ' in the refer band');
             app.Credit_Limit__c = chosen.creditLimit;
         } else {
             policy.result = 'Fail';
             policy.summary = j.Chosen_Card__c + ': ' + (chosen == null || chosen.reasons.isEmpty() ? (elig.blockedReason == null ? 'not eligible' : elig.blockedReason) : String.join(chosen.reasons, '; '));
         }
         policy.details.add('Eligible cards: ' + (elig.eligibleNames().isEmpty() ? 'none' : String.join(elig.eligibleNames(), ', ')));
-        o.checks.add(check(app.Id, 'Card Policy', policy, 7));
+        o.checks.add(check(app.Id, 'Card Policy', policy, 8));
         insert o.checks;
 
         Boolean anyFail = false;

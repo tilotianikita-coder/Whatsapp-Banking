@@ -75,6 +75,10 @@
         <value xsi:type="xsd:double">1000000</value>
     </values>
     <values>
+        <field>ETB_Tiers__c</field>
+        <value xsi:type="xsd:string">Deposit;Loan;Wealth</value>
+    </values>
+    <values>
         <field>Limit_Multiple__c</field>
         <value xsi:type="xsd:double">3</value>
     </values>

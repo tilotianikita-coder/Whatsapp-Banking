@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hold_Reason__c</fullName>
+    <description>Why the journey is on hold before it can go on (dormant account, KYC due, AML review). Internal.</description>
+    <inlineHelpText>Why the journey is on hold before it can go on (dormant account, KYC due, AML review). Internal.</inlineHelpText>
+    <label>Hold Reason</label>
+    <type>Text</type>
+    <length>255</length>
+</CustomField>

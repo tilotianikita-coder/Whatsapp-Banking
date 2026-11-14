@@ -31,16 +31,20 @@ public inherited sharing class BandhuProviders {
         return 765 + Math.mod(digits * 7, 56);
     }
 
+    /** Hard pull at submission: the full report, assessed by BandhuBureau's rules. */
     public static Report bureau(String pan) {
+        return bureauReport(BandhuBureau.pull(pan, 'Hard'));
+    }
+
+    public static Report bureauReport(BandhuBureau.Report b) {
+        BandhuBureau.Assessment a = BandhuBureau.assess(b);
         Report r = new Report();
-        r.provider = 'TransUnion CIBIL (mock)';
-        r.score = cibil(pan);
-        r.result = r.score >= 700 ? 'Pass' : r.score >= 650 ? 'Refer' : 'Fail';
-        Integer active = Math.mod(r.score, 3) + 1;
-        r.details.add('CIBIL score: ' + r.score);
-        r.details.add('Active credit lines: ' + active + ' · enquiries in 6 months: ' + (r.score < 700 ? 5 : Math.mod(r.score, 2)));
-        r.details.add('Max DPD (24 months): ' + (r.score < 650 ? '90+ (written off)' : r.score < 700 ? '30' : '0'));
-        r.summary = 'CIBIL ' + r.score + (r.score >= 700 ? ' - clean record' : r.score >= 650 ? ' - recent delays' : ' - write-off on record');
+        r.provider = BandhuBureau.PROVIDER;
+        r.score = b.score;
+        r.result = a.result;
+        r.summary = a.summary;
+        r.details = b.lines();
+        r.data = JSON.serialize(b, true);
         return r;
     }
 
@@ -102,6 +106,31 @@ public inherited sharing class BandhuProviders {
             r.summary = 'Income self-declared (' + BandhuI18n.inr(j.Monthly_Income__c) + '/month) - verify';
         }
         r.score = j.Verified_Income__c == null ? null : j.Verified_Income__c.intValue();
+        return r;
+    }
+
+    /** Existing customers: tier, relationship and the bank's own repayment track; new to bank: no internal history. */
+    public static Report dueDiligence(Card_Journey__c j) {
+        Report r = new Report();
+        r.provider = 'Bandhan core banking (mock)';
+        BandhuCustomer.Insight i = j.Contact__c == null ? null : BandhuCustomer.forContact(j.Contact__c);
+        if (i == null) {
+            r.result = 'Pass';
+            r.summary = 'New to bank: identity through PAN, Aadhaar eKYC and Video KYC; no internal history';
+            return r;
+        }
+        r.details = i.lines();
+        r.score = i.score;
+        if (i.blocker != null) {
+            r.result = 'Fail';
+            r.summary = 'On hold: ' + i.blocker;
+        } else if ((i.tier == BandhuCustomer.MICROFINANCE && i.maxDpd > 0) || i.maxDpd > 30) {
+            r.result = 'Refer';
+            r.summary = i.tier + ' customer with DPD ' + i.maxDpd + ' on a Bandhan loan in 12 months';
+        } else {
+            r.result = 'Pass';
+            r.summary = i.tier + ' customer · relationship score ' + i.score + '/100 · ' + i.vintageMonths + ' months with Bandhan';
+        }
         return r;
     }
 

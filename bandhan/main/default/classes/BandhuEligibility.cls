@@ -31,6 +31,9 @@ public inherited sharing class BandhuEligibility {
         public Integer spendBand;           // 1 under 15K, 2 15-50K, 3 50K-1L, 4 over 1L
         public String feePreference;
         public BandhuCashFlow.Analysis cashFlow;   // Account Aggregator analysis, when shared
+        public BandhuBureau.Report bureau;         // soft-pull report, when pulled
+        public String etbTier;                     // existing customers: BandhuCustomer tier
+        public Integer internalDpd = 0;            // worst DPD on a Bandhan loan in 12 months
     }
 
     public class Option {
@@ -43,6 +46,7 @@ public inherited sharing class BandhuEligibility {
         public Decimal creditLimit;
         public List<String> why = new List<String>();
         public String limitNote;
+        public String referNote;
     }
 
     public class Outcome {
@@ -80,6 +84,10 @@ public inherited sharing class BandhuEligibility {
                     o.reasons.add('Monthly income below ' + BandhuI18n.inr(c.Min_Monthly_Income__c));
                     o.incomeShort = true;
                 }
+                if (p.existing && p.etbTier != null && String.isNotBlank(c.ETB_Tiers__c) && !c.ETB_Tiers__c.split(';').contains(p.etbTier)) {
+                    o.reasons.add('Not offered to ' + p.etbTier.toLowerCase() + ' customers');
+                    o.incomeShort = false;
+                }
                 if (p.cibil != null) {
                     if (p.cibil < nz(c.Refer_Cibil__c)) {
                         o.reasons.add('CIBIL ' + p.cibil + ' below ' + c.Refer_Cibil__c.intValue());
@@ -89,6 +97,11 @@ public inherited sharing class BandhuEligibility {
                     }
                 }
                 o.eligible = o.reasons.isEmpty();
+                String review = reviewNote(p);
+                if (o.eligible && review != null) {
+                    o.refer = true;
+                    o.referNote = review;
+                }
                 if (o.eligible) {
                     if (preApproved && p.preApprovedLimit != null) {
                         o.creditLimit = p.preApprovedLimit;
@@ -144,7 +157,24 @@ public inherited sharing class BandhuEligibility {
         if (p.cibil != null && cfg.Decline_Cibil__c != null && p.cibil < cfg.Decline_Cibil__c) {
             return 'credit score below ' + cfg.Decline_Cibil__c.intValue();
         }
+        if (p.bureau != null && p.bureau.maxDpd24 > 90) {
+            return 'a loan more than 90 days overdue in the last 24 months';
+        }
         return null;
+    }
+
+    /** Eligible, but only on manual review: bureau flags and the bank's own repayment track. */
+    private static String reviewNote(Profile p) {
+        List<String> notes = new List<String>();
+        if (p.bureau != null) {
+            notes.addAll(BandhuBureau.assess(p.bureau).reviews);
+        }
+        if (p.etbTier == BandhuCustomer.MICROFINANCE && p.internalDpd > 0) {
+            notes.add('microfinance repayment delays (DPD ' + p.internalDpd + ')');
+        } else if (p.internalDpd > 30) {
+            notes.add('DPD ' + p.internalDpd + ' on a Bandhan loan');
+        }
+        return notes.isEmpty() ? null : 'manual review: ' + String.join(notes, '; ');
     }
 
     private static String lowestReason(List<Option> options) {

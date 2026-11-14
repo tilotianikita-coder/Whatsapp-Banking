@@ -56,7 +56,8 @@ LANGS = ['EN', 'HI', 'BN']
 CHANNELS = ['WhatsApp', 'Web']
 STAGES = ['Start', 'Verify', 'Needs', 'Profile', 'Recommend', 'KYC', 'Decision', 'Issued']
 GATES = ['Serviceability', 'Consent', 'Dedupe & Fraud', 'Credit Bureau', 'Income', 'Employment', 'Card Eligibility']
-CHECKS = ['PAN Verification', 'Aadhaar eKYC', 'Credit Bureau', 'Income Verification', 'Video KYC', 'Dedupe & Fraud', 'Card Policy']
+CHECKS = ['PAN Verification', 'Aadhaar eKYC', 'Credit Bureau', 'Income Verification', 'Video KYC', 'Dedupe & Fraud', 'Customer Due Diligence', 'Card Policy']
+ETB_TIERS = ['Microfinance', 'Deposit', 'Loan', 'Wealth']
 RESULTS = ['Pass', 'Refer', 'Fail', 'Pending']
 
 # Shared applicant fields on the journey and the application.
@@ -116,6 +117,11 @@ FIELDS = {
         'Last_Nudged__c': ('Last Nudged', DATETIME, None),
         'Escalated__c': ('Escalated', CHECKBOX, None),
         'Last_Send_Status__c': ('Last Send Status', text(255), None),
+        'ETB_Tier__c': ('Customer Tier', picklist(ETB_TIERS), 'Existing customers: Microfinance only / Deposit (savings, current, salary, FD) / Loan / Wealth (balances, FDs and holdings of 10 lakh+).'),
+        'Relationship_Score__c': ('Relationship Score', number(3), 'Existing customers, out of 100: balance, vintage, product breadth and repayment.'),
+        'Hold_Reason__c': ('Hold Reason', text(255), 'Why the journey is on hold before it can go on (dormant account, KYC due, AML review). Internal.'),
+        'Bureau_Data__c': ('Bureau Report', long_text(32768, 3), 'Soft-pull bureau report (mock) as JSON: accounts, DPD, enquiries, utilisation, write-offs.'),
+        'Bureau_At__c': ('Bureau Pulled At', DATETIME, None),
         'AA_Consent_Id__c': ('AA Consent Id', text(40), 'Account Aggregator consent artefact (mock FIU): credit underwriting, 24 months, valid 30 days.'),
         'AA_Consent_At__c': ('AA Consent At', DATETIME, None),
         'AA_Insights__c': ('AA Cash-flow Analysis', long_text(32768, 4), 'BandhuCashFlow analysis of the Account Aggregator statements (JSON): income, stability, FOIR, spend by category, lifestyle, anomalies.'),
@@ -156,7 +162,15 @@ FIELDS = {
     },
     'Bank_Relationship__c': {
         'Contact__c': ('Customer', lookup('Contact', 'Bank_Relationships', 'Bandhan Bank Relationships'), None),
-        'Relationship_Type__c': ('Relationship', picklist(['Savings Account', 'Salary Account', 'Fixed Deposit', 'Loan']), None),
+        'Relationship_Type__c': ('Relationship', picklist(['Savings Account', 'Salary Account', 'Current Account', 'Fixed Deposit', 'Loan',
+                                                            'Home Loan', 'Personal Loan', 'Microfinance Loan', 'Demat', 'Insurance']), None),
+        'Account_Status__c': ('Account Status', picklist(['Active', 'Dormant', 'Inoperative', 'Closed'], 'Active'), 'Dormant / inoperative accounts must be reactivated before a card journey.'),
+        'KYC_Status__c': ('KYC Status', picklist(['Complete', 'Re-KYC due', 'Incomplete'], 'Complete'), None),
+        'AML_Flag__c': ('AML Flag', CHECKBOX, 'Under AML review: the card journey is held for compliance.'),
+        'Outstanding__c': ('Loan Outstanding', MONEY, None),
+        'Monthly_EMI__c': ('Monthly EMI', MONEY, None),
+        'Max_DPD_12M__c': ('Max DPD (12 months)', number(4), 'Repayment track on this loan: worst days past due in the last 12 months.'),
+        'Holding_Value__c': ('Holding Value', MONEY, 'Demat / mutual fund value, or insurance sum assured.'),
         'Account_Number__c': ('Account Number', text(20), None),
         'Average_Balance__c': ('Average Monthly Balance', MONEY, None),
         'FD_Value__c': ('FD Value', MONEY, None),
@@ -165,6 +179,10 @@ FIELDS = {
         'PAN__c': ('PAN on file', text(10), 'KYC already done for this customer (mock core banking).'),
         'Pre_Approved_Card__c': ('Pre-approved Card', picklist(CARDS), 'From the bank\'s pre-approved offer base (mock).'),
         'Pre_Approved_Limit__c': ('Pre-approved Limit', MONEY, None),
+    },
+    'Contact': {
+        'Bandhu_Bureau_Data__c': ('Bandhu Bureau Report', long_text(32768, 3), 'Cached soft-pull bureau report (mock) for the card journey; reused for 30 days.'),
+        'Bandhu_Bureau_At__c': ('Bandhu Bureau Pulled At', DATETIME, None),
     },
     'Lead': {
         'Bandhu_Journey__c': ('Card Journey', lookup('Card_Journey__c', 'Bandhu_Leads', 'Leads'), None),
@@ -222,6 +240,7 @@ FIELDS = {
         'Min_Cibil__c': ('Min CIBIL', number(3), 'PLACEHOLDER: at or above qualifies.'),
         'Refer_Cibil__c': ('Refer CIBIL', number(3), 'Between this and Min CIBIL: underwriter refer.'),
         'ETB_Min_Balance__c': ('ETB Relationship Route', number(12), 'Existing customers with this average balance + FD value also qualify (relationship route).'),
+        'ETB_Tiers__c': ('ETB Tiers', text(120), 'Existing-customer tiers this card is offered to (semicolon-separated: Microfinance; Deposit; Loan; Wealth).'),
         'Limit_Multiple__c': ('Limit Multiple', number(4, 1), 'Credit limit = monthly income x this.'),
         'Limit_Min__c': ('Limit Min', number(10), None),
         'Limit_Max__c': ('Limit Max', number(10), None),

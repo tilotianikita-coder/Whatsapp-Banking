@@ -10,7 +10,7 @@ BASE = 'bandhan/main/default'
 OBJ = os.path.join(BASE, 'objects')
 OUT = os.path.join(BASE, 'permissionsets')
 CUSTOM = ['Card_Journey__c', 'Card_Application__c', 'Card_Check__c', 'Bank_Relationship__c', 'Bandhu_Lead_Check__c']
-FIELD_ONLY = ['Lead']
+FIELD_ONLY = ['Lead', 'Contact']
 MDT = ['Bandhu_Card__mdt', 'Bandhu_Config__mdt', 'Bandhu_Message__mdt', 'Bandhu_Region__mdt']
 TABS = ['Card_Journey__c', 'Card_Application__c', 'WhatsApp_Demo_Component']
 
@@ -74,7 +74,7 @@ write('Bandhu_Admin', 'Bandhu Admin', 'Full access to the Bandhu credit card obj
       classes(), pages=pages, perms=('true', 'true', 'true', 'true', 'true'))
 write('Bandhu_Agent', 'Bandhu Agent', 'Assigned to the Bandhu Agentforce agent user: runs the Bandhu actions across customers.',
       classes(), perms=('true', 'true', 'false', 'true', 'false'), tabs=False,
-      extra_objects=std('Lead', 'true', 'true', 'false') + std('Contact', 'false', 'false', 'false')
+      extra_objects=std('Lead', 'true', 'true', 'false') + std('Contact', 'false', 'true', 'false')
       + std('MessagingEndUser', 'false', 'false', 'false') + std('MessagingSession', 'false', 'false', 'false'))
 write('Bandhu_Guest', 'Bandhu Guest', 'Public site guest: the Bandhu web journey page and its controller only (the controller runs without sharing behind a per-journey token).',
       ['BandhuWebController'], pages=pages, objects=False, tabs=False)

@@ -41,6 +41,7 @@ CARDS = {
         'Lounge__c': '1 domestic lounge visit a quarter', 'Dining__c': '', 'Movies__c': '20% off BookMyShow, up to ₹100 a month',
         'Fuel__c': '1% fuel surcharge waiver, up to ₹150 a cycle', 'Extras__c': '10% cashback up to ₹500 on your first EMI',
         'Min_Monthly_Income__c': 25000, 'Min_Cibil__c': 700, 'Refer_Cibil__c': 680, 'ETB_Min_Balance__c': 0,
+        'ETB_Tiers__c': 'Microfinance;Deposit;Loan;Wealth',
         'Limit_Multiple__c': 1.5, 'Limit_Min__c': 25000, 'Limit_Max__c': 100000,
         'Fit_Travel__c': 0, 'Fit_International__c': 0, 'Fit_Dining__c': 1, 'Fit_Groceries__c': 4, 'Fit_Shopping__c': 4,
         'Fit_Fuel__c': 2, 'Fit_Low_Fee__c': 5, 'Fit_High_Spend__c': 0, 'Color__c': '#5B6B7F',
@@ -53,6 +54,7 @@ CARDS = {
         'Lounge__c': '1 domestic + 1 international lounge visit a quarter', 'Dining__c': '15% off EazyDiner, up to ₹500 a month',
         'Movies__c': '', 'Fuel__c': '1% fuel surcharge waiver, up to ₹250 a cycle', 'Extras__c': '10% cashback up to ₹500 on your first EMI',
         'Min_Monthly_Income__c': 40000, 'Min_Cibil__c': 720, 'Refer_Cibil__c': 700, 'ETB_Min_Balance__c': 0,
+        'ETB_Tiers__c': 'Deposit;Loan;Wealth',
         'Limit_Multiple__c': 2, 'Limit_Min__c': 50000, 'Limit_Max__c': 250000,
         'Fit_Travel__c': 3, 'Fit_International__c': 1, 'Fit_Dining__c': 3, 'Fit_Groceries__c': 5, 'Fit_Shopping__c': 3,
         'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 3, 'Fit_High_Spend__c': 1, 'Color__c': '#C2410C',
@@ -66,6 +68,7 @@ CARDS = {
         'Movies__c': '25% off BookMyShow, up to ₹500 a month', 'Fuel__c': '1% fuel surcharge waiver, up to ₹500 a cycle',
         'Extras__c': '4 golf lessons a year · 10% cashback up to ₹750 on your first EMI',
         'Min_Monthly_Income__c': 75000, 'Min_Cibil__c': 740, 'Refer_Cibil__c': 720, 'ETB_Min_Balance__c': 0,
+        'ETB_Tiers__c': 'Deposit;Loan;Wealth',
         'Limit_Multiple__c': 2.5, 'Limit_Min__c': 100000, 'Limit_Max__c': 500000,
         'Fit_Travel__c': 5, 'Fit_International__c': 3, 'Fit_Dining__c': 4, 'Fit_Groceries__c': 2, 'Fit_Shopping__c': 2,
         'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 1, 'Fit_High_Spend__c': 3, 'Color__c': '#7C3AED',
@@ -79,6 +82,7 @@ CARDS = {
         'Movies__c': '25% off BookMyShow, up to ₹1,000 a month', 'Fuel__c': '1% fuel surcharge waiver, up to ₹1,000 a cycle',
         'Extras__c': 'Concierge · 4 golf games & 4 lessons · 4 airport meet & greets · ₹1 Cr air accident cover',
         'Min_Monthly_Income__c': 200000, 'Min_Cibil__c': 760, 'Refer_Cibil__c': 740, 'ETB_Min_Balance__c': 1000000,
+        'ETB_Tiers__c': 'Deposit;Loan;Wealth',
         'Limit_Multiple__c': 3, 'Limit_Min__c': 300000, 'Limit_Max__c': 1500000,
         'Fit_Travel__c': 5, 'Fit_International__c': 5, 'Fit_Dining__c': 5, 'Fit_Groceries__c': 1, 'Fit_Shopping__c': 3,
         'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 0, 'Fit_High_Spend__c': 5, 'Color__c': '#B8860B',
@@ -111,8 +115,8 @@ MESSAGES = {
         'फिर से स्वागत है{name}! 👋 मैं *Bandhu* हूँ, आपका Bandhan Bank card सलाहकार।\n\nBandhan Bank ग्राहक होने के नाते आपकी journey और भी तेज़ है — आपकी ज़्यादातर जानकारी मेरे पास पहले से है, बस कुछ ही सवाल पूछने हैं।', 'আবার স্বাগতম{name}! 👋 আমি *Bandhu*, আপনার Bandhan Bank card উপদেষ্টা।\n\nBandhan Bank-এর গ্রাহক হিসেবে আপনার journey আরও দ্রুত — আপনার বেশিরভাগ তথ্য আমার কাছে আগে থেকেই আছে, তাই শুধু কয়েকটা প্রশ্ন।'),
     'Opt_Menu': ("Find my card\nCompare all cards\nAsk a question\nTalk to a specialist", 'मेरा card ढूँढें\nसभी cards की तुलना करें\nकोई सवाल पूछें\nकिसी specialist से बात करें', 'আমার card খুঁজুন\nসব card তুলনা করুন\nএকটি প্রশ্ন করুন\nএকজন specialist-এর সঙ্গে কথা বলুন'),
     'Consent': (
-        "🔒 Before we begin: Bandhan Bank will use the details you share only to recommend a card and process your application, as per RBI guidelines and the Digital Personal Data Protection Act, 2023. You can withdraw consent anytime.",
-        '🔒 शुरू करने से पहले: आप जो जानकारी देंगे, Bandhan Bank उसका इस्तेमाल सिर्फ़ आपको card सुझाने और आपकी application process करने के लिए करेगा, RBI दिशानिर्देशों और Digital Personal Data Protection Act, 2023 के अनुसार। आप कभी भी अपनी सहमति वापस ले सकते हैं।', '🔒 শুরু করার আগে: আপনি যে তথ্য দেবেন, Bandhan Bank তা শুধু আপনাকে card সুপারিশ করতে ও আপনার application process করতে ব্যবহার করবে, RBI নির্দেশিকা এবং Digital Personal Data Protection Act, 2023 অনুযায়ী। আপনি যেকোনো সময় সম্মতি প্রত্যাহার করতে পারেন।'),
+        "🔒 Before we begin: Bandhan Bank will use the details you share only to recommend a card and process your application, as per RBI guidelines and the Digital Personal Data Protection Act, 2023. If you already bank with us, this includes a soft credit check, which does not affect your credit score. You can withdraw consent anytime.",
+        '🔒 शुरू करने से पहले: आप जो जानकारी देंगे, Bandhan Bank उसका इस्तेमाल सिर्फ़ आपको card सुझाने और आपकी application process करने के लिए करेगा, RBI दिशानिर्देशों और Digital Personal Data Protection Act, 2023 के अनुसार। अगर आप पहले से हमारे ग्राहक हैं, तो इसमें एक soft credit check भी शामिल है, जिससे आपके credit score पर कोई असर नहीं पड़ता। आप कभी भी अपनी सहमति वापस ले सकते हैं।', '🔒 শুরু করার আগে: আপনি যে তথ্য দেবেন, Bandhan Bank তা শুধু আপনাকে card সুপারিশ করতে ও আপনার application process করতে ব্যবহার করবে, RBI নির্দেশিকা এবং Digital Personal Data Protection Act, 2023 অনুযায়ী। আপনি যদি আগে থেকেই আমাদের গ্রাহক হন, তাহলে এর মধ্যে একটি soft credit check-ও আছে, যা আপনার credit score-এ কোনো প্রভাব ফেলে না। আপনি যেকোনো সময় সম্মতি প্রত্যাহার করতে পারেন।'),
     'Opt_Consent': ("I agree, let's start\nNot now", 'मैं सहमत हूँ, शुरू करें\nअभी नहीं', 'আমি সম্মত, শুরু করুন\nএখন নয়'),
     'Consent_Declined': ("No problem 🙂 Nothing has been saved. Say *Hi* whenever you'd like to find your card.", 'कोई बात नहीं 🙂 कुछ भी save नहीं किया गया है। जब भी अपना card ढूँढना हो, बस *Hi* लिखें।', 'কোনো সমস্যা নেই 🙂 কিছুই save করা হয়নি। যখনই আপনার card খুঁজতে চান, শুধু *Hi* লিখুন।'),
     # ---------------------------------------------------------------- identity
@@ -122,6 +126,18 @@ MESSAGES = {
     'OTP_Wrong': ("That OTP didn't match — {left} attempt(s) left. Please try again.", 'यह OTP मेल नहीं खाया — {left} प्रयास बाकी हैं। कृपया फिर से कोशिश करें।', 'এই OTP মেলেনি — আর {left} বার চেষ্টা করতে পারবেন। অনুগ্রহ করে আবার চেষ্টা করুন।'),
     'OTP_Locked': ("For your security I've paused this application after too many wrong OTPs. A specialist will call you back.", 'आपकी सुरक्षा के लिए, कई बार गलत OTP डालने के कारण मैंने यह application रोक दी है। एक specialist आपको call करेंगे।', 'আপনার নিরাপত্তার জন্য, বারবার ভুল OTP দেওয়ায় আমি এই application আপাতত থামিয়ে রেখেছি। একজন specialist আপনাকে call করবেন।'),
     'Verified_New': ("✅ Verified! Now a few quick questions about how you spend, so I can find your best card.", '✅ Verify हो गया! अब आपके खर्च के बारे में कुछ छोटे सवाल, ताकि मैं आपके लिए सबसे अच्छा card ढूँढ सकूँ।', '✅ যাচাই হয়ে গেছে! এবার আপনার খরচ নিয়ে কয়েকটা ছোট প্রশ্ন, যাতে আমি আপনার জন্য সেরা card খুঁজে দিতে পারি।'),
+    'Hold_Dormant': (
+        "Thanks{name}. Your Bandhan Bank account has been inactive for a while, so it needs a quick reactivation before we can go ahead with a card. 🙏 Your relationship manager will call you to help — or visit any Bandhan Bank branch with your PAN and Aadhaar.",
+        'धन्यवाद{name}। आपका Bandhan Bank account कुछ समय से inactive है, इसलिए card से पहले इसे एक बार reactivate करना होगा। 🙏 आपके relationship manager आपको call करके मदद करेंगे — या PAN और Aadhaar के साथ किसी भी Bandhan Bank branch पर जाएँ।',
+        'ধন্যবাদ{name}। আপনার Bandhan Bank account কিছুদিন ধরে inactive, তাই card-এর আগে একবার reactivate করতে হবে। 🙏 আপনার relationship manager আপনাকে call করে সাহায্য করবেন — অথবা PAN ও Aadhaar নিয়ে যেকোনো Bandhan Bank branch-এ যান।'),
+    'Hold_KYC': (
+        "Thanks{name}. Your KYC with Bandhan Bank is due for a periodic update (Re-KYC), as RBI requires — once that's done we can go ahead with your card. 🙏 Your relationship manager will call you, or you can update it at any branch.",
+        'धन्यवाद{name}। RBI के नियमों के अनुसार Bandhan Bank में आपका KYC update (Re-KYC) होना बाकी है — यह होते ही हम आपके card के साथ आगे बढ़ सकते हैं। 🙏 आपके relationship manager आपको call करेंगे, या आप किसी भी branch पर इसे update कर सकते हैं।',
+        'ধন্যবাদ{name}। RBI-র নিয়ম অনুযায়ী Bandhan Bank-এ আপনার KYC update (Re-KYC) বাকি আছে — এটা হয়ে গেলেই আমরা আপনার card নিয়ে এগোতে পারব। 🙏 আপনার relationship manager আপনাকে call করবেন, অথবা যেকোনো branch-এ update করতে পারেন।'),
+    'Hold_Review': (
+        "Thanks{name}. We need to complete a routine review of your account before we can take a card application forward. 🙏 Your relationship manager will be in touch shortly.",
+        'धन्यवाद{name}। card application आगे बढ़ाने से पहले हमें आपके account का एक routine review पूरा करना है। 🙏 आपके relationship manager जल्द ही आपसे संपर्क करेंगे।',
+        'ধন্যবাদ{name}। card application এগোনোর আগে আপনার account-এর একটি routine review শেষ করতে হবে। 🙏 আপনার relationship manager শিগগিরই যোগাযোগ করবেন।'),
     'Verified_Existing': (
         "✅ Verified! Good to see you again{name}. I can see your Bandhan Bank {relationship} — so no income proof or extra KYC needed. Just a few questions about how you spend.",
         '✅ Verify हो गया! आपसे फिर मिलकर अच्छा लगा{name}। मुझे आपका Bandhan Bank {relationship} दिख रहा है — इसलिए income proof या अलग से KYC की ज़रूरत नहीं। बस आपके खर्च के बारे में कुछ सवाल।', '✅ যাচাই হয়ে গেছে! আপনাকে আবার দেখে ভালো লাগল{name}। আমি আপনার Bandhan Bank {relationship} দেখতে পাচ্ছি — তাই income proof বা আলাদা KYC লাগবে না। শুধু আপনার খরচ নিয়ে কয়েকটা প্রশ্ন।'),

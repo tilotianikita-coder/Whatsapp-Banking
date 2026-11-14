@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Holding_Value__c</fullName>
+    <description>Demat / mutual fund value, or insurance sum assured.</description>
+    <inlineHelpText>Demat / mutual fund value, or insurance sum assured.</inlineHelpText>
+    <label>Holding Value</label>
+    <type>Currency</type>
+    <precision>16</precision>
+    <scale>0</scale>
+</CustomField>

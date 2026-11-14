@@ -72,7 +72,7 @@ private class BandhuChannelsTest {
         r = BandhuTestData.sayAll(r, new List<String>{ '1', 'a@b.co', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
         Card_Application__c app = [SELECT Id FROM Card_Application__c WHERE Card_Journey__c = :r.journey.Id];
         BandhuConsoleController.Review rev = BandhuConsoleController.getReview(app.Id);
-        System.assertEquals(7, rev.checks.size());
+        System.assertEquals(8, rev.checks.size());
         System.assertEquals('Lumina', rev.card.name);
         System.assert(rev.decided);
         System.assert(rev.application.PAN__c.startsWith('XXXXX'), 'masked for the console');

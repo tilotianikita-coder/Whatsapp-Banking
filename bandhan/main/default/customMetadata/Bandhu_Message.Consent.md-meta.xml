@@ -4,14 +4,14 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">🔒 Before we begin: Bandhan Bank will use the details you share only to recommend a card and process your application, as per RBI guidelines and the Digital Personal Data Protection Act, 2023. You can withdraw consent anytime.</value>
+        <value xsi:type="xsd:string">🔒 Before we begin: Bandhan Bank will use the details you share only to recommend a card and process your application, as per RBI guidelines and the Digital Personal Data Protection Act, 2023. If you already bank with us, this includes a soft credit check, which does not affect your credit score. You can withdraw consent anytime.</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:type="xsd:string">🔒 शुरू करने से पहले: आप जो जानकारी देंगे, Bandhan Bank उसका इस्तेमाल सिर्फ़ आपको card सुझाने और आपकी application process करने के लिए करेगा, RBI दिशानिर्देशों और Digital Personal Data Protection Act, 2023 के अनुसार। आप कभी भी अपनी सहमति वापस ले सकते हैं।</value>
+        <value xsi:type="xsd:string">🔒 शुरू करने से पहले: आप जो जानकारी देंगे, Bandhan Bank उसका इस्तेमाल सिर्फ़ आपको card सुझाने और आपकी application process करने के लिए करेगा, RBI दिशानिर्देशों और Digital Personal Data Protection Act, 2023 के अनुसार। अगर आप पहले से हमारे ग्राहक हैं, तो इसमें एक soft credit check भी शामिल है, जिससे आपके credit score पर कोई असर नहीं पड़ता। आप कभी भी अपनी सहमति वापस ले सकते हैं।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:type="xsd:string">🔒 শুরু করার আগে: আপনি যে তথ্য দেবেন, Bandhan Bank তা শুধু আপনাকে card সুপারিশ করতে ও আপনার application process করতে ব্যবহার করবে, RBI নির্দেশিকা এবং Digital Personal Data Protection Act, 2023 অনুযায়ী। আপনি যেকোনো সময় সম্মতি প্রত্যাহার করতে পারেন।</value>
+        <value xsi:type="xsd:string">🔒 শুরু করার আগে: আপনি যে তথ্য দেবেন, Bandhan Bank তা শুধু আপনাকে card সুপারিশ করতে ও আপনার application process করতে ব্যবহার করবে, RBI নির্দেশিকা এবং Digital Personal Data Protection Act, 2023 অনুযায়ী। আপনি যদি আগে থেকেই আমাদের গ্রাহক হন, তাহলে এর মধ্যে একটি soft credit check-ও আছে, যা আপনার credit score-এ কোনো প্রভাব ফেলে না। আপনি যেকোনো সময় সম্মতি প্রত্যাহার করতে পারেন।</value>
     </values>
 </CustomMetadata>

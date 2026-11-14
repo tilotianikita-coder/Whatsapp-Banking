@@ -182,6 +182,9 @@ public inherited sharing class BandhuEngine {
             j.Step__c = 'menu';
             return welcome(j);
         }
+        if (step == 'hold') {
+            return hold(j, BandhuCustomer.forContact(j.Contact__c));
+        }
         if (step == 'question') {
             String key = faqKey(t + '?');
             Result r = new Result();
@@ -310,7 +313,7 @@ public inherited sharing class BandhuEngine {
             Result pre = new Result();
             if (choice == 1 || Pattern.matches('(?i).*\\b(yes|ok|okay|sure|go ahead|haan)\\b.*', t)) {
                 j.Bureau_Consent__c = true;
-                j.CIBIL_Score__c = BandhuProviders.cibil(j.PAN__c);
+                BandhuBureau.softPull(j);
             } else if (choice == 2 || Pattern.matches('(?i).*\\b(no|skip|later)\\b.*', t)) {
                 pre.message = BandhuI18n.msg('Bureau_Skipped', lang);
             } else {
@@ -570,7 +573,15 @@ public inherited sharing class BandhuEngine {
         Contact c = BandhuJourneyService.findContact(j.Mobile__c);
         String pre;
         if (c != null) {
-            prefillExisting(j, c);
+            BandhuCustomer.Insight etb = prefillExisting(j, c);
+            if (etb != null && etb.blocker != null) {
+                return hold(j, etb);
+            }
+            if (String.isNotBlank(j.PAN__c) && j.CIBIL_Score__c == null) {
+                // existing customer: silent soft pull on the PAN on file (consented at the start), or the cached report
+                j.Bureau_Consent__c = true;
+                BandhuBureau.softPull(j);
+            }
             pre = BandhuI18n.msg('Verified_Existing', lang, tokens(j));
         } else {
             j.Customer_Type__c = BandhuJourneyService.NEW_TO_BANK;
@@ -584,8 +595,21 @@ public inherited sharing class BandhuEngine {
     }
 
     /** Existing customer: details from the bank's records (mock core banking) so they are not asked again. */
+    /** Dormant account, KYC due or an AML review: stop before any data is used; the RM follows up. */
+    private static Result hold(Card_Journey__c j, BandhuCustomer.Insight etb) {
+        j.Hold_Reason__c = etb.blocker.abbreviate(255);
+        j.Step__c = 'hold';
+        j.Status__c = BandhuJourneyService.STATUS_EXITED;
+        BandhuLeadService.rmTask(j, 'Bandhu: card journey on hold - ' + label(j), 'On hold before the card journey: ' + etb.blocker
+            + '\n' + String.join(etb.lines(), '\n'));
+        Result r = new Result();
+        r.step = 'hold';
+        r.message = BandhuI18n.msg(etb.blockerKind == 'Dormant' ? 'Hold_Dormant' : etb.blockerKind == 'KYC' ? 'Hold_KYC' : 'Hold_Review', j.Language__c, tokens(j));
+        return r;
+    }
+
     @TestVisible
-    private static void prefillExisting(Card_Journey__c j, Contact c) {
+    private static BandhuCustomer.Insight prefillExisting(Card_Journey__c j, Contact c) {
         j.Contact__c = c.Id;
         j.Customer_Type__c = BandhuJourneyService.EXISTING;
         j.Customer_Name__c = String.isBlank(j.Customer_Name__c) ? c.Name : j.Customer_Name__c;
@@ -606,6 +630,12 @@ public inherited sharing class BandhuEngine {
             }
         }
         j.KYC_Status__c = 'Complete';
+        BandhuCustomer.Insight etb = BandhuCustomer.forContact(c.Id);
+        if (etb != null) {
+            j.ETB_Tier__c = etb.tier;
+            j.Relationship_Score__c = etb.score;
+        }
+        return etb;
     }
 
     // ------------------------------------------------------------------ recommendation

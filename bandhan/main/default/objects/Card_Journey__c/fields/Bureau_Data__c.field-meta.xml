@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bureau_Data__c</fullName>
+    <description>Soft-pull bureau report (mock) as JSON: accounts, DPD, enquiries, utilisation, write-offs.</description>
+    <inlineHelpText>Soft-pull bureau report (mock) as JSON: accounts, DPD, enquiries, utilisation, write-offs.</inlineHelpText>
+    <label>Bureau Report</label>
+    <type>LongTextArea</type>
+    <length>32768</length>
+    <visibleLines>3</visibleLines>
+</CustomField>

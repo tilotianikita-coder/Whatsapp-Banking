@@ -18,7 +18,7 @@ public inherited sharing class BandhuJourneyService {
         + 'Fee_Preference__c, Recommended_Card__c, Alternative_Card__c, Upgrade_Card__c, Recommendation_Reason__c, Chosen_Card__c, '
         + 'Credit_Limit__c, KYC_Status__c, Messaging_Session_Id__c, Web_Token__c, Reference_Number__c, Last_Activity__c, '
         + 'Dropped_At__c, Drop_Point__c, Fields_Done__c, Nudges_Sent__c, Last_Nudged__c, Escalated__c, Last_Send_Status__c, '
-        + 'AA_Insights__c, AA_Consent_Id__c, AA_Consent_At__c, CreatedDate';
+        + 'AA_Insights__c, AA_Consent_Id__c, AA_Consent_At__c, ETB_Tier__c, Relationship_Score__c, Hold_Reason__c, Bureau_Data__c, Bureau_At__c, CreatedDate';
 
     public static Card_Journey__c byId(Id journeyId) {
         List<Card_Journey__c> js = Database.query('SELECT ' + FIELDS + ' FROM Card_Journey__c WHERE Id = :journeyId');
@@ -106,7 +106,8 @@ public inherited sharing class BandhuJourneyService {
         }
         return [
             SELECT Relationship_Type__c, Account_Number__c, Average_Balance__c, FD_Value__c, Monthly_Salary_Credit__c,
-                Vintage_Months__c, Pre_Approved_Card__c, Pre_Approved_Limit__c, PAN__c
+                Vintage_Months__c, Pre_Approved_Card__c, Pre_Approved_Limit__c, PAN__c, Account_Status__c, KYC_Status__c, AML_Flag__c,
+                Outstanding__c, Monthly_EMI__c, Max_DPD_12M__c, Holding_Value__c
             FROM Bank_Relationship__c WHERE Contact__c = :contactId ORDER BY CreatedDate ASC
         ];
     }
@@ -158,12 +159,13 @@ public inherited sharing class BandhuJourneyService {
         p.income = j.Verified_Income__c != null ? j.Verified_Income__c : j.Monthly_Income__c;
         p.cibil = j.CIBIL_Score__c == null ? null : j.CIBIL_Score__c.intValue();
         p.existing = j.Customer_Type__c == EXISTING;
-        for (Bank_Relationship__c r : relationships(j.Contact__c)) {
-            p.relationshipValue += (r.Average_Balance__c == null ? 0 : r.Average_Balance__c) + (r.FD_Value__c == null ? 0 : r.FD_Value__c);
-            if (r.Pre_Approved_Card__c != null && p.preApprovedCard == null) {
-                p.preApprovedCard = r.Pre_Approved_Card__c;
-                p.preApprovedLimit = r.Pre_Approved_Limit__c;
-            }
+        BandhuCustomer.Insight etb = j.Contact__c == null ? null : BandhuCustomer.forContact(j.Contact__c);
+        if (etb != null) {
+            p.relationshipValue = etb.relationshipValue;
+            p.preApprovedCard = etb.preApprovedCard;
+            p.preApprovedLimit = etb.preApprovedLimit;
+            p.etbTier = etb.tier;
+            p.internalDpd = etb.maxDpd;
         }
         if (String.isNotBlank(j.Spend_Focus__c)) {
             p.focus.addAll(j.Spend_Focus__c.split(';'));
@@ -173,6 +175,7 @@ public inherited sharing class BandhuJourneyService {
         }
         p.feePreference = j.Fee_Preference__c;
         p.cashFlow = BandhuCashFlow.fromJourney(j);
+        p.bureau = BandhuBureau.fromJourney(j);
         return p;
     }
 }
