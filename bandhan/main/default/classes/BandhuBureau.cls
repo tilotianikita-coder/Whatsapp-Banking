@@ -119,6 +119,23 @@ public inherited sharing class BandhuBureau {
         return r;
     }
 
+    /** Re-pull after months of clean repayment (mock): +6 points a clean month, up to 60, from the same file. */
+    public static Report pullAfterCleanMonths(String pan, Integer months) {
+        Report r = pull(pan, 'Soft');
+        if (!r.noHit && months >= 6) {
+            r.score = Math.min(900, r.score + Math.min(60, months * 6));
+            if (r.maxDpd24 <= 60) {
+                r.maxDpd24 = 0;
+                for (Tradeline t : r.accounts) {
+                    t.maxDpd24 = t.status == 'Active' ? 0 : t.maxDpd24;
+                }
+            }
+            r.enquiries6m = Math.min(r.enquiries6m, 1);
+            r.enquiryLenders6m = Math.min(r.enquiryLenders6m, 1);
+        }
+        return r;
+    }
+
     private static Tradeline line(String accountType, String lender, Decimal sanctioned, Decimal outstanding, Integer opened, Integer dpd, String status) {
         Tradeline t = new Tradeline();
         t.accountType = accountType;

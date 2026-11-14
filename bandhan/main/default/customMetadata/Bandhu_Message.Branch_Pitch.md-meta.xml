@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Branch Pitch</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Namaskar{name} 🙏 It was great to see you at the branch. As {rm} mentioned, you're pre-qualified for a Bandhan Bank credit card picked for you — let's finish it here on WhatsApp in a couple of minutes.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">नमस्कार{name} 🙏 branch में आपसे मिलकर अच्छा लगा। जैसा {rm} ने बताया, आप अपने लिए चुने गए Bandhan Bank credit card के लिए pre-qualified हैं — चलिए इसे यहीं WhatsApp पर कुछ मिनट में पूरा करते हैं।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">নমস্কার{name} 🙏 branch-এ আপনার সঙ্গে দেখা হয়ে ভালো লাগল। {rm} যেমন বললেন, আপনার জন্য বাছাই করা Bandhan Bank credit card-এর জন্য আপনি pre-qualified — চলুন এখানেই WhatsApp-এ কয়েক মিনিটে শেষ করি।</value>
+    </values>
+</CustomMetadata>

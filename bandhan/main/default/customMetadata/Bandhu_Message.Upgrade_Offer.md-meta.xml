@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Upgrade Offer</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">You've made the most of your *Bandhan {card}*{name}! 🙌 You can upgrade to the *Bandhan {upgrade}* with a limit of *{limit}*. Reply *Yes* to upgrade — nothing changes without your consent.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">आपने अपने *Bandhan {card}* का पूरा फ़ायदा उठाया है{name}! 🙌 आप *Bandhan {upgrade}* पर upgrade कर सकते हैं, limit *{limit}*। upgrade के लिए *Yes* लिखें — आपकी सहमति के बिना कुछ नहीं बदलेगा।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">আপনি আপনার *Bandhan {card}* পুরোপুরি কাজে লাগিয়েছেন{name}! 🙌 আপনি *Bandhan {upgrade}*-এ upgrade করতে পারেন, limit *{limit}*। upgrade করতে *Yes* লিখুন — আপনার সম্মতি ছাড়া কিছু বদলাবে না।</value>
+    </values>
+</CustomMetadata>

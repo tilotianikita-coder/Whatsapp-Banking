@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Limit Accepted</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">✅ Done — your *Bandhan {card}* limit is now *{limit}*.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">✅ हो गया — आपके *Bandhan {card}* की limit अब *{limit}* है।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">✅ হয়ে গেছে — আপনার *Bandhan {card}*-এর limit এখন *{limit}*।</value>
+    </values>
+</CustomMetadata>

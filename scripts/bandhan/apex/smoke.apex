@@ -2,12 +2,16 @@
 // Run: sf apex run -f scripts/bandhan/apex/smoke.apex -o bandhan   (rolls back: nothing is saved)
 Savepoint sp = Database.setSavepoint();
 Card_Journey__c j = BandhuJourneyService.resolve(null, null, '9876500011', 'WhatsApp');
-List<String> said = new List<String>{ '1', '1', 'Ananya Sen', '123456', '1, 2, 3', '4', '2', '1', '2.5 lakh', 'Infosys', 'ABCPS1234K',
-    '12/04/1990', 'Kolkata 700091', '1', '1', '1', 'ananya@example.com', '1234', '123456', 'Done', '1' };
+// answers by step, so the question order can change; then the answers after the recommendation, in order
+Map<String, String> byStep = new Map<String, String>{ 'menu' => '1', 'consent' => '1', 'name' => 'Ananya Sen', 'otp' => '123456', 'employment' => '1',
+    'income' => '2.5 lakh', 'pan' => 'ABCPS1234K', 'aa' => '1', 'spend' => '1, 2, 3', 'monthly_spend' => '4', 'fee' => '2', 'company' => 'Infosys',
+    'dob' => '12/04/1990', 'pincode' => 'Kolkata 700091', 'bureau' => '1', 'choose' => '1', 'email' => 'ananya@example.com', 'aadhaar' => '1234',
+    'aadhaar_otp' => '123456', 'vkyc' => 'Done', 'review' => '1' };
 BandhuEngine.Result r = BandhuEngine.start(j);
 System.debug('### 0 [' + r.step + '] ' + r.whatsapp().replace('\n', ' / ').left(400));
 Integer i = 1;
-for (String s : said) {
+while (byStep.containsKey(r.step) && i < 40) {
+    String s = byStep.remove(r.step);
     r = BandhuEngine.reply(BandhuJourneyService.byId(r.journey.Id), s);
     System.debug('### ' + (i++) + ' > ' + s + ' [' + r.step + '] ' + r.whatsapp().replace('\n', ' / ').left(500));
 }

@@ -54,6 +54,26 @@ schedule of charges and credit policy.
 
 Seed customers: `ON_DEMO_PHONE = 'Rina'` (microfinance only: Sparks) or `'Debasish'` (dormant: journey on hold).
 
+## After the decision, and the branch (phase 4b)
+- **Re-approach** (`BandhuPostIssue.reassess`, daily with the drop-off job): declined / not-eligible / secured-offer
+  journeys are re-checked 6 months later (then every 3): a fresh soft pull (mock: +6 points per clean month, up to 60)
+  and the same eligibility; if an unsecured card is now possible, an RM task and a WhatsApp *"you now qualify for X"*.
+- **Limit enhancement**: cardholders 6+ months on book, activated, no missed payments, 40%+ utilisation get a higher
+  limit (x1.25, x1.5 at 70%+, within the card's maximum) or, at the maximum, the next card up. On WhatsApp the customer
+  replies *Yes*; nothing changes without that consent (logged). Behaviour fields (utilisation, payments, spend) stand in
+  for the card management system feed.
+- **Model monitoring**: outcomes by Bandhan Score band (issued, activated, missed payments, utilisation) saved as a
+  quarterly CSV file (*Bandhu scorecard monitoring YYYY-Qn*) for recalibrating the scorecard. (No model is retrained
+  automatically: the scorecard is transparent weights, adjusted by the risk team from this extract.)
+- **RM 360** (Contact page in the Bandhu Cards app): tier, relationship score, products, holds, bureau (cached or a live
+  soft view), cash flow, Bandhan Score and its weakest factors, and **the card to pitch** with the limit and why.
+  *Start branch-assisted application* sends the customer the pitch on WhatsApp (branch channel scores higher); they give
+  consent and the OTP there and continue.
+
+Demo: to show a limit offer, on an issued application set Activated At and Card Issued At 6+ months back, Missed
+Payments 0 and Avg Utilisation 75, then run `BandhuPostIssue.limitOffers()`; for a re-approach, set a declined
+journey's Reassess On to today and Bureau Pulled At 7 months back, then run `BandhuPostIssue.reassess()`.
+
 ## Risk signals, income cross-checks and documents (phase 4a)
 - **Dedupe & Fraud** (`BandhuRisk`): negative list, open applications on the PAN, application velocity (3+ journeys from
   the PAN or mobile in 24 hours, a device / session proxy), credit-hungry enquiries across 4+ lenders, and the declared

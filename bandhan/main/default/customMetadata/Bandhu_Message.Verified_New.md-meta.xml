@@ -4,14 +4,14 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">✅ Verified! Now a few quick questions about how you spend, so I can find your best card.</value>
+        <value xsi:type="xsd:string">✅ Verified! A few quick questions about your income and how you spend, so I can find your best card.</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:type="xsd:string">✅ Verify हो गया! अब आपके खर्च के बारे में कुछ छोटे सवाल, ताकि मैं आपके लिए सबसे अच्छा card ढूँढ सकूँ।</value>
+        <value xsi:type="xsd:string">✅ Verify हो गया! अब आपकी income और खर्च के बारे में कुछ छोटे सवाल, ताकि मैं आपके लिए सबसे अच्छा card ढूँढ सकूँ।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:type="xsd:string">✅ যাচাই হয়ে গেছে! এবার আপনার খরচ নিয়ে কয়েকটা ছোট প্রশ্ন, যাতে আমি আপনার জন্য সেরা card খুঁজে দিতে পারি।</value>
+        <value xsi:type="xsd:string">✅ যাচাই হয়ে গেছে! এবার আপনার income আর খরচ নিয়ে কয়েকটা ছোট প্রশ্ন, যাতে আমি আপনার জন্য সেরা card খুঁজে দিতে পারি।</value>
     </values>
 </CustomMetadata>

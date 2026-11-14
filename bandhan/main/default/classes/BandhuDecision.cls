@@ -231,6 +231,9 @@ public inherited sharing class BandhuDecision {
             Card_Journey__c j = BandhuJourneyService.byId(app.Card_Journey__c);
             j.Status__c = BandhuJourneyService.STATUS_COMPLETED;
             j.Stage__c = isApproved ? 'Issued' : j.Stage__c;
+            if (!isApproved) {
+                BandhuPostIssue.scheduleReassess(j);
+            }
             j.Step__c = 'done';
             update j;
             String first = String.isBlank(j.Customer_Name__c) ? '' : ' ' + j.Customer_Name__c.substringBefore(' ');

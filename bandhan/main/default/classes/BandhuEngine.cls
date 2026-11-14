@@ -67,6 +67,24 @@ public inherited sharing class BandhuEngine {
     private static final List<String> KYC_STEPS = new List<String>{ 'email', 'aadhaar', 'aadhaar_otp', 'vkyc', 'review' };
 
     // ------------------------------------------------------------------ entry points
+    /**
+     * Branch-assisted: the RM starts the journey for an existing customer from the 360 view; the customer gets the pitch
+     * on WhatsApp and continues there (consent and OTP are still theirs to give). Branch channel scores higher.
+     */
+    public static Result startBranch(Contact c, String rmName) {
+        Card_Journey__c j = new Card_Journey__c(Contact__c = c.Id, Customer_Type__c = BandhuJourneyService.EXISTING, Channel__c = 'Branch',
+            Mobile__c = BandhuI18n.normalizeMobile(c.MobilePhone), Customer_Name__c = c.Name, Language__c = BandhuI18n.EN,
+            Status__c = BandhuJourneyService.STATUS_ACTIVE, Step__c = 'consent', Stage__c = 'Start', Last_Activity__c = Datetime.now());
+        insert j;
+        j = BandhuJourneyService.byId(j.Id);
+        Result r = ask(j, 'consent');
+        r.message = BandhuI18n.msg('Branch_Pitch', j.Language__c, new Map<String, Object>{
+            'name' => ' ' + c.FirstName, 'rm' => rmName }) + '\n\n' + r.message;
+        update j;
+        r.journey = j;
+        return r;
+    }
+
     public static Result start(Card_Journey__c j) {
         String lang = j.Language__c;
         if (j.Contact__c == null && j.Mobile__c != null) {
@@ -220,6 +238,19 @@ public inherited sharing class BandhuEngine {
             }
             j.Step__c = 'menu';
             return welcome(j);
+        }
+        if (step == 'limit_offer') {
+            Boolean yes = choice == 1 || Pattern.matches('(?i).*\\b(yes|accept|ok|haan)\\b.*', t);
+            Boolean no = choice == 2 || Pattern.matches('(?i).*\\b(no|not now|nahi)\\b.*', t);
+            if (!yes && !no) {
+                return invalid(j);
+            }
+            Card_Application__c a = BandhuPostIssue.respond(j, yes);
+            Result r = new Result();
+            r.step = j.Step__c;
+            r.message = BandhuI18n.msg(yes ? 'Limit_Accepted' : 'Limit_Declined', lang, new Map<String, Object>{
+                'card' => a.Card_Product__c, 'limit' => BandhuI18n.inr(a.Credit_Limit__c) });
+            return r;
         }
         if (step == 'activate_otp' || step == 'cancel_confirm') {
             Card_Application__c issued = BandhuCompliance.issuedApplication(j);
@@ -616,6 +647,12 @@ public inherited sharing class BandhuEngine {
             when 'aadhaar_otp' { r.message = BandhuI18n.msg('Q_Aadhaar_OTP', lang, tk); }
             when 'vkyc' { r.message = BandhuI18n.msg('Q_VKYC', lang, tk); r.options = BandhuI18n.options('Opt_VKYC', lang, null); }
             when 'review' { r.message = BandhuI18n.msg('Review', lang, tk) + '\n\n' + BandhuI18n.msg('Hard_Enquiry_Notice', lang); r.options = BandhuI18n.options('Opt_Review', lang, null); }
+            when 'limit_offer' {
+                Card_Application__c la = [SELECT Id, Card_Product__c, Credit_Limit__c, Limit_Offer__c, Upgrade_Offer_Card__c FROM Card_Application__c
+                                          WHERE Id = :j.Card_Application__c];
+                r.message = BandhuPostIssue.offerMessage(j, la);
+                r.options = BandhuI18n.options('Opt_Limit_Offer', lang, null);
+            }
             when 'secured_offer' {
                 BandhuEligibility.Outcome so = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
                 if (so.secured != null) {
@@ -747,6 +784,9 @@ public inherited sharing class BandhuEngine {
         BandhuEligibility.Outcome out = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
         j.Eligible_Cards__c = String.join(out.eligibleNames(), ';');
         j.Bandhan_Score__c = out.score.score;
+        if (out.best == null) {
+            BandhuPostIssue.scheduleReassess(j);
+        }
         if (out.best == null && out.secured != null) {
             return securedOffer(j, out);
         }
@@ -919,6 +959,7 @@ public inherited sharing class BandhuEngine {
             BandhuLeadService.rmTask(j, 'Bandhu: card application to review - ' + label(j), o.application.Recommendation_Reasons__c);
         } else {
             j.Alternative_Card__c = o.alternativeCard;
+            BandhuPostIssue.scheduleReassess(j);
             tk.put('alt', o.alternativeCard == null ? '' : '\n\n' + BandhuI18n.msg('Declined_Alt', lang, new Map<String, Object>{ 'alt' => o.alternativeCard }));
             r.message = BandhuI18n.msg('Declined', lang, tk);
             if (o.alternativeCard != null) {

@@ -19,6 +19,7 @@ public with sharing class BandhuDropOffJob implements Schedulable {
 
     public static void run() {
         BandhuCompliance.closeUnactivated();
+        BandhuPostIssue.runDaily();
         Bandhu_Config__mdt cfg = BandhuConfig.get();
         Integer idle = cfg.Idle_Minutes__c == null ? 30 : cfg.Idle_Minutes__c.intValue();
         Datetime cutoff = Datetime.now().addMinutes(-idle);

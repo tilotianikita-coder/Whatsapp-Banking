@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Reapproach</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Good news{name}! 🎉 Your credit profile has improved since we last spoke — you now qualify for the *Bandhan {card}* with a limit of up to *{limit}*. Reply *Hi* to apply in a few minutes.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">अच्छी ख़बर{name}! 🎉 पिछली बार के बाद से आपकी credit profile बेहतर हुई है — अब आप *Bandhan {card}* के लिए eligible हैं, limit *{limit}* तक। कुछ ही मिनट में apply करने के लिए *Hi* लिखें।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">সুখবর{name}! 🎉 গতবারের পর থেকে আপনার credit profile ভালো হয়েছে — এখন আপনি *Bandhan {card}*-এর জন্য যোগ্য, limit *{limit}* পর্যন্ত। কয়েক মিনিটে apply করতে *Hi* লিখুন।</value>
+    </values>
+</CustomMetadata>

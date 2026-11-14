@@ -18,6 +18,15 @@
         <type>Flexipage</type>
         <pageOrSobjectType>Lead</pageOrSobjectType>
     </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>RM 360: relationship, bureau, cash flow, Bandhan Score and the card to pitch</comment>
+        <content>Bandhu_Contact_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#C8102E</headerColor>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>

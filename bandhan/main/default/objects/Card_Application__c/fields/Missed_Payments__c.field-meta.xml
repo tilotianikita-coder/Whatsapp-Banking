@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Missed_Payments__c</fullName>
+    <description>From the card management system (mock).</description>
+    <inlineHelpText>From the card management system (mock).</inlineHelpText>
+    <label>Missed Payments</label>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+</CustomField>

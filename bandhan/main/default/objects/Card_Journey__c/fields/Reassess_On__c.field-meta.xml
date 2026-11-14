@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reassess_On__c</fullName>
+    <description>Declined / not eligible: when to re-check the bureau and re-approach (6 months, then every 3).</description>
+    <inlineHelpText>Declined / not eligible: when to re-check the bureau and re-approach (6 months, then every 3).</inlineHelpText>
+    <label>Reassess On</label>
+    <type>Date</type>
+</CustomField>

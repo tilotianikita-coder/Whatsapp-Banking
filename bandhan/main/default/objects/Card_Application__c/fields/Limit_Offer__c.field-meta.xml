@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Limit_Offer__c</fullName>
+    <description>Proactive limit enhancement offered (needs the customer's consent).</description>
+    <inlineHelpText>Proactive limit enhancement offered (needs the customer's consent).</inlineHelpText>
+    <label>Limit Offer</label>
+    <type>Currency</type>
+    <precision>16</precision>
+    <scale>0</scale>
+</CustomField>

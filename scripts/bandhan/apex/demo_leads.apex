@@ -3,16 +3,17 @@
 //   for i in 0 1 2 3; do sed "s/^Integer WHICH = .*/Integer WHICH = $i;/" scripts/bandhan/apex/demo_leads.apex > /tmp/dl.apex; sf apex run -f /tmp/dl.apex -o bandhan; done
 //   Priya Das      - Hot:  Lumina match, CIBIL 772, dropped at Aadhaar eKYC
 //   Arjun Roy      - Hot:  Ignite match, CIBIL 730, dropped at the recommendation
-//   Moumita Saha   - Unqualified, Cold: knocked out at the Credit Bureau gate (CIBIL 630), no RM task or nudge
+//   Moumita Saha   - Unqualified, Cold: knocked out at the Credit Bureau gate (CIBIL 630), offered the FD-secured Shield, no RM nudge
 //   Sourav Ghosh   - application in the underwriter's queue: Flare, CIBIL 730 refer band (Card Policy: Refer)
 Integer WHICH = 0;
 String OTP = BandhuConfig.get().Demo_OTP__c;
-// name, mobile, needs answers (spend, monthly, fee), employment, income, company, PAN, DOB, PIN, stop after (extra answers)
+// name, mobile, needs answers (spend, monthly, fee), employment, income, company, PAN, DOB, PIN, Account Aggregator answer,
+// then the answers after the recommendation (where the prospect stops). Answers go by step, so the question order can change.
 List<List<Object>> PROSPECTS = new List<List<Object>>{
-    new List<Object>{ 'Priya Das', '9000000201', new List<String>{ '1, 2, 3', '4', '2' }, '1', '2.5 lakh', 'TCS', 'ABCPD5521K', '18/09/1991', 'Kolkata 700064', new List<String>{ '1', '1', '1', 'priya.das@example.com' } },
-    new List<Object>{ 'Arjun Roy', '9000000202', new List<String>{ '4, 1', '2', '2' }, '1', '55000', 'Wipro', 'ABCPR3310R', '02/02/1994', 'Howrah 711101', new List<String>{ '1', '2' } },
-    new List<Object>{ 'Moumita Saha', '9000000203', new List<String>{ '3', '2', '1' }, '2', '60000', 'Saha Sweets', 'ABCPS8890Z', '11/07/1987', 'Durgapur 713204', new List<String>{ '1', '2' } },
-    new List<Object>{ 'Sourav Ghosh', '9000000204', new List<String>{ '1, 3', '3', '2' }, '1', '95000', 'Cognizant', 'ABCPG4410R', '23/03/1989', 'Kolkata 700091', new List<String>{ '1', '1', '1', 'sourav.ghosh@example.com', '5678', OTP, 'Done', '1' } }
+    new List<Object>{ 'Priya Das', '9000000201', new List<String>{ '1, 2, 3', '4', '2' }, '1', '2.5 lakh', 'TCS', 'ABCPD5521K', '18/09/1991', 'Kolkata 700064', '1', new List<String>{ '1', 'priya.das@example.com' } },
+    new List<Object>{ 'Arjun Roy', '9000000202', new List<String>{ '4, 1', '2', '2' }, '1', '55000', 'Wipro', 'ABCPR3310R', '02/02/1994', 'Howrah 711101', '2', new List<String>() },
+    new List<Object>{ 'Moumita Saha', '9000000203', new List<String>{ '3', '2', '1' }, '3', '60000', 'Saha Sweets', 'ABCPS8890Z', '11/07/1987', 'Durgapur 713204', '2', new List<String>() },
+    new List<Object>{ 'Sourav Ghosh', '9000000204', new List<String>{ '1, 3', '3', '2' }, '1', '95000', 'Cognizant', 'ABCPG4410R', '23/03/1989', 'Kolkata 700091', '1', new List<String>{ '1', 'sourav.ghosh@example.com', '5678', OTP, 'Done', '1' } }
 };
 PROSPECTS = new List<List<Object>>{ PROSPECTS[WHICH] };
 List<String> mobiles = new List<String>();
@@ -36,11 +37,18 @@ delete oldLeads;
 List<Id> dropped = new List<Id>();
 for (List<Object> p : PROSPECTS) {
     BandhuEngine.Result r = BandhuEngine.start(BandhuJourneyService.resolve(null, null, (String) p[1], 'WhatsApp'));
-    List<String> answers = new List<String>{ '1', '1', (String) p[0], OTP };
-    answers.addAll((List<String>) p[2]);
-    answers.addAll(new List<String>{ (String) p[3], (String) p[4], (String) p[5], (String) p[6], (String) p[7], (String) p[8] });
-    answers.addAll((List<String>) p[9]);
-    for (String a : answers) {
+    for (String a : new List<String>{ '1', '1', (String) p[0], OTP }) {
+        r = BandhuEngine.reply(BandhuJourneyService.byId(r.journey.Id), a);
+    }
+    List<String> needs = (List<String>) p[2];
+    Map<String, String> byStep = new Map<String, String>{ 'employment' => (String) p[3], 'income' => (String) p[4], 'company' => (String) p[5],
+        'pan' => (String) p[6], 'dob' => (String) p[7], 'pincode' => (String) p[8], 'aa' => (String) p[9], 'bureau' => '1',
+        'spend' => needs[0], 'monthly_spend' => needs[1], 'fee' => needs[2] };
+    Integer guard = 0;
+    while (byStep.containsKey(r.step) && guard++ < 20) {
+        r = BandhuEngine.reply(BandhuJourneyService.byId(r.journey.Id), byStep.remove(r.step));
+    }
+    for (String a : (List<String>) p[10]) {
         r = BandhuEngine.reply(BandhuJourneyService.byId(r.journey.Id), a);
     }
     System.debug('### ' + p[0] + ' -> ' + r.step + ' (' + r.journey.Recommended_Card__c + ')');

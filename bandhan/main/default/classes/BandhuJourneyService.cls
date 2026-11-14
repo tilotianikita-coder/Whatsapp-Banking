@@ -19,7 +19,7 @@ public inherited sharing class BandhuJourneyService {
         + 'Credit_Limit__c, KYC_Status__c, Messaging_Session_Id__c, Web_Token__c, Reference_Number__c, Last_Activity__c, '
         + 'Dropped_At__c, Drop_Point__c, Fields_Done__c, Nudges_Sent__c, Last_Nudged__c, Escalated__c, Last_Send_Status__c, '
         + 'AA_Insights__c, AA_Consent_Id__c, AA_Consent_At__c, ETB_Tier__c, Relationship_Score__c, Hold_Reason__c, Bureau_Data__c, Bureau_At__c, Bandhan_Score__c, Applied_Card__c, '
-        + 'FD_Amount__c, CreatedDate';
+        + 'FD_Amount__c, Reassess_On__c, Reassess_Status__c, CreatedDate';
 
     public static Card_Journey__c byId(Id journeyId) {
         List<Card_Journey__c> js = Database.query('SELECT ' + FIELDS + ' FROM Card_Journey__c WHERE Id = :journeyId');

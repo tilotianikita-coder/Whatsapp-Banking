@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Limit Offer</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thank you for using your *Bandhan {card}* so well{name}! 🙌 You're eligible for a higher credit limit: *{old} → {limit}*. Reply *Yes* to accept — your limit changes only with your consent.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">अपने *Bandhan {card}* का इतना अच्छा इस्तेमाल करने के लिए धन्यवाद{name}! 🙌 आप ज़्यादा credit limit के लिए eligible हैं: *{old} → {limit}*। स्वीकार करने के लिए *Yes* लिखें — आपकी सहमति के बिना limit नहीं बदलेगी।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">আপনার *Bandhan {card}* এত ভালোভাবে ব্যবহার করার জন্য ধন্যবাদ{name}! 🙌 আপনি বেশি credit limit-এর জন্য যোগ্য: *{old} → {limit}*। গ্রহণ করতে *Yes* লিখুন — আপনার সম্মতি ছাড়া limit বদলাবে না।</value>
+    </values>
+</CustomMetadata>
