@@ -3,8 +3,9 @@ private class BandhuLeadServiceTest {
     @IsTest
     static void dropOffBecomesAScoredLeadThatTheRmNudges() {
         BandhuTestData.useLogOnly();
-        BandhuEngine.Result r = BandhuTestData.newToBankAtProfile(BandhuTestData.NTB_MOBILE, new List<String>{ '1, 3', '3', '2', '1', '1.5 lakh' });
-        System.assertEquals('company', r.step);
+        BandhuEngine.Result r = BandhuTestData.drive(BandhuTestData.newToBankVerified(BandhuTestData.NTB_MOBILE), new Map<String, String>{
+            'employment' => '1', 'income' => '1.5 lakh', 'pan' => BandhuTestData.GOOD_PAN, 'aa' => '2', 'spend' => '1, 3', 'monthly_spend' => '3', 'fee' => '2' });
+        System.assertEquals('company', r.step, r.message);
         update new Card_Journey__c(Id = r.journey.Id, Last_Activity__c = Datetime.now().addMinutes(-30));
 
         Test.startTest();
@@ -21,7 +22,7 @@ private class BandhuLeadServiceTest {
         System.assertEquals(j.Drop_Point__c, l.Bandhu_Drop_Point__c);
         System.assert(l.Bandhu_Intent_Score__c > 0 && l.Bandhu_Credit_Score__c > 0);
         System.assert(l.Bandhu_Score_Detail__c.contains('Monthly income ₹1,50,000: 20/25'), l.Bandhu_Score_Detail__c);
-        // the PIN, PAN and bureau aren't shared yet: those gates wait, the declared income is the only scored one
+        // the PIN and bureau aren't shared yet: those gates wait
         Lead gated = [SELECT Status, Bandhu_Stage_Gate__c, Bandhu_Credit_Confidence__c FROM Lead WHERE Id = :l.Id];
         System.assertEquals('Waiting at Serviceability', gated.Bandhu_Stage_Gate__c);
         System.assertNotEquals('Unqualified', gated.Status);

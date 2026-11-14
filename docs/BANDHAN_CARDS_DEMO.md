@@ -54,6 +54,20 @@ schedule of charges and credit policy.
 
 Seed customers: `ON_DEMO_PHONE = 'Rina'` (microfinance only: Sparks) or `'Debasish'` (dormant: journey on hold).
 
+## Journey order and compliance (phase 3)
+- **Order**: consent → name → OTP → **income source** (salaried / self-employed professional / business owner) →
+  income → PAN → **Account Aggregator** ("connect your accounts for instant approval, no documents needed") → a live
+  *"you qualify for N cards so far"* (soft, no bureau pull) → spend, monthly spend, fee → company, DOB, PIN → soft check
+  → recommendation. Existing customers skip what is on file.
+- **Consent log** `Bandhu_Consent__c` (related to the journey, application and customer): DPDP consent, soft check,
+  AA (purpose, 24 months, expires in 30 days), the **hard enquiry** declared on the review screen before submission,
+  **MITC delivered**, **card activation** (OTP), cancellation and withdrawal, each with the exact text shown and a DPDP
+  retention date (PLACEHOLDER: 180 days for prospects, 5 years for cardholders).
+- **RBI MD on Credit Cards 2022**: the approval includes the MITC link; *Activate* → OTP consent; unactivated cards close
+  after 30 days (daily, with the drop-off job); *Cancel card* within the 7-day cooling-off period (PLACEHOLDER) closes
+  it without charges; limit increases only with consent (phase 4).
+- **Withdraw consent** anytime ("withdraw my consent" / "delete my data"): processing stops and the RM gets an erasure task.
+
 ## Catalogue, Bandhan Score, limits and the secured card (phase 2)
 - **Catalogue**: Sparks (Classic), Ignite (Silver), Flare (Gold), Lumina (Platinum), **Voyage** (co-branded travel;
   partner and benefits are PLACEHOLDERS) and **Shield** (secured against an FD, lifetime free, limit 90% of the FD).
@@ -147,8 +161,9 @@ cheapest first; a knock-out stops the rest and makes the Lead **Unqualified / Co
 
 ## Demo flow (~25 min)
 1. **Web DIY (5 min)** — open the web page on a phone or browser: hero, card range, **Talk to Bandhu** → language
-   (English / हिंदी / বাংলা) → Find my card → consent → name, mobile, OTP → what you spend on (chips), monthly spend,
-   fee preference → employment, income, company, PAN, DOB, PIN → soft CIBIL consent → Account Aggregator → **the
+   (English / हिंदी / বাংলা) → Find my card → consent → name, mobile, OTP → income source, income, PAN → Account
+   Aggregator (statements insight + "you qualify for N cards so far") → what you spend on (chips), monthly spend, fee
+   preference → company, DOB, PIN → soft CIBIL consent → **the
    recommendation with "why this card", an alternative, the upgrade hint and the card tiles** → apply → email, Aadhaar
    eKYC, Video KYC → review → **approved, virtual card issued**.
 2. **WhatsApp (5 min)** — from 9063480755: *Hi* → the same journey on WhatsApp; type *BN* to switch to Bengali; stop after

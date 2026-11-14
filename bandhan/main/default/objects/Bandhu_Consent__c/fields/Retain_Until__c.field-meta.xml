@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retain_Until__c</fullName>
+    <description>DPDP retention: PLACEHOLDER 180 days for journeys that did not become a customer, 5 years after closure for cardholders.</description>
+    <inlineHelpText>DPDP retention: PLACEHOLDER 180 days for journeys that did not become a customer, 5 years after closure for cardholders.</inlineHelpText>
+    <label>Retain Until</label>
+    <type>Date</type>
+</CustomField>

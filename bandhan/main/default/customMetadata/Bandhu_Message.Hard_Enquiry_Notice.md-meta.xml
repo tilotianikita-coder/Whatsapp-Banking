@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Hard Enquiry Notice</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">ℹ️ Submitting runs a *hard credit enquiry* with CIBIL. Unlike the soft check, it is recorded on your credit report.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">ℹ️ Submit करने पर CIBIL में एक *hard credit enquiry* होगी। soft check के विपरीत, यह आपकी credit report में दर्ज होती है।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">ℹ️ Submit করলে CIBIL-এ একটি *hard credit enquiry* হবে। soft check-এর মতো নয়, এটি আপনার credit report-এ লেখা থাকে।</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Issued Terms</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">📄 Key terms of your card (MITC): {mitc}
+🔐 Reply *Activate* to switch your card on with an OTP — if it isn't activated within {days} days it is closed, as RBI requires.
+↩️ Changed your mind? Reply *Cancel card* within {cooling} days: no charges.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">📄 आपके card की मुख्य शर्तें (MITC): {mitc}
+🔐 OTP से card चालू करने के लिए *Activate* लिखें — RBI के नियम के अनुसार {days} दिन में activate न होने पर card बंद हो जाता है।
+↩️ मन बदल गया? {cooling} दिन के अंदर *Cancel card* लिखें: कोई charge नहीं।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">📄 আপনার card-এর মূল শর্ত (MITC): {mitc}
+🔐 OTP দিয়ে card চালু করতে *Activate* লিখুন — RBI-র নিয়মে {days} দিনের মধ্যে activate না হলে card বন্ধ হয়ে যায়।
+↩️ মত বদলেছেন? {cooling} দিনের মধ্যে *Cancel card* লিখুন: কোনো charge নেই।</value>
+    </values>
+</CustomMetadata>

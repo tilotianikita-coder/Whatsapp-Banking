@@ -31,6 +31,7 @@ public inherited sharing class BandhuDecision {
         app.Card_Product__c = j.Chosen_Card__c;
         app.Fit_Summary__c = j.Recommendation_Reason__c;
         app.Submitted_At__c = Datetime.now();
+        app.Hard_Enquiry_At__c = Datetime.now();
         app.Status__c = 'Submitted';
         upsert app;
         if (String.isBlank(j.Reference_Number__c)) {
@@ -237,6 +238,10 @@ public inherited sharing class BandhuDecision {
                 'name' => first, 'card' => app.Card_Product__c, 'masked' => app.Card_Number_Masked__c,
                 'limit' => BandhuI18n.inr(app.Credit_Limit__c), 'ref' => app.Reference_Number__c, 'link' => activationLink()
             });
+            if (isApproved) {
+                body += '\n\n' + BandhuCompliance.onIssue(j, app);
+                update app;
+            }
             BandhuWhatsAppSender.enqueue(new List<BandhuWhatsAppSender.Outbound>{ new BandhuWhatsAppSender.Outbound(j.Id, body, null) });
         }
         return app;

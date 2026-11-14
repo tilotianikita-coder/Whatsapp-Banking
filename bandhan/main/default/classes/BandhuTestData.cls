@@ -44,17 +44,38 @@ public class BandhuTestData {
         return r;
     }
 
-    /** A new-to-bank applicant on WhatsApp, verified and through the needs questions (now at employment). */
-    public static BandhuEngine.Result newToBankAtProfile(String mobile, List<String> needs) {
+    /** A new-to-bank applicant on WhatsApp: consent, name and OTP done (now at the first profile question). */
+    public static BandhuEngine.Result newToBankVerified(String mobile) {
         Card_Journey__c j = BandhuJourneyService.resolve(null, null, mobile, 'WhatsApp');
         BandhuEngine.Result r = BandhuEngine.start(j);
-        r = sayAll(r, new List<String>{ '1', '1', 'Ananya Sen', BandhuConfig.get().Demo_OTP__c });
-        return sayAll(r, needs);
+        return sayAll(r, new List<String>{ '1', '1', 'Ananya Sen', BandhuConfig.get().Demo_OTP__c });
     }
 
-    /** ... then the profile answers up to the recommendation (soft check yes, Account Aggregator yes). */
+    /** Answers by step name, so tests don't depend on the question order; stops at the first step without an answer. */
+    public static BandhuEngine.Result drive(BandhuEngine.Result r, Map<String, String> answers) {
+        Map<String, String> left = answers.clone();
+        Integer guard = 0;
+        while (left.containsKey(r.step) && guard++ < 40) {
+            r = say(r, left.remove(r.step));
+        }
+        return r;
+    }
+
+    /** Standard answers: salaried, the given income and PAN, soft check yes, Account Aggregator yes; needs = spend, monthly spend, fee. */
+    public static Map<String, String> answers(List<String> needs, String income, String pan) {
+        Map<String, String> a = new Map<String, String>{
+            'employment' => '1', 'income' => income, 'pan' => pan, 'aa' => '1', 'company' => 'Infosys', 'dob' => '12/04/1990',
+            'pincode' => 'Kolkata 700091', 'bureau' => '1'
+        };
+        List<String> keys = new List<String>{ 'spend', 'monthly_spend', 'fee' };
+        for (Integer i = 0; i < Math.min(needs.size(), 3); i++) {
+            a.put(keys[i], needs[i]);
+        }
+        return a;
+    }
+
+    /** ... up to the recommendation. */
     public static BandhuEngine.Result toRecommendation(String mobile, List<String> needs, String income, String pan) {
-        BandhuEngine.Result r = newToBankAtProfile(mobile, needs);
-        return sayAll(r, new List<String>{ '1', income, 'Infosys', pan, '12/04/1990', 'Kolkata 700091', '1', '1' });
+        return drive(newToBankVerified(mobile), answers(needs, income, pan));
     }
 }

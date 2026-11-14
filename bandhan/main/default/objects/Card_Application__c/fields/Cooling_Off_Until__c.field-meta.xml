@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cooling_Off_Until__c</fullName>
+    <description>The customer can cancel without charges until this date (PLACEHOLDER: 7 days).</description>
+    <inlineHelpText>The customer can cancel without charges until this date (PLACEHOLDER: 7 days).</inlineHelpText>
+    <label>Cooling-off Until</label>
+    <type>Date</type>
+</CustomField>

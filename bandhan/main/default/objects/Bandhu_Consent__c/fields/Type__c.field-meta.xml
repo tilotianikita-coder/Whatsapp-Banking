@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>DPDP data processing</fullName>
+                <default>false</default>
+                <label>DPDP data processing</label>
+            </value>
+            <value>
+                <fullName>Soft credit check</fullName>
+                <default>false</default>
+                <label>Soft credit check</label>
+            </value>
+            <value>
+                <fullName>Account Aggregator</fullName>
+                <default>false</default>
+                <label>Account Aggregator</label>
+            </value>
+            <value>
+                <fullName>Hard credit enquiry</fullName>
+                <default>false</default>
+                <label>Hard credit enquiry</label>
+            </value>
+            <value>
+                <fullName>MITC delivered</fullName>
+                <default>false</default>
+                <label>MITC delivered</label>
+            </value>
+            <value>
+                <fullName>Card activation</fullName>
+                <default>false</default>
+                <label>Card activation</label>
+            </value>
+            <value>
+                <fullName>Limit enhancement</fullName>
+                <default>false</default>
+                <label>Limit enhancement</label>
+            </value>
+            <value>
+                <fullName>Card cancellation</fullName>
+                <default>false</default>
+                <label>Card cancellation</label>
+            </value>
+            <value>
+                <fullName>Consent withdrawn</fullName>
+                <default>false</default>
+                <label>Consent withdrawn</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

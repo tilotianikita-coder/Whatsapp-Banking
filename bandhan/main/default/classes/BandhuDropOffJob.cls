@@ -7,7 +7,7 @@
  */
 public with sharing class BandhuDropOffJob implements Schedulable {
     public static final String JOB_PREFIX = 'Bandhu Drop-off';
-    private static final Set<String> TERMINAL = new Set<String>{ 'done', 'menu' };
+    private static final Set<String> TERMINAL = new Set<String>{ 'done', 'menu', 'hold', 'activate_otp', 'cancel_confirm' };
 
     public void execute(SchedulableContext ctx) {
         run();
@@ -18,6 +18,7 @@ public with sharing class BandhuDropOffJob implements Schedulable {
     }
 
     public static void run() {
+        BandhuCompliance.closeUnactivated();
         Bandhu_Config__mdt cfg = BandhuConfig.get();
         Integer idle = cfg.Idle_Minutes__c == null ? 30 : cfg.Idle_Minutes__c.intValue();
         Datetime cutoff = Datetime.now().addMinutes(-idle);

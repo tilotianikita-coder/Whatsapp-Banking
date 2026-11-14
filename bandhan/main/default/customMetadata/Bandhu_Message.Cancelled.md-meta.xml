@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Cancelled</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Done{name} — your card is cancelled with no charges. You can apply again anytime. 🙏</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">हो गया{name} — आपका card बिना किसी charge के cancel हो गया। आप कभी भी फिर से apply कर सकते हैं। 🙏</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">হয়ে গেছে{name} — আপনার card কোনো charge ছাড়াই cancel হয়েছে। আপনি যেকোনো সময় আবার apply করতে পারেন। 🙏</value>
+    </values>
+</CustomMetadata>

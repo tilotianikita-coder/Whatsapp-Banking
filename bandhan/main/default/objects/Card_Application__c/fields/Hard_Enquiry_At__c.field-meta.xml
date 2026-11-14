@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hard_Enquiry_At__c</fullName>
+    <description>The customer was told a hard credit enquiry runs on submission, and confirmed.</description>
+    <inlineHelpText>The customer was told a hard credit enquiry runs on submission, and confirmed.</inlineHelpText>
+    <label>Hard Enquiry Declared At</label>
+    <type>DateTime</type>
+</CustomField>

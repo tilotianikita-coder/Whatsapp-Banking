@@ -5,16 +5,19 @@
     <values>
         <field>English__c</field>
         <value xsi:type="xsd:string">Salaried
-Self-employed</value>
+Self-employed professional
+Business owner</value>
     </values>
     <values>
         <field>Hindi__c</field>
         <value xsi:type="xsd:string">नौकरीपेशा (Salaried)
-स्व-रोज़गार (Self-employed)</value>
+स्व-रोज़गार professional
+Business के मालिक</value>
     </values>
     <values>
         <field>Bengali__c</field>
         <value xsi:type="xsd:string">চাকরিজীবী (Salaried)
-স্বনিযুক্ত (Self-employed)</value>
+স্বনিযুক্ত professional
+Business-এর মালিক</value>
     </values>
 </CustomMetadata>

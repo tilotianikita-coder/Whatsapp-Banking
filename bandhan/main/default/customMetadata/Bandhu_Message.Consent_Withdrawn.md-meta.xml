@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Consent Withdrawn</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Understood. I've stopped processing your details and asked our team to erase them as per our retention policy. 🙏</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">समझ गया। मैंने आपकी जानकारी पर काम रोक दिया है और team से कहा है कि retention policy के अनुसार इसे मिटा दें। 🙏</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">বুঝেছি। আমি আপনার তথ্য নিয়ে কাজ বন্ধ করেছি এবং team-কে retention policy অনুযায়ী তা মুছে ফেলতে বলেছি। 🙏</value>
+    </values>
+</CustomMetadata>

@@ -51,6 +51,9 @@ public inherited sharing class BandhuEngine {
     private static final Pattern HUMAN = Pattern.compile('(?i).*\\b(agent|human|specialist|executive|relationship manager|rm|call me|talk to (a |some)?(person|someone|human))\\b.*');
     private static final Pattern MENU = Pattern.compile('(?i)^\\W*(menu|main menu|back|start over|restart)\\W*$');
     private static final Pattern COMPARE = Pattern.compile('(?i).*\\b(compare|all cards|card range|show (me )?(the )?cards)\\b.*');
+    private static final Pattern ACTIVATE_CMD = Pattern.compile('(?i)^\\W*(activate( my)?( card)?|card activate)\\W*$');
+    private static final Pattern CANCEL_CARD = Pattern.compile('(?i)^\\W*(cancel( my)? card|close( my)? card)\\W*$');
+    private static final Pattern WITHDRAW = Pattern.compile('(?i).*\\b(withdraw (my )?consent|delete my data|erase my data)\\b.*');
     private static final Pattern STATUS = Pattern.compile('(?i)^\\W*(status|track|application status)\\W*$');
     private static final Pattern GREETING = Pattern.compile('(?i)^\\W*(hi|hello|hey|hii|namaste|namaskar|start|begin)\\W*$');
     private static final Pattern PAN = Pattern.compile('[A-Z]{5}[0-9]{4}[A-Z]');
@@ -58,7 +61,9 @@ public inherited sharing class BandhuEngine {
     private static final Map<String, String> PIN_CITY = new Map<String, String>{ '700' => 'Kolkata', '110' => 'Delhi', '400' => 'Mumbai',
         '560' => 'Bengaluru', '600' => 'Chennai', '500' => 'Hyderabad', '411' => 'Pune', '781' => 'Guwahati', '751' => 'Bhubaneswar', '800' => 'Patna' };
     private static final Map<String, Decimal> SPEND_BANDS = new Map<String, Decimal>{ '1' => 10000, '2' => 30000, '3' => 75000, '4' => 150000 };
-    private static final List<String> PROFILE_STEPS = new List<String>{ 'employment', 'income', 'company', 'pan', 'dob', 'pincode', 'bureau', 'aa' };
+    // income source and Account Aggregator first (they drive the bureau strategy and the eligibility), then needs, then the rest
+    private static final List<String> PROFILE_STEPS = new List<String>{ 'employment', 'income', 'pan', 'aa', 'spend', 'monthly_spend', 'fee',
+        'company', 'dob', 'pincode', 'bureau' };
     private static final List<String> KYC_STEPS = new List<String>{ 'email', 'aadhaar', 'aadhaar_otp', 'vkyc', 'review' };
 
     // ------------------------------------------------------------------ entry points
@@ -106,6 +111,40 @@ public inherited sharing class BandhuEngine {
             if (MENU.matcher(t).matches()) {
                 r.message = BandhuI18n.msg('Menu_Back', j.Language__c) + '\n\n' + r.message;
             }
+            return save(j, r);
+        }
+        if (WITHDRAW.matcher(t).matches()) {
+            BandhuCompliance.withdraw(j);
+            BandhuLeadService.rmTask(j, 'Bandhu: consent withdrawn - ' + label(j), 'The customer withdrew consent (DPDP). Stop processing and erase per the retention policy.');
+            Result r = new Result();
+            r.message = BandhuI18n.msg('Consent_Withdrawn', j.Language__c);
+            return save(j, r);
+        }
+        if (ACTIVATE_CMD.matcher(t).matches() || CANCEL_CARD.matcher(t).matches()) {
+            Card_Application__c issued = BandhuCompliance.issuedApplication(j);
+            Result r = new Result();
+            if (issued == null) {
+                r.message = BandhuI18n.msg('No_Card_Yet', j.Language__c);
+                return save(j, appendPrompt(j, r));
+            }
+            if (ACTIVATE_CMD.matcher(t).matches()) {
+                if (issued.Activated_At__c != null) {
+                    r.message = BandhuI18n.msg('Activated', j.Language__c, tokens(j));
+                    return save(j, r);
+                }
+                j.Step__c = 'activate_otp';
+                r.step = j.Step__c;
+                r.message = BandhuI18n.msg('Q_Activate_OTP', j.Language__c, tokens(j));
+                return save(j, r);
+            }
+            if (!BandhuCompliance.inCoolingOff(issued)) {
+                r.message = BandhuI18n.msg('Cancel_Too_Late', j.Language__c, new Map<String, Object>{ 'days' => BandhuCompliance.COOLING_OFF_DAYS });
+                return save(j, r);
+            }
+            j.Step__c = 'cancel_confirm';
+            r.step = j.Step__c;
+            r.message = BandhuI18n.msg('Q_Cancel', j.Language__c, tokens(j));
+            r.options = BandhuI18n.options('Opt_Cancel', j.Language__c, null);
             return save(j, r);
         }
         if (STATUS.matcher(t).matches()) {
@@ -182,6 +221,29 @@ public inherited sharing class BandhuEngine {
             j.Step__c = 'menu';
             return welcome(j);
         }
+        if (step == 'activate_otp' || step == 'cancel_confirm') {
+            Card_Application__c issued = BandhuCompliance.issuedApplication(j);
+            Result r = new Result();
+            j.Step__c = 'done';
+            if (issued == null) {
+                r.message = BandhuI18n.msg('No_Card_Yet', lang);
+            } else if (step == 'activate_otp') {
+                if (t.replaceAll('[^0-9]', '') != BandhuConfig.get().Demo_OTP__c) {
+                    j.Step__c = 'activate_otp';
+                    r.message = BandhuI18n.msg('OTP_Wrong', lang, new Map<String, Object>{ 'left' => '2' });
+                } else {
+                    BandhuCompliance.activate(j, issued);
+                    r.message = BandhuI18n.msg('Activated', lang, tokens(j));
+                }
+            } else if (choice == 1 || Pattern.matches('(?i).*\\b(yes|confirm)\\b.*', t)) {
+                BandhuCompliance.cancel(j, issued);
+                r.message = BandhuI18n.msg('Cancelled', lang, tokens(j));
+            } else {
+                r.message = BandhuI18n.msg('Done', lang);
+            }
+            r.step = j.Step__c;
+            return r;
+        }
         if (step == 'secured_offer') {
             if (choice == 1 || t.containsIgnoreCase('shield') || t.containsIgnoreCase('fd')) {
                 choose(j, securedCardName());
@@ -219,6 +281,8 @@ public inherited sharing class BandhuEngine {
             if (choice == 1 || Pattern.matches('(?i).*\\b(yes|agree|ok|okay|sure|haan|ha|hya|ji)\\b.*', t)) {
                 j.Consent__c = true;
                 j.Consent_At__c = Datetime.now();
+                BandhuCompliance.record(j, 'DPDP data processing', 'Recommend a card and process the application'
+                    + ' (incl. a soft credit check for existing customers)', null, null, BandhuI18n.msg('Consent', lang));
                 BandhuJourneyService.advance(j, 'Verify');
                 return next(j, 'consent');
             }
@@ -282,7 +346,9 @@ public inherited sharing class BandhuEngine {
         if (step == 'employment') {
             if (choice == 1 || t.containsIgnoreCase('salar') || t.containsIgnoreCase('job')) {
                 j.Employment_Type__c = 'Salaried';
-            } else if (choice == 2 || t.containsIgnoreCase('self') || t.containsIgnoreCase('business')) {
+            } else if (choice == 3 || t.containsIgnoreCase('business') || t.containsIgnoreCase('shop') || t.containsIgnoreCase('dukan')) {
+                j.Employment_Type__c = 'Business';
+            } else if (choice == 2 || t.containsIgnoreCase('self') || t.containsIgnoreCase('freelanc') || t.containsIgnoreCase('professional')) {
                 j.Employment_Type__c = 'Self-employed';
             } else {
                 return invalid(j);
@@ -336,6 +402,8 @@ public inherited sharing class BandhuEngine {
             if (choice == 1 || Pattern.matches('(?i).*\\b(yes|ok|okay|sure|go ahead|haan)\\b.*', t)) {
                 j.Bureau_Consent__c = true;
                 BandhuBureau.softPull(j);
+                BandhuCompliance.record(j, 'Soft credit check', 'Soft credit check for card eligibility (no score impact)', j.PAN__c == null ? null : BandhuI18n.maskPan(j.PAN__c),
+                    null, BandhuI18n.msg('Q_Bureau', lang));
             } else if (choice == 2 || Pattern.matches('(?i).*\\b(no|skip|later)\\b.*', t)) {
                 pre.message = BandhuI18n.msg('Bureau_Skipped', lang);
             } else {
@@ -347,6 +415,8 @@ public inherited sharing class BandhuEngine {
             String pre;
             if (choice == 1 || t.containsIgnoreCase('verify') || t.containsIgnoreCase('connect') || t.containsIgnoreCase('yes')) {
                 BandhuCashFlow.Analysis a = BandhuAccountAggregator.run(j);
+                BandhuCompliance.record(j, 'Account Aggregator', BandhuAccountAggregator.PURPOSE_CREDIT + ': ' + BandhuAccountAggregator.LOOKBACK_MONTHS
+                    + ' months of deposit statements, one fetch', j.AA_Consent_Id__c, BandhuI18n.today().addDays(30), BandhuI18n.msg('Q_AA', lang));
                 j.Verified_Income__c = a.netMonthlyIncome > 0 ? a.netMonthlyIncome : null;
                 pre = BandhuI18n.msg('AA_Done', lang, new Map<String, Object>{ 'income' => BandhuI18n.inr(a.netMonthlyIncome) })
                     + '\n\n' + BandhuI18n.msg('AA_Insights', lang, new Map<String, Object>{
@@ -355,6 +425,10 @@ public inherited sharing class BandhuEngine {
                         'lifestyle' => a.lifestyle.isEmpty() ? '' : '\n• ' + a.lifestyle[0] });
             } else if (choice != 2 && !t.containsIgnoreCase('skip') && !t.containsIgnoreCase('later')) {
                 return invalid(j);
+            }
+            String soFar = soFar(j);
+            if (soFar != null) {
+                pre = pre == null ? soFar : pre + '\n\n' + soFar;
             }
             return prefix(pre, next(j, 'aa'));
         }
@@ -424,6 +498,8 @@ public inherited sharing class BandhuEngine {
         }
         if (step == 'review') {
             if (choice == 1 || Pattern.matches('(?i).*\\b(confirm|submit|yes)\\b.*', t)) {
+                BandhuCompliance.record(j, 'Hard credit enquiry', 'Declared before submission: a hard enquiry with CIBIL, recorded on the credit report',
+                    j.PAN__c == null ? null : BandhuI18n.maskPan(j.PAN__c), null, BandhuI18n.msg('Hard_Enquiry_Notice', lang));
                 return submit(j);
             }
             if (choice == 2) {
@@ -463,23 +539,14 @@ public inherited sharing class BandhuEngine {
         if (after == 'mobile') {
             return sendOtp(j);
         }
-        if (after == 'otp') {
-            return String.isBlank(j.Spend_Focus__c) ? ask(j, 'spend') : next(j, 'spend');
-        }
-        if (after == 'spend') {
-            return j.Monthly_Spend__c == null ? ask(j, 'monthly_spend') : next(j, 'monthly_spend');
-        }
-        if (after == 'monthly_spend') {
-            return String.isBlank(j.Fee_Preference__c) ? ask(j, 'fee') : next(j, 'fee');
-        }
-        Integer i = PROFILE_STEPS.indexOf(after == 'fee' ? 'start' : after);
-        for (Integer k = i + 1; k < PROFILE_STEPS.size(); k++) {
-            String s = PROFILE_STEPS[k];
-            if (needs(j, s)) {
-                return ask(j, s);
+        if (after == 'otp' || PROFILE_STEPS.contains(after)) {
+            Integer i = after == 'otp' ? -1 : PROFILE_STEPS.indexOf(after);
+            for (Integer k = i + 1; k < PROFILE_STEPS.size(); k++) {
+                String s = PROFILE_STEPS[k];
+                if (needs(j, s)) {
+                    return ask(j, s);
+                }
             }
-        }
-        if (after == 'fee' || PROFILE_STEPS.contains(after)) {
             return recommend(j);
         }
         Integer kyc = KYC_STEPS.indexOf(after == 'choose' ? 'start' : after);
@@ -496,6 +563,9 @@ public inherited sharing class BandhuEngine {
         Boolean existing = j.Customer_Type__c == BandhuJourneyService.EXISTING;
         switch on step {
             when 'employment' { return String.isBlank(j.Employment_Type__c); }
+            when 'spend' { return String.isBlank(j.Spend_Focus__c); }
+            when 'monthly_spend' { return j.Monthly_Spend__c == null; }
+            when 'fee' { return String.isBlank(j.Fee_Preference__c); }
             when 'income' { return j.Monthly_Income__c == null; }
             when 'company' { return String.isBlank(j.Company_Name__c); }
             when 'pan' { return String.isBlank(j.PAN__c); }
@@ -545,7 +615,7 @@ public inherited sharing class BandhuEngine {
             when 'aadhaar' { r.message = BandhuI18n.msg('Q_Aadhaar', lang); }
             when 'aadhaar_otp' { r.message = BandhuI18n.msg('Q_Aadhaar_OTP', lang, tk); }
             when 'vkyc' { r.message = BandhuI18n.msg('Q_VKYC', lang, tk); r.options = BandhuI18n.options('Opt_VKYC', lang, null); }
-            when 'review' { r.message = BandhuI18n.msg('Review', lang, tk); r.options = BandhuI18n.options('Opt_Review', lang, null); }
+            when 'review' { r.message = BandhuI18n.msg('Review', lang, tk) + '\n\n' + BandhuI18n.msg('Hard_Enquiry_Notice', lang); r.options = BandhuI18n.options('Opt_Review', lang, null); }
             when 'secured_offer' {
                 BandhuEligibility.Outcome so = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
                 if (so.secured != null) {
@@ -613,6 +683,7 @@ public inherited sharing class BandhuEngine {
                 // existing customer: silent soft pull on the PAN on file (consented at the start), or the cached report
                 j.Bureau_Consent__c = true;
                 BandhuBureau.softPull(j);
+                BandhuCompliance.record(j, 'Soft credit check', 'Existing customer: silent soft check under the consent at the start', BandhuI18n.maskPan(j.PAN__c), null, null);
             }
             pre = BandhuI18n.msg('Verified_Existing', lang, tokens(j));
         } else {
@@ -733,6 +804,16 @@ public inherited sharing class BandhuEngine {
         return r;
     }
 
+    /** Real-time eligibility feedback while answering: a soft check on what we know so far (no bureau pull). */
+    private static String soFar(Card_Journey__c j) {
+        BandhuEligibility.Outcome out = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
+        List<String> names = out.eligibleNames();
+        if (names.isEmpty()) {
+            return null;
+        }
+        return BandhuI18n.msg('So_Far', j.Language__c, new Map<String, Object>{ 'cards' => String.join(names, ', '), 'count' => names.size() });
+    }
+
     private static String limitText(Card_Journey__c j, BandhuEligibility.Outcome out) {
         for (BandhuEligibility.Option o : out.options) {
             if (o.card.DeveloperName == j.Recommended_Card__c && o.limitLow != null && o.limitLow < o.creditLimit) {
@@ -829,7 +910,8 @@ public inherited sharing class BandhuEngine {
         Result r = new Result();
         if (o.recommendation == BandhuDecision.APPROVE) {
             j.Step__c = 'done';
-            r.message = BandhuI18n.msg('Approved', lang, tk);
+            r.message = BandhuI18n.msg('Approved', lang, tk) + '\n\n' + BandhuCompliance.onIssue(j, o.application);
+            update o.application;
             BandhuLeadService.convert(j);
         } else if (o.recommendation == BandhuDecision.REFER) {
             j.Step__c = 'done';

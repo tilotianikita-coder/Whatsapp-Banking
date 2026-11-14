@@ -257,7 +257,7 @@ public inherited sharing class BandhuQualification {
         Decimal income = j.Verified_Income__c != null ? j.Verified_Income__c : j.Monthly_Income__c;
         Integer p = income == null ? 0 : income >= 200000 ? 25 : income >= 75000 ? 20 : income >= 40000 ? 15 : income >= 25000 ? 10 : 0;
         line(o, 'Monthly income ' + (income == null ? 'not shared' : BandhuI18n.inr(income)), p, 25);
-        p = j.Employment_Type__c == 'Salaried' ? 10 : j.Employment_Type__c == 'Self-employed' ? 6 : 0;
+        p = j.Employment_Type__c == 'Salaried' ? 10 : j.Employment_Type__c == 'Self-employed' || j.Employment_Type__c == 'Business' ? 6 : 0;
         line(o, 'Employment ' + (j.Employment_Type__c == null ? 'not shared' : j.Employment_Type__c), p, 10);
         Decimal spend = j.Monthly_Spend__c;
         p = spend == null ? 0 : spend > 100000 ? 10 : spend >= 50000 ? 8 : spend >= 15000 ? 5 : 2;

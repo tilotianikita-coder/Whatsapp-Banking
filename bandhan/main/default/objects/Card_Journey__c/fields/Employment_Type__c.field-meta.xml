@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Employment_Type__c</fullName>
+    <description>Primary income source: drives the bureau strategy and product eligibility.</description>
+    <inlineHelpText>Primary income source: drives the bureau strategy and product eligibility.</inlineHelpText>
     <label>Employment Type</label>
     <type>Picklist</type>
     <valueSet>
@@ -16,6 +18,11 @@
                 <fullName>Self-employed</fullName>
                 <default>false</default>
                 <label>Self-employed</label>
+            </value>
+            <value>
+                <fullName>Business</fullName>
+                <default>false</default>
+                <label>Business</label>
             </value>
         </valueSetDefinition>
     </valueSet>

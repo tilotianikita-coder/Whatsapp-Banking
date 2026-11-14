@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activation_Due__c</fullName>
+    <description>Issue date + 30 days: without OTP activation consent by then, the card is closed (RBI MD 2022).</description>
+    <inlineHelpText>Issue date + 30 days: without OTP activation consent by then, the card is closed (RBI MD 2022).</inlineHelpText>
+    <label>Activation Due</label>
+    <type>Date</type>
+</CustomField>

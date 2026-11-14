@@ -79,8 +79,9 @@ private class BandhuEngineTest {
     @IsTest
     static void anytimeLanguageFaqCompareMenuAndHandoff() {
         BandhuTestData.useLogOnly();
-        BandhuEngine.Result r = BandhuTestData.newToBankAtProfile(BandhuTestData.NTB_MOBILE, new List<String>{ '1' });
-        System.assertEquals('monthly_spend', r.step);
+        BandhuEngine.Result r = BandhuTestData.drive(BandhuTestData.newToBankVerified(BandhuTestData.NTB_MOBILE),
+            new Map<String, String>{ 'employment' => '1', 'income' => '90000', 'pan' => BandhuTestData.GOOD_PAN, 'aa' => '2', 'spend' => '1' });
+        System.assertEquals('monthly_spend', r.step, r.message);
         r = BandhuTestData.say(r, 'Hi');
         System.assertEquals('EN', r.journey.Language__c, '"Hi" is a greeting, not Hindi');
         r = BandhuTestData.say(r, 'HI');
@@ -118,18 +119,22 @@ private class BandhuEngineTest {
     @IsTest
     static void invalidAnswersAreReAsked() {
         BandhuTestData.useLogOnly();
-        BandhuEngine.Result r = BandhuTestData.newToBankAtProfile(BandhuTestData.NTB_MOBILE, new List<String>{ '1', '2', '1', '2' });
+        BandhuEngine.Result r = BandhuTestData.newToBankVerified(BandhuTestData.NTB_MOBILE);
+        System.assertEquals('employment', r.step, 'income source first: ' + r.message);
+        r = BandhuTestData.say(r, '3');
+        System.assertEquals('Business', r.journey.Employment_Type__c);
         System.assertEquals('income', r.step, r.message);
-        System.assertEquals('Self-employed', r.journey.Employment_Type__c);
         r = BandhuTestData.say(r, 'lots');
         System.assertEquals('income', r.step);
-        r = BandhuTestData.sayAll(r, new List<String>{ '1.2 lakh', 'Sen Traders', 'NOTAPAN' });
+        r = BandhuTestData.sayAll(r, new List<String>{ '1.2 lakh', 'NOTAPAN' });
         System.assertEquals('pan', r.step);
-        r = BandhuTestData.sayAll(r, new List<String>{ BandhuTestData.GOOD_PAN, '31/02/1990' });
+        r = BandhuTestData.sayAll(r, new List<String>{ BandhuTestData.GOOD_PAN, '2' });
+        System.assertEquals('spend', r.step, 'Account Aggregator skipped: ' + r.message);
+        r = BandhuTestData.sayAll(r, new List<String>{ '1', '2', '1', 'Sen Traders', '31/02/1990' });
         System.assertEquals('dob', r.step);
         r = BandhuTestData.sayAll(r, new List<String>{ '1990-02-28', '7000' });
         System.assertEquals('pincode', r.step);
-        r = BandhuTestData.sayAll(r, new List<String>{ '700091', '2', '2' });
+        r = BandhuTestData.sayAll(r, new List<String>{ '700091', '2' });
         System.assertEquals('choose', r.step, r.message);
         System.assertEquals('Kolkata', r.journey.City__c, 'city from the PIN prefix');
         System.assertEquals(null, r.journey.CIBIL_Score__c, 'soft check skipped');

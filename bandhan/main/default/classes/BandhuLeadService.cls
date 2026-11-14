@@ -13,7 +13,9 @@ public inherited sharing class BandhuLeadService {
         'income' => 'Income', 'company' => 'Company', 'pan' => 'PAN', 'dob' => 'Date of birth', 'pincode' => 'PIN code',
         'bureau' => 'Credit check consent', 'aa' => 'Account Aggregator', 'choose' => 'Card recommendation', 'email' => 'Email',
         'aadhaar' => 'Aadhaar eKYC', 'aadhaar_otp' => 'Aadhaar OTP', 'vkyc' => 'Video KYC', 'review' => 'Review and submit',
-        'not_eligible' => 'Not eligible', 'declined_alt' => 'Declined (alternative offered)', 'done' => 'Done'
+        'not_eligible' => 'Not eligible', 'declined_alt' => 'Declined (alternative offered)', 'done' => 'Done',
+        'secured_offer' => 'Secured card offered', 'applied_alt' => 'Applied-for card: alternative offered', 'hold' => 'On hold (KYC / account)',
+        'activate_otp' => 'Card activation', 'cancel_confirm' => 'Card cancellation'
     };
 
     public static String stepLabel(Card_Journey__c j) {

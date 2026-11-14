@@ -79,18 +79,21 @@ private class BandhuCashFlowTest {
     @IsTest
     static void statementsChangeTheRecommendation() {
         BandhuTestData.useLogOnly();
-        List<String> profile = new List<String>{ '1', '1 lakh', 'Infosys', 'ABCPT1234K', '12/04/1990', 'Kolkata 700091', '1' };
-        BandhuEngine.Result r = BandhuTestData.newToBankAtProfile(BandhuTestData.NTB_MOBILE, new List<String>{ '4', '2', '2' });
-        r = BandhuTestData.sayAll(r, profile);
-        r = BandhuTestData.say(r, '2');   // skip Account Aggregator
+        Map<String, String> answers = BandhuTestData.answers(new List<String>{ '4', '2', '2' }, '1 lakh', 'ABCPT1234K');
+        answers.put('aa', '2');           // skip Account Aggregator
+        BandhuEngine.Result r = BandhuTestData.drive(BandhuTestData.newToBankVerified(BandhuTestData.NTB_MOBILE), answers);
         System.assertEquals('Ignite', r.journey.Recommended_Card__c, 'declared groceries only: ' + r.message);
 
-        BandhuEngine.Result r2 = BandhuTestData.newToBankAtProfile('9876500003', new List<String>{ '4', '2', '2' });
-        r2 = BandhuTestData.sayAll(r2, profile);
-        r2 = BandhuTestData.say(r2, '1'); // connect accounts
+        answers.put('aa', '1');           // connect accounts
+        Card_Journey__c j2 = BandhuJourneyService.resolve(null, null, '9876500003', 'WhatsApp');
+        BandhuEngine.Result r2 = BandhuTestData.sayAll(BandhuEngine.start(j2), new List<String>{ '1', '1', 'Ananya Sen', BandhuConfig.get().Demo_OTP__c });
+        BandhuEngine.Result atAa = BandhuTestData.drive(r2, new Map<String, String>{ 'employment' => '1', 'income' => '1 lakh', 'pan' => 'ABCPT1234K' });
+        System.assertEquals('aa', atAa.step, 'Account Aggregator right after the income source, PAN and income');
+        atAa = BandhuTestData.say(atAa, '1');
+        System.assert(atAa.message.contains('What your statements show') && atAa.message.contains('you qualify for'), atAa.message);
+        r2 = BandhuTestData.drive(atAa, answers);
         System.assertEquals('Flare', r2.journey.Recommended_Card__c, r2.message);
         System.assert(r2.journey.Recommendation_Reason__c.contains('in your statements'), r2.journey.Recommendation_Reason__c);
-        System.assert(r2.message.contains('What your statements show'), r2.message);
         System.assertEquals(335000, r2.journey.Credit_Limit__c, '3x + 0.5x (band A) the verified ₹96,000');
     }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MITC_Sent_At__c</fullName>
+    <description>Most Important Terms and Conditions delivered (RBI Master Direction on Credit Cards, 2022).</description>
+    <inlineHelpText>Most Important Terms and Conditions delivered (RBI Master Direction on Credit Cards, 2022).</inlineHelpText>
+    <label>MITC Sent At</label>
+    <type>DateTime</type>
+</CustomField>

@@ -105,7 +105,7 @@ public inherited sharing class BandhuAccountAggregator {
         String digits = pan.length() >= 9 ? pan.substring(5, 9) : '0000';
         Boolean heavyEmi = digits.endsWith('8');
         Boolean anomalies = digits.endsWith('9');
-        Boolean business = j.Employment_Type__c == 'Self-employed';
+        Boolean business = j.Employment_Type__c == 'Self-employed' || j.Employment_Type__c == 'Business';
         Decimal income = BandhuProviders.verifiedIncome(j.Monthly_Income__c == null ? 50000 : j.Monthly_Income__c);
         String holder = String.isBlank(j.Customer_Name__c) ? 'APPLICANT' : j.Customer_Name__c.toUpperCase();
         String employer = String.isBlank(j.Company_Name__c) ? 'EMPLOYER' : j.Company_Name__c.toUpperCase();

@@ -237,7 +237,7 @@ public inherited sharing class BandhuEligibility {
     /** Age and the hard CIBIL floor apply to every card. */
     private static String commonBlock(Profile p, Bandhu_Config__mdt cfg) {
         if (p.age != null) {
-            Decimal maxAge = p.employment == 'Self-employed' ? cfg.Max_Age_Self_Employed__c : cfg.Max_Age_Salaried__c;
+            Decimal maxAge = p.employment == 'Self-employed' || p.employment == 'Business' ? cfg.Max_Age_Self_Employed__c : cfg.Max_Age_Salaried__c;
             if (p.age < nz(cfg.Min_Age__c)) {
                 return 'age under ' + cfg.Min_Age__c.intValue();
             }

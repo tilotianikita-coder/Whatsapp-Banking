@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activated_At__c</fullName>
+    <description>Card activated with the customer's OTP consent.</description>
+    <inlineHelpText>Card activated with the customer's OTP consent.</inlineHelpText>
+    <label>Activated At</label>
+    <type>DateTime</type>
+</CustomField>

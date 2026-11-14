@@ -55,7 +55,7 @@ private class BandhuChannelsTest {
     @IsTest
     static void handoffPanelAndWhatsAppLogOnly() {
         BandhuTestData.useLogOnly();
-        BandhuEngine.Result r = BandhuTestData.newToBankAtProfile(BandhuTestData.NTB_MOBILE, new List<String>{ '1', '3', '2' });
+        BandhuEngine.Result r = BandhuTestData.newToBankVerified(BandhuTestData.NTB_MOBILE);
         BandhuEngine.handoff(r.journey, 'asked for a person');
         BandhuConsoleController.Handoff h = BandhuConsoleController.getHandoff(r.journey.Id);
         System.assert(!h.hasJourney, 'no messaging session on this journey');

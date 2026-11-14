@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Cancel Too Late</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">The {days}-day cooling-off period is over, so I'll connect you with our card team to close it. Reply *Agent*.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">{days} दिन की cooling-off अवधि खत्म हो गई है, card बंद करने के लिए मैं आपको card team से जोड़ूँगा। *Agent* लिखें।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">{days} দিনের cooling-off সময় শেষ, card বন্ধ করতে আমি আপনাকে card team-এর সঙ্গে যুক্ত করব। *Agent* লিখুন।</value>
+    </values>
+</CustomMetadata>

@@ -127,7 +127,7 @@ public inherited sharing class BandhuCashFlow {
         for (Txn t : txns) {
             categorise(t, holder);
         }
-        derive(a, txns, employment == 'Self-employed');
+        derive(a, txns, employment == 'Self-employed' || employment == 'Business');
         return a;
     }
 
