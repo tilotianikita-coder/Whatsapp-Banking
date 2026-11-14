@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Bandhu_Recommended_Card__c</fullName>
+    <description>Unrestricted: Lead record types do not pick up new card values.</description>
+    <inlineHelpText>Unrestricted: Lead record types do not pick up new card values.</inlineHelpText>
     <label>Recommended Card</label>
     <type>Picklist</type>
     <valueSet>
-        <restricted>true</restricted>
+        <restricted>false</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -26,6 +28,16 @@
                 <fullName>Lumina</fullName>
                 <default>false</default>
                 <label>Lumina</label>
+            </value>
+            <value>
+                <fullName>Voyage</fullName>
+                <default>false</default>
+                <label>Voyage</label>
+            </value>
+            <value>
+                <fullName>Shield</fullName>
+                <default>false</default>
+                <label>Shield</label>
             </value>
         </valueSetDefinition>
     </valueSet>

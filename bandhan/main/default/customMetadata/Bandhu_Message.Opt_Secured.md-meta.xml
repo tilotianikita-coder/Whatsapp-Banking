@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Opt Secured</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Apply for {card} against an FD
+Talk to a specialist
+Back to the menu</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">FD के बदले {card} के लिए apply करें
+किसी specialist से बात करें
+वापस menu पर जाएँ</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">FD-র বিপরীতে {card}-এর জন্য apply করুন
+একজন specialist-এর সঙ্গে কথা বলুন
+menu-তে ফিরে যান</value>
+    </values>
+</CustomMetadata>

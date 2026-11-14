@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Secured Offer</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thank you for sharing all that{name}. 🙏 I can't offer an unsecured card right now ({reason}) — but you can start with the *Bandhan {card}*, a credit card against a fixed deposit:
+
+{why}
+
+&gt; 🏦 Book an FD of *{fd}* → credit limit *{limit}*
+
+After 6 months of on-time payments you can move up to an unsecured card.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">यह सब बताने के लिए धन्यवाद{name}। 🙏 मैं अभी आपको बिना-जमानत वाला card नहीं दे पा रहा ({reason}) — पर आप *Bandhan {card}* से शुरू कर सकते हैं, यह fixed deposit के बदले मिलने वाला credit card है:
+
+{why}
+
+&gt; 🏦 *{fd}* का FD बुक करें → credit limit *{limit}*
+
+6 महीने समय पर भुगतान के बाद आप बिना-जमानत वाले card पर जा सकते हैं।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">এত কিছু জানানোর জন্য ধন্যবাদ{name}। 🙏 আমি এখন আপনাকে জামানত-ছাড়া card দিতে পারছি না ({reason}) — তবে আপনি *Bandhan {card}* দিয়ে শুরু করতে পারেন, এটি fixed deposit-এর বিপরীতে credit card:
+
+{why}
+
+&gt; 🏦 *{fd}*-এর FD করুন → credit limit *{limit}*
+
+6 মাস সময়মতো পেমেন্টের পরে আপনি জামানত-ছাড়া card-এ যেতে পারবেন।</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Secured__c</fullName>
+    <description>Issued against a fixed deposit lien: no income or bureau threshold.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Secured (against FD)</label>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+</CustomField>

@@ -182,6 +182,9 @@ public inherited sharing class BandhuQualification {
         }
         Decimal floor = null;
         for (Bandhu_Card__mdt c : BandhuConfig.cards()) {
+            if (c.Secured__c == true) {
+                continue;   // the FD-backed card has no income floor; the gate is about unsecured cards
+            }
             floor = floor == null || c.Min_Monthly_Income__c < floor ? c.Min_Monthly_Income__c : floor;
         }
         Decimal income = j.Verified_Income__c != null ? j.Verified_Income__c : declared;

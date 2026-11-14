@@ -8,8 +8,8 @@ private class BandhuEngineTest {
         System.assertEquals('Lumina', r.journey.Recommended_Card__c);
         System.assert(r.message.contains('Your best match: Bandhan Lumina'), r.message);
         System.assertEquals(240000, r.journey.Verified_Income__c, 'Account Aggregator verified 96% of declared');
-        System.assertEquals(720000, r.journey.Credit_Limit__c, '3x verified income');
-        System.assertEquals(4, r.cards.size());
+        System.assertEquals(1080000, r.journey.Credit_Limit__c, '4x + 0.5x (band A) verified income');
+        System.assertEquals(6, r.cards.size());
         System.assertNotEquals(null, r.journey.Lead__c, 'a new-to-bank applicant becomes a lead at OTP verification');
 
         r = BandhuTestData.sayAll(r, new List<String>{ '1', 'ananya@example.com', '1234', BandhuConfig.get().Demo_OTP__c, 'Done' });
@@ -24,7 +24,7 @@ private class BandhuEngineTest {
         System.assertEquals('Approve', app.Recommendation__c);
         System.assertEquals('Lumina', app.Card_Product__c);
         System.assert(app.Card_Number_Masked__c.startsWith('5241 XXXX XXXX '), app.Card_Number_Masked__c);
-        System.assertEquals(8, app.Card_Checks__r.size());
+        System.assertEquals(9, app.Card_Checks__r.size());
         System.assertEquals('Qualified', [SELECT Status FROM Lead WHERE Id = :r.journey.Lead__c].Status);
     }
 
@@ -65,12 +65,13 @@ private class BandhuEngineTest {
     }
 
     @IsTest
-    static void lowCreditScoreIsNotEligibleAndOffersASpecialist() {
+    static void lowCreditScoreGetsTheSecuredCardOrASpecialist() {
         BandhuTestData.useLogOnly();
         BandhuEngine.Result r = BandhuTestData.toRecommendation(BandhuTestData.NTB_MOBILE, new List<String>{ '1', '3', '2' }, '90000', BandhuTestData.DECLINE_PAN);
-        System.assertEquals('not_eligible', r.step, r.message);
-        System.assert(r.message.contains('credit score below 650'), r.message);
-        r = BandhuTestData.say(r, '1');
+        System.assertEquals('secured_offer', r.step, r.message);
+        System.assert(r.message.contains('credit score below 650') && r.message.contains('Shield'), r.message);
+        System.assertEquals(170000, r.journey.FD_Amount__c, 'FD for twice the ₹75,000 monthly spend at 90%');
+        r = BandhuTestData.say(r, '2');
         System.assert(r.handoff);
         System.assertEquals(1, [SELECT COUNT() FROM Task WHERE Subject LIKE 'Bandhu: specialist%']);
     }

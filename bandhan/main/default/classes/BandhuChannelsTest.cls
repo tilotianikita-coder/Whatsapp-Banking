@@ -7,7 +7,7 @@ private class BandhuChannelsTest {
         System.assertNotEquals(null, t.token);
         System.assertEquals('menu', t.step);
         System.assertEquals(4, t.options.size());
-        System.assertEquals(4, t.cards.size());
+        System.assertEquals(6, t.cards.size(), 'four cards, the co-branded and the secured card');
         System.assert(!t.message.contains('Reply *HI*'), 'the web page has its own language buttons');
         t = BandhuWebController.send(t.token, '1');
         System.assertEquals('consent', t.step);
@@ -72,7 +72,7 @@ private class BandhuChannelsTest {
         r = BandhuTestData.sayAll(r, new List<String>{ '1', 'a@b.co', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
         Card_Application__c app = [SELECT Id FROM Card_Application__c WHERE Card_Journey__c = :r.journey.Id];
         BandhuConsoleController.Review rev = BandhuConsoleController.getReview(app.Id);
-        System.assertEquals(8, rev.checks.size());
+        System.assertEquals(9, rev.checks.size());
         System.assertEquals('Lumina', rev.card.name);
         System.assert(rev.decided);
         System.assert(rev.application.PAN__c.startsWith('XXXXX'), 'masked for the console');

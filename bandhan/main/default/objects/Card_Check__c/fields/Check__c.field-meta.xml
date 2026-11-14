@@ -43,6 +43,11 @@
                 <label>Customer Due Diligence</label>
             </value>
             <value>
+                <fullName>Bandhan Score</fullName>
+                <default>false</default>
+                <label>Bandhan Score</label>
+            </value>
+            <value>
                 <fullName>Card Policy</fullName>
                 <default>false</default>
                 <label>Card Policy</label>

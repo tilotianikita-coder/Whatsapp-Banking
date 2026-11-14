@@ -17,6 +17,11 @@
                 <default>false</default>
                 <label>Web</label>
             </value>
+            <value>
+                <fullName>Branch</fullName>
+                <default>false</default>
+                <label>Branch</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

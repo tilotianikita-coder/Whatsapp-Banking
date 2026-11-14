@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Applied Alt</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">You asked for *{applied}* — you don't qualify for it yet:
+{missed}
+
+But you *do* qualify for *Bandhan {alt}*. Here's what you get:
+{gets}</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">आपने *{applied}* माँगा — अभी आप इसके लिए eligible नहीं हैं:
+{missed}
+
+लेकिन आप *Bandhan {alt}* के लिए eligible *हैं*। इसमें आपको मिलेगा:
+{gets}</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">আপনি *{applied}* চেয়েছেন — এখনো আপনি এর জন্য যোগ্য নন:
+{missed}
+
+কিন্তু আপনি *Bandhan {alt}*-এর জন্য যোগ্য। এতে আপনি পাবেন:
+{gets}</value>
+    </values>
+</CustomMetadata>

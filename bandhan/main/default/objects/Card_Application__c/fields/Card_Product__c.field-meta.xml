@@ -27,6 +27,16 @@
                 <default>false</default>
                 <label>Lumina</label>
             </value>
+            <value>
+                <fullName>Voyage</fullName>
+                <default>false</default>
+                <label>Voyage</label>
+            </value>
+            <value>
+                <fullName>Shield</fullName>
+                <default>false</default>
+                <label>Shield</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

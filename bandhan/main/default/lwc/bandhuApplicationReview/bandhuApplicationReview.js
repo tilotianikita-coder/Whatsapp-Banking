@@ -15,6 +15,7 @@ const GATES = [
     { key: 'vkyc', label: 'Video KYC', check: 'Video KYC' },
     { key: 'fraud', label: 'Fraud & Dedupe', check: 'Dedupe & Fraud' },
     { key: 'cdd', label: 'Due Diligence', check: 'Customer Due Diligence' },
+    { key: 'score', label: 'Bandhan Score', check: 'Bandhan Score' },
     { key: 'policy', label: 'Card Policy', check: 'Card Policy' },
     { key: 'decision', label: 'Decision' },
     { key: 'issued', label: 'Card issued' }

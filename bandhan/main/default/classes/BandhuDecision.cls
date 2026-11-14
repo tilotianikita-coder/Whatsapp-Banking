@@ -48,11 +48,28 @@ public inherited sharing class BandhuDecision {
         BandhuBureau.apply(j, hard);
         BandhuProviders.Report bureau = BandhuProviders.bureauReport(hard);
         app.CIBIL_Score__c = bureau.score;
+        Bandhu_Card__mdt chosenCard = BandhuConfig.card(j.Chosen_Card__c);
+        Boolean secured = chosenCard != null && chosenCard.Secured__c == true;
+        BandhuProviders.Report income = BandhuProviders.income(j);
+        if (secured) {
+            // against an FD: thin or weak credit files are what the card is for; DPD 90+ still goes to a person
+            if (hard.noHit || bureau.result == 'Refer') {
+                bureau.result = 'Pass';
+                bureau.summary = (hard.noHit ? 'No bureau footprint' : bureau.summary) + ' · secured against an FD';
+            } else if (bureau.result == 'Fail') {
+                bureau.result = 'Refer';
+                bureau.summary += ' · secured card: review';
+            }
+            if (income.result != 'Pass') {
+                income.result = 'Pass';
+                income.summary = 'Not needed for a card secured against an FD';
+            }
+        }
         List<BandhuProviders.Report> reports = new List<BandhuProviders.Report>{
             BandhuProviders.panCheck(j.PAN__c, j.Customer_Name__c),
             BandhuProviders.aadhaar(null, j.Customer_Type__c == BandhuJourneyService.EXISTING),
             bureau,
-            BandhuProviders.income(j),
+            income,
             BandhuProviders.videoKyc(j),
             BandhuProviders.fraud(j.PAN__c, j.Mobile__c, app.Id),
             BandhuProviders.dueDiligence(j)
@@ -63,16 +80,40 @@ public inherited sharing class BandhuDecision {
         }
 
         // card policy: re-run eligibility with the hard bureau score and the verified income
-        BandhuEligibility.Outcome elig = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
-        BandhuEligibility.Option chosen;
+        BandhuEligibility.Profile profile = BandhuJourneyService.profile(j);
+        BandhuEligibility.Outcome elig = BandhuEligibility.evaluate(profile);
+        BandhuEligibility.Option chosen = secured ? BandhuEligibility.securedOption(chosenCard, profile) : null;
         for (BandhuEligibility.Option opt : elig.options) {
             if (opt.card.DeveloperName == j.Chosen_Card__c) {
                 chosen = opt;
             }
         }
+        // Bandhan Score: the scorecard and each factor's points, logged for audit
+        BandhuScore.Result sc = elig.score;
+        BandhuProviders.Report scoreReport = new BandhuProviders.Report();
+        scoreReport.provider = sc.model;
+        scoreReport.score = sc.score;
+        scoreReport.result = sc.band == 'D' && !secured ? 'Refer' : 'Pass';
+        scoreReport.summary = 'Bandhan Score ' + sc.score + '/1000 (band ' + sc.band + ')'
+            + (sc.weakest(2).isEmpty() ? '' : ' · weakest: ' + String.join(sc.weakest(2), ', '));
+        scoreReport.details = sc.lines();
+        scoreReport.data = JSON.serialize(sc.factors);
+        o.checks.add(check(app.Id, 'Bandhan Score', scoreReport, 8));
+        app.Bandhan_Score__c = sc.score;
+        app.Score_Band__c = sc.band;
+        app.Score_Factors__c = JSON.serialize(sc, true);
+        app.Model_Version__c = sc.model;
+        j.Bandhan_Score__c = sc.score;
+
         BandhuProviders.Report policy = new BandhuProviders.Report();
         policy.provider = 'Bandhan card policy';
-        if (chosen != null && chosen.eligible && !chosen.refer) {
+        if (secured && chosen != null) {
+            policy.result = 'Pass';
+            policy.summary = j.Chosen_Card__c + ': FD of ' + BandhuI18n.inr(chosen.fdAmount) + ' under lien (mock) for a limit of ' + BandhuI18n.inr(chosen.creditLimit);
+            app.Credit_Limit__c = chosen.creditLimit;
+            app.FD_Amount__c = chosen.fdAmount;
+            app.Limit_Range__c = BandhuI18n.inr(chosen.creditLimit);
+        } else if (chosen != null && chosen.eligible && !chosen.refer) {
             policy.result = 'Pass';
             policy.summary = j.Chosen_Card__c + ': income, age and score within policy';
             app.Credit_Limit__c = chosen.creditLimit;
@@ -85,7 +126,10 @@ public inherited sharing class BandhuDecision {
             policy.summary = j.Chosen_Card__c + ': ' + (chosen == null || chosen.reasons.isEmpty() ? (elig.blockedReason == null ? 'not eligible' : elig.blockedReason) : String.join(chosen.reasons, '; '));
         }
         policy.details.add('Eligible cards: ' + (elig.eligibleNames().isEmpty() ? 'none' : String.join(elig.eligibleNames(), ', ')));
-        o.checks.add(check(app.Id, 'Card Policy', policy, 8));
+        if (chosen != null && chosen.limitLow != null && app.Limit_Range__c == null) {
+            app.Limit_Range__c = BandhuI18n.inr(chosen.limitLow) + ' - ' + BandhuI18n.inr(chosen.creditLimit);
+        }
+        o.checks.add(check(app.Id, 'Card Policy', policy, 9));
         insert o.checks;
 
         Boolean anyFail = false;
@@ -129,6 +173,9 @@ public inherited sharing class BandhuDecision {
                         || opt.card.Tier__c > BandhuConfig.card(o.alternativeCard).Tier__c)) {
                     o.alternativeCard = opt.card.DeveloperName;
                 }
+            }
+            if (o.alternativeCard == null && elig.secured != null && !secured) {
+                o.alternativeCard = elig.secured.card.DeveloperName;
             }
         }
         update app;

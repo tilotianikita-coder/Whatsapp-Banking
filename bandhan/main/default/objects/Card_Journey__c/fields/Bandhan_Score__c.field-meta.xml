@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bandhan_Score__c</fullName>
+    <description>Bandhan scorecard (BandhuScore), 0-1000.</description>
+    <inlineHelpText>Bandhan scorecard (BandhuScore), 0-1000.</inlineHelpText>
+    <label>Bandhan Score</label>
+    <type>Number</type>
+    <precision>4</precision>
+    <scale>0</scale>
+</CustomField>

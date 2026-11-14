@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Score_Factors__c</fullName>
+    <description>Audit log: each scorecard factor, its value and points (JSON).</description>
+    <inlineHelpText>Audit log: each scorecard factor, its value and points (JSON).</inlineHelpText>
+    <label>Score Factors</label>
+    <type>LongTextArea</type>
+    <length>32768</length>
+    <visibleLines>4</visibleLines>
+</CustomField>

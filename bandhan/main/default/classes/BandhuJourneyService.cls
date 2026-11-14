@@ -18,7 +18,8 @@ public inherited sharing class BandhuJourneyService {
         + 'Fee_Preference__c, Recommended_Card__c, Alternative_Card__c, Upgrade_Card__c, Recommendation_Reason__c, Chosen_Card__c, '
         + 'Credit_Limit__c, KYC_Status__c, Messaging_Session_Id__c, Web_Token__c, Reference_Number__c, Last_Activity__c, '
         + 'Dropped_At__c, Drop_Point__c, Fields_Done__c, Nudges_Sent__c, Last_Nudged__c, Escalated__c, Last_Send_Status__c, '
-        + 'AA_Insights__c, AA_Consent_Id__c, AA_Consent_At__c, ETB_Tier__c, Relationship_Score__c, Hold_Reason__c, Bureau_Data__c, Bureau_At__c, CreatedDate';
+        + 'AA_Insights__c, AA_Consent_Id__c, AA_Consent_At__c, ETB_Tier__c, Relationship_Score__c, Hold_Reason__c, Bureau_Data__c, Bureau_At__c, Bandhan_Score__c, Applied_Card__c, '
+        + 'FD_Amount__c, CreatedDate';
 
     public static Card_Journey__c byId(Id journeyId) {
         List<Card_Journey__c> js = Database.query('SELECT ' + FIELDS + ' FROM Card_Journey__c WHERE Id = :journeyId');
@@ -166,7 +167,11 @@ public inherited sharing class BandhuJourneyService {
             p.preApprovedLimit = etb.preApprovedLimit;
             p.etbTier = etb.tier;
             p.internalDpd = etb.maxDpd;
+            p.relationshipScore = etb.score;
         }
+        p.channel = j.Channel__c;
+        p.incomeVerified = j.Verified_Income__c != null;
+        p.monthlySpend = j.Monthly_Spend__c;
         if (String.isNotBlank(j.Spend_Focus__c)) {
             p.focus.addAll(j.Spend_Focus__c.split(';'));
         }

@@ -7,7 +7,7 @@ from xml.sax.saxutils import escape
 OBJ = 'bandhan/main/default/objects'
 
 
-def picklist(values, default=None):
+def picklist(values, default=None, restricted=True):
     vals = ''.join(f'''            <value>
                 <fullName>{escape(v)}</fullName>
                 <default>{str(v == default).lower()}</default>
@@ -16,7 +16,7 @@ def picklist(values, default=None):
 ''' for v in values)
     return f'''    <type>Picklist</type>
     <valueSet>
-        <restricted>true</restricted>
+        <restricted>{str(restricted).lower()}</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
 {vals}        </valueSetDefinition>
@@ -51,12 +51,12 @@ DATETIME = '    <type>DateTime</type>\n'
 EMAIL = '    <type>Email</type>\n'
 MONEY = number(16, 0, currency=True)
 
-CARDS = ['Sparks', 'Ignite', 'Flare', 'Lumina']
+CARDS = ['Sparks', 'Ignite', 'Flare', 'Lumina', 'Voyage', 'Shield']
 LANGS = ['EN', 'HI', 'BN']
-CHANNELS = ['WhatsApp', 'Web']
+CHANNELS = ['WhatsApp', 'Web', 'Branch']
 STAGES = ['Start', 'Verify', 'Needs', 'Profile', 'Recommend', 'KYC', 'Decision', 'Issued']
 GATES = ['Serviceability', 'Consent', 'Dedupe & Fraud', 'Credit Bureau', 'Income', 'Employment', 'Card Eligibility']
-CHECKS = ['PAN Verification', 'Aadhaar eKYC', 'Credit Bureau', 'Income Verification', 'Video KYC', 'Dedupe & Fraud', 'Customer Due Diligence', 'Card Policy']
+CHECKS = ['PAN Verification', 'Aadhaar eKYC', 'Credit Bureau', 'Income Verification', 'Video KYC', 'Dedupe & Fraud', 'Customer Due Diligence', 'Bandhan Score', 'Card Policy']
 ETB_TIERS = ['Microfinance', 'Deposit', 'Loan', 'Wealth']
 RESULTS = ['Pass', 'Refer', 'Fail', 'Pending']
 
@@ -117,6 +117,9 @@ FIELDS = {
         'Last_Nudged__c': ('Last Nudged', DATETIME, None),
         'Escalated__c': ('Escalated', CHECKBOX, None),
         'Last_Send_Status__c': ('Last Send Status', text(255), None),
+        'Bandhan_Score__c': ('Bandhan Score', number(4), 'Bandhan scorecard (BandhuScore), 0-1000.'),
+        'Applied_Card__c': ('Applied-for Card', picklist(CARDS), 'The card the customer asked for, when they do not qualify for it.'),
+        'FD_Amount__c': ('FD Amount', MONEY, 'Secured card: the fixed deposit to book (recommended from the limit needed).'),
         'ETB_Tier__c': ('Customer Tier', picklist(ETB_TIERS), 'Existing customers: Microfinance only / Deposit (savings, current, salary, FD) / Loan / Wealth (balances, FDs and holdings of 10 lakh+).'),
         'Relationship_Score__c': ('Relationship Score', number(3), 'Existing customers, out of 100: balance, vintage, product breadth and repayment.'),
         'Hold_Reason__c': ('Hold Reason', text(255), 'Why the journey is on hold before it can go on (dormant account, KYC due, AML review). Internal.'),
@@ -132,6 +135,12 @@ FIELDS = {
         'Lead__c': ('Lead', lookup('Lead', 'Card_Applications', 'Card Applications'), None),
         'Card_Journey__c': ('Card Journey', lookup('Card_Journey__c', 'Card_Applications', 'Card Applications'), None),
         'Applicant_Name__c': ('Applicant Name', text(120), None),
+        'Bandhan_Score__c': ('Bandhan Score', number(4), 'Bandhan scorecard (BandhuScore), 0-1000, at submission.'),
+        'Score_Band__c': ('Score Band', text(2), None),
+        'Score_Factors__c': ('Score Factors', long_text(32768, 4), 'Audit log: each scorecard factor, its value and points (JSON).'),
+        'Model_Version__c': ('Model Version', text(60), None),
+        'Limit_Range__c': ('Recommended Limit Range', text(60), None),
+        'FD_Amount__c': ('FD Amount', MONEY, 'Secured card: the fixed deposit under lien.'),
         'Card_Product__c': ('Card', picklist(CARDS), None),
         'Credit_Limit__c': ('Credit Limit', MONEY, None),
         'Channel__c': ('Channel', picklist(CHANNELS), None),
@@ -190,7 +199,7 @@ FIELDS = {
         'Bandhu_Credit_Score__c': ('Card Credit Score', number(3), 'Out of 100: CIBIL, income headroom and checks run so far.'),
         'Bandhu_Combined_Score__c': ('Card Combined Score', number(3), None),
         'Bandhu_CIBIL__c': ('CIBIL (soft pull)', number(3), None),
-        'Bandhu_Recommended_Card__c': ('Recommended Card', picklist(CARDS), None),
+        'Bandhu_Recommended_Card__c': ('Recommended Card', picklist(CARDS, restricted=False), 'Unrestricted: Lead record types do not pick up new card values.'),
         'Bandhu_Eligible_Cards__c': ('Eligible Cards', text(255), None),
         'Bandhu_Drop_Point__c': ('Drop Point', text(80), None),
         'Bandhu_Score_Detail__c': ('Score Detail', long_text(32768, 6), None),
@@ -252,6 +261,11 @@ FIELDS = {
         'Fit_Fuel__c': ('Fit: Fuel', number(1), None),
         'Fit_Low_Fee__c': ('Fit: Low Fee', number(1), None),
         'Fit_High_Spend__c': ('Fit: High Spend', number(1), None),
+        'Tier_Label__c': ('Tier Label', text(40), 'Classic / Silver / Gold / Platinum / Co-branded / Secured.'),
+        'Co_Brand__c': ('Co-brand Partner', text(80), 'PLACEHOLDER partner for co-branded cards.'),
+        'Secured__c': ('Secured (against FD)', CHECKBOX, 'Issued against a fixed deposit lien: no income or bureau threshold.'),
+        'FD_Limit_Pct__c': ('Limit as % of FD', number(3), 'Secured cards: credit limit as a percentage of the FD.'),
+        'Limit_Multiple_Max__c': ('Max Income Multiple', number(3, 2), 'Cap on the income multiple after score and relationship uplifts.'),
         'Color__c': ('Card Colour', text(20), 'Hex colour for the card art on the web journey.'),
     },
     'Bandhu_Config__mdt': {

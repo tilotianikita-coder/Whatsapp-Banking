@@ -182,6 +182,28 @@ public inherited sharing class BandhuEngine {
             j.Step__c = 'menu';
             return welcome(j);
         }
+        if (step == 'secured_offer') {
+            if (choice == 1 || t.containsIgnoreCase('shield') || t.containsIgnoreCase('fd')) {
+                choose(j, securedCardName());
+                return prefix(BandhuI18n.msg('Chosen', lang, new Map<String, Object>{ 'card' => j.Chosen_Card__c }), next(j, 'choose'));
+            }
+            if (choice == 2) {
+                return handoff(j, 'Offered the secured card: wants to talk to a specialist');
+            }
+            j.Step__c = 'menu';
+            return welcome(j);
+        }
+        if (step == 'applied_alt') {
+            if (choice == 1 && j.Alternative_Card__c != null) {
+                choose(j, j.Alternative_Card__c);
+                return prefix(BandhuI18n.msg('Chosen', lang, new Map<String, Object>{ 'card' => j.Chosen_Card__c }), next(j, 'choose'));
+            }
+            if (choice == 2) {
+                j.Step__c = 'choose';
+                return appendPrompt(j, compare(j));
+            }
+            return handoff(j, 'Applied for ' + j.Applied_Card__c + ': wants to talk to a specialist');
+        }
         if (step == 'hold') {
             return hold(j, BandhuCustomer.forContact(j.Contact__c));
         }
@@ -339,7 +361,10 @@ public inherited sharing class BandhuEngine {
         if (step == 'choose') {
             String picked;
             for (Bandhu_Card__mdt c : BandhuConfig.cards()) {
-                if (t.containsIgnoreCase(c.DeveloperName) && eligibleFor(j, c.DeveloperName)) {
+                if (t.containsIgnoreCase(c.DeveloperName) && !eligibleFor(j, c.DeveloperName) && c.Secured__c != true) {
+                    return applied(j, c.DeveloperName);
+                }
+                if (t.containsIgnoreCase(c.DeveloperName) && (eligibleFor(j, c.DeveloperName) || c.Secured__c == true)) {
                     picked = c.DeveloperName;
                 }
             }
@@ -521,6 +546,13 @@ public inherited sharing class BandhuEngine {
             when 'aadhaar_otp' { r.message = BandhuI18n.msg('Q_Aadhaar_OTP', lang, tk); }
             when 'vkyc' { r.message = BandhuI18n.msg('Q_VKYC', lang, tk); r.options = BandhuI18n.options('Opt_VKYC', lang, null); }
             when 'review' { r.message = BandhuI18n.msg('Review', lang, tk); r.options = BandhuI18n.options('Opt_Review', lang, null); }
+            when 'secured_offer' {
+                BandhuEligibility.Outcome so = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
+                if (so.secured != null) {
+                    return securedOffer(j, so);
+                }
+            }
+            when 'applied_alt' { return applied(j, j.Applied_Card__c); }
             when 'not_eligible' { r.message = BandhuI18n.msg('Not_Eligible', lang, tk); r.options = BandhuI18n.options('Opt_Not_Eligible', lang, null); }
             when 'declined_alt' { r.message = BandhuI18n.msg('Done', lang); r.options = BandhuI18n.options('Opt_Declined_Alt', lang, tk); }
             when 'after_compare' { r = compare(j); r.options = BandhuI18n.options('Opt_After_Compare', lang, null); }
@@ -643,6 +675,10 @@ public inherited sharing class BandhuEngine {
         BandhuJourneyService.advance(j, 'Recommend');
         BandhuEligibility.Outcome out = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
         j.Eligible_Cards__c = String.join(out.eligibleNames(), ';');
+        j.Bandhan_Score__c = out.score.score;
+        if (out.best == null && out.secured != null) {
+            return securedOffer(j, out);
+        }
         if (out.best == null) {
             j.Step__c = 'not_eligible';
             j.Recommended_Card__c = null;
@@ -677,7 +713,7 @@ public inherited sharing class BandhuEngine {
             'card' => c.DeveloperName, 'tagline' => c.Tagline__c, 'why' => j.Recommendation_Reason__c, 'welcome' => c.Welcome__c,
             'rewards' => c.Rewards__c + (String.isNotBlank(c.Accelerated__c) ? ' · ' + c.Accelerated__c : ''), 'lounge' => c.Lounge__c,
             'fee' => c.Joining_Fee__c == null ? '0' : String.valueOf(c.Joining_Fee__c.intValue()), 'waiver' => c.Fee_Waiver__c,
-            'limit' => BandhuI18n.inr(j.Credit_Limit__c), 'alt' => '', 'upgrade' => ''
+            'limit' => limitText(j, out), 'alt' => '', 'upgrade' => ''
         });
         if (j.Alternative_Card__c != null) {
             Bandhu_Card__mdt a = BandhuConfig.card(j.Alternative_Card__c);
@@ -697,6 +733,70 @@ public inherited sharing class BandhuEngine {
         return r;
     }
 
+    private static String limitText(Card_Journey__c j, BandhuEligibility.Outcome out) {
+        for (BandhuEligibility.Option o : out.options) {
+            if (o.card.DeveloperName == j.Recommended_Card__c && o.limitLow != null && o.limitLow < o.creditLimit) {
+                return BandhuI18n.inr(o.limitLow) + ' - ' + BandhuI18n.inr(o.creditLimit);
+            }
+        }
+        return BandhuI18n.inr(j.Credit_Limit__c);
+    }
+
+    private static String securedCardName() {
+        for (Bandhu_Card__mdt c : BandhuConfig.cards()) {
+            if (c.Secured__c == true) {
+                return c.DeveloperName;
+            }
+        }
+        return null;
+    }
+
+    /** No unsecured card: a card against an FD, sized from what they need to spend. */
+    private static Result securedOffer(Card_Journey__c j, BandhuEligibility.Outcome out) {
+        BandhuEligibility.Option s = out.secured;
+        j.Step__c = 'secured_offer';
+        j.Recommended_Card__c = s.card.DeveloperName;
+        j.Alternative_Card__c = null;
+        j.Upgrade_Card__c = null;
+        j.Credit_Limit__c = s.creditLimit;
+        j.FD_Amount__c = s.fdAmount;
+        j.Recommendation_Reason__c = String.join(s.why, '\n');
+        BandhuLeadService.upsertLead(j);
+        Map<String, Object> tk = tokens(j);
+        tk.putAll(new Map<String, Object>{ 'reason' => out.blockedReason, 'card' => s.card.DeveloperName, 'fd' => BandhuI18n.inr(s.fdAmount),
+            'limit' => BandhuI18n.inr(s.creditLimit), 'why' => j.Recommendation_Reason__c });
+        Result r = new Result();
+        r.step = 'secured_offer';
+        r.message = BandhuI18n.msg('Secured_Offer', j.Language__c, tk);
+        r.options = BandhuI18n.options('Opt_Secured', j.Language__c, tk);
+        r.cards = cardViews(out, j);
+        return r;
+    }
+
+    /** They asked for a card they don't qualify for: the closest one they do, why, and what it gives. */
+    private static Result applied(Card_Journey__c j, String card) {
+        BandhuEligibility.Outcome out = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
+        BandhuEligibility.Explanation e = BandhuEligibility.explain(out, card);
+        j.Applied_Card__c = card;
+        if (e.alternative == null) {
+            return out.secured != null ? securedOffer(j, out) : recommend(j);
+        }
+        j.Alternative_Card__c = e.alternative.card.DeveloperName;
+        j.Step__c = 'applied_alt';
+        Map<String, Object> tk = tokens(j);
+        tk.putAll(new Map<String, Object>{
+            'applied' => card + (String.isBlank(e.applied.Tier_Label__c) ? '' : ' (' + e.applied.Tier_Label__c + ')'),
+            'alt' => e.alternative.card.DeveloperName + (String.isBlank(e.alternative.card.Tier_Label__c) ? '' : ' (' + e.alternative.card.Tier_Label__c + ')'),
+            'missed' => '• ' + String.join(e.missed, '\n• '), 'gets' => String.join(e.gets, '\n'),
+            'card' => e.alternative.card.DeveloperName });
+        Result r = new Result();
+        r.step = 'applied_alt';
+        r.message = BandhuI18n.msg('Applied_Alt', j.Language__c, tk);
+        r.options = BandhuI18n.options('Opt_Applied_Alt', j.Language__c, tk);
+        r.cards = cardViews(out, j);
+        return r;
+    }
+
     private static Boolean eligibleFor(Card_Journey__c j, String card) {
         return String.isNotBlank(j.Eligible_Cards__c) && j.Eligible_Cards__c.split(';').contains(card);
     }
@@ -705,6 +805,11 @@ public inherited sharing class BandhuEngine {
         j.Chosen_Card__c = card;
         Bandhu_Card__mdt c = BandhuConfig.card(card);
         BandhuEligibility.Outcome out = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
+        if (c != null && c.Secured__c == true) {
+            BandhuEligibility.Option s = BandhuEligibility.securedOption(c, BandhuJourneyService.profile(j));
+            j.Credit_Limit__c = s.creditLimit;
+            j.FD_Amount__c = s.fdAmount;
+        }
         for (BandhuEligibility.Option o : out.options) {
             if (o.card.DeveloperName == card && o.creditLimit != null) {
                 j.Credit_Limit__c = o.creditLimit;

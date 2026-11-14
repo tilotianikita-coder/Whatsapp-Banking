@@ -71,7 +71,7 @@ private class BandhuCashFlowTest {
         System.assertEquals(55, a.foirPct.intValue());
         BandhuEligibility.Outcome out = BandhuEligibility.evaluate(BandhuJourneyService.profile(j));
         System.assertEquals('Lumina', out.best.card.DeveloperName);
-        System.assertEquals(360000, out.best.creditLimit, '3x income halved for FOIR over 50%');
+        System.assertEquals(480000, out.best.creditLimit, '4x income (band ' + out.score.band + ') halved for FOIR over 50%');
         System.assert(String.join(out.best.why, '\n').contains('existing EMIs'), out.best.why);
     }
 
@@ -91,6 +91,6 @@ private class BandhuCashFlowTest {
         System.assertEquals('Flare', r2.journey.Recommended_Card__c, r2.message);
         System.assert(r2.journey.Recommendation_Reason__c.contains('in your statements'), r2.journey.Recommendation_Reason__c);
         System.assert(r2.message.contains('What your statements show'), r2.message);
-        System.assertEquals(240000, r2.journey.Credit_Limit__c, '2.5x the verified ₹96,000');
+        System.assertEquals(335000, r2.journey.Credit_Limit__c, '3x + 0.5x (band A) the verified ₹96,000');
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tier_Label__c</fullName>
+    <description>Classic / Silver / Gold / Platinum / Co-branded / Secured.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Tier Label</label>
+    <type>Text</type>
+    <length>40</length>
+</CustomField>
