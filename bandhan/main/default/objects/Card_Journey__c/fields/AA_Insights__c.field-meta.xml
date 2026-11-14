@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AA_Insights__c</fullName>
+    <description>BandhuCashFlow analysis of the Account Aggregator statements (JSON): income, stability, FOIR, spend by category, lifestyle, anomalies.</description>
+    <inlineHelpText>BandhuCashFlow analysis of the Account Aggregator statements (JSON): income, stability, FOIR, spend by category, lifestyle, anomalies.</inlineHelpText>
+    <label>AA Cash-flow Analysis</label>
+    <type>LongTextArea</type>
+    <length>32768</length>
+    <visibleLines>4</visibleLines>
+</CustomField>

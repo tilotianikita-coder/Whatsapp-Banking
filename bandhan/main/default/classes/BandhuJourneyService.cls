@@ -17,7 +17,8 @@ public inherited sharing class BandhuJourneyService {
         + 'Consent_At__c, Bureau_Consent__c, OTP_Verified__c, OTP_Attempts__c, Spend_Focus__c, Monthly_Spend__c, Travel_Frequency__c, '
         + 'Fee_Preference__c, Recommended_Card__c, Alternative_Card__c, Upgrade_Card__c, Recommendation_Reason__c, Chosen_Card__c, '
         + 'Credit_Limit__c, KYC_Status__c, Messaging_Session_Id__c, Web_Token__c, Reference_Number__c, Last_Activity__c, '
-        + 'Dropped_At__c, Drop_Point__c, Fields_Done__c, Nudges_Sent__c, Last_Nudged__c, Escalated__c, Last_Send_Status__c, CreatedDate';
+        + 'Dropped_At__c, Drop_Point__c, Fields_Done__c, Nudges_Sent__c, Last_Nudged__c, Escalated__c, Last_Send_Status__c, '
+        + 'AA_Insights__c, AA_Consent_Id__c, AA_Consent_At__c, CreatedDate';
 
     public static Card_Journey__c byId(Id journeyId) {
         List<Card_Journey__c> js = Database.query('SELECT ' + FIELDS + ' FROM Card_Journey__c WHERE Id = :journeyId');
@@ -171,6 +172,7 @@ public inherited sharing class BandhuJourneyService {
             p.spendBand = j.Monthly_Spend__c < 15000 ? 1 : j.Monthly_Spend__c < 50000 ? 2 : j.Monthly_Spend__c <= 100000 ? 3 : 4;
         }
         p.feePreference = j.Fee_Preference__c;
+        p.cashFlow = BandhuCashFlow.fromJourney(j);
         return p;
     }
 }

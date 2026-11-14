@@ -4,17 +4,17 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">Verify with Account Aggregator
+        <value xsi:type="xsd:string">Connect my accounts
 Skip for now</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:type="xsd:string">Account Aggregator से verify करें
+        <value xsi:type="xsd:string">मेरे accounts connect करें
 अभी के लिए छोड़ दें</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:type="xsd:string">Account Aggregator দিয়ে যাচাই করুন
+        <value xsi:type="xsd:string">আমার account connect করুন
 আপাতত বাদ দিন</value>
     </values>
 </CustomMetadata>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>AA Insights</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">📊 *What your statements show* ({months} months, {banks} accounts):
+• Income stability: *{stability}/100* ({trend})
+• EMIs: {emi}/month ({foir}% of income)
+• Top spends: {top}{lifestyle}</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">📊 *आपके statements से* ({months} महीने, {banks} accounts):
+• Income stability: *{stability}/100* ({trend})
+• EMIs: {emi}/महीना (income का {foir}%)
+• सबसे ज़्यादा खर्च: {top}{lifestyle}</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">📊 *আপনার statements থেকে* ({months} মাস, {banks}টি account):
+• Income stability: *{stability}/100* ({trend})
+• EMI: {emi}/মাস (income-এর {foir}%)
+• সবচেয়ে বেশি খরচ: {top}{lifestyle}</value>
+    </values>
+</CustomMetadata>

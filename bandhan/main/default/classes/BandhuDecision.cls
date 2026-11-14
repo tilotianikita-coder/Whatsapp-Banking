@@ -138,6 +138,7 @@ public inherited sharing class BandhuDecision {
         return new Card_Check__c(
             Card_Application__c = appId, Check__c = name, Provider__c = r.provider, Result__c = r.result, Score__c = r.score,
             Summary__c = r.summary == null ? null : r.summary.abbreviate(255), Details__c = String.join(r.details, '\n'),
+            Report_Data__c = r.data == null ? null : r.data.abbreviate(131072),
             Sort_Order__c = sortOrder, Run_At__c = Datetime.now()
         );
     }

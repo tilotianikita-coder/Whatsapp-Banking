@@ -4,7 +4,15 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Bandhu Agent</label>
     <classAccesses>
+        <apexClass>BandhuAccountAggregator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>BandhuActionResult</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>BandhuCashFlow</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -91,6 +99,21 @@
         <enabled>true</enabled>
         <name>Bandhu_Region__mdt</name>
     </customMetadataTypeAccesses>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Card_Journey__c.AA_Consent_At__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Card_Journey__c.AA_Consent_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Card_Journey__c.AA_Insights__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Card_Journey__c.Alternative_Card__c</field>

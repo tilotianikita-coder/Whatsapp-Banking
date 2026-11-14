@@ -116,6 +116,9 @@ FIELDS = {
         'Last_Nudged__c': ('Last Nudged', DATETIME, None),
         'Escalated__c': ('Escalated', CHECKBOX, None),
         'Last_Send_Status__c': ('Last Send Status', text(255), None),
+        'AA_Consent_Id__c': ('AA Consent Id', text(40), 'Account Aggregator consent artefact (mock FIU): credit underwriting, 24 months, valid 30 days.'),
+        'AA_Consent_At__c': ('AA Consent At', DATETIME, None),
+        'AA_Insights__c': ('AA Cash-flow Analysis', long_text(32768, 4), 'BandhuCashFlow analysis of the Account Aggregator statements (JSON): income, stability, FOIR, spend by category, lifestyle, anomalies.'),
     },
     'Card_Application__c': {
         **{k: v for k, v in APPLICANT.items() if k != 'Contact__c'},

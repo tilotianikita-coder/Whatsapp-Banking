@@ -9,6 +9,9 @@
  *   below Decline_Cibil__c no card. No score yet (soft check skipped) qualifies on income, to be confirmed on apply.
  * Recommendation: among eligible cards, the highest fit score = the card's weights for what the customer spends on,
  *   their fee preference and monthly spend; ties go to the higher tier. Credit decisions stay with BandhuDecision.
+ *   With Account Aggregator data (BandhuCashFlow), what the statements show counts more than what was declared:
+ *   each category's card weight x 3 / 2 / 1 for 30% / 15% / 7% of the monthly card-able spend, and the "why" lines quote it.
+ * Limit: income x the card's multiple, cut to 75% for FOIR over 40% and to 50% over 50% (existing EMIs, from AA).
  */
 public inherited sharing class BandhuEligibility {
     public static final List<String> FOCUS = new List<String>{ 'Travel', 'International', 'Dining', 'Groceries', 'Shopping', 'Fuel' };
@@ -27,6 +30,7 @@ public inherited sharing class BandhuEligibility {
         public Set<String> focus = new Set<String>();
         public Integer spendBand;           // 1 under 15K, 2 15-50K, 3 50K-1L, 4 over 1L
         public String feePreference;
+        public BandhuCashFlow.Analysis cashFlow;   // Account Aggregator analysis, when shared
     }
 
     public class Option {
@@ -38,6 +42,7 @@ public inherited sharing class BandhuEligibility {
         public Decimal fit = 0;
         public Decimal creditLimit;
         public List<String> why = new List<String>();
+        public String limitNote;
     }
 
     public class Outcome {
@@ -85,7 +90,14 @@ public inherited sharing class BandhuEligibility {
                 }
                 o.eligible = o.reasons.isEmpty();
                 if (o.eligible) {
-                    o.creditLimit = preApproved && p.preApprovedLimit != null ? p.preApprovedLimit : limitFor(c, p.income);
+                    if (preApproved && p.preApprovedLimit != null) {
+                        o.creditLimit = p.preApprovedLimit;
+                    } else {
+                        o.creditLimit = limitFor(c, p.income, p.cashFlow == null ? null : p.cashFlow.foirPct);
+                        if (p.cashFlow != null && nz(p.cashFlow.foirPct) > 40) {
+                            o.limitNote = '⚖ Limit set for your existing EMIs (' + p.cashFlow.foirPct.intValue() + '% of income)';
+                        }
+                    }
                 }
             }
             scoreFit(o, p);
@@ -146,7 +158,13 @@ public inherited sharing class BandhuEligibility {
 
     /** Monthly income x the card's multiple, kept within the card's range and rounded down to ₹5,000. */
     public static Decimal limitFor(Bandhu_Card__mdt c, Decimal income) {
-        Decimal raw = income == null ? nz(c.Limit_Min__c) : income * nz(c.Limit_Multiple__c);
+        return limitFor(c, income, null);
+    }
+
+    /** ... cut for a high obligation-to-income ratio (FOIR, %): over 40% -> 75%, over 50% -> 50%. */
+    public static Decimal limitFor(Bandhu_Card__mdt c, Decimal income, Decimal foirPct) {
+        Decimal factor = foirPct == null || foirPct <= 40 ? 1 : foirPct <= 50 ? 0.75 : 0.5;
+        Decimal raw = income == null ? nz(c.Limit_Min__c) : income * nz(c.Limit_Multiple__c) * factor;
         raw = Math.max(nz(c.Limit_Min__c), Math.min(c.Limit_Max__c == null ? raw : c.Limit_Max__c, raw));
         return Math.floor(raw / 5000) * 5000;
     }
@@ -165,6 +183,18 @@ public inherited sharing class BandhuEligibility {
             'Shopping' => firstNonBlank(c.Accelerated__c, c.Rewards__c),
             'Fuel' => c.Fuel__c
         };
+        if (p.cashFlow != null && nz(p.cashFlow.monthlyCardSpend) > 0) {
+            // what the statements show: the bigger the share of spend, the more the card's strength in it counts
+            for (String f : FOCUS) {
+                Decimal share = p.cashFlow.share(f);
+                Integer mult = share >= 0.3 ? 3 : share >= 0.15 ? 2 : share >= 0.07 ? 1 : 0;
+                Decimal w = nz(weight.get(f));
+                o.fit += w * mult;
+                if (mult >= 2 && w >= 3 && String.isNotBlank(benefit.get(f)) && o.why.size() < 3) {
+                    o.why.add('✅ ' + f + ': ' + BandhuI18n.inrShort(p.cashFlow.spend.get(f)) + '/month in your statements · ' + benefit.get(f));
+                }
+            }
+        }
         for (String f : FOCUS) {
             if (p.focus.contains(f)) {
                 Decimal w = nz(weight.get(f));
@@ -183,15 +213,23 @@ public inherited sharing class BandhuEligibility {
         } else if (p.feePreference == BEST_BENEFITS) {
             o.fit += nz(c.Tier__c) * 2;
         }
-        if (p.spendBand != null) {
+        Integer band = p.spendBand;
+        if (band == null && p.cashFlow != null && p.cashFlow.monthlyCardSpend > 0) {
+            Decimal s = p.cashFlow.monthlyCardSpend;
+            band = s < 15000 ? 1 : s < 50000 ? 2 : s <= 100000 ? 3 : 4;
+        }
+        if (band != null) {
             // high monthly spend favours milestone-rich cards; low spend favours low fees
-            o.fit += p.spendBand >= 3 ? nz(c.Fit_High_Spend__c) * (p.spendBand - 2) : nz(c.Fit_Low_Fee__c) * (3 - p.spendBand) / 2;
-            if (p.spendBand >= 3 && String.isNotBlank(c.Milestone__c) && o.why.size() < 3) {
+            o.fit += band >= 3 ? nz(c.Fit_High_Spend__c) * (band - 2) : nz(c.Fit_Low_Fee__c) * (3 - band) / 2;
+            if (band >= 3 && String.isNotBlank(c.Milestone__c) && o.why.size() < 3) {
                 o.why.add('✅ Milestone: ' + c.Milestone__c);
             }
         }
         if (o.why.isEmpty()) {
             o.why.add('✅ ' + c.Rewards__c + (String.isNotBlank(c.Accelerated__c) ? ' · ' + c.Accelerated__c : ''));
+        }
+        if (o.limitNote != null) {
+            o.why.add(o.limitNote);
         }
     }
 

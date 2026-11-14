@@ -29,6 +29,29 @@ schedule of charges and credit policy.
   All pass → straight-through approval and a virtual card; any refer/pending → underwriter; any fail → decline with the
   best lower card offered.
 
+## Account Aggregator cash-flow analysis (BandhuAccountAggregator, BandhuCashFlow)
+New-to-bank customers who choose *Connect my accounts* give a consent (purpose credit underwriting, 24 months of
+statements, valid 30 days). The mock FIU returns 24 months from two banks (HDFC-style and SBI-style JSON with different
+keys, flags, date and amount formats); `BandhuCashFlow` normalises them, categorises every transaction from its narration
+and derives:
+- net monthly income (median of the last 6 months), income stability (0-100), trend year on year, EMIs and FOIR,
+  outflow, surplus, average balance, monthly spend by card category, lifestyle signals, festive seasonality (self-employed);
+- flags: unexplained large credits, round-trip transfers with one party, months without salary, declared vs seen income.
+
+What it changes: the customer sees *What your statements show*; the card fit weights what they actually spend on
+(card weight x 3 / 2 / 1 for 30% / 15% / 7% of card-able spend) and the "why" lines quote it; the limit drops to 75% for
+FOIR over 40% and 50% over 50%; the underwriter's Income Verification check carries the full analysis (JSON in Report
+Data) and any flag refers the application.
+
+| PAN lever | Statements show |
+|---|---|
+| 5th letter T (e.g. ABCPT1234K) | frequent traveller: says *groceries*, gets **Flare** instead of Ignite |
+| 5th letter D / G / F | dines out / family groceries & fuel / long commute |
+| any other 5th letter | spends mirror what the customer said |
+| digits ending 8 (ABCPS1238K) | EMIs at 55% of income: limit halved |
+| digits ending 9 (ABCPS1239K) | round-trip transfers, a 4x-income credit, two months without salary: Refer |
+| Self-employed | business inflows with a Durga Puja peak |
+
 ## Lead qualification and scoring (BandhuQualification)
 Every refresh of a prospect's Lead runs seven stage gates (records `Bandhu_Lead_Check__c`, shown on the Lead page),
 cheapest first; a knock-out stops the rest and makes the Lead **Unqualified / Cold** with no RM task or nudge.
@@ -62,7 +85,7 @@ cheapest first; a knock-out stops the rest and makes the Lead **Unqualified / Co
 ## Built in the org
 - Objects: Card_Journey__c, Card_Application__c, Card_Check__c, Bank_Relationship__c; Lead fields Bandhu_*; metadata
   Bandhu_Card / Bandhu_Config / Bandhu_Message (English, Hindi, Bengali — machine-drafted, needs native review).
-- Apex: BandhuEngine (journey), BandhuEligibility, BandhuDecision, BandhuProviders (mocks), BandhuLeadService,
+- Apex: BandhuEngine (journey), BandhuEligibility, BandhuAccountAggregator + BandhuCashFlow (AA), BandhuDecision, BandhuProviders (mocks), BandhuLeadService,
   BandhuQualification (lead gates), BandhuDropOffJob, BandhuWebController, BandhuConsoleController, agent actions; 24 tests.
 - Agentforce: agent **Bandhu** (classic metadata, `scripts/bandhan/gen_agent.py`), active, user bandhu.agent.00dbm000019hbvj@example.com.
 - WhatsApp: package wpbyocdemo3 0.16, channel `WhatsApp_BYOC` (channel address `be8a17cb-de27-466b-ae1b-ea5d19149492`),

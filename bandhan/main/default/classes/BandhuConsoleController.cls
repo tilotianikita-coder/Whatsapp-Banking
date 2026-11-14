@@ -287,6 +287,11 @@ public with sharing class BandhuConsoleController {
         add(h, 'Employment', j.Employment_Type__c == null ? null : j.Employment_Type__c + (j.Company_Name__c == null ? '' : ' @ ' + j.Company_Name__c));
         Decimal income = j.Verified_Income__c != null ? j.Verified_Income__c : j.Monthly_Income__c;
         add(h, 'Income', income == null ? null : BandhuI18n.inr(income) + (j.Verified_Income__c != null ? ' (verified)' : ' (declared)'));
+        BandhuCashFlow.Analysis cf = BandhuCashFlow.fromJourney(j);
+        if (cf != null) {
+            add(h, 'Cash flow (AA)', 'stability ' + cf.incomeStability + '/100, ' + cf.incomeTrend.toLowerCase() + ' · EMIs ' + cf.foirPct.intValue()
+                + '% of income · top spends ' + cf.topSpendText() + (cf.anomalies.isEmpty() ? '' : ' · ⚠ ' + cf.anomalies.size() + ' flag(s)'));
+        }
         add(h, 'PAN', j.PAN__c == null ? null : BandhuI18n.maskPan(j.PAN__c));
         add(h, 'City', j.City__c == null ? null : j.City__c + ' ' + j.PIN_Code__c);
         add(h, 'CIBIL (soft)', j.CIBIL_Score__c == null ? null : String.valueOf(j.CIBIL_Score__c.intValue()));

@@ -146,9 +146,14 @@ MESSAGES = {
     'Opt_Bureau': ("Yes, go ahead\nNo, skip", 'हाँ, कर लीजिए\nनहीं, छोड़ दें', 'হ্যাঁ, করুন\nনা, বাদ দিন'),
     'Bureau_Skipped': ("No problem — I'll recommend on your income for now; the credit check happens when you apply.", 'कोई बात नहीं — अभी मैं आपकी income के आधार पर सुझाव दूँगा; credit check apply करते समय होगा।', 'কোনো সমস্যা নেই — আপাতত আমি আপনার income দেখে সুপারিশ করব; credit check হবে apply করার সময়।'),
     'Q_AA': (
-        "📊 One more thing: link your bank account through *Account Aggregator* to verify your income instantly — no salary slips needed. It's RBI-regulated and takes a minute.",
-        '📊 एक और बात: अपनी income तुरंत verify करने के लिए *Account Aggregator* के ज़रिए अपना bank account link करें — salary slip की ज़रूरत नहीं। यह RBI-regulated है और बस एक मिनट लगता है।', '📊 আর একটা কথা: আপনার income সঙ্গে সঙ্গে যাচাই করতে *Account Aggregator*-এর মাধ্যমে আপনার bank account link করুন — salary slip লাগবে না। এটি RBI-regulated, আর মাত্র এক মিনিট লাগে।'),
-    'Opt_AA': ("Verify with Account Aggregator\nSkip for now", 'Account Aggregator से verify करें\nअभी के लिए छोड़ दें', 'Account Aggregator দিয়ে যাচাই করুন\nআপাতত বাদ দিন'),
+        "📊 One more thing: link your bank accounts through *Account Aggregator* for instant approval — no documents needed. You share 24 months of statements, only for this card decision (consent valid 30 days). It's RBI-regulated and takes a minute.",
+        '📊 एक और बात: तुरंत approval के लिए अपने bank accounts *Account Aggregator* से link करें — कोई document नहीं चाहिए। आप 24 महीने के statements सिर्फ़ इस card के फ़ैसले के लिए share करते हैं (consent 30 दिन के लिए)। यह RBI-regulated है और बस एक मिनट लगता है।',
+        '📊 আর একটা কথা: সঙ্গে সঙ্গে approval-এর জন্য আপনার bank account-গুলো *Account Aggregator*-এর মাধ্যমে link করুন — কোনো document লাগবে না। আপনি 24 মাসের statements শুধু এই card-এর সিদ্ধান্তের জন্য share করবেন (consent 30 দিনের জন্য)। এটি RBI-regulated, আর মাত্র এক মিনিট লাগে।'),
+    'Opt_AA': ("Connect my accounts\nSkip for now", 'मेरे accounts connect करें\nअभी के लिए छोड़ दें', 'আমার account connect করুন\nআপাতত বাদ দিন'),
+    'AA_Insights': (
+        "📊 *What your statements show* ({months} months, {banks} accounts):\n• Income stability: *{stability}/100* ({trend})\n• EMIs: {emi}/month ({foir}% of income)\n• Top spends: {top}{lifestyle}",
+        '📊 *आपके statements से* ({months} महीने, {banks} accounts):\n• Income stability: *{stability}/100* ({trend})\n• EMIs: {emi}/महीना (income का {foir}%)\n• सबसे ज़्यादा खर्च: {top}{lifestyle}',
+        '📊 *আপনার statements থেকে* ({months} মাস, {banks}টি account):\n• Income stability: *{stability}/100* ({trend})\n• EMI: {emi}/মাস (income-এর {foir}%)\n• সবচেয়ে বেশি খরচ: {top}{lifestyle}'),
     'AA_Done': ("✅ Income verified through Account Aggregator: *{income}/month*.", '✅ Account Aggregator से income verify हो गई: *{income}/महीना*।', '✅ Account Aggregator-এর মাধ্যমে income যাচাই হয়েছে: *{income}/মাস*।'),
     'Invalid_Answer': ("Hmm, that doesn't look quite right. 🙂 Please try again.", 'हम्म, यह कुछ ठीक नहीं लग रहा। 🙂 कृपया फिर से कोशिश करें।', 'হুম, এটা ঠিক মনে হচ্ছে না। 🙂 অনুগ্রহ করে আবার চেষ্টা করুন।'),
     'Invalid_PAN': ("That doesn't look like a PAN — it's 10 characters like *ABCPS1234K*.", 'यह PAN जैसा नहीं लग रहा — PAN में 10 characters होते हैं, जैसे *ABCPS1234K*।', 'এটা PAN বলে মনে হচ্ছে না — PAN-এ 10টি character থাকে, যেমন *ABCPS1234K*।'),

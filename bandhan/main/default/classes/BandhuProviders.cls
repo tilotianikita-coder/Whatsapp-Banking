@@ -12,6 +12,7 @@ public inherited sharing class BandhuProviders {
         public String provider;
         public String summary;
         public List<String> details = new List<String>();
+        public String data;        // raw report / analysis JSON, stored on the check
     }
 
     public static Integer cibil(String pan) {
@@ -83,6 +84,14 @@ public inherited sharing class BandhuProviders {
             r.provider = 'Bandhan Bank salary credits';
             r.result = 'Pass';
             r.summary = 'Salary credits ' + BandhuI18n.inr(j.Verified_Income__c) + '/month';
+        } else if (BandhuCashFlow.fromJourney(j) != null) {
+            BandhuCashFlow.Analysis a = BandhuCashFlow.fromJourney(j);
+            r.provider = BandhuAccountAggregator.PROVIDER;
+            r.result = a.anomalies.isEmpty() && a.netMonthlyIncome > 0 ? 'Pass' : 'Refer';
+            r.summary = 'Verified ' + BandhuI18n.inr(a.netMonthlyIncome) + '/month from ' + a.months + ' months of statements · stability '
+                + a.incomeStability + '/100 · FOIR ' + a.foirPct.intValue() + '%' + (a.anomalies.isEmpty() ? '' : ' · ' + a.anomalies.size() + ' flag(s) to review');
+            r.details = a.summaryLines();
+            r.data = j.AA_Insights__c;
         } else if (j.Verified_Income__c != null) {
             r.provider = 'Account Aggregator (mock)';
             r.result = 'Pass';
