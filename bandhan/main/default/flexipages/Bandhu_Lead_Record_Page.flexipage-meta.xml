@@ -23,6 +23,13 @@
             <componentInstance>
                 <componentName>bandhuLeadInsight</componentName>
                 <identifier>c_bandhuLeadInsight</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.LeadSource}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Bandhu Card Journey</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>header</name>
