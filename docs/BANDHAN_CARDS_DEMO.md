@@ -182,37 +182,9 @@ cheapest first; a knock-out stops the rest and makes the Lead **Unqualified / Co
 - Lightning: app **Bandhu Cards**; Card Application page with the underwriter review; Lead page with Bandhu insight
   (Bandhu card leads only); Bandhu handoff panel on the Messaging Session pages.
 
-## Before a demo
-1. `sf apex run -f scripts/bandhan/apex/seed.apex -o bandhan` (presenter phone 9063480755 new to bank; `ON_DEMO_PHONE = 'Rohan'`
-   or `'Sutapa'` for an existing customer).
-2. Comparison leads + an application in the underwriter queue: run `scripts/bandhan/apex/demo_leads.apex` once per prospect
-   (see the loop in its header).
-3. Setup → Messaging Components → **Bandhu Text** → Activate (needed for RM nudges and decision messages).
-4. WhatsApp router portal: register **919063480755** against this org (it routes to one org at a time — it currently
-   belongs to the Sri Lanka org `lk-demo`). Open the demo Facebook page's WhatsApp button from the phone.
-5. End any open WhatsApp session for the phone in the Service Console; Omni-Channel status Offline until Act 5.
-
-## Demo flow (~25 min)
-1. **Web DIY (5 min)** — open the web page on a phone or browser: hero, card range, **Talk to Bandhu** → language
-   (English / हिंदी / বাংলা) → Find my card → consent → name, mobile, OTP → income source, income, PAN → Account
-   Aggregator (statements insight + "you qualify for N cards so far") → what you spend on (chips), monthly spend, fee
-   preference → company, DOB, PIN → soft CIBIL consent → **the
-   recommendation with "why this card", an alternative, the upgrade hint and the card tiles** → apply → email, Aadhaar
-   eKYC, Video KYC → review → **approved, virtual card issued**.
-2. **WhatsApp (5 min)** — from 9063480755: *Hi* → the same journey on WhatsApp; type *BN* to switch to Bengali; stop after
-   the recommendation (drop-off).
-3. **Lead management (5 min)** — Bandhu Cards → Leads: Priya (Hot, Lumina), Arjun (Hot, Ignite), Moumita (Unqualified:
-   knocked out at the Credit Bureau gate) and the presenter's own drop-off (after ~2 minutes). Open one: stage gate and journey path, the seven qualification gates,
-   intent and credit scores with the breakdown, CIBIL, eligible and recommended cards, drop point, RM task → **Nudge on WhatsApp** → the phone gets the RM message →
-   *Continue* resumes where it stopped.
-4. **Underwriting (5 min)** — Card Applications → Sourav Ghosh (Flare, Refer: CIBIL 730 in the refer band): stage gates,
-   each check's detail, recommendation and reasons, why this card → **Approve & issue card** (notes needed only against
-   the recommendation) → the customer gets the approval with the masked virtual card on WhatsApp.
-5. **Human handoff (4 min)** — Omni-Channel *Messaging - Available*; on WhatsApp type *Agent* → Bandhu hands over and
-   logs a task → accept the chat: the Bandhu handoff panel shows who they are, new or existing, every answer, CIBIL,
-   eligible cards, the recommendation and why they asked → reply from the console.
-6. **Optional: existing customer** — seed `ON_DEMO_PHONE = 'Rohan'`: welcome back, no income proof or KYC, pre-approved
-   Flare with a ₹3.5L limit; or `'Sutapa'`: Lumina through the relationship route.
+## Before a demo, and the demo flow
+See **[BANDHAN_DEMO_FLOW.md](BANDHAN_DEMO_FLOW.md)**: the setup checklist and the nine acts (about 45 minutes), with the
+exact mobiles, PANs and answers for every journey.
 
 ## Smoke test without a phone
 `sf apex run -f scripts/bandhan/apex/smoke.apex -o bandhan` walks a new-to-bank applicant to an issued Lumina and rolls back.

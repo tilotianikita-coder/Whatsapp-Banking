@@ -1,96 +1,140 @@
 # Bandhu demo flow: every journey (org `bandhan`)
 
-Web: **https://trailsignup-fbf7dadaec8000.my.site.com/consumer/BandhuWeb** · OTPs (mobile, Aadhaar, activation): **123456**
+| | |
+|---|---|
+| Web (public) | **https://trailsignup-fbf7dadaec8000.my.site.com/consumer/BandhuWeb** |
+| Lightning | App Launcher → **Bandhu Cards** (Leads, Card Applications, Card Journeys, Contacts). Open records from this app: the Contact 360 page is assigned to it only (the Service Console shows the SDO Contact page) |
+| OTPs | mobile, Aadhaar and card activation: **123456** |
+| WhatsApp | presenter phone **9063480755** (+91) |
 
-Lightning: app **Bandhu Cards** (Leads, Card Applications, Card Journeys, Contacts).
-
-Answer keys used below
-- Spend: 1 Travel · 2 International · 3 Dining · 4 Groceries · 5 Shopping · 6 Fuel (several: `1, 3`)
+Answer keys
+- Spend: 1 Travel · 2 International · 3 Dining · 4 Groceries · 5 Shopping · 6 Fuel (several: `1, 3`; on the web tap the chips, then *Continue*)
 - Monthly spend: 1 under ₹15K · 2 ₹15–50K · 3 ₹50K–1L · 4 over ₹1L · Fee: 1 lowest · 2 best benefits
 - Income source: 1 Salaried · 2 Self-employed professional · 3 Business owner
-- Any mobile that is not a seeded customer = new to bank. Seeded customers (existing to bank) on the web: type their
-  mobile at the mobile step: **Rohan 9000000101 · Sutapa 9000000102 · Rina 9000000103 · Debasish 9000000104**.
+- Any mobile that isn't a seeded customer is new to bank. Seeded (existing) customers, typed at the mobile step on the web:
+  **Rohan 9000000101 · Sutapa 9000000102 · Rina 9000000103 · Debasish 9000000104**
 
-## 0. Before the demo (10 min)
-1. `sf apex run -f scripts/bandhan/apex/seed.apex -o bandhan` (set `ON_DEMO_PHONE` to `'Rohan'` only for the RM 360
-   WhatsApp act; leave `''` otherwise).
-2. Lead and underwriting data: run `scripts/bandhan/apex/demo_leads.apex` for WHICH = 0, 1, 2, 3 (see its header).
-3. Setup → Messaging Components → **Bandhu Text** → Activate. WhatsApp router: register 919063480755 against this org.
-4. End any open WhatsApp session for the phone; Omni-Channel Offline until the handoff act.
+Running order (about 45 minutes; Acts 3, 4 and 9 can be trimmed)
 
-## Act 1. New to bank, web: statements pick the card (6 min) — *the AA story*
-Web → *Talk to Bandhu* → English → Find my card → consent (note: DPDP, purpose-limited) → name → mobile **9876511001** → OTP.
-1. Income source **1**, income **1 lakh**, PAN **ABCPT1234K**.
-2. Account Aggregator: *"Connect your accounts for instant approval, no documents needed — 24 months, only for this
-   decision, consent valid 30 days"* → **1**. Show: *What your statements show* (24 months, 2 accounts, stability 96/100
-   growing, EMIs 12%, top spends Travel / International / Dining, "Frequent traveller") and *you qualify for 4 cards so far*.
-3. Spend: say **4** (groceries) — the customer *says* groceries — monthly **2**, fee **2** → company, DOB, PIN, soft check **1**.
-4. Recommendation: **Flare (Gold)**, not Ignite: *"Travel: ₹14,284/month in your statements"*, limit **₹2.65–3.35L**.
-   (Run it again skipping AA and the pick is Ignite.)
-5. Type **I want Lumina** → *"You asked for Lumina (Platinum) — monthly income below ₹2,00,000 — but you qualify for
-   Flare (Gold), here's what you get"* → **1** apply.
-6. Email, Aadhaar last 4 **1234**, OTP, Video KYC **Done** → review: *hard credit enquiry* notice → **1**.
-7. **Approved**, virtual card, MITC link, *Activate within 30 days*, *Cancel card within 7 days*.
-8. Type **Activate** → OTP **123456** → *card is active*.
-   Lightning: Card Applications → this one → 9 checks all Pass, Bandhan Score ~826 band A with every factor; Related:
-   Card Checks, Card Consents (DPDP, soft check, AA with expiry, hard enquiry, MITC, activation).
+| Act | Journey | Where | Min |
+|---|---|---|---|
+| 1 | The page and the brand | Web | 2 |
+| 2 | New to bank: the statements pick the card, apply, approve, activate | Web | 7 |
+| 3 | New to bank: when it doesn't fit (low score, no history, heavy EMIs) | Web | 4 |
+| 4 | Existing customers: pre-approved, wealth, microfinance, dormant | Web | 5 |
+| 5 | WhatsApp in Bengali, drop-off, lead management and the RM nudge | Phone + Lightning | 5 |
+| 6 | Underwriting: refer, risk flags, income documents | Lightning | 7 |
+| 7 | Human handoff | Phone + Service Console | 3 |
+| 8 | RM 360 and a branch-assisted application | Lightning + phone | 4 |
+| 9 | After the card: limit offer, re-approach, cooling-off, consent | Script + phone | 5 |
 
-## Act 2. New to bank, when it doesn't fit (5 min)
+## Before the demo (10 min)
+1. `sf apex run -f scripts/bandhan/apex/seed.apex -o bandhan` with `ON_DEMO_PHONE = ''` (the phone is new to bank).
+   For Act 8 run it again with `'Rohan'`.
+2. Leads and the underwriting queue: run `scripts/bandhan/apex/demo_leads.apex` for WHICH = 0, 1, 2, 3 (loop in its header).
+   Expected: Priya (Lumina, dropped at Aadhaar), Arjun (Ignite, at the recommendation), Moumita (not eligible, knocked out
+   at the bureau gate), Sourav (Flare, Under Review).
+3. Setup → Messaging Components → **Bandhu Text** → Activate.
+4. WhatsApp router portal: register **919063480755** against this org (it routes to one org at a time).
+5. End any open WhatsApp session for the phone; Omni-Channel Offline until Act 7.
+6. Browser: open the web page in a private window (the cookie banner shows once per session) and Lightning in another.
+
+## Act 1. The page and the brand (2 min)
+Open the web page (and on a phone, or narrow the window, to show it is mobile-first).
+- Header: the **Bandhan Bank logo**, the official palette (Indigo #0A3152, Ocean Red to Lava Red), Poppins.
+- Hero: *"The right credit card, picked for how you spend."* and *Find my card*; the facts row (4 cards, 5 min,
+  instant virtual card, 24/7 on web and WhatsApp); Bandhu's greeting.
+- Trust strip: RBI-regulated Account Aggregator · DPDP Act 2023 consent · no documents, no branch visit · English, Hindi & Bengali.
+- *How it works*: tell us how you spend → connect your accounts → get your virtual card.
+- *The card range*: Bandhan's four cards with their tiers: Sparks (Classic), Ignite (Silver), Flare (Gold), Lumina (Platinum).
+- Accept the cookie banner.
+
+## Act 2. New to bank: the statements pick the card (7 min) — *the Account Aggregator story*
+*Find my card* → the chat opens (language buttons English / हिंदी / বাংলা at the top) → **Find my card** → consent
+(DPDP, purpose-limited) → name → mobile **9876511001** → OTP.
+1. Income source **Salaried**, income **1 lakh**, PAN **ABCPT1234K**. (Income source and AA come first: they drive the
+   bureau strategy and the eligibility.)
+2. Account Aggregator: *"connect your accounts for instant approval, no documents needed: 24 months, only for this
+   decision, consent valid 30 days"* → **Connect my accounts**. Show *What your statements show* (24 months, 2 accounts,
+   income stability 96/100 growing, EMIs 12% of income, top spends Travel / International / Dining, "Frequent traveller")
+   and the live *"you qualify for 3 cards so far"*.
+3. Spend: tap **Groceries** only (the customer *says* groceries) → *Continue* → monthly **₹15–50K** → fee **best
+   benefits** → company, DOB, PIN, soft check **Yes**.
+4. Recommendation: **Flare (Gold)**, not Ignite: *"Travel: ₹14,284/month in your statements · 20 points per ₹200 on
+   travel"*, limit **₹2,65,000 – ₹3,35,000**, the card tiles with *Bandhu's pick* first. (Skip AA and the pick is Ignite.)
+5. Type **I want Lumina** → *"You asked for Lumina (Platinum): monthly income below ₹2,00,000. But you qualify for
+   Flare (Gold). Here's what you get"* → **Apply for Flare**.
+6. Email → Aadhaar last 4 **1234** → OTP → Video KYC **Done** → review: point at the *hard credit enquiry* notice → **Confirm**.
+7. **Approved**: virtual card, limit, reference, the **MITC** link, *Activate within 30 days*, *Cancel card within 7 days*.
+8. Type **Activate** → OTP **123456** → *your Bandhan Flare is active*.
+9. Lightning → Card Applications → this application: the Bandhan header, the Flare card face, the CIBIL and **Bandhan
+   Score** (~826, band A) tiles, every stage gate green, *why this card* as statement-backed reasons. Related: Card
+   Checks (each with detail), **Card Consents** (DPDP, soft check, AA with its expiry, hard enquiry, MITC, activation).
+
+## Act 3. New to bank: when it doesn't fit (4 min) — web, a new mobile each
 | Mobile / PAN / answers | What to show |
 |---|---|
-| **9876511002**, PAN **ABCPS1234Z**, income 60000, AA 1, spend 4/2/1 | CIBIL 630: no card today → *"a specialist can look at other options, for example a Loan / Overdraft against your Fixed Deposit; I'll check again in 6 months"* → **1** specialist (RM task). The lead is Unqualified at the Credit Bureau gate |
-| **9876511003**, PAN **ABCPS1235K**, AA **2** (skip) | No bureau footprint and no statements → not eligible (*no credit history and no bank statements shared*). Redo with AA **1** → a card becomes possible on the statements |
-| **9876511004**, PAN **ABCPS1238K**, income 2.5 lakh, AA 1, spend `1, 2`/4/2 | Lumina, *"⚖ Limit set for your existing EMIs (55% of income)"*: limit halved to ₹5.4L |
+| **9876511002**, PAN **ABCPS1234Z**, income 60000, AA Connect, spend Groceries / ₹15–50K / lowest | CIBIL 630: no card today → *"a specialist can look at other options, for example a Loan / Overdraft against your Fixed Deposit. I'll check again in 6 months"* → **Talk to a specialist** (RM task). Its lead is Unqualified at the Credit Bureau gate |
+| **9876511003**, PAN **ABCPS1235K**, AA **Skip** | No bureau footprint and no statements → *"no credit history and no bank statements shared"*. Redo with AA **Connect** → a card is possible on the statements |
+| **9876511004**, PAN **ABCPS1238K**, income 2.5 lakh, AA Connect, spend Travel + International / over ₹1L / best | Lumina with *"⚖ Limit set for your existing EMIs (55% of income)"*: the limit is halved to ₹5.4L |
 
-## Act 3. Existing customers (5 min) — web, type the seeded mobile
+## Act 4. Existing customers (5 min) — web, type the seeded mobile
 | Customer | What to show |
 |---|---|
-| **Rohan 9000000101** | *Welcome back*: no income, PAN, DOB, PIN or KYC asked; silent soft pull (cached 30 days on the Contact); only spend questions + company → **Flare** pre-approved **₹3.5L** → apply → review → approved (no Aadhaar / Video KYC) |
-| **Sutapa 9000000102** | Wealth tier (balances + FDs + demat ₹18.5L): **Lumina** through the relationship route even at ₹1 lakh income (say income source 1, income 1 lakh, spend `1, 2`) |
-| **Rina 9000000103** | Microfinance-only customer: income source **3**, income 45000, spend `4, 5` → **Sparks only** (other cards not offered to the microfinance tier) |
-| **Debasish 9000000104** | Dormant savings account: right after the OTP the journey is **on hold** (*"needs a quick reactivation… your RM will call"*) and the RM gets a task. (An AML flag shows *"a routine review"*: never disclosed) |
+| **Rohan 9000000101** | *Welcome back*: no income, PAN, DOB, PIN or KYC asked; silent soft pull (cached 30 days); spend Travel + Dining / ₹50K–1L / best, company → **Flare**, pre-approved **₹3.5L** → apply → review → approved (no Aadhaar or Video KYC) |
+| **Sutapa 9000000102** | Wealth tier (balances + FDs + demat ₹18.5L): income source Salaried, income 1 lakh, spend Travel + International → **Lumina** through the relationship route, limit ₹5L |
+| **Rina 9000000103** | Microfinance-only customer: income source Business owner, income 45000, spend Groceries + Shopping → **Sparks only** (the other cards aren't offered to the microfinance tier) |
+| **Debasish 9000000104** | Dormant savings account: right after the OTP the journey is **on hold** (*"needs a quick reactivation… your RM will call"*) and the RM gets a task. (An AML flag would show *"a routine review"*: never disclosed) |
 
-## Act 4. WhatsApp + lead management (5 min)
-1. From the demo phone: **Hi** → **BN** for Bengali → go up to the recommendation and stop (drop-off).
-2. Bandhu Cards → Leads: Priya (Hot, Lumina, dropped at Aadhaar), Arjun (Hot, at the recommendation), Moumita
-   (Unqualified: knocked out at the Credit Bureau gate), your own drop-off (after ~2 min). Open one:
-   the 7 qualification gates, intent and credit scores, drop point → **Nudge on WhatsApp** → the phone gets the RM
-   message → *Continue* resumes where it stopped.
+## Act 5. WhatsApp and lead management (5 min)
+1. From the demo phone: **Hi** → **BN** for Bengali → answer up to the recommendation and stop (drop-off).
+2. Bandhu Cards → Leads: **Priya** (Hot, Lumina, dropped at Aadhaar eKYC), **Arjun** (Hot, Ignite, at the
+   recommendation), **Moumita** (Unqualified: knocked out at the Credit Bureau gate) and your own drop-off (after ~2 min).
+3. Open one: the Bandhu card lead panel (stage gate, journey path, the 7 qualification gates, intent and credit scores
+   with the breakdown, CIBIL, cards, drop point) → **Nudge on WhatsApp** → the phone gets the RM message → *Continue*
+   resumes where it stopped.
 
-## Act 5. Underwriting (6 min) — Card Applications
-1. **Sourav Ghosh** (demo_leads): Flare, Refer (CIBIL 730 refer band): gates incl. Due Diligence and Bandhan Score,
-   each check's detail → **Approve & issue card** → the customer gets the approval with MITC on WhatsApp.
-2. Show the underwriting flags (create on the web, mobile any new number, income 1 lakh, spend 3/2/2):
-   | PAN | Refer because |
+## Act 6. Underwriting (7 min) — Bandhu Cards → Card Applications
+1. **Sourav Ghosh**: Flare, **Under Review** (CIBIL 730 in Flare's refer band). Walk the header, card face, CIBIL and
+   Bandhan Score (777, band A) tiles, the gates (Due Diligence and Bandhan Score included), each check's detail, the
+   recommendation and *why this card* → **Approve & issue card** → the phone gets the approval with the MITC on WhatsApp.
+2. Risk flags (create on the web with any new mobile, income 1 lakh, spend Dining / ₹15–50K / best, apply through KYC):
+   | PAN | Refers because |
    |---|---|
-   | **ABCPS1239K** (AA 1) | Income Verification: statements show round-trip transfers with one party, a 4x-income credit, months without salary (stability 70/100) |
-   | **ABCPS1237K** | Credit Bureau: settled account on record → manual review |
+   | **ABCPS1239K** (AA Connect) | Income Verification: round-trip transfers with one party, a 4x-income credit, months without salary (stability 70/100) |
+   | **ABCPS1237K** | Credit Bureau: a settled account on record → manual review |
    | **ABCPS1236K** | Dedupe & Fraud: applied with 5 lenders in 6 months |
-   | **ABCPS1232K**, income source **3**, AA 2 | Income: GST returns 7 of 12 months, turnover and AIS far below declared |
-3. On the ABCPS1232K application: **Income documents** → type *Salary slip* → upload any PDF → *Pass*, Income
-   Verification turns Pass and sets the verified income. Upload another named `*mismatch*` as Form 16 → 30% below
+   | **ABCPS1232K**, income source **Business owner**, AA Skip | Income: GST returns 7 of 12 months, turnover and AIS far below declared |
+3. On the ABCPS1232K application, **Income documents**: type *Salary slip* → upload any PDF → *Pass*; Income
+   Verification turns Pass and sets the verified income. Upload another file named `*mismatch*` as *Form 16* → 30% below
    declared → Refer.
 
-## Act 6. Human handoff (3 min)
-Omni-Channel *Available* → on WhatsApp type **Agent** → accept: the Bandhu panel shows who they are, new or existing,
-every answer, CIBIL, cash flow (AA), eligible cards, the recommendation and why they asked.
+## Act 7. Human handoff (3 min) — Service Console
+Omni-Channel *Available* → on WhatsApp type **Agent** → accept the chat: the **Bandhu handoff** panel shows who they are,
+new or existing, every answer, CIBIL, cash flow (AA), eligible cards, the recommendation and why they asked → reply.
 
-## Act 7. RM 360 and branch-assisted (4 min)
-Seed with `ON_DEMO_PHONE = 'Rohan'`. Bandhu Cards → Contacts → **Rohan Mukherjee**: tier Deposit, relationship score,
-products, bureau, Bandhan Score and weakest factors, **the card to pitch** (Flare, ₹2.8–3.5L, why) → **Start
-branch-assisted application** → the phone gets *"Namaskar Rohan… as <RM> mentioned…"* + consent → continue on WhatsApp.
+## Act 8. RM 360 and branch-assisted (4 min)
+Seed with `ON_DEMO_PHONE = 'Rohan'`. **Bandhu Cards** → Contacts → **Rohan Mukherjee**: the **Customer 360 · card to
+pitch** panel: tier Deposit, relationship score, Bandhan Score (~790) and what drags it, **pitch Flare (Gold)**,
+₹2.8–3.5L, why; bureau and relationship detail → **Start branch-assisted application** → the phone gets *"Namaskar
+Rohan… as <RM> mentioned…"* with the consent → he continues on WhatsApp.
 
-## Act 8. After the card (4 min) — `scripts/bandhan/apex/demo_after_issue.apex` (set MOBILE and MODE)
+## Act 9. After the card (5 min) — `scripts/bandhan/apex/demo_after_issue.apex` (set MOBILE and MODE)
 | MODE | Before | Show |
 |---|---|---|
-| `limit` | an issued card on MOBILE (do Act 1 on the demo phone over WhatsApp, PAN ABCPT1234K) | WhatsApp: *"higher limit ₹3.35L → ₹5L, reply Yes — changes only with your consent"* → **Yes** → limit updated, *Limit enhancement* consent logged |
-| `reapproach` | a declined or not-eligible journey, e.g. PAN **ABCPS1234Y**, income 30000 → Sparks refers → decline it in Card Applications | 7 months later: CIBIL 690 → 732 → *"Good news — you now qualify for Sparks"* + RM task |
+| `limit` | an issued card on MOBILE: do Act 2 on the demo phone over WhatsApp (PAN ABCPT1234K) | WhatsApp: *"higher credit limit ₹3,35,000 → ₹5,00,000, reply Yes: your limit changes only with your consent"* → **Yes** → limit updated, *Limit enhancement* consent logged |
+| `reapproach` | a declined journey: PAN **ABCPS1234Y**, income 30000 → Sparks refers → **Decline** it in Card Applications | 7 months later: CIBIL 690 → 732 → *"Good news, you now qualify for the Bandhan Sparks"* + an RM task |
 | `unactivated` | an issued card never activated | closed after 30 days (RBI rule) |
-Also: on an issued card type **Cancel card** → **1** → cancelled with no charges (cooling-off). Anywhere: **withdraw my
-consent** → processing stops, consents withdrawn, RM gets an erasure task. Files → *Bandhu scorecard monitoring
-YYYY-Qn*: outcomes by score band for recalibration.
 
-## Talk track for what is mocked
-AA (FIU), CIBIL, NSDL, UIDAI, Video KYC, GST, AIS, OCR, card management and the core banking feed are simulated behind
-one class each, deterministic on the PAN so the demo repeats; going live replaces each with the real API behind the
-same method. Fees, thresholds, cooling-off and retention days are placeholders.
+Also: on an issued card type **Cancel card** → **Yes, cancel it** → cancelled with no charges (cooling-off). Anywhere:
+**withdraw my consent** → processing stops, consents are withdrawn, the RM gets an erasure task. Files → *Bandhu
+scorecard monitoring YYYY-Qn*: outcomes by score band for recalibrating the Bandhan Score.
+
+## Talk track for what is simulated
+Account Aggregator (FIU), CIBIL, NSDL, UIDAI, Video KYC, GST, AIS, OCR, the card management system and the core banking
+feed are simulated behind one class each, deterministic on the PAN so the demo repeats; going live replaces each with
+the real API behind the same method. Card benefits are Bandhan's published ones; fees, eligibility thresholds,
+cooling-off and retention days are placeholders for Bandhan to confirm.
+
+## Smoke test without a phone
+`sf apex run -f scripts/bandhan/apex/smoke.apex -o bandhan` walks a new-to-bank applicant to an issued Lumina and rolls back.
