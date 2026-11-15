@@ -230,3 +230,14 @@
 .said-cell { min-width: 12rem; }
 .said-val { font-size: 1.125rem; font-weight: 700; color: var(--b-navy); }
 .said-vs { color: var(--b-grey); font-weight: 600; }
+
+/* Agentforce brief */
+.brief { border: 1px solid var(--b-line); border-left: 4px solid var(--b-brand); border-radius: 0.625rem; padding: 0.75rem 1rem;
+    background: linear-gradient(180deg, #f7f9fc, #ffffff); display: grid; gap: 0.5rem; }
+.brief-body { display: grid; gap: 0.25rem; font-size: 0.875rem; }
+.brief-h { font-weight: 700; color: var(--b-brand); font-size: 0.75rem; letter-spacing: 0.04em; margin-top: 0.25rem; }
+.brief-p { color: var(--b-navy); }
+.brief-plus { color: #145a32; }
+.brief-minus { color: #7f1617; }
+.brief-foot { font-size: 0.6875rem; }
+.brief-btn { justify-self: start; }

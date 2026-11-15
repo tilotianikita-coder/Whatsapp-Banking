@@ -14,7 +14,9 @@ public with sharing class BandhuReplyAction {
         for (Request r : requests) {
             try {
                 Card_Journey__c j = BandhuJourneyService.resolve(r.journeyId, r.sessionId, null, 'WhatsApp');
-                results.add(BandhuActionResult.of(BandhuEngine.reply(j, r.message)));
+                BandhuEngine.Result res = BandhuEngine.reply(j, r.message);
+                BandhuAIFollowUp.queueFor(res);   // the AI note follows on WhatsApp a few seconds later
+                results.add(BandhuActionResult.of(res));
             } catch (Exception e) {
                 results.add(BandhuActionResult.error(e, r.journeyId));
             }

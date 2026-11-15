@@ -34,6 +34,7 @@ public inherited sharing class BandhuEngine {
         @AuraEnabled public Boolean handoff = false;
         @AuraEnabled public Boolean success = true;
         @AuraEnabled public List<CardView> cards = new List<CardView>();
+        @AuraEnabled public String aiFollowUp;    // 'why' / 'tip': an AI note follows this turn (BandhuAI)
 
         /** WhatsApp text: the message, then the options numbered. */
         public String whatsapp() {
@@ -181,6 +182,14 @@ public inherited sharing class BandhuEngine {
             r.message = BandhuI18n.msg(faq, j.Language__c);
             return save(j, appendPrompt(j, r));
         }
+        if (isQuestion(t) && !FREE_TEXT_STEPS.contains(j.Step__c)) {
+            String answer = BandhuAI.cardAnswer(t, j.Language__c);
+            if (answer != null) {
+                Result r = new Result();
+                r.message = answer;
+                return save(j, j.Step__c == 'question' || j.Step__c == 'menu' || String.isBlank(j.Step__c) ? r : appendPrompt(j, r));
+            }
+        }
         return save(j, route(j, t));
     }
 
@@ -311,7 +320,8 @@ public inherited sharing class BandhuEngine {
         if (step == 'question') {
             String key = faqKey(t + '?');
             Result r = new Result();
-            r.message = BandhuI18n.msg(key == null ? 'FAQ_Fallback' : key, lang);
+            String ai = key == null ? BandhuAI.cardAnswer(t, lang) : null;
+            r.message = ai != null ? ai : BandhuI18n.msg(key == null ? 'FAQ_Fallback' : key, lang);
             j.Step__c = 'menu';
             r.options = BandhuI18n.options('Opt_Menu', lang, null);
             return r;
@@ -852,6 +862,7 @@ public inherited sharing class BandhuEngine {
             new Map<String, Object>{ 'card' => j.Recommended_Card__c, 'alt' => j.Alternative_Card__c });
         r.step = 'choose';
         r.cards = cardViews(out, j);
+        r.aiFollowUp = 'why';
         return r;
     }
 
@@ -966,6 +977,9 @@ public inherited sharing class BandhuEngine {
             if (tip != null) {
                 r.message += '\n\n' + tip;   // with the card: what they could move onto it, from their statements
             }
+            if (tip != null) {
+                r.aiFollowUp = 'tip';
+            }
             update o.application;
             BandhuLeadService.convert(j);
         } else if (o.recommendation == BandhuDecision.REFER) {
@@ -1058,6 +1072,16 @@ public inherited sharing class BandhuEngine {
             return 'FAQ_Rewards';
         }
         return null;
+    }
+
+    // steps where the customer types their own details: never treated as a question
+    private static final Set<String> FREE_TEXT_STEPS = new Set<String>{ 'name', 'mobile', 'otp', 'email', 'dob', 'pincode', 'pan', 'income',
+        'company', 'aadhaar', 'aadhaar_otp', 'activate_otp' };
+
+    @TestVisible
+    public static Boolean isQuestion(String t) {
+        String s = t == null ? '' : t.trim();
+        return s.length() > 6 && (s.contains('?') || Pattern.matches('(?is)^\\s*(what|how|which|can|could|do|does|is|are|will|why|when|where|should|kya|kaise|kab|kaun|kitna|কি|কী|কত|কোন|কীভাবে|কখন).*', s));
     }
 
     private static Result invalid(Card_Journey__c j) {

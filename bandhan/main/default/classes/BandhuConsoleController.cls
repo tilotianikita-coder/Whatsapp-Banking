@@ -80,6 +80,18 @@ public with sharing class BandhuConsoleController {
         @AuraEnabled public Integer pct;
     }
 
+    /** Agentforce (Prompt Builder: Bandhu Underwriter Brief) writes the brief first, then it is saved: advisory only. */
+    @AuraEnabled
+    public static Card_Application__c generateBrief(Id applicationId) {
+        String text = BandhuAI.underwriterBrief(applicationId);
+        if (text == null) {
+            throw new AuraHandledException('Einstein could not write the brief right now. Please try again in a moment.');
+        }
+        Card_Application__c a = new Card_Application__c(Id = applicationId, AI_Brief__c = text.abbreviate(32768), AI_Brief_At__c = Datetime.now());
+        update a;
+        return [SELECT Id, AI_Brief__c, AI_Brief_At__c FROM Card_Application__c WHERE Id = :applicationId];
+    }
+
     @AuraEnabled
     public static Review getReview(Id applicationId) {
         Review r = new Review();
@@ -89,7 +101,7 @@ public with sharing class BandhuConsoleController {
                 Credit_Limit__c, Channel__c, Recommendation__c, Recommendation_Reasons__c, Fit_Summary__c, Status__c, Decision__c,
                 Decision_Notes__c, Decision_By__r.Name, Decision_At__c, Submitted_At__c, Reference_Number__c, Card_Number_Masked__c,
                 Card_Issued_At__c, Card_Journey__c, Card_Journey__r.Spend_Focus__c, Card_Journey__r.Monthly_Spend__c,
-                Card_Journey__r.Fee_Preference__c, Card_Journey__r.Recommended_Card__c, Bandhan_Score__c, Score_Band__c, Score_Factors__c, Model_Version__c, Limit_Range__c, FD_Amount__c
+                Card_Journey__r.Fee_Preference__c, Card_Journey__r.Recommended_Card__c, Bandhan_Score__c, Score_Band__c, Score_Factors__c, Model_Version__c, Limit_Range__c, FD_Amount__c, AI_Brief__c, AI_Brief_At__c
             FROM Card_Application__c WHERE Id = :applicationId
         ];
         r.application.PAN__c = BandhuI18n.maskPan(r.application.PAN__c);

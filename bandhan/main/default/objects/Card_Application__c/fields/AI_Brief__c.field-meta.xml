@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AI_Brief__c</fullName>
+    <description>Einstein-generated summary for the underwriter (advisory: the rules decide).</description>
+    <inlineHelpText>Einstein-generated summary for the underwriter (advisory: the rules decide).</inlineHelpText>
+    <label>AI Underwriting Brief</label>
+    <type>LongTextArea</type>
+    <length>32768</length>
+    <visibleLines>6</visibleLines>
+</CustomField>

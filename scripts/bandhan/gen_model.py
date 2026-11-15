@@ -138,6 +138,8 @@ FIELDS = {
         'Card_Journey__c': ('Card Journey', lookup('Card_Journey__c', 'Card_Applications', 'Card Applications'), None),
         'Applicant_Name__c': ('Applicant Name', text(120), None),
         'Bandhan_Score__c': ('Bandhan Score', number(4), 'Bandhan scorecard (BandhuScore), 0-1000, at submission.'),
+        'AI_Brief__c': ('AI Underwriting Brief', long_text(32768, 6), 'Einstein-generated summary for the underwriter (advisory: the rules decide).'),
+        'AI_Brief_At__c': ('AI Brief Generated At', DATETIME, None),
         'Score_Band__c': ('Score Band', text(2), None),
         'Score_Factors__c': ('Score Factors', long_text(32768, 4), 'Audit log: each scorecard factor, its value and points (JSON).'),
         'Model_Version__c': ('Model Version', text(60), None),

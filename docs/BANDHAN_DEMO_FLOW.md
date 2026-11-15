@@ -69,16 +69,20 @@ three needs questions in one run, then the soft check and the recommendation. No
    **best benefits** → soft check **Yes**. (No company question: the employer was read from the salary credits.)
 4. Recommendation: **Flare (Gold)**, not Ignite: *"Travel: ₹10,892/month in your statements · 20 points per ₹200 on
    travel"* and *"Travel abroad: 4 trips in 24 months, about ₹72,000 a trip"*, limit **₹2,65,000 – ₹3,35,000**, the card tiles with *Bandhu's pick* first. (Skip AA and the pick is Ignite.)
-5. Type **I want Lumina** → *"You asked for Lumina (Platinum): monthly income below ₹2,00,000. But you qualify for
+   A second bubble follows a few seconds later: the **Agentforce personal note** ("✨ … the Bandhan Flare suits how you
+   spend …"), written by Prompt Builder in the customer's language.
+5. Ask a free-form question, e.g. **Can I use Flare in Dubai for shopping?** → Agentforce answers from the card
+   catalogue, then the pending question comes back.
+6. Type **I want Lumina** → *"You asked for Lumina (Platinum): monthly income below ₹2,00,000. But you qualify for
    Flare (Gold). Here's what you get"* → **Apply for Flare**.
-6. Aadhaar last 4 **1234** → OTP → Video KYC **Done** → review: point at the *hard credit enquiry* notice → **Confirm**.
-7. **Approved**: virtual card, limit, reference, the **MITC** link, *Activate within 30 days*, *Cancel card within 7
+7. Aadhaar last 4 **1234** → OTP → Video KYC **Done** → review: point at the *hard credit enquiry* notice → **Confirm**.
+8. **Approved**: virtual card, limit, reference, the **MITC** link, *Activate within 30 days*, *Cancel card within 7
    days*, and **"Earn more with your Bandhan Flare"**: from the statements, the ~₹42,100 a month paid today by UPI or
    debit card that could go on the card, by category with the points at Flare's rates (travel ₹10,892 → 1,089 points at
    20 per ₹200, travel abroad, groceries, dining), about **2,551 points a month (≈ ₹638)**, and the fuel surcharge waiver. (Point value ₹0.25 is a
    placeholder.) Underwriter-approved cards get the same tip on WhatsApp.
-8. Type **Activate** → OTP **123456** → *your Bandhan Flare is active*, with the tip again as a reminder.
-9. Lightning → Card Applications → this application: the Bandhan header, the Flare card face, the CIBIL and **Bandhan
+9. Type **Activate** → OTP **123456** → *your Bandhan Flare is active*, with the tip again as a reminder.
+10. Lightning → Card Applications → this application: the Bandhan header, the Flare card face, the CIBIL and **Bandhan
    Score** (~905, band A) tiles, every stage gate green, *why this card* as statement-backed reasons. Related: Card
    Checks (each with detail), **Card Consents** (DPDP, soft check, AA with its expiry, hard enquiry, MITC, activation).
 
@@ -122,6 +126,8 @@ three needs questions in one run, then the soft check and the recommendation. No
      strengths and **what holds it back** (the settled card: repayment 20/70 *settled account on record*, then the surplus, new to bank and income level); *All 14 factors* opens the audit table. The CIBIL
      factor follows the CIBIL bands: Excellent 750+ = full 280, Good 700-749 = 220-280, Fair 650-699 = 110-220, Poor
      below 650 = under 110;
+   - **AI underwriting brief · Agentforce** → **✨ Generate brief** (about 4 s): summary, strengths, concerns (the settled
+     account, the manual review, declared vs seen card spend) and a suggested decision, advisory only;
    - the stage gates, each check's detail, the recommendation and *why this card* → **Approve & issue card** → the phone
      gets the approval with the MITC on WhatsApp.
 2. Risk flags (create on the web with any new mobile, income 1 lakh, spend Dining / ₹15–50K / best, apply through KYC):

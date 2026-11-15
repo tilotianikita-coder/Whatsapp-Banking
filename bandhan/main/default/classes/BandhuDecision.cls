@@ -247,6 +247,9 @@ public inherited sharing class BandhuDecision {
                 String tip = BandhuRewards.message(j, app.Card_Product__c);
                 if (tip != null) {
                     body += '\n\n' + tip;
+                    if (j.Channel__c != 'Web') {
+                        System.enqueueJob(new BandhuAIFollowUp(j.Id, 'tip'));
+                    }
                 }
             }
             BandhuWhatsAppSender.enqueue(new List<BandhuWhatsAppSender.Outbound>{ new BandhuWhatsAppSender.Outbound(j.Id, body, null) });

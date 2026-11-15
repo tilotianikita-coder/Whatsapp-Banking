@@ -8,6 +8,14 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>BandhuAI</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>BandhuAIFollowUp</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>BandhuAccountAggregator</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -447,6 +455,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Card_Journey__c.Web_Token__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Card_Application__c.AI_Brief_At__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Card_Application__c.AI_Brief__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

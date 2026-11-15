@@ -12,6 +12,7 @@ public without sharing class BandhuWebController {
         public String step;
         public Boolean handoff;
         public String language;
+        public String aiFollowUp;
     }
 
     @RemoteAction
@@ -34,6 +35,16 @@ public without sharing class BandhuWebController {
         return turn(BandhuEngine.reply(j, text == null ? '' : text.abbreviate(500)));
     }
 
+    /** The AI note after a recommendation or an issued card: its own call, so the LLM runs before any DML. */
+    @RemoteAction
+    public static String followUp(String token, String kind) {
+        Card_Journey__c j = BandhuJourneyService.byToken(token);
+        if (j == null || (kind != 'why' && kind != 'tip')) {
+            return null;
+        }
+        return BandhuAI.personalNote(j, kind);
+    }
+
     @RemoteAction
     public static Turn language(String token, String language) {
         Card_Journey__c j = BandhuJourneyService.byToken(token);
@@ -53,6 +64,7 @@ public without sharing class BandhuWebController {
         t.step = r.step;
         t.handoff = r.handoff;
         t.language = r.journey.Language__c;
+        t.aiFollowUp = r.aiFollowUp;
         return t;
     }
 

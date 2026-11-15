@@ -139,6 +139,7 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
 .msgs{flex:1;overflow-y:auto;padding:18px 16px;background:#F2F5F9;display:flex;flex-direction:column;gap:10px}
 .b{max-width:86%;padding:10px 14px;border-radius:16px;font-size:14.5px;word-wrap:break-word;overflow-wrap:anywhere;line-height:1.5}
 .b.bot{background:#fff;align-self:flex-start;border-top-left-radius:4px;box-shadow:0 1px 2px rgba(6,26,44,.08)}
+.b.bot.ai{background:linear-gradient(180deg,#fff,#f6f8fb);border-left:3px solid var(--orange)}
 .b.me{background:var(--navy);color:#fff;align-self:flex-end;border-top-right-radius:4px}
 .b.err{background:#FDECEC;color:#8A1116;align-self:flex-start;border:1px solid #F5B5B7}
 .b code{background:#EEF2F7;padding:1px 6px;border-radius:4px;font-size:13px}
@@ -321,7 +322,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
 var BW = {
   start: '{!$RemoteAction.BandhuWebController.start}',
   send: '{!$RemoteAction.BandhuWebController.send}',
-  language: '{!$RemoteAction.BandhuWebController.language}'
+  language: '{!$RemoteAction.BandhuWebController.language}',
+  followUp: '{!$RemoteAction.BandhuWebController.followUp}'
 };
 </script>
 <script>
@@ -509,6 +511,18 @@ var BW = {
     }
     renderOptions(turn);
     scrollDown();
+    if (turn.aiFollowUp && state.token) { aiNote(turn.aiFollowUp); }
+  }
+
+  /* the Agentforce note after a recommendation or an issued card: a second call, a second bubble */
+  function aiNote(kind) {
+    var t = document.createElement('div');
+    t.className = 'typing'; t.setAttribute('aria-label', 'Bandhu is typing'); t.innerHTML = '<i></i><i></i><i></i>';
+    msgs.appendChild(t); scrollDown();
+    call(BW.followUp, [state.token, kind], function (note) {
+      if (t.parentNode) { t.parentNode.removeChild(t); }
+      if (note) { addBubble('bot ai', md(note)); }
+    });
   }
 
   function errBubble(event) {

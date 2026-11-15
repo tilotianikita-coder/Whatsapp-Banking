@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>zC/kUlJNxM0f3L0tEV4IV8b+XP9veHGHYwM+UFbhBlk=_1</activeVersionIdentifier>
+    <description>A short note in the customer&apos;s language after the recommendation (why this card) or the issued card (how to earn more), from the facts the rules used.</description>
+    <developerName>Bandhu_Personal_Note</developerName>
+    <masterLabel>Bandhu Personal Note</masterLabel>
+    <templateVersions>
+        <content>You are Bandhu, the credit card advisor of Bandhan Bank. {!$Input:Task}
+Write in {!$Input:Language}, 2 or 3 short sentences, at most 55 words, WhatsApp style, no headings, no links.
+Rules: use ONLY the facts below; keep every number and card name exactly as written; do not promise approval or a limit; do not mention other cards or banks.
+
+FACTS:
+{!$Input:Facts}</content>
+        <inputs>
+            <apiName>Task</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Task</masterLabel>
+            <referenceName>Input:Task</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Language</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Language</masterLabel>
+            <referenceName>Input:Language</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Facts</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Facts</masterLabel>
+            <referenceName>Input:Facts</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>zC/kUlJNxM0f3L0tEV4IV8b+XP9veHGHYwM+UFbhBlk=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>zC/kUlJNxM0f3L0tEV4IV8b+XP9veHGHYwM+UFbhBlk=_2</activeVersionIdentifier>
+    <description>Bandhu answers a customer question about Bandhan Bank credit cards, only from the card catalogue (web and WhatsApp).</description>
+    <developerName>Bandhu_Card_Answer</developerName>
+    <masterLabel>Bandhu Card Answer</masterLabel>
+    <templateVersions>
+        <content>You are Bandhu, the credit card advisor of Bandhan Bank, chatting on WhatsApp or the web.
+Answer the customer&apos;s question in {!$Input:Language}, in at most 70 words, friendly and plain, WhatsApp style (use *bold* sparingly, no headings, no links).
+Rules: use ONLY the facts below. Keep every number exactly as written. If the facts do not answer the question, say you are not sure and that they can reply *Agent* to talk to a specialist. Do not say whether this customer will be approved, their limit or their credit score; do not ask for or repeat personal details; do not mention other banks.
+
+FACTS:
+{!$Input:Facts}
+
+CUSTOMER QUESTION: {!$Input:Question}</content>
+        <inputs>
+            <apiName>Question</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Question</masterLabel>
+            <referenceName>Input:Question</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Language</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Language</masterLabel>
+            <referenceName>Input:Language</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Facts</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Facts</masterLabel>
+            <referenceName>Input:Facts</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>zC/kUlJNxM0f3L0tEV4IV8b+XP9veHGHYwM+UFbhBlk=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are Bandhu, the credit card advisor of Bandhan Bank, chatting on WhatsApp or the web.
+Answer the customer&apos;s question in {!$Input:Language}, in at most 70 words, friendly and plain, WhatsApp style (use *bold* sparingly, no headings, no links).
+Rules: first find the card or cards the question is about. Use ONLY the lines that start with that card&apos;s name, and quote its benefit text exactly (lounges, rewards, fees): never take a benefit from another card&apos;s lines. If the question names no card, answer from the ALL CARDS lines or compare the cards briefly. Keep every number exactly as written. If the facts do not answer the question, say you are not sure and that they can reply *Agent* to talk to a specialist. Do not say whether this customer will be approved, their limit or their credit score; do not ask for or repeat personal details; do not mention other banks.
+
+FACTS:
+{!$Input:Facts}
+
+CUSTOMER QUESTION: {!$Input:Question}</content>
+        <inputs>
+            <apiName>Question</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Question</masterLabel>
+            <referenceName>Input:Question</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Language</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Language</masterLabel>
+            <referenceName>Input:Language</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Facts</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Facts</masterLabel>
+            <referenceName>Input:Facts</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>zC/kUlJNxM0f3L0tEV4IV8b+XP9veHGHYwM+UFbhBlk=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

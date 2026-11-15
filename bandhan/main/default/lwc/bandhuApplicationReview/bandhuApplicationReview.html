@@ -76,6 +76,27 @@
                     </div>
                 </div>
 
+                <!-- Agentforce: the underwriting brief (advisory) -->
+                <div class="b-section">
+                    <div class="b-section-title">AI underwriting brief · Agentforce</div>
+                    <div class="brief">
+                        <template lwc:if={hasBrief}>
+                            <div class="brief-body">
+                                <template for:each={briefLines} for:item="l"><div key={l.key} class={l.cls}>{l.text}</div></template>
+                            </div>
+                            <div class="b-muted brief-foot">Written by Einstein (Prompt Builder: Bandhu Underwriter Brief) from this page's facts<template lwc:if={briefAt}> · <lightning-formatted-date-time value={briefAt} month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time></template>. Advisory: the rules and you decide.</div>
+                        </template>
+                        <template lwc:else>
+                            <div class="b-muted">Get a summary of this application with its strengths, concerns and a suggested decision.</div>
+                        </template>
+                        <button class="b-btn-navy brief-btn" onclick={handleBrief} disabled={briefBusy}>
+                            <template lwc:if={briefBusy}>Writing…</template>
+                            <template lwc:elseif={hasBrief}>↻ Regenerate</template>
+                            <template lwc:else>✨ Generate brief</template>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Account Aggregator: what the bank statements show -->
                 <template lwc:if={cf}>
                     <div class="b-section">

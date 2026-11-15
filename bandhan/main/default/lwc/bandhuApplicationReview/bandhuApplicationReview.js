@@ -4,6 +4,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import getReview from '@salesforce/apex/BandhuConsoleController.getReview';
 import decide from '@salesforce/apex/BandhuConsoleController.decide';
+import generateBrief from '@salesforce/apex/BandhuConsoleController.generateBrief';
 import BandhuDecisionModal from 'c/bandhuDecisionModal';
 
 // Stage gates in order; check = Card_Check__c.Check__c name for the provider gates
@@ -81,6 +82,48 @@ export default class BandhuApplicationReview extends LightningElement {
     get cardStyle() {
         const c = (this.card && this.card.color) || '#0A3152';
         return `background: linear-gradient(135deg, ${c} 0%, ${c} 35%, #061A2C 135%);`;
+    }
+
+    briefBusy = false;
+    briefOverride;
+
+    get briefText() {
+        return (this.briefOverride && this.briefOverride.AI_Brief__c) || this.app.AI_Brief__c;
+    }
+
+    get briefAt() {
+        return (this.briefOverride && this.briefOverride.AI_Brief_At__c) || this.app.AI_Brief_At__c;
+    }
+
+    get hasBrief() {
+        return !!this.briefText;
+    }
+
+    get briefLines() {
+        const out = [];
+        (this.briefText || '').split('\n').map((t) => t.trim().replace(/^\*+|\*+$/g, '')).filter((t) => t).forEach((t) => {
+            const m = /^(SUMMARY|STRENGTHS|CONCERNS|SUGGESTED DECISION)\s*:?\s*(.*)$/i.exec(t);
+            if (m) {
+                out.push({ text: m[1].toUpperCase(), cls: 'brief-h' });
+                if (m[2]) {
+                    out.push({ text: m[2], cls: 'brief-p' });
+                }
+            } else {
+                out.push({ text: t, cls: t.startsWith('+') ? 'brief-plus' : t.startsWith('-') ? 'brief-minus' : 'brief-p' });
+            }
+        });
+        return out.map((l, i) => ({ ...l, key: 'b' + i }));
+    }
+
+    async handleBrief() {
+        this.briefBusy = true;
+        try {
+            this.briefOverride = await generateBrief({ applicationId: this.recordId });
+        } catch (e) {
+            this.dispatchEvent(new ShowToastEvent({ title: 'AI brief', message: (e && e.body && e.body.message) || String(e), variant: 'error' }));
+        } finally {
+            this.briefBusy = false;
+        }
     }
 
     get cf() {

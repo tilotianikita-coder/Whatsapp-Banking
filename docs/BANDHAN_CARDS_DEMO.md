@@ -31,6 +31,18 @@ schedule of charges and credit policy.
   All pass → straight-through approval and a virtual card; any refer/pending → underwriter; any fail → decline with the
   best lower card offered.
 
+## Agentforce: where AI is used (BandhuAI, Prompt Builder)
+AI writes; the rules decide. Three Prompt Builder templates (Setup > Prompt Builder), run through the Einstein Trust Layer;
+Apex assembles the facts, the templates hold the instructions (edit them there: publish a new version and activate it).
+| Template | Where | What it does |
+|---|---|---|
+| **Bandhu Card Answer** | web chat and WhatsApp, any step except personal details | free-form questions the keyword FAQ doesn't cover ("Can I use Flare in Dubai?"), answered only from the card catalogue, in the customer's language; then the pending question again. Never answers on their own approval, limit or score |
+| **Bandhu Personal Note** | after the recommendation (*why*) and the issued card (*tip*) | a short note in the customer's language from their statements and the card's benefits. Arrives a few seconds after the turn (WhatsApp: a queued message; web: a second bubble) because the LLM can't run in the same transaction as the journey's saves |
+| **Bandhu Underwriter Brief** | Card Application page, *✨ Generate brief* | summary, strengths, concerns (every Refer / Fail check and flag) and a suggested decision; saved on the application with its time. Advisory: the underwriter decides |
+- WhatsApp runs on the **Bandhu Agentforce agent** (it routes every message to the journey actions); the web page calls the
+  same journey engine directly, so both channels ask the same questions in the same order (checked turn by turn).
+- If Einstein is unavailable the journey carries on with the rule-based text.
+
 ## Existing customers and the bureau report (BandhuCustomer, BandhuBureau)
 - **Tiers** from the bank's records: Wealth (balances + FDs + demat of ₹10L+), Loan (retail loan), Deposit (savings,
   salary, current, FD), Microfinance (microfinance loans only). Cards are offered per tier (`ETB_Tiers__c`): microfinance
