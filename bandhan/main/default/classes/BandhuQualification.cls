@@ -168,9 +168,9 @@ public inherited sharing class BandhuQualification {
         Integer s = j.CIBIL_Score__c.intValue();
         Decimal decline = BandhuConfig.get().Decline_Cibil__c == null ? 650 : BandhuConfig.get().Decline_Cibil__c;
         Integer pts = s >= 780 ? 40 : s >= 760 ? 34 : s >= 740 ? 28 : s >= 720 ? 22 : s >= 700 ? 16 : s >= decline ? 8 : 0;
-        String result = s >= 720 ? 'Pass' : s >= decline ? 'Refer' : 'Fail';
+        String result = s >= 700 ? 'Pass' : s >= decline ? 'Refer' : 'Fail';   // Good / Excellent pass, Fair refers
         Bandhu_Lead_Check__c c = gate(GATE_BUREAU, 'CIBIL soft pull', 'TransUnion CIBIL (mock)', result, s, pts, 40,
-            'CIBIL ' + s + (result == 'Pass' ? ' - clean record' : result == 'Refer' ? ' - recent delays' : ' - below ' + decline.intValue() + ', write-off on record'), null);
+            'CIBIL ' + s + ' (' + BandhuBureau.band(s) + ')' + (result == 'Pass' ? ' - clean record' : result == 'Refer' ? ' - Fair: on review' : ' - below ' + decline.intValue() + ', write-off on record'), null);
         c.Knockout__c = result == 'Fail';
         return c;
     }

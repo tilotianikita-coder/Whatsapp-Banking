@@ -79,7 +79,7 @@ three needs questions in one run, then the soft check and the recommendation. No
    placeholder.) Underwriter-approved cards get the same tip on WhatsApp.
 8. Type **Activate** → OTP **123456** → *your Bandhan Flare is active*, with the tip again as a reminder.
 9. Lightning → Card Applications → this application: the Bandhan header, the Flare card face, the CIBIL and **Bandhan
-   Score** (~896, band A) tiles, every stage gate green, *why this card* as statement-backed reasons. Related: Card
+   Score** (~925, band A) tiles, every stage gate green, *why this card* as statement-backed reasons. Related: Card
    Checks (each with detail), **Card Consents** (DPDP, soft check, AA with its expiry, hard enquiry, MITC, activation).
 
 ## Act 3. New to bank: when it doesn't fit (4 min) — web, a new mobile each
@@ -108,18 +108,19 @@ three needs questions in one run, then the soft check and the recommendation. No
    message → *Continue* resumes where it stopped. Moumita shows *Knocked out at Credit Bureau* and no nudge.
 
 ## Act 6. Underwriting (7 min) — Bandhu Cards → Card Applications
-1. **Sourav Ghosh**: Flare, **Under Review** (CIBIL 730 in Flare's refer band). Walk, top to bottom:
-   - the header, the Flare card face, CIBIL and **Bandhan Score** (834, band A) tiles;
+1. **Sourav Ghosh**: Flare, **Under Review**: CIBIL **772 (Excellent)**, but a **settled credit card** on his bureau
+   report, which is a manual-review rule. Walk, top to bottom:
+   - the header, the Flare card face, CIBIL and **Bandhan Score** (945, band A) tiles, the CIBIL tile labelled *Excellent (750-900)*;
    - **Bank statements · Account Aggregator**: the consent (purpose, 24 months, 2 banks, 764 transactions); net monthly
      income ₹91,200 from *salary credits from INFOSYS LTD* vs ₹95,000 declared, stability 96/100 growing, EMIs 12%,
      surplus ₹36,735; **Where the money goes** (₹51,065 a month: card-able spend ₹16,819 highlighted, then rent, EMIs,
      investments, cash, bills); **Said ₹75,000 vs ₹16,819 in the statements** with the amber flag *check the limit is not
      sized on the declared figure*; card-able spend by category; lifestyle signals;
-   - **Bandhan Score**: **834/1000, band A** on the band meter (D review · C · B · A +0.5x limit); where the points come
-     from, in three round groups: **credit bureau 489/600 · bank statements 248/250 · income, relationship and channel
-     97/150**; strengths (surplus, FOIR, history, repayment) and **what holds it back** (bureau score 730 is the biggest
-     gap, then new to bank and income level); *All 14 factors* opens the audit table. The CIBIL factor is stepped:
-     700 → 135, 750 → 225, 800 → 270, 850+ → 280 of 280 points;
+   - **Bandhan Score**: **945/1000, band A** on the band meter (D review · C · B · A +0.5x limit); where the points come
+     from, in three groups: credit bureau (of 600) · bank statements (of 250) · income, relationship and channel (of 150);
+     strengths and **what holds it back** (new to bank, income level); *All 14 factors* opens the audit table. The CIBIL
+     factor follows the CIBIL bands: Excellent 750+ = full 280, Good 700-749 = 220-280, Fair 650-699 = 110-220, Poor
+     below 650 = under 110;
    - the stage gates, each check's detail, the recommendation and *why this card* → **Approve & issue card** → the phone
      gets the approval with the MITC on WhatsApp.
 2. Risk flags (create on the web with any new mobile, income 1 lakh, spend Dining / ₹15–50K / best, apply through KYC):
@@ -139,7 +140,7 @@ new or existing, every answer, CIBIL, cash flow (AA), eligible cards, the recomm
 
 ## Act 8. RM 360 and branch-assisted (4 min)
 Seed with `ON_DEMO_PHONE = 'Rohan'`. **Bandhu Cards** → Contacts → **Rohan Mukherjee**: the **Customer 360 · card to
-pitch** panel: tier Deposit, relationship score, Bandhan Score (~849) and what drags it, **pitch Flare (Gold)**,
+pitch** panel: tier Deposit, relationship score, Bandhan Score (~885) and what drags it, **pitch Flare (Gold)**,
 ₹2.8–3.5L, why; bureau and relationship detail → **Start branch-assisted application** → the phone gets *"Namaskar
 Rohan… as <RM> mentioned…"* with the consent → he continues on WhatsApp.
 

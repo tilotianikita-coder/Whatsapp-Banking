@@ -64,11 +64,11 @@
     </values>
     <values>
         <field>Min_Cibil__c</field>
-        <value xsi:type="xsd:double">720</value>
+        <value xsi:type="xsd:double">700</value>
     </values>
     <values>
         <field>Refer_Cibil__c</field>
-        <value xsi:type="xsd:double">700</value>
+        <value xsi:type="xsd:double">650</value>
     </values>
     <values>
         <field>ETB_Min_Balance__c</field>

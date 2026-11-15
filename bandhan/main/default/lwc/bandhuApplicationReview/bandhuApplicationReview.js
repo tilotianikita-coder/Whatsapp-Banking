@@ -193,7 +193,15 @@ export default class BandhuApplicationReview extends LightningElement {
         return this.gaps.length > 0;
     }
 
-    get hasScore() {
+    get cibilBand() {
+        const c = this.app.CIBIL_Score__c;
+        if (c == null) {
+            return '';
+        }
+        return c >= 750 ? 'Excellent (750-900)' : c >= 700 ? 'Good (700-749)' : c >= 650 ? 'Fair (650-699)' : 'Poor (below 650)';
+    }
+
+        get hasScore() {
         return this.app.Bandhan_Score__c != null;
     }
 

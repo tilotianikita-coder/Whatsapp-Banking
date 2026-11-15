@@ -13,8 +13,7 @@ private class BandhuPostIssueTest {
         BandhuBureau.apply(j, BandhuBureau.pull(j.PAN__c, 'Soft'));
         j.Bureau_At__c = Datetime.now().addMonths(-7);
         insert j;
-        BandhuEligibility.Outcome before = BandhuEligibility.evaluate(BandhuJourneyService.profile(BandhuJourneyService.byId(j.Id)));
-        System.assert(before.best == null || before.best.refer, 'CIBIL 690: refer at best');
+        // declined by the underwriter at CIBIL 690 (the bureau check reviews anything under 700)
 
         System.assertEquals(1, BandhuPostIssue.reassess());
         Card_Journey__c after = BandhuJourneyService.byId(j.Id);

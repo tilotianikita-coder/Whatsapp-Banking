@@ -5,7 +5,7 @@
  *
  * Three groups, out of 600 + 250 + 150 = 1000:
  * Credit bureau (600)
- *   Bureau score (280)           stepped: 600 -> 0, 650 -> 45, 700 -> 135, 750 -> 225, 800 -> 270, 850+ -> 280; no footprint 70
+ *   Bureau score (280)           by CIBIL band: Poor (<650) 0-110, Fair (650-699) 110-220, Good (700-749) 220-280, Excellent (750+) 280; no footprint 70
  *   Credit history age (70)      oldest tradeline, 60 months = full
  *   Active accounts (40)         1-3 best
  *   Card utilisation (90)        under 30% best
@@ -84,7 +84,7 @@ public inherited sharing class BandhuScore {
         Decimal income = p.income == null || p.income == 0 ? null : p.income;
 
         // ---- credit bureau (600)
-        add(r, 'Bureau score', noHit ? 'no footprint' : cibil == null ? 'not pulled' : String.valueOf(cibil),
+        add(r, 'Bureau score', noHit ? 'no footprint' : cibil == null ? 'not pulled' : cibil + ' · ' + BandhuBureau.band(cibil),
             noHit ? 70 : cibil == null ? 110 : bureauPoints(cibil), 280, 'Bureau');
         if (b != null && !noHit) {
             add(r, 'Credit history age', b.oldestMonths + ' months', clamp(b.oldestMonths * 70 / 60, 0, 70), 70, 'Bureau');
@@ -146,10 +146,13 @@ public inherited sharing class BandhuScore {
     /** A good score should cost little and a weak one a lot: linear between these steps. */
     @TestVisible
     private static Integer bureauPoints(Integer cibil) {
-        List<Integer> at = new List<Integer>{ 600, 650, 700, 750, 800, 850 };
-        List<Integer> pts = new List<Integer>{ 0, 45, 135, 225, 270, 280 };
+        List<Integer> at = new List<Integer>{ 550, 600, 650, 700, 750 };
+        List<Integer> pts = new List<Integer>{ 0, 40, 110, 220, 280 };
         if (cibil <= at[0]) {
             return 0;
+        }
+        if (cibil >= 750) {
+            return 280;   // Excellent: full points
         }
         for (Integer i = 1; i < at.size(); i++) {
             if (cibil <= at[i]) {

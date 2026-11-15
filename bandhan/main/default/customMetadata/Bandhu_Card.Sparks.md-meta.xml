@@ -68,7 +68,7 @@
     </values>
     <values>
         <field>Refer_Cibil__c</field>
-        <value xsi:type="xsd:double">680</value>
+        <value xsi:type="xsd:double">650</value>
     </values>
     <values>
         <field>ETB_Min_Balance__c</field>

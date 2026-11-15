@@ -6,9 +6,10 @@ private class BandhuDecisionTest {
     }
 
     @IsTest
-    static void referBandGoesToTheUnderwriterWhoApproves() {
+    static void manualReviewGoesToTheUnderwriterWhoApproves() {
         BandhuTestData.useLogOnly();
-        BandhuEngine.Result r = toReview(BandhuTestData.REFER_PAN, '90000', new List<String>{ '1', '3', '2' }, '1');
+        // a good score with a settled card on the bureau report: eligible, but only on manual review
+        BandhuEngine.Result r = toReview('ABCPS1237K', '90000', new List<String>{ '1', '3', '2' }, '1');
         System.assertEquals('Flare', r.journey.Chosen_Card__c, r.message);
         r = BandhuTestData.say(r, '1');
         System.assert(r.message.contains('quick review'), r.message);

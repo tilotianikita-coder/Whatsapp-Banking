@@ -149,6 +149,11 @@ public inherited sharing class BandhuBureau {
     }
 
     // ------------------------------------------------------------------ rules
+    /** CIBIL bands: Excellent 750-900, Good 700-749, Fair 650-699, Poor below 650. */
+    public static String band(Integer score) {
+        return score == null ? null : score >= 750 ? 'Excellent' : score >= 700 ? 'Good' : score >= 650 ? 'Fair' : 'Poor';
+    }
+
     public static Assessment assess(Report r) {
         Assessment a = new Assessment();
         Decimal decline = BandhuConfig.get().Decline_Cibil__c == null ? 650 : BandhuConfig.get().Decline_Cibil__c;
@@ -176,9 +181,9 @@ public inherited sharing class BandhuBureau {
         }
         a.result = !a.knockouts.isEmpty() ? 'Fail' : !a.reviews.isEmpty() || (r.score != null && r.score < 700) ? 'Refer' : 'Pass';
         a.summary = r.noHit ? 'No bureau footprint (new to credit)'
-            : 'CIBIL ' + r.score + (!a.knockouts.isEmpty() ? ' - ' + String.join(a.knockouts, '; ')
+            : 'CIBIL ' + r.score + ' (' + band(r.score) + ')' + (!a.knockouts.isEmpty() ? ' - ' + String.join(a.knockouts, '; ')
                 : !a.reviews.isEmpty() ? ' - review: ' + String.join(a.reviews, '; ')
-                : r.score < 700 ? ' - recent delays' : ' - clean record');
+                : r.score < 700 ? ' - Fair: approval on review, stricter terms' : ' - clean record');
         return a;
     }
 
