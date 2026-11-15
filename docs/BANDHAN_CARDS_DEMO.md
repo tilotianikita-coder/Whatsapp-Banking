@@ -106,8 +106,8 @@ journey's Reassess On to today and Bureau Pulled At 7 months back, then run `Ban
   when no card is possible, Bandhu says so, offers a specialist and mentions the **Loan / Overdraft against Term
   Deposit**, and the journey is re-checked in 6 months. (The secured-card logic stays dormant: it switches on only if a
   card with Secured = true is added to `Bandhu_Card__mdt`.)
-- **Bandhan Score** (`BandhuScore`, model BSC-1.0): a 0-1000 scorecard of 14 factors (bureau 530, Account Aggregator
-  260, income 90, relationship 80, channel 40). Missing data scores about half. Bands A 700+, B 550-699, C 400-549,
+- **Bandhan Score** (`BandhuScore`, model BSC-1.0): a 0-1000 scorecard of 14 factors in three groups: credit bureau
+  600, bank statements (Account Aggregator) 250, income / relationship / channel 150. Missing data scores about half. Bands A 700+, B 550-699, C 400-549,
   D under 400 (manual review). Every decision logs each factor's value and points (`Score_Factors__c`, the
   **Bandhan Score** check), so it can be explained to the customer or a regulator.
 - **Limit**: income x the card's multiple (Sparks 2, Ignite 2.5, Flare 3, Lumina 4), +0.5x band A, -0.5x band C,
