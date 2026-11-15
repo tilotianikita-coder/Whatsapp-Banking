@@ -75,6 +75,58 @@ public inherited sharing class BandhuCashFlow {
             return parts.isEmpty() ? '-' : String.join(parts, ' · ');
         }
 
+        /**
+         * The customer's view: travel in India and abroad as one figure ("Travel ₹21,262 (₹6,978 of it abroad)"),
+         * then the next biggest categories. The engine keeps them apart: cards reward them differently.
+         */
+        public String customerSpendText(String lang) {
+            Decimal travel = (spend.containsKey('Travel') ? spend.get('Travel') : 0) + (spend.containsKey('International') ? spend.get('International') : 0);
+            Decimal abroad = spend.containsKey('International') ? spend.get('International') : 0;
+            List<String> order = new List<String>();
+            List<Decimal> amounts = new List<Decimal>();
+            for (String c : spend.keySet()) {
+                if (c == 'Travel' || c == 'International') {
+                    continue;
+                }
+                order.add(c);
+                amounts.add(spend.get(c));
+            }
+            if (travel > 0) {
+                order.add('Travel');
+                amounts.add(travel);
+            }
+            List<String> parts = new List<String>();
+            Set<Integer> used = new Set<Integer>();
+            for (Integer n = 0; n < Math.min(3, order.size()); n++) {
+                Integer best;
+                for (Integer i = 0; i < order.size(); i++) {
+                    if (!used.contains(i) && (best == null || amounts[i] > amounts[best])) {
+                        best = i;
+                    }
+                }
+                used.add(best);
+                if (monthlyCardSpend == 0 || amounts[best] / monthlyCardSpend < 0.1) {
+                    break;
+                }
+                String text = order[best] + ' ' + BandhuI18n.inrShort(amounts[best]);
+                if (order[best] == 'Travel' && abroad > 0) {
+                    text += ' (' + BandhuI18n.inrShort(abroad) + BandhuI18n.pick(' of it abroad', ' विदेश में', ' বিদেশে', lang) + ')';
+                }
+                parts.add(text);
+            }
+            return parts.isEmpty() ? '-' : String.join(parts, ' · ');
+        }
+
+        /** A lifestyle signal the spend line doesn't already show (travel is in the spend line). */
+        public String extraLifestyle() {
+            for (String l : lifestyle) {
+                if (!l.startsWith('Frequent traveller') && !l.startsWith('International spends')) {
+                    return l;
+                }
+            }
+            return null;
+        }
+
         /** Underwriter-facing lines (the customer sees AA_Insights). */
         public List<String> summaryLines() {
             List<String> l = new List<String>();

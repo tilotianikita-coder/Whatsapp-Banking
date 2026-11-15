@@ -455,8 +455,8 @@ public inherited sharing class BandhuEngine {
                 pre = BandhuI18n.msg('AA_Done', lang, new Map<String, Object>{ 'income' => BandhuI18n.inr(a.netMonthlyIncome) })
                     + '\n\n' + BandhuI18n.msg('AA_Insights', lang, new Map<String, Object>{
                         'months' => a.months, 'banks' => a.accounts, 'stability' => a.incomeStability, 'trend' => a.incomeTrend,
-                        'emi' => BandhuI18n.inr(a.monthlyObligations), 'foir' => a.foirPct.intValue(), 'top' => a.topSpendText(),
-                        'lifestyle' => a.lifestyle.isEmpty() ? '' : '\n• ' + a.lifestyle[0] });
+                        'emi' => BandhuI18n.inr(a.monthlyObligations), 'foir' => a.foirPct.intValue(), 'top' => a.customerSpendText(lang),
+                        'lifestyle' => a.extraLifestyle() == null ? '' : '\n• ' + a.extraLifestyle() });
             } else if (choice != 2 && !t.containsIgnoreCase('skip') && !t.containsIgnoreCase('later')) {
                 return invalid(j);
             }

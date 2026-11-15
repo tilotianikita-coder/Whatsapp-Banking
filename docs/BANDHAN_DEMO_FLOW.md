@@ -56,8 +56,9 @@ Open the web page (and on a phone, or narrow the window, to show it is mobile-fi
    bureau strategy and the eligibility.)
 2. Account Aggregator: *"connect your accounts for instant approval, no documents needed: 24 months, only for this
    decision, consent valid 30 days"* → **Connect my accounts**. Show *What your statements show* (24 months, 2 accounts,
-   income stability 96/100 growing, EMIs 12% of income, top spends Travel / International / Dining, "Frequent traveller")
-   and the live *"you qualify for 3 cards so far"*.
+   income stability 96/100 growing, EMIs 12% of income, *Top spends: Travel ₹21,262 (₹6,978 of it abroad) · Dining
+   ₹4,767*) and the live *"you qualify for 3 cards so far"*. (Inside, travel in India and abroad stay separate: Flare
+   rewards travel, Lumina international spends.)
 3. Spend: tap **Groceries** only (the customer *says* groceries) → *Continue* → monthly **₹15–50K** → fee **best
    benefits** → company, DOB, PIN, soft check **Yes**.
 4. Recommendation: **Flare (Gold)**, not Ignite: *"Travel: ₹14,284/month in your statements · 20 points per ₹200 on
@@ -90,9 +91,11 @@ Open the web page (and on a phone, or narrow the window, to show it is mobile-fi
 1. From the demo phone: **Hi** → **BN** for Bengali → answer up to the recommendation and stop (drop-off).
 2. Bandhu Cards → Leads: **Priya** (Hot, Lumina, dropped at Aadhaar eKYC), **Arjun** (Hot, Ignite, at the
    recommendation), **Moumita** (Unqualified: knocked out at the Credit Bureau gate) and your own drop-off (after ~2 min).
-3. Open one: the Bandhu card lead panel (stage gate, journey path, the 7 qualification gates, intent and credit scores
-   with the breakdown, CIBIL, cards, drop point) → **Nudge on WhatsApp** → the phone gets the RM message → *Continue*
-   resumes where it stopped.
+3. Open Priya: the full-width **Bandhu card lead** view: the recommended card face (Lumina, ₹10.8L), intent, credit and
+   combined scores, CIBIL and Bandhan Score; the journey path (Verified → Income & statements → Needs → Credit check →
+   Recommendation → **KYC**) with *dropped at Aadhaar eKYC*; the 7 qualification gates with points; *How the scores were
+   built*; *The customer* and *Bank statements*. **Next best action** → **Nudge on WhatsApp** → the phone gets the RM
+   message → *Continue* resumes where it stopped. Moumita shows *Knocked out at Credit Bureau* and no nudge.
 
 ## Act 6. Underwriting (7 min) — Bandhu Cards → Card Applications
 1. **Sourav Ghosh**: Flare, **Under Review** (CIBIL 730 in Flare's refer band). Walk the header, card face, CIBIL and

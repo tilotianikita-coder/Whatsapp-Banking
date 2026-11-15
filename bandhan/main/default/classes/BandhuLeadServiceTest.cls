@@ -32,7 +32,7 @@ private class BandhuLeadServiceTest {
         BandhuConsoleController.Insight ins = BandhuConsoleController.getLeadInsight(l.Id);
         System.assert(ins.hasJourney && ins.canNudge, ins.blockedReason);
         System.assertEquals(7, ins.gates.size());
-        System.assertEquals(1, ins.pathIndex);
+        System.assertEquals(3, ins.pathIndex, 'dropped at the company question: the Credit check stage');
         String sent = BandhuConsoleController.nudge(l.Id);
         System.assert(sent.contains('Reply *Continue*'), sent);
         System.assertEquals(1, BandhuJourneyService.byId(j.Id).Nudges_Sent__c);

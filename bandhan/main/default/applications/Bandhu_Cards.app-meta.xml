@@ -11,8 +11,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Bandhu card leads: intent and credit scores, drop point and the WhatsApp nudge</comment>
-        <content>SDO_Sales_Lead_Default</content>
+        <comment>Bandhu card leads: the full-width Bandhu lead view (scores, journey, gates, next best action)</comment>
+        <content>Bandhu_Lead_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>

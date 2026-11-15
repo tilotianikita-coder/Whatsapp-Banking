@@ -3,45 +3,79 @@
         <template lwc:if={loading}>
             <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
         </template>
+
+        <!-- header -->
         <div class="b-head">
             <div class="b-head-left">
                 <img class="b-logo" src={logoUrl} alt="Bandhan Bank" />
                 <div>
-                <div class="b-head-title">Bandhu card lead</div>
-                <template lwc:if={hasJourney}><div class="b-head-sub">{i.customerName} · {i.status}</div></template>
-            </div>
+                    <div class="b-head-title">
+                        <template lwc:if={hasJourney}>{i.customerName}</template>
+                        <template lwc:else>Bandhu card lead</template>
+                    </div>
+                    <div class="b-head-sub">
+                        Bandhu card lead
+                        <template lwc:if={hasJourney}> · {i.customerType} · {i.channel} · {i.language} · {i.mobile}</template>
+                    </div>
+                </div>
             </div>
             <div class="b-head-right">
-                <template lwc:if={hasJourney}><span class={ratingClass}>{rating}</span></template>
-                <button class="b-icon-btn" onclick={handleRefresh} title="Refresh">↻</button>
+                <template lwc:if={hasJourney}>
+                    <span class="b-pill b-pill-white">{i.leadStatus}</span>
+                    <span class={ratingClass}>{rating}</span>
+                </template>
+                <button class="b-icon-btn" onclick={handleRefresh} title="Refresh">↻ Refresh</button>
             </div>
         </div>
 
         <div class="b-body">
-            <template lwc:if={error}>
-                <div class="b-alert b-alert-error">{error}</div>
-            </template>
-
+            <template lwc:if={error}><div class="b-alert b-alert-error">{error}</div></template>
             <template lwc:if={noJourney}>
-                <div class="b-alert b-alert-info">
-                    Not a Bandhu card lead
-                    <div class="b-alert-sub">{i.blockedReason}</div>
-                </div>
+                <div class="b-alert b-alert-info">Not a Bandhu card lead<div class="b-alert-sub">{i.blockedReason}</div></div>
             </template>
 
             <template lwc:if={hasJourney}>
-                <div class="b-tiles">
-                    <template for:each={tiles} for:item="t">
-                        <div key={t.key} class={t.cls}>
-                            <div class="b-tile-label">{t.label}</div>
-                            <div class="b-tile-value">{t.value}<span class="out-of"> / 100</span></div>
-                            <div class="b-bar"><div class="b-bar-fill" style={t.barStyle}></div></div>
+                <!-- 1. the headline: card, scores, stage -->
+                <div class="hero">
+                    <template lwc:if={i.recommended}>
+                        <div class="b-cardface" style={cardStyle} title={i.cardTagline}>
+                            <div class="b-cf-row"><img class="b-cf-logo" src={logoUrl} alt="" /><span class="b-cf-tier">{i.cardTier}</span></div>
+                            <div class="b-cf-chip"></div>
+                            <div class="b-cf-row" style="align-items:flex-end">
+                                <div><div class="b-cf-small">RECOMMENDED</div><div class="b-cf-name">{i.recommended}</div></div>
+                                <template lwc:if={i.creditLimit}><span class="b-cf-limit">{i.creditLimit}</span></template>
+                            </div>
                         </div>
                     </template>
+                    <div class="scores">
+                        <template for:each={tiles} for:item="t">
+                            <div key={t.key} class={t.cls}>
+                                <div class="b-tile-label">{t.label}</div>
+                                <div class="b-tile-value">{t.value}<span class="out-of"> / 100</span></div>
+                                <div class="b-bar"><div class="b-bar-fill" style={t.barStyle}></div></div>
+                            </div>
+                        </template>
+                        <div class="b-tile">
+                            <div class="b-tile-label">CIBIL (soft)</div>
+                            <div class="b-tile-value">{cibilText}</div>
+                            <div class="b-tile-sub">credit confidence {confidenceText}</div>
+                        </div>
+                        <template lwc:if={hasBandhanScore}>
+                            <div class="b-tile b-tile-sun">
+                                <div class="b-tile-label">Bandhan Score</div>
+                                <div class="b-tile-value">{i.bandhanScore}<span class="out-of"> / 1000</span></div>
+                                <div class="b-tile-sub">at the recommendation</div>
+                            </div>
+                        </template>
+                    </div>
                 </div>
 
+                <!-- 2. where they are -->
                 <div class="b-section">
-                    <div class={stageClass}>{stageText}</div>
+                    <div class="stage-row">
+                        <div class={stageClass}>{stageText}</div>
+                        <div class="b-muted">{i.detailsDone}/10 details shared · {whereLabel} <b>{whereText}</b></div>
+                    </div>
                     <div class="b-path">
                         <template for:each={pathSteps} for:item="p">
                             <div key={p.key} class={p.cls}><span class="b-path-dot">{p.mark}</span><span class="b-path-label">{p.label}</span></div>
@@ -49,62 +83,74 @@
                     </div>
                 </div>
 
-                <template lwc:if={hasGates}>
-                    <div class="b-section">
-                        <div class="b-section-title">Qualification gates</div>
-                        <template for:each={gates} for:item="g">
-                            <div key={g.key} class="b-gate">
-                                <div class="b-gate-head">
-                                    <span class="b-gate-name">{g.gate}</span>
-                                    <span class="b-gate-right">
-                                        <template lwc:if={g.showPoints}><span class="b-muted">{g.pointsText}</span></template>
-                                        <span class={g.cls}>{g.resultText}</span>
-                                    </span>
+                <!-- 3. two columns: gates | customer and next action -->
+                <div class="cols">
+                    <div class="col">
+                        <template lwc:if={hasGates}>
+                            <div class="b-section">
+                                <div class="b-section-title">Qualification gates</div>
+                                <div class="gates">
+                                    <template for:each={gates} for:item="g">
+                                        <div key={g.key} class={g.boxCls}>
+                                            <div class="b-gate-head">
+                                                <span class="b-gate-name">{g.gate}</span>
+                                                <span class={g.cls}>{g.resultText}</span>
+                                            </div>
+                                            <div class="b-gate-sub">{g.summary}</div>
+                                            <div class="gate-foot">
+                                                <template lwc:if={g.provider}><span class="b-muted">{g.provider}</span></template>
+                                                <template lwc:if={g.showPoints}><span class="pts">{g.pointsText}</span></template>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
-                                <div class="b-gate-sub">{g.summary}<template lwc:if={g.provider}><span class="b-muted"> · {g.provider}</span></template></div>
+                            </div>
+                        </template>
+                        <template lwc:if={hasScoreLines}>
+                            <div class="b-section">
+                                <div class="b-section-title">How the scores were built</div>
+                                <ul class="b-list two-col">
+                                    <template for:each={scoreLines} for:item="s"><li key={s.key}>{s.text}</li></template>
+                                </ul>
                             </div>
                         </template>
                     </div>
-                </template>
 
-                <div class="b-section">
-                    <dl class="b-kv">
-                        <template for:each={facts} for:item="f">
-                            <dt key={f.keyL}>{f.label}</dt>
-                            <dd key={f.keyV}>{f.value}</dd>
-                        </template>
-                    </dl>
-                    <template lwc:if={i.applicationId}>
-                        <div class="slds-m-top_x-small">
-                            <button class="b-link" onclick={openApplication}>Open Card Application →</button>
+                    <div class="col side">
+                        <div class="b-section action">
+                            <div class="b-section-title">Next best action</div>
+                            <template lwc:if={canNudge}>
+                                <p class="b-muted">The customer stopped at <b>{i.step}</b>. A WhatsApp nudge brings them back to the same question.</p>
+                                <button class="b-btn-sun nudge" onclick={handleNudge} disabled={sending}>
+                                    <template lwc:if={sending}>Sending…</template>
+                                    <template lwc:else>Nudge on WhatsApp</template>
+                                </button>
+                                <template lwc:if={i.lastNudged}>
+                                    <div class="b-muted slds-m-top_xx-small">Last nudged <lightning-formatted-date-time value={i.lastNudged} month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time></div>
+                                </template>
+                            </template>
+                            <template lwc:else><div class="b-alert b-alert-info">{i.blockedReason}</div></template>
+                            <template lwc:if={i.applicationId}>
+                                <button class="b-btn-navy nudge slds-m-top_x-small" onclick={openApplication}>Open the card application →</button>
+                            </template>
                         </div>
-                    </template>
-                </div>
 
-                <template lwc:if={hasScoreLines}>
-                    <div class="b-section">
-                        <div class="b-section-title">How the score was built</div>
-                        <ul class="b-list">
-                            <template for:each={scoreLines} for:item="s"><li key={s.key}>{s.text}</li></template>
-                        </ul>
-                    </div>
-                </template>
-
-                <div class="b-section">
-                    <template lwc:if={canNudge}>
-                        <button class="b-btn nudge" onclick={handleNudge} disabled={sending}>
-                            <template lwc:if={sending}>Sending…</template>
-                            <template lwc:else>Nudge on WhatsApp</template>
-                        </button>
-                        <template lwc:if={i.lastNudged}>
-                            <div class="b-muted slds-m-top_xx-small">
-                                Last nudged <lightning-formatted-date-time value={i.lastNudged} month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                        <div class="b-section">
+                            <div class="b-section-title">The customer</div>
+                            <dl class="b-kv">
+                                <template for:each={facts} for:item="f">
+                                    <dt key={f.keyL}>{f.label}</dt>
+                                    <dd key={f.keyV}>{f.value}</dd>
+                                </template>
+                            </dl>
+                        </div>
+                        <template lwc:if={i.cashFlow}>
+                            <div class="b-section">
+                                <div class="b-section-title">Bank statements (Account Aggregator)</div>
+                                <div class="cash">{i.cashFlow}</div>
                             </div>
                         </template>
-                    </template>
-                    <template lwc:else>
-                        <div class="b-alert b-alert-info">{i.blockedReason}</div>
-                    </template>
+                    </div>
                 </div>
             </template>
         </div>

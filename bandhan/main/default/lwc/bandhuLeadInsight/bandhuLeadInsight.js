@@ -84,23 +84,44 @@ export default class BandhuLeadInsight extends NavigationMixin(LightningElement)
     get facts() {
         const i = this.i;
         return [
-            ['Lead status', i.leadStatus],
-            ['Region', i.region],
-            ['Credit confidence', i.confidence],
-            ['CIBIL', i.cibil != null ? String(i.cibil) : null],
-            ['Recommended card', i.recommended],
-            ['Eligible cards', i.eligible],
-            ['Needs', i.needs],
+            ['Spends on', i.needs],
             ['Income', i.income],
-            ['Indicative limit', i.creditLimit],
-            ['Current step', i.step],
-            ['Drop point', i.dropPoint],
-            ['Channel', i.channel],
-            ['Mobile', i.mobile],
-            ['Details shared', this.details]
+            ['Eligible cards', i.eligible],
+            ['Recommended', i.recommended ? i.recommended + (i.creditLimit ? ' · ' + i.creditLimit : '') : null],
+            ['Region', i.region],
+            ['Mobile', i.mobile]
         ]
             .filter(([, v]) => v)
             .map(([label, value]) => ({ label, value, keyL: label + '-l', keyV: label + '-v' }));
+    }
+
+    get cardStyle() {
+        const c = this.i.cardColor || '#0A3152';
+        return `background: linear-gradient(135deg, ${c} 0%, ${c} 35%, #061A2C 135%);`;
+    }
+
+    get isDropped() {
+        return this.i.status === 'Dropped' && !!this.i.dropPoint;
+    }
+
+    get whereLabel() {
+        return this.isDropped ? 'dropped at' : this.i.status === 'Completed' ? 'completed:' : 'now at';
+    }
+
+    get whereText() {
+        return this.isDropped ? this.i.dropPoint.replace(/\s*\(\d+\/\d+ details\)$/, '') : this.i.step;
+    }
+
+    get cibilText() {
+        return this.i.cibil != null ? String(this.i.cibil) : '—';
+    }
+
+    get confidenceText() {
+        return (this.i.confidence || 'n/a').toLowerCase();
+    }
+
+    get hasBandhanScore() {
+        return this.i.bandhanScore != null;
     }
 
     get stageText() {
@@ -124,9 +145,11 @@ export default class BandhuLeadInsight extends NavigationMixin(LightningElement)
 
     get gates() {
         const RESULT = { Pass: 'b-pill b-pill-green', Refer: 'b-pill b-pill-orange', Fail: 'b-pill b-pill-red', Pending: 'b-pill b-pill-white', Skipped: 'b-pill b-pill-grey' };
+        const BOX = { Pass: 'gate pass', Refer: 'gate refer', Fail: 'gate fail' };
         return (this.i.gates || []).map((g, idx) => ({
             ...g,
             key: 'g' + idx,
+            boxCls: BOX[g.result] || 'gate',
             cls: RESULT[g.result] || 'b-pill b-pill-white',
             resultText: g.knockout ? 'Knock-out' : g.result,
             showPoints: g.maxPoints > 0 && g.result !== 'Pending' && g.result !== 'Skipped',

@@ -134,6 +134,13 @@ public with sharing class BandhuConsoleController {
         @AuraEnabled public List<Gate> gates = new List<Gate>();
         @AuraEnabled public List<String> path = new List<String>();
         @AuraEnabled public Integer pathIndex;
+        @AuraEnabled public String cardTier;
+        @AuraEnabled public String cardColor;
+        @AuraEnabled public String cardTagline;
+        @AuraEnabled public Decimal bandhanScore;
+        @AuraEnabled public String cashFlow;
+        @AuraEnabled public String customerType;
+        @AuraEnabled public String language;
     }
 
     public class Gate {
@@ -147,16 +154,20 @@ public with sharing class BandhuConsoleController {
     }
 
     /** The prospect's journey milestones, for the path on the Lead page. */
-    private static final List<String> PATH = new List<String>{ 'Verified', 'Needs', 'Profile', 'Credit check', 'Recommendation', 'KYC', 'Submitted' };
+    // the journey's stages in the order they are asked (income source and Account Aggregator come before the needs)
+    private static final List<String> PATH = new List<String>{ 'Verified', 'Income & statements', 'Needs', 'Credit check', 'Recommendation', 'KYC', 'Submitted' };
 
+    /** The stage the customer is in now (6 = submitted, shown as done). */
     private static Integer pathIndex(Card_Journey__c j) {
         if (j.Status__c == BandhuJourneyService.STATUS_COMPLETED || j.Card_Application__c != null) {
             return 6;
         }
-        Map<String, Integer> byStep = new Map<String, Integer>{ 'menu' => -1, 'consent' => -1, 'name' => -1, 'mobile' => -1, 'otp' => -1,
-            'spend' => 0, 'monthly_spend' => 0, 'fee' => 0, 'employment' => 1, 'income' => 1, 'company' => 1, 'pan' => 1, 'dob' => 1,
-            'pincode' => 1, 'bureau' => 2, 'aa' => 3, 'choose' => 3, 'not_eligible' => 3, 'email' => 4, 'aadhaar' => 4, 'aadhaar_otp' => 4,
-            'vkyc' => 5, 'review' => 5 };
+        Map<String, Integer> byStep = new Map<String, Integer>{ 'menu' => 0, 'consent' => 0, 'name' => 0, 'mobile' => 0, 'otp' => 0, 'hold' => 0,
+            'employment' => 1, 'income' => 1, 'pan' => 1, 'aa' => 1,
+            'spend' => 2, 'monthly_spend' => 2, 'fee' => 2,
+            'company' => 3, 'dob' => 3, 'pincode' => 3, 'bureau' => 3,
+            'choose' => 4, 'not_eligible' => 4, 'applied_alt' => 4, 'secured_offer' => 4, 'after_compare' => 4,
+            'email' => 5, 'aadhaar' => 5, 'aadhaar_otp' => 5, 'vkyc' => 5, 'review' => 5 };
         Integer idx = byStep.get(j.Step__c);
         return idx == null ? 0 : idx;
     }
@@ -218,6 +229,20 @@ public with sharing class BandhuConsoleController {
         i.income = income == null ? null : BandhuI18n.inr(income) + (j.Verified_Income__c != null ? ' (verified)' : ' (declared)');
         i.creditLimit = j.Credit_Limit__c == null ? null : BandhuI18n.inr(j.Credit_Limit__c);
         i.applicationId = j.Card_Application__c;
+        Bandhu_Card__mdt rc = String.isBlank(i.recommended) ? null : BandhuConfig.card(i.recommended);
+        if (rc != null) {
+            i.cardTier = rc.Tier_Label__c;
+            i.cardColor = rc.Color__c;
+            i.cardTagline = rc.Tagline__c;
+        }
+        i.bandhanScore = j.Bandhan_Score__c;
+        i.customerType = j.Customer_Type__c == BandhuJourneyService.EXISTING ? 'Existing customer' : 'New to bank';
+        i.language = j.Language__c == 'HI' ? 'Hindi' : j.Language__c == 'BN' ? 'Bengali' : 'English';
+        BandhuCashFlow.Analysis cf = BandhuCashFlow.fromJourney(j);
+        if (cf != null) {
+            i.cashFlow = BandhuI18n.inr(cf.netMonthlyIncome) + '/month · stability ' + cf.incomeStability + '/100 (' + cf.incomeTrend.toLowerCase()
+                + ') · EMIs ' + cf.foirPct.intValue() + '% · ' + cf.customerSpendText('EN') + (cf.anomalies.isEmpty() ? '' : ' · ⚠ ' + cf.anomalies.size() + ' flag(s)');
+        }
         i.pathIndex = pathIndex(j);
         if (knocked) {
             i.blockedReason = 'Unqualified: ' + l.Bandhu_Stage_Gate__c.toLowerCase() + ' - no nudge.';
