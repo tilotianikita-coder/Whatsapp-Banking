@@ -10,10 +10,10 @@ String OTP = BandhuConfig.get().Demo_OTP__c;
 // name, mobile, needs answers (spend, monthly, fee), employment, income, company, PAN, DOB, PIN, Account Aggregator answer,
 // then the answers after the recommendation (where the prospect stops). Answers go by step, so the question order can change.
 List<List<Object>> PROSPECTS = new List<List<Object>>{
-    new List<Object>{ 'Priya Das', '9000000201', new List<String>{ '1, 2, 3', '4', '2' }, '1', '2.5 lakh', 'TCS', 'ABCPD5521K', '18/09/1991', 'Kolkata 700064', '1', new List<String>{ '1', 'priya.das@example.com' } },
+    new List<Object>{ 'Priya Das', '9000000201', new List<String>{ '1, 2, 3', '4', '2' }, '1', '2.5 lakh', 'TCS', 'ABCPK5521K', '18/09/1991', 'Kolkata 700064', '1', new List<String>{ '1', 'priya.das@example.com' } },
     new List<Object>{ 'Arjun Roy', '9000000202', new List<String>{ '4, 1', '2', '2' }, '1', '55000', 'Wipro', 'ABCPR3310R', '02/02/1994', 'Howrah 711101', '2', new List<String>() },
     new List<Object>{ 'Moumita Saha', '9000000203', new List<String>{ '3', '2', '1' }, '3', '60000', 'Saha Sweets', 'ABCPS8890Z', '11/07/1987', 'Durgapur 713204', '2', new List<String>() },
-    new List<Object>{ 'Sourav Ghosh', '9000000204', new List<String>{ '1, 3', '3', '2' }, '1', '95000', 'Cognizant', 'ABCPG4410R', '23/03/1989', 'Kolkata 700091', '1', new List<String>{ '1', 'sourav.ghosh@example.com', '5678', OTP, 'Done', '1' } }
+    new List<Object>{ 'Sourav Ghosh', '9000000204', new List<String>{ '1, 3', '3', '2' }, '1', '95000', 'Cognizant', 'ABCPH4410R', '23/03/1989', 'Kolkata 700091', '1', new List<String>{ '1', 'sourav.ghosh@example.com', '5678', OTP, 'Done', '1' } }
 };
 PROSPECTS = new List<List<Object>>{ PROSPECTS[WHICH] };
 List<String> mobiles = new List<String>();

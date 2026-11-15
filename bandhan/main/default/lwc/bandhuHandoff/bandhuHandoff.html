@@ -4,9 +4,12 @@
             <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
         </template>
         <div class="b-head">
-            <div>
+            <div class="b-head-left">
+                <img class="b-logo" src={logoUrl} alt="Bandhan Bank" />
+                <div>
                 <div class="b-head-title">Bandhu handoff</div>
                 <template lwc:if={hasJourney}><div class="b-head-sub">{h.customerName} · {h.mobile}</div></template>
+            </div>
             </div>
             <div class="b-head-right">
                 <template lwc:if={hasJourney}><span class={typeClass}>{h.customerType}</span></template>

@@ -19,6 +19,9 @@ public with sharing class BandhuCustomer360 {
         @AuraEnabled public String band;
         @AuraEnabled public List<String> scoreWeakest = new List<String>();
         @AuraEnabled public String pitchCard;
+        @AuraEnabled public String pitchName;
+        @AuraEnabled public String pitchTier;
+        @AuraEnabled public String pitchColor;
         @AuraEnabled public String pitchTagline;
         @AuraEnabled public String pitchLimit;
         @AuraEnabled public List<String> pitchWhy = new List<String>();
@@ -83,6 +86,9 @@ public with sharing class BandhuCustomer360 {
         if (pick != null && i.blocker == null) {
             v.pitchCard = pick.card.DeveloperName + (String.isBlank(pick.card.Tier_Label__c) ? '' : ' (' + pick.card.Tier_Label__c + ')');
             v.pitchTagline = pick.card.Tagline__c;
+            v.pitchName = pick.card.DeveloperName;
+            v.pitchTier = pick.card.Tier_Label__c;
+            v.pitchColor = pick.card.Color__c;
             v.pitchLimit = pick.fdAmount != null ? BandhuI18n.inr(pick.creditLimit) + ' against an FD of ' + BandhuI18n.inr(pick.fdAmount)
                 : (pick.limitLow != null && pick.limitLow < pick.creditLimit ? BandhuI18n.inr(pick.limitLow) + ' - ' : '') + BandhuI18n.inr(pick.creditLimit);
             v.pitchWhy = pick.why;

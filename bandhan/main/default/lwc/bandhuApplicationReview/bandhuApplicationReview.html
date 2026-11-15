@@ -14,7 +14,9 @@
         <template lwc:if={hasData}>
             <!-- header -->
             <div class="b-head">
-                <div>
+                <div class="b-head-left">
+                    <img class="b-logo" src={logoUrl} alt="Bandhan Bank" />
+                    <div>
                     <div class="b-head-title">{app.Applicant_Name__c}</div>
                     <div class="b-head-sub">
                         {app.Reference_Number__c}
@@ -22,6 +24,7 @@
                         <template lwc:if={app.Submitted_At__c}>
                             · Submitted <lightning-formatted-date-time value={app.Submitted_At__c} year="numeric" month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
                         </template>
+                    </div>
                     </div>
                 </div>
                 <div class="b-head-right">
@@ -34,12 +37,13 @@
                 <!-- card art + quick facts -->
                 <div class="top">
                     <template lwc:if={card}>
-                        <div class="card-art" style={cardStyle}>
-                            <div class="card-bank">Bandhan Bank</div>
-                            <div class="card-chip"></div>
-                            <div class="card-name">{card.name}</div>
-                            <div class="card-tagline">{card.tagline}</div>
-                            <div class="card-limit">Limit {card.creditLimit}</div>
+                        <div class="b-cardface" style={cardStyle} title={card.tagline}>
+                            <div class="b-cf-row"><img class="b-cf-logo" src={logoUrl} alt="" /><span class="b-cf-tier">{card.tierLabel}</span></div>
+                            <div class="b-cf-chip"></div>
+                            <div class="b-cf-row" style="align-items:flex-end">
+                                <div><div class="b-cf-small">CREDIT CARD</div><div class="b-cf-name">{card.name}</div></div>
+                                <template lwc:if={card.creditLimit}><span class="b-cf-limit">{card.creditLimit}</span></template>
+                            </div>
                         </div>
                     </template>
                     <div class="b-tiles facts">
@@ -47,6 +51,13 @@
                             <div class="b-tile-label">CIBIL</div>
                             <div class="b-tile-value">{cibil}</div>
                         </div>
+                        <template lwc:if={hasScore}>
+                            <div class="b-tile b-tile-sun">
+                                <div class="b-tile-label">Bandhan Score</div>
+                                <div class="b-tile-value">{app.Bandhan_Score__c}<span class="b-tile-sub"> /1000</span></div>
+                                <div class="b-tile-sub">band {app.Score_Band__c}</div>
+                            </div>
+                        </template>
                         <div class="b-tile">
                             <div class="b-tile-label">Declared income</div>
                             <div class="b-tile-value">{declaredIncome}</div>
@@ -103,7 +114,7 @@
                         </ul>
                     </div>
                     <dl class="b-kv slds-m-top_small">
-                        <template lwc:if={review.why}><dt>Why this card</dt><dd>{review.why}</dd></template>
+                        <template lwc:if={review.why}><dt>Why this card</dt><dd><ul class="b-why"><template for:each={whyItems} for:item="w"><li key={w.key}>{w.text}</li></template></ul></dd></template>
                         <template lwc:if={review.needs}><dt>Customer needs</dt><dd>{review.needs}</dd></template>
                         <template lwc:if={review.eligible}><dt>Eligible cards</dt><dd>{review.eligible}</dd></template>
                     </dl>

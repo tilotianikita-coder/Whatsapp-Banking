@@ -1,56 +1,85 @@
 <template>
-    <lightning-card title="Bandhu: customer 360 and card to pitch" icon-name="standard:customer_360">
-        <div class="slds-p-horizontal_medium">
-            <template lwc:if={error}><p class="slds-text-color_error">{error}</p></template>
+    <div class="b-card b-spinner-host">
+        <div class="b-head">
+            <div class="b-head-left">
+                <img class="b-logo" src={logoUrl} alt="Bandhan Bank" />
+                <div>
+                    <div class="b-head-title">Customer 360 · card to pitch</div>
+                    <template lwc:if={view}><div class="b-head-sub">{view.name}<template lwc:if={view.mobile}> · {view.mobile}</template></div></template>
+                </div>
+            </div>
+            <div class="b-head-right">
+                <template lwc:if={view}><template lwc:if={view.isCustomer}><span class="b-pill b-pill-white">Existing customer</span></template></template>
+                <button class="b-icon-btn" onclick={load} title="Refresh">↻</button>
+            </div>
+        </div>
+        <div class="b-body">
+            <template lwc:if={error}><div class="b-alert b-alert-error">{error}</div></template>
             <template lwc:if={view}>
                 <template lwc:if={view.isCustomer}>
-                    <div class="slds-grid slds-wrap slds-gutters_small">
-                        <div class="slds-col slds-size_1-of-3"><div class="slds-text-title">Tier</div><div class="slds-text-heading_small">{view.tier}</div></div>
-                        <div class="slds-col slds-size_1-of-3"><div class="slds-text-title">Relationship</div><div class="slds-text-heading_small">{view.relationshipScore}/100</div></div>
-                        <div class="slds-col slds-size_1-of-3"><div class="slds-text-title">Bandhan Score</div><div class="slds-text-heading_small">{scoreText}</div></div>
+                    <div class="b-tiles">
+                        <div class="b-tile b-tile-main"><div class="b-tile-label">Tier</div><div class="b-tile-value">{view.tier}</div></div>
+                        <div class="b-tile"><div class="b-tile-label">Relationship score</div><div class="b-tile-value">{view.relationshipScore}<span class="b-tile-sub"> /100</span></div>
+                            <div class="b-bar"><div class="b-bar-fill" style={relBar}></div></div></div>
+                        <div class="b-tile b-tile-sun"><div class="b-tile-label">Bandhan Score</div><div class="b-tile-value">{view.bandhanScore}<span class="b-tile-sub"> /1000</span></div><div class="b-tile-sub">band {view.band}</div></div>
                     </div>
+
                     <template lwc:if={view.hold}>
-                        <div class="slds-notify slds-notify_alert slds-alert_warning slds-m-top_small" role="alert">On hold: {view.hold}</div>
+                        <div class="b-alert b-alert-warn slds-m-top_small">On hold: {view.hold}<div class="b-alert-sub">Resolve this before starting a card application.</div></div>
                     </template>
+
                     <template lwc:if={view.pitchCard}>
-                        <div class="slds-box slds-theme_shade slds-m-top_small">
-                            <div class="slds-text-title_caps">Pitch</div>
-                            <div class="slds-text-heading_medium">Bandhan {view.pitchCard}</div>
-                            <div class="slds-text-body_small slds-text-color_weak">{view.pitchTagline}</div>
-                            <div class="slds-m-top_x-small">Limit: <b>{view.pitchLimit}</b></div>
-                            <ul class="slds-m-top_x-small">
-                                <template for:each={view.pitchWhy} for:item="w"><li key={w}>{w}</li></template>
-                            </ul>
-                            <template lwc:if={view.alternative}><div class="slds-text-body_small slds-m-top_x-small">Also a fit: {view.alternative}</div></template>
+                        <div class="b-section">
+                            <div class="b-section-title">Pitch this card</div>
+                            <div class="pitch">
+                                <div class="b-cardface" style={pitchStyle}>
+                                    <div class="b-cf-row"><img class="b-cf-logo" src={logoUrl} alt="" /><span class="b-cf-tier">{view.pitchTier}</span></div>
+                                    <div class="b-cf-chip"></div>
+                                    <div><div class="b-cf-small">CREDIT CARD</div><div class="b-cf-name">{view.pitchName}</div></div>
+                                </div>
+                                <div class="pitch-body">
+                                    <div class="pitch-title">Bandhan {view.pitchCard}</div>
+                                    <div class="b-muted">{view.pitchTagline}</div>
+                                    <div class="pitch-limit">Limit <b>{view.pitchLimit}</b></div>
+                                    <ul class="b-why"><template for:each={view.pitchWhy} for:item="w"><li key={w}>{w}</li></template></ul>
+                                    <template lwc:if={view.alternative}><div class="b-muted slds-m-top_x-small">Also a fit: {view.alternative}</div></template>
+                                </div>
+                            </div>
                         </div>
                     </template>
-                    <template lwc:if={view.notEligibleReason}><p class="slds-m-top_small">Not eligible: {view.notEligibleReason}</p></template>
-                    <div class="slds-m-top_small slds-text-body_small">
-                        <div><b>Eligible:</b> {eligibleText} · {weakestText}</div>
-                        <template lwc:if={view.bureau}><div><b>Bureau:</b> {view.bureau}</div></template>
-                        <template lwc:if={view.cashFlow}><div><b>Cash flow (AA):</b> {view.cashFlow}</div></template>
-                    </div>
-                    <lightning-accordion allow-multiple-sections-open class="slds-m-top_small">
-                        <lightning-accordion-section name="rel" label="Relationship detail">
-                            <template for:each={view.relationship} for:item="l"><div key={l} class="slds-text-body_small">{l}</div></template>
-                        </lightning-accordion-section>
-                        <lightning-accordion-section name="bureau" label="Bureau report">
-                            <template for:each={view.bureauLines} for:item="l"><div key={l} class="slds-text-body_small">{l}</div></template>
-                        </lightning-accordion-section>
-                        <template lwc:if={hasHistory}>
-                            <lightning-accordion-section name="hist" label="Card applications">
-                                <template for:each={view.history} for:item="l"><div key={l} class="slds-text-body_small">{l}</div></template>
+                    <template lwc:if={view.notEligibleReason}><div class="b-alert b-alert-info slds-m-top_small">Not eligible: {view.notEligibleReason}</div></template>
+
+                    <div class="b-section">
+                        <div class="b-section-title">What the bank knows</div>
+                        <dl class="b-kv">
+                            <dt>Eligible</dt><dd>{eligibleText}</dd>
+                            <template lwc:if={weakestText}><dt>Score drag</dt><dd>{weakestText}</dd></template>
+                            <template lwc:if={view.bureau}><dt>Bureau</dt><dd>{view.bureau}</dd></template>
+                            <template lwc:if={view.cashFlow}><dt>Cash flow (AA)</dt><dd>{view.cashFlow}</dd></template>
+                        </dl>
+                        <lightning-accordion allow-multiple-sections-open class="slds-m-top_small">
+                            <lightning-accordion-section name="rel" label="Relationship detail">
+                                <ul class="b-list"><template for:each={view.relationship} for:item="l"><li key={l}>{l}</li></template></ul>
                             </lightning-accordion-section>
-                        </template>
-                    </lightning-accordion>
-                    <div class="slds-m-top_small">
-                        <lightning-button variant="brand" label="Start branch-assisted application" onclick={handleStart} disabled={cannotStart}></lightning-button>
+                            <lightning-accordion-section name="bureau" label="Bureau report">
+                                <ul class="b-list"><template for:each={view.bureauLines} for:item="l"><li key={l}>{l}</li></template></ul>
+                            </lightning-accordion-section>
+                            <template lwc:if={hasHistory}>
+                                <lightning-accordion-section name="hist" label="Card applications">
+                                    <ul class="b-list"><template for:each={view.history} for:item="l"><li key={l}>{l}</li></template></ul>
+                                </lightning-accordion-section>
+                            </template>
+                        </lightning-accordion>
+                    </div>
+                    <div class="b-footer slds-m-top_medium">
+                        <button class="b-btn-sun" onclick={handleStart} disabled={cannotStart}>Start branch-assisted application →</button>
                     </div>
                 </template>
                 <template lwc:else>
-                    <p class="slds-text-color_weak">Not a Bandhan Bank customer yet (no relationship on file): new-to-bank customers apply on WhatsApp or the web.</p>
+                    <div class="b-alert b-alert-info">Not a Bandhan Bank customer yet (no relationship on file).<div class="b-alert-sub">New-to-bank customers apply on WhatsApp or the web.</div></div>
                 </template>
             </template>
+            <template lwc:if={busy}><lightning-spinner size="small" alternative-text="Starting"></lightning-spinner></template>
         </div>
-    </lightning-card>
+    </div>
 </template>

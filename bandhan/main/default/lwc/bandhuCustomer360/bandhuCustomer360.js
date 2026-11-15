@@ -1,4 +1,5 @@
 import { LightningElement, api } from 'lwc';
+import BANDHAN_LOGO from '@salesforce/resourceUrl/BandhanLogoWhite';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import get from '@salesforce/apex/BandhuCustomer360.get';
@@ -7,6 +8,7 @@ import startApplication from '@salesforce/apex/BandhuCustomer360.startApplicatio
 /** RM 360: the relationship, bureau, cash flow, Bandhan Score and the card to pitch, with a branch-assisted start. */
 export default class BandhuCustomer360 extends NavigationMixin(LightningElement) {
     @api recordId;
+    logoUrl = BANDHAN_LOGO;
     view;
     error;
     busy = false;
@@ -24,6 +26,15 @@ export default class BandhuCustomer360 extends NavigationMixin(LightningElement)
         }
     }
 
+    get relBar() {
+        return `width:${Math.max(0, Math.min(100, (this.view && this.view.relationshipScore) || 0))}%`;
+    }
+
+    get pitchStyle() {
+        const c = (this.view && this.view.pitchColor) || '#004880';
+        return `background: linear-gradient(135deg, ${c} 0%, ${c} 35%, #001f3d 135%);`;
+    }
+
     get scoreText() {
         return this.view?.bandhanScore != null ? `${this.view.bandhanScore}/1000 · band ${this.view.band}` : '';
     }
@@ -33,7 +44,7 @@ export default class BandhuCustomer360 extends NavigationMixin(LightningElement)
     }
 
     get weakestText() {
-        return this.view?.scoreWeakest?.length ? 'Weakest: ' + this.view.scoreWeakest.join(', ') : '';
+        return this.view?.scoreWeakest?.length ? this.view.scoreWeakest.join(', ') : '';
     }
 
     get cannotStart() {

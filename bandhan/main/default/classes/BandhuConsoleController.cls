@@ -33,7 +33,7 @@ public with sharing class BandhuConsoleController {
                 Credit_Limit__c, Channel__c, Recommendation__c, Recommendation_Reasons__c, Fit_Summary__c, Status__c, Decision__c,
                 Decision_Notes__c, Decision_By__r.Name, Decision_At__c, Submitted_At__c, Reference_Number__c, Card_Number_Masked__c,
                 Card_Issued_At__c, Card_Journey__c, Card_Journey__r.Spend_Focus__c, Card_Journey__r.Monthly_Spend__c,
-                Card_Journey__r.Fee_Preference__c, Card_Journey__r.Recommended_Card__c
+                Card_Journey__r.Fee_Preference__c, Card_Journey__r.Recommended_Card__c, Bandhan_Score__c, Score_Band__c, Limit_Range__c, FD_Amount__c
             FROM Card_Application__c WHERE Id = :applicationId
         ];
         r.application.PAN__c = BandhuI18n.maskPan(r.application.PAN__c);
@@ -61,6 +61,8 @@ public with sharing class BandhuConsoleController {
             v.lounge = card.Lounge__c;
             v.welcome = card.Welcome__c;
             v.creditLimit = BandhuI18n.inr(r.application.Credit_Limit__c);
+            v.tierLabel = card.Tier_Label__c;
+            v.secured = card.Secured__c == true;
             r.card = v;
         }
         journeySummary(r);

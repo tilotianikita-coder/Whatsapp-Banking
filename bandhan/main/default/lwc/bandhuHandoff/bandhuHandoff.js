@@ -1,3 +1,4 @@
+import BANDHAN_LOGO from '@salesforce/resourceUrl/BandhanLogoWhite';
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import getHandoff from '@salesforce/apex/BandhuConsoleController.getHandoff';
@@ -7,6 +8,7 @@ function errorMessage(e) {
 }
 
 export default class BandhuHandoff extends NavigationMixin(LightningElement) {
+    logoUrl = BANDHAN_LOGO;
     @api recordId;
     handoff;
     error;

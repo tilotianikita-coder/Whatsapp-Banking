@@ -1,0 +1,6 @@
+@import 'c/bandhuTheme';
+
+.pitch { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
+.pitch-body { flex: 1; min-width: 14rem; }
+.pitch-title { font-size: 1.125rem; font-weight: 700; color: var(--b-brand); }
+.pitch-limit { margin: 0.375rem 0 0.5rem; font-size: 0.875rem; }

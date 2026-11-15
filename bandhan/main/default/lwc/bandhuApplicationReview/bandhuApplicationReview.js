@@ -1,3 +1,4 @@
+import BANDHAN_LOGO from '@salesforce/resourceUrl/BandhanLogoWhite';
 import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
@@ -28,6 +29,7 @@ function errorMessage(e) {
 }
 
 export default class BandhuApplicationReview extends LightningElement {
+    logoUrl = BANDHAN_LOGO;
     @api recordId;
     review;
     error;
@@ -77,8 +79,17 @@ export default class BandhuApplicationReview extends LightningElement {
     }
 
     get cardStyle() {
-        const c = (this.card && this.card.color) || '#C8102E';
-        return `background: linear-gradient(135deg, ${c} 0%, ${c}cc 55%, #1b2a4a 140%);`;
+        const c = (this.card && this.card.color) || '#004880';
+        return `background: linear-gradient(135deg, ${c} 0%, ${c} 35%, #001f3d 135%);`;
+    }
+
+    get hasScore() {
+        return this.app.Bandhan_Score__c != null;
+    }
+
+    get whyItems() {
+        const w = (this.review && this.review.why) || '';
+        return w.split(/\n|(?=✅)|(?=⚖)/).map((t) => t.trim()).filter((t) => t).map((t, i) => ({ key: 'w' + i, text: t }));
     }
 
     // ------------------------------------------------------------ stage gates

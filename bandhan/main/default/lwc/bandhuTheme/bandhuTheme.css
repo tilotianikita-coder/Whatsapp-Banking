@@ -1,32 +1,39 @@
 /*
  * Bandhan Bank theme shared by the Bandhu components: @import 'c/bandhuTheme'; in a component's CSS.
- * Deep red for structure and the main action, warm orange accent, navy text, green/amber/red for results.
+ * Bandhan Bank brand (bandhan.bank.in): navy for structure and the main action, the red-orange "sun" for accents,
+ * red only for decline / fail, green / amber for results.
  */
 :host {
-    --b-red: #c8102e;
-    --b-red-bright: #e31e24;
-    --b-red-dark: #8f0b20;
-    --b-red-tint: #fde8ea;
-    --b-orange: #f58220;
-    --b-orange-tint: #fff1e3;
-    --b-navy: #1b2a4a;
-    --b-navy-tint: #e9edf5;
+    --b-brand: #004880;
+    --b-brand-dark: #00305a;
+    --b-brand-deep: #001f3d;
+    --b-brand-tint: #eaf2fb;
+    --b-sun: linear-gradient(135deg, #e3262b 0%, #f26b21 100%);
+    --b-red: #e3262b;
+    --b-red-bright: #e3262b;
+    --b-red-dark: #a8161b;
+    --b-red-tint: #fdeaea;
+    --b-orange: #f26b21;
+    --b-orange-tint: #fff2e9;
+    --b-navy: #0f2540;
+    --b-navy-tint: #eaf2fb;
     --b-green: #1e7b45;
     --b-green-bg: #2e9e5b;
     --b-green-tint: #e3f4ea;
     --b-amber: #8a5a00;
     --b-amber-bg: #f2a516;
     --b-amber-tint: #fff4d6;
-    --b-grey: #5b6677;
-    --b-grey-bg: #e4e8ee;
-    --b-line: #e3e6ec;
-    --b-bg: #f7f5f3;
+    --b-grey: #5a6b80;
+    --b-grey-bg: #e6ebf1;
+    --b-line: #e3e8ef;
+    --b-bg: #f4f7fb;
 }
 
 .b-card {
     background: #ffffff;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0, 48, 90, 0.08);
+    border: 1px solid var(--b-line);
     overflow: hidden;
     color: var(--b-navy);
 }
@@ -36,25 +43,27 @@
     justify-content: space-between;
     gap: 0.5rem;
     flex-wrap: wrap;
-    background: linear-gradient(90deg, var(--b-red) 0%, var(--b-red-bright) 100%);
+    background: linear-gradient(110deg, var(--b-brand-deep) 0%, var(--b-brand-dark) 45%, var(--b-brand) 100%);
     border-bottom: 3px solid var(--b-orange);
     color: #ffffff;
-    padding: 0.625rem 1rem;
+    padding: 0.75rem 1rem;
 }
-.b-head-title { font-size: 1rem; font-weight: 700; }
-.b-head-sub { font-size: 0.75rem; opacity: 0.9; }
+.b-head-left { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+.b-logo { height: 1.75rem; width: auto; display: block; padding-right: 0.75rem; border-right: 1px solid rgba(255, 255, 255, 0.25); }
+.b-head-title { font-size: 1.0625rem; font-weight: 700; letter-spacing: 0.01em; }
+.b-head-sub { font-size: 0.75rem; color: #b9cde2; }
 .b-head-right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
 .b-icon-btn {
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 0.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
     color: #ffffff;
-    padding: 0.125rem 0.5rem;
+    padding: 0.1875rem 0.75rem;
     cursor: pointer;
     font-size: 0.75rem;
 }
-.b-body { padding: 0.75rem 1rem 1rem; }
-.b-section { margin-top: 1rem; }
+.b-body { padding: 1rem 1.125rem 1.125rem; }
+.b-section { margin-top: 1.25rem; }
 .b-section-title {
     color: var(--b-navy);
     font-size: 0.75rem;
@@ -63,7 +72,8 @@
     text-transform: uppercase;
     border-left: 3px solid var(--b-orange);
     padding-left: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.625rem;
+    color: var(--b-brand);
 }
 .b-muted { color: var(--b-grey); font-size: 0.75rem; }
 
@@ -86,18 +96,21 @@
 }
 .b-pill-red { background: var(--b-red-tint); color: var(--b-red-dark); }
 .b-pill-solid { background: var(--b-red); color: #ffffff; }
+.b-pill-brand { background: var(--b-brand); color: #ffffff; }
+.b-pill-blue { background: var(--b-brand-tint); color: var(--b-brand); }
 .b-pill-amber { background: var(--b-amber-tint); color: var(--b-amber); }
 .b-pill-green { background: var(--b-green-tint); color: var(--b-green); }
 .b-pill-grey { background: var(--b-grey-bg); color: var(--b-grey); }
 .b-pill-orange { background: var(--b-orange-tint); color: #a24d06; }
-.b-pill-white { background: #ffffff; color: var(--b-red); }
+.b-pill-white { background: #ffffff; color: var(--b-brand); }
 
 /* tiles */
 .b-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: 0.5rem; }
-.b-tile { border: 1px solid var(--b-line); border-radius: 0.375rem; padding: 0.5rem 0.75rem; background: #ffffff; }
-.b-tile-main { background: var(--b-navy); border-color: var(--b-navy); color: #ffffff; }
+.b-tile { border: 1px solid var(--b-line); border-radius: 0.625rem; padding: 0.625rem 0.875rem; background: #ffffff; }
+.b-tile-main { background: linear-gradient(135deg, var(--b-brand-dark), var(--b-brand)); border-color: var(--b-brand); color: #ffffff; }
+.b-tile-sun { background: var(--b-sun); border-color: transparent; color: #ffffff; }
 .b-tile-label { font-size: 0.75rem; opacity: 0.8; }
-.b-tile-value { font-size: 1.125rem; font-weight: 700; line-height: 1.3; }
+.b-tile-value { font-size: 1.25rem; font-weight: 700; line-height: 1.3; }
 .b-tile-sub { font-size: 0.75rem; opacity: 0.8; }
 
 /* key/value grid */
@@ -107,7 +120,7 @@
 
 /* bars */
 .b-bar { height: 0.375rem; background: var(--b-grey-bg); border-radius: 0.25rem; overflow: hidden; margin-top: 0.375rem; }
-.b-bar-fill { height: 100%; background: var(--b-orange); border-radius: 0.25rem; }
+.b-bar-fill { height: 100%; background: var(--b-sun); border-radius: 0.25rem; }
 
 /* lists */
 .b-list { margin: 0; padding: 0; list-style: none; font-size: 0.8125rem; }
@@ -116,8 +129,8 @@
 
 /* buttons */
 .b-btn, .b-btn-navy, .b-btn-ghost, .b-btn-green {
-    border-radius: 0.375rem;
-    padding: 0.4375rem 1rem;
+    border-radius: 999px;
+    padding: 0.5rem 1.125rem;
     font-weight: 700;
     font-size: 0.8125rem;
     cursor: pointer;
@@ -127,10 +140,29 @@
 .b-btn:hover { background: var(--b-red-dark); }
 .b-btn-green { background: var(--b-green-bg); color: #ffffff; }
 .b-btn-green:hover { background: var(--b-green); }
-.b-btn-navy { background: var(--b-navy); color: #ffffff; }
+.b-btn-navy { background: var(--b-brand); color: #ffffff; }
+.b-btn-navy:hover { background: var(--b-brand-dark); }
+.b-btn-sun { background: var(--b-sun); color: #ffffff; border-radius: 999px; padding: 0.5rem 1.125rem; font-weight: 700; font-size: 0.8125rem; cursor: pointer; border: 0; }
+.b-btn-sun[disabled] { opacity: 0.5; cursor: default; }
 .b-btn-ghost { background: #ffffff; color: var(--b-navy); border-color: var(--b-line); }
 .b-btn[disabled], .b-btn-green[disabled], .b-btn-navy[disabled] { opacity: 0.5; cursor: default; }
 
-.b-link { color: var(--b-red); font-weight: 600; cursor: pointer; text-decoration: underline; background: none; border: 0; padding: 0; }
+.b-link { color: var(--b-brand); font-weight: 600; cursor: pointer; text-decoration: underline; background: none; border: 0; padding: 0; }
 .b-footer { display: flex; justify-content: flex-end; gap: 0.5rem; }
 .b-spinner-host { position: relative; min-height: 4rem; }
+
+/* card face (shared): gradient by card colour, white Bandhan logo, tier, chip, contactless, name */
+.b-cardface { position: relative; width: 15rem; aspect-ratio: 1.586; border-radius: 0.875rem; padding: 0.75rem 0.875rem; color: #ffffff;
+    display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 10px 24px rgba(0, 31, 61, 0.28); flex: none; }
+.b-cardface::before { content: ''; position: absolute; right: -25%; top: -55%; width: 85%; height: 150%; border-radius: 50%; background: rgba(255, 255, 255, 0.1); }
+.b-cardface::after { content: ''; position: absolute; left: -30%; bottom: -70%; width: 90%; height: 120%; border-radius: 50%; background: rgba(0, 0, 0, 0.1); }
+.b-cardface > * { position: relative; z-index: 1; }
+.b-cf-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.b-cf-logo { height: 1.125rem; width: auto; }
+.b-cf-tier { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.9; }
+.b-cf-chip { width: 2rem; height: 1.5rem; border-radius: 0.3rem; background: linear-gradient(135deg, #f9dfa0, #c9963b); }
+.b-cf-small { font-size: 0.5625rem; letter-spacing: 0.14em; opacity: 0.75; font-weight: 600; }
+.b-cf-name { font-size: 1.125rem; font-weight: 700; line-height: 1.1; }
+.b-cf-limit { font-size: 0.75rem; font-weight: 700; background: rgba(0, 0, 0, 0.22); border-radius: 999px; padding: 0.125rem 0.5rem; }
+.b-why { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; }
+.b-why li { background: var(--b-green-tint); color: #145a32; border-radius: 0.5rem; padding: 0.3125rem 0.625rem; font-size: 0.8125rem; }

@@ -21,6 +21,9 @@ public inherited sharing class BandhuEngine {
         @AuraEnabled public String creditLimit;
         @AuraEnabled public Boolean recommended = false;
         @AuraEnabled public Boolean eligible = false;
+        @AuraEnabled public String tierLabel;
+        @AuraEnabled public Integer tier;
+        @AuraEnabled public Boolean secured = false;
     }
 
     public class Result {
@@ -1109,6 +1112,9 @@ public inherited sharing class BandhuEngine {
             v.rewards = c.Rewards__c;
             v.lounge = c.Lounge__c;
             v.welcome = c.Welcome__c;
+            v.tierLabel = c.Tier_Label__c;
+            v.tier = c.Tier__c == null ? 0 : c.Tier__c.intValue();
+            v.secured = c.Secured__c == true;
             BandhuEligibility.Option o = byName.get(c.DeveloperName);
             v.eligible = o == null ? true : o.eligible;
             v.creditLimit = o == null || o.creditLimit == null ? null : BandhuI18n.inr(o.creditLimit);

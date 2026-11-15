@@ -1,3 +1,4 @@
+import BANDHAN_LOGO from '@salesforce/resourceUrl/BandhanLogoWhite';
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -16,6 +17,7 @@ function tile(label, value) {
 }
 
 export default class BandhuLeadInsight extends NavigationMixin(LightningElement) {
+    logoUrl = BANDHAN_LOGO;
     @api recordId;
     insight;
     error;

@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import BANDHAN_LOGO from '@salesforce/resourceUrl/BandhanLogoWhite';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import upload from '@salesforce/apex/BandhuDocuments.upload';
@@ -9,12 +10,17 @@ const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR',
 /** Income documents for a card application: upload, OCR read (mock) and the cross-check against the declared income. */
 export default class BandhuDocuments extends LightningElement {
     @api recordId;
+    logoUrl = BANDHAN_LOGO;
     @track docs = [];
     docType = 'Salary slip';
     busy = false;
 
     get typeOptions() {
         return ['Salary slip', 'Form 16', 'ITR', 'Bank statement'].map((t) => ({ label: t, value: t }));
+    }
+
+    get countText() {
+        return this.docs.length === 1 ? '1 document' : this.docs.length + ' documents';
     }
 
     get hasDocs() {
@@ -30,8 +36,9 @@ export default class BandhuDocuments extends LightningElement {
         this.docs = rows.map((d) => ({
             ...d,
             income: d.Extracted_Monthly_Income__c != null ? INR.format(d.Extracted_Monthly_Income__c) + '/month' : '',
-            badge: d.Result__c === 'Pass' ? 'slds-badge slds-theme_success' : 'slds-badge slds-theme_warning',
-            pan: d.PAN_Match__c ? 'PAN matches' : 'PAN mismatch'
+            badge: 'b-pill ' + (d.Result__c === 'Pass' ? 'b-pill-green' : 'b-pill-amber'),
+            pan: d.PAN_Match__c ? '✓ PAN matches' : '✕ PAN mismatch',
+            panClass: d.PAN_Match__c ? 'ok' : 'bad'
         }));
     }
 
