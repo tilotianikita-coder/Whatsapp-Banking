@@ -139,23 +139,77 @@
                     </div>
                 </template>
 
-                <!-- Bandhan Score: the scorecard and each factor -->
+                <!-- Bandhan Score: hero figure + band meter, where the points come from, strengths vs gaps, all factors -->
                 <template lwc:if={score}>
                     <div class="b-section">
-                        <div class="b-section-title">Bandhan Score · {score.score}/1000 · band {score.band}</div>
-                        <div class="b-muted aa-meta">
-                            Bandhan's own score, separate from CIBIL: 14 factors from the bureau, the bank statements, income, the relationship and the channel.
-                            Band A (700+) adds 0.5x income to the limit, C (400-549) takes 0.5x off, D (under 400) goes to manual review. Model {score.model}.
-                        </div>
-                        <div class="factors">
-                            <template for:each={factorRows} for:item="f">
-                                <div key={f.name} class="factor">
-                                    <div class="factor-head"><span class="factor-name">{f.name}</span><span class="factor-pts">{f.points}/{f.maxPoints}</span></div>
-                                    <div class="b-bar"><div class="b-bar-fill" style={f.barStyle}></div></div>
-                                    <div class="b-muted">{f.value} · {f.source}</div>
+                        <div class="b-section-title">Bandhan Score</div>
+                        <div class="sc">
+                            <div class="sc-hero">
+                                <div class="sc-num">{score.score}<span class="sc-of">/1000</span></div>
+                                <span class={bandPillClass}>Band {score.band} · {bandMeaning}</span>
+                                <div class="b-muted sc-note">Bandhan's own score, separate from CIBIL ({cibil}). {score.model}.</div>
+                            </div>
+                            <div class="sc-meter-wrap">
+                                <div class="sc-meter" role="img" aria-label={meterLabel}>
+                                    <span class="z zd" title="Band D, under 400: manual review"></span>
+                                    <span class="z zc" title="Band C, 400-549: limit 0.5x lower"></span>
+                                    <span class="z zb" title="Band B, 550-699: standard limit"></span>
+                                    <span class="z za" title="Band A, 700+: limit 0.5x higher"></span>
+                                    <span class="sc-marker" style={markerStyle} title={meterLabel}></span>
                                 </div>
-                            </template>
+                                <div class="sc-scale"><span>0</span><span style="left:40%">400</span><span style="left:55%">550</span><span style="left:70%">700</span><span style="left:100%">1000</span></div>
+                                <div class="sc-zones"><span style="left:20%">D · review</span><span style="left:47.5%">C</span><span style="left:62.5%">B</span><span style="left:85%">A · +0.5x limit</span></div>
+                            </div>
                         </div>
+
+                        <div class="sc-grid">
+                            <div>
+                                <div class="aa-sub">Where the points come from</div>
+                                <template for:each={scoreGroups} for:item="g">
+                                    <div key={g.name} class="grp" title={g.tip}>
+                                        <div class="grp-head"><span class="grp-name">{g.name}</span><span class="grp-pts"><b>{g.points}</b> / {g.max}</span></div>
+                                        <div class="grp-track"><span class="grp-fill" style={g.style}></span></div>
+                                        <div class="b-muted grp-sub">{g.sub}</div>
+                                    </div>
+                                </template>
+                            </div>
+                            <div>
+                                <div class="aa-sub">Strengths</div>
+                                <ul class="pts-list">
+                                    <template for:each={strengths} for:item="f">
+                                        <li key={f.name}><span class="ico ok">✓</span><span class="pl-name">{f.name}</span><span class="pl-val">{f.value}</span><span class="pl-pts">{f.points}/{f.maxPoints}</span></li>
+                                    </template>
+                                </ul>
+                                <div class="aa-sub">Holding the score back</div>
+                                <template lwc:if={hasGaps}>
+                                    <ul class="pts-list">
+                                        <template for:each={gaps} for:item="f">
+                                            <li key={f.name}><span class="ico gap">↓</span><span class="pl-name">{f.name}</span><span class="pl-val">{f.value}</span><span class="pl-lost">−{f.lost} pts</span></li>
+                                        </template>
+                                    </ul>
+                                </template>
+                                <template lwc:else><div class="b-muted">Nothing: every factor at its maximum.</div></template>
+                            </div>
+                        </div>
+
+                        <lightning-accordion allow-multiple-sections-open class="slds-m-top_small" active-section-name="">
+                            <lightning-accordion-section name="all" label="All 14 factors (the audit log for this decision)">
+                                <table class="ft">
+                                    <thead><tr><th>Factor</th><th>Value</th><th>Source</th><th class="ft-bar-h">Points</th><th class="num">Earned</th></tr></thead>
+                                    <tbody>
+                                        <template for:each={factorRows} for:item="f">
+                                            <tr key={f.name}>
+                                                <td class="ft-name">{f.name}</td>
+                                                <td>{f.value}</td>
+                                                <td class="b-muted">{f.source}</td>
+                                                <td><span class="grp-track sm"><span class={f.fillCls} style={f.barStyle}></span></span></td>
+                                                <td class="num"><b>{f.points}</b>/{f.maxPoints}</td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </lightning-accordion-section>
+                        </lightning-accordion>
                     </div>
                 </template>
 

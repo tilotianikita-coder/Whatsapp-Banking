@@ -163,10 +163,54 @@
 .flags { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; }
 .flags li { background: var(--b-amber-tint); color: var(--b-amber); border-radius: 0.5rem; padding: 0.3125rem 0.625rem; font-size: 0.8125rem; font-weight: 600; }
 
-/* Bandhan Score factors */
-.factors { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: 0.625rem 1rem; }
-.factor { border: 1px solid var(--b-line); border-radius: 0.5rem; padding: 0.5rem 0.75rem; }
-.factor-head { display: flex; justify-content: space-between; font-size: 0.8125rem; }
-.factor-name { font-weight: 700; color: var(--b-navy); }
-.factor-pts { font-weight: 700; color: var(--b-brand); }
-.factor .b-bar { margin: 0.25rem 0; }
+/* Bandhan Score: hero figure + band meter (sequential indigo zones, lava marker) */
+.sc { display: grid; grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr); gap: 1.5rem; align-items: center; }
+@media (max-width: 52rem) { .sc { grid-template-columns: minmax(0, 1fr); } }
+.sc-num { font-size: 3rem; font-weight: 800; line-height: 1; color: var(--b-brand); letter-spacing: -0.02em; }
+.sc-of { font-size: 1rem; font-weight: 600; color: var(--b-grey); margin-left: 0.25rem; letter-spacing: 0; }
+.sc-band { margin-top: 0.5rem; }
+.sc-note { margin-top: 0.375rem; }
+.sc-meter-wrap { position: relative; padding: 0.5rem 0 2.25rem; }
+.sc-meter { position: relative; display: flex; gap: 2px; height: 0.875rem; }
+.z { display: block; height: 100%; }
+.zd { width: 40%; background: #e7edf3; border-radius: 4px 0 0 4px; }
+.zc { width: 15%; background: #c5d3e0; }
+.zb { width: 15%; background: #8fa6be; }
+.za { width: 30%; background: #0a3152; border-radius: 0 4px 4px 0; }
+.sc-marker { position: absolute; top: -0.375rem; width: 0.375rem; height: 1.625rem; margin-left: -0.1875rem; border-radius: 2px;
+    background: #ef3b23; box-shadow: 0 0 0 2px #ffffff; }
+.sc-scale, .sc-zones { position: absolute; left: 0; right: 0; font-size: 0.6875rem; }
+.sc-scale { top: 1.625rem; color: var(--b-grey); }
+.sc-zones { top: 2.625rem; color: var(--b-navy); font-weight: 600; }
+.sc-scale span, .sc-zones span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.sc-scale span:first-child { transform: none; }
+.sc-scale span:last-child { transform: translateX(-100%); }
+
+.sc-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; margin-top: 0.5rem; }
+@media (max-width: 60rem) { .sc-grid { grid-template-columns: minmax(0, 1fr); } }
+.grp { padding: 0.375rem 0; }
+.grp-head { display: flex; justify-content: space-between; font-size: 0.8125rem; }
+.grp-name { font-weight: 700; color: var(--b-navy); }
+.grp-pts { color: var(--b-grey); }
+.grp-pts b { color: var(--b-navy); font-size: 0.9375rem; }
+.grp-track { display: block; height: 0.625rem; background: var(--b-grey-bg); border-radius: 4px; overflow: hidden; margin: 0.25rem 0 0.125rem; }
+.grp-track.sm { height: 0.4375rem; width: 8rem; margin: 0; }
+.grp-fill { display: block; height: 100%; background: #0a3152; border-radius: 4px; }
+.grp-fill.weak { background: #ef3b23; }
+.grp-sub { font-size: 0.6875rem; }
+.pts-list { list-style: none; margin: 0 0 0.5rem; padding: 0; }
+.pts-list li { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr) auto auto; gap: 0.5rem; align-items: center; font-size: 0.8125rem;
+    padding: 0.3125rem 0; border-bottom: 1px dashed var(--b-line); }
+.pts-list li:last-child { border-bottom: 0; }
+.ico { width: 1.25rem; height: 1.25rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.75rem; font-weight: 700; color: #ffffff; }
+.ico.ok { background: #0a3152; }
+.ico.gap { background: #ef3b23; }
+.pl-name { font-weight: 600; color: var(--b-navy); }
+.pl-val { color: var(--b-grey); }
+.pl-pts { font-weight: 700; color: var(--b-navy); }
+.pl-lost { font-weight: 700; color: #a71e1f; }
+.ft { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+.ft th { text-align: left; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--b-grey); padding: 0.25rem 0.5rem; border-bottom: 1px solid var(--b-line); }
+.ft td { padding: 0.375rem 0.5rem; border-bottom: 1px solid var(--b-grey-bg); vertical-align: middle; }
+.ft .num { text-align: right; white-space: nowrap; }
+.ft-name { font-weight: 600; color: var(--b-navy); }

@@ -108,7 +108,67 @@ export default class BandhuApplicationReview extends LightningElement {
     }
 
     get factorRows() {
-        return ((this.score && this.score.factors) || []).map((f) => ({ ...f, barStyle: `width:${Math.max(2, f.pct)}%` }));
+        return ((this.score && this.score.factors) || []).map((f) => ({
+            ...f,
+            barStyle: `width:${Math.max(2, f.pct)}%`,
+            fillCls: 'grp-fill' + (f.pct < 50 ? ' weak' : '')
+        }));
+    }
+
+    get bandMeaning() {
+        return { A: 'limit +0.5x', B: 'standard limit', C: 'limit −0.5x', D: 'manual review' }[this.score && this.score.band] || '';
+    }
+
+    get bandPillClass() {
+        return 'b-pill sc-band' + (this.score && this.score.band === 'D' ? ' b-pill-amber' : ' b-pill-brand');
+    }
+
+    get markerStyle() {
+        const v = Math.max(0, Math.min(1000, (this.score && this.score.score) || 0));
+        return `left:${v / 10}%`;
+    }
+
+    get meterLabel() {
+        return this.score ? `Bandhan Score ${this.score.score} of 1000, band ${this.score.band}` : '';
+    }
+
+    /* the three sources, ranked by how much they can add */
+    get scoreGroups() {
+        const GROUPS = [
+            { name: 'Credit bureau', sub: 'score, history age, accounts, utilisation, enquiries, repayment',
+              factors: ['Bureau score', 'Credit history age', 'Active accounts', 'Card utilisation', 'Enquiries (6 months)', 'Repayment (24 months)'] },
+            { name: 'Bank statements (AA)', sub: 'surplus, income trend, EMIs, cash-flow stability',
+              factors: ['Monthly surplus', 'Income trend', 'Obligations (FOIR)', 'Cash-flow stability'] },
+            { name: 'Income, relationship, channel', sub: 'income level, Bandhan relationship, channel, verified income',
+              factors: ['Income level', 'Bandhan relationship', 'Channel', 'Verified income'] }
+        ];
+        const rows = (this.score && this.score.factors) || [];
+        return GROUPS.map((g) => {
+            const fs = rows.filter((f) => g.factors.includes(f.name));
+            const points = fs.reduce((t, f) => t + f.points, 0);
+            const max = fs.reduce((t, f) => t + f.maxPoints, 0);
+            const pct = max ? Math.round((points * 100) / max) : 0;
+            return { name: g.name, sub: g.sub, points, max, style: `width:${Math.max(2, pct)}%`, tip: `${g.name}: ${points} of ${max} (${pct}%)` };
+        });
+    }
+
+    get strengths() {
+        return ((this.score && this.score.factors) || [])
+            .filter((f) => f.maxPoints > 0 && f.points / f.maxPoints >= 0.9)
+            .sort((a, b) => b.points - a.points)
+            .slice(0, 4);
+    }
+
+    get gaps() {
+        return ((this.score && this.score.factors) || [])
+            .map((f) => ({ ...f, lost: f.maxPoints - f.points }))
+            .filter((f) => f.lost > 0)
+            .sort((a, b) => b.lost - a.lost)
+            .slice(0, 3);
+    }
+
+    get hasGaps() {
+        return this.gaps.length > 0;
     }
 
     get hasScore() {
