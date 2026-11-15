@@ -45,7 +45,7 @@ CARDS = {
         'Tier_Label__c': 'Classic', 'Co_Brand__c': '', 'Secured__c': False, 'FD_Limit_Pct__c': 0, 'Limit_Multiple_Max__c': 3,
         'Limit_Multiple__c': 2, 'Limit_Min__c': 25000, 'Limit_Max__c': 100000,
         'Fit_Travel__c': 0, 'Fit_International__c': 0, 'Fit_Dining__c': 1, 'Fit_Groceries__c': 4, 'Fit_Shopping__c': 4,
-        'Fit_Fuel__c': 2, 'Fit_Low_Fee__c': 5, 'Fit_High_Spend__c': 0, 'Color__c': '#5B6B7F',
+        'Fit_Fuel__c': 2, 'Fit_Low_Fee__c': 5, 'Fit_High_Spend__c': 0, 'Color__c': '#1F2F4F',
     },
     'Ignite': {
         'Tier__c': 2, 'Tagline__c': 'More rewards on groceries and travel',
@@ -59,7 +59,7 @@ CARDS = {
         'Tier_Label__c': 'Silver', 'Co_Brand__c': '', 'Secured__c': False, 'FD_Limit_Pct__c': 0, 'Limit_Multiple_Max__c': 3,
         'Limit_Multiple__c': 2.5, 'Limit_Min__c': 50000, 'Limit_Max__c': 250000,
         'Fit_Travel__c': 3, 'Fit_International__c': 1, 'Fit_Dining__c': 3, 'Fit_Groceries__c': 5, 'Fit_Shopping__c': 3,
-        'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 3, 'Fit_High_Spend__c': 1, 'Color__c': '#C2410C',
+        'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 3, 'Fit_High_Spend__c': 1, 'Color__c': '#D8401E',
     },
     'Flare': {
         'Tier__c': 3, 'Tagline__c': 'Travel and lifestyle, with lounges and golf',
@@ -74,7 +74,7 @@ CARDS = {
         'Tier_Label__c': 'Gold', 'Co_Brand__c': '', 'Secured__c': False, 'FD_Limit_Pct__c': 0, 'Limit_Multiple_Max__c': 4,
         'Limit_Multiple__c': 3, 'Limit_Min__c': 100000, 'Limit_Max__c': 500000,
         'Fit_Travel__c': 5, 'Fit_International__c': 3, 'Fit_Dining__c': 4, 'Fit_Groceries__c': 2, 'Fit_Shopping__c': 2,
-        'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 1, 'Fit_High_Spend__c': 3, 'Color__c': '#7C3AED',
+        'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 1, 'Fit_High_Spend__c': 3, 'Color__c': '#C43A22',
     },
     'Lumina': {
         'Tier__c': 4, 'Tagline__c': 'Premium travel: unlimited international lounges, 1% forex',
@@ -89,7 +89,7 @@ CARDS = {
         'Tier_Label__c': 'Platinum', 'Co_Brand__c': '', 'Secured__c': False, 'FD_Limit_Pct__c': 0, 'Limit_Multiple_Max__c': 5,
         'Limit_Multiple__c': 4, 'Limit_Min__c': 300000, 'Limit_Max__c': 1500000,
         'Fit_Travel__c': 5, 'Fit_International__c': 5, 'Fit_Dining__c': 5, 'Fit_Groceries__c': 1, 'Fit_Shopping__c': 3,
-        'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 0, 'Fit_High_Spend__c': 5, 'Color__c': '#B8860B',
+        'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 0, 'Fit_High_Spend__c': 5, 'Color__c': '#5A0F14',
     },
 }
 

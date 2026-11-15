@@ -51,12 +51,14 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
 .facts li b{display:block;font-size:24px;font-weight:700;color:#fff;line-height:1.1}
 .facts li span{font-size:13px;color:#A7BBCD}
 /* hero visual: a fan of card faces and Bandhu's bubble */
-.visual{position:relative;height:380px;max-width:560px;margin-left:auto;width:100%}
+.visual{position:relative;height:420px;max-width:620px;margin-left:auto;width:100%}
 .fan{position:absolute;inset:0}
-.fan .art{position:absolute;width:300px;box-shadow:0 24px 50px rgba(0,0,0,.35)}
-.fan .a1{left:0;top:96px;transform:rotate(-10deg)}
-.fan .a2{left:120px;top:48px;transform:rotate(-2deg)}
-.fan .a3{left:240px;top:0;transform:rotate(6deg)}
+.fan .art-img{position:absolute;width:290px;aspect-ratio:1.586;object-fit:cover;border-radius:14px;box-shadow:0 24px 50px rgba(0,0,0,.4)}
+.fan .a0{left:0;top:150px;transform:rotate(-12deg);z-index:1}
+.fan .a1{left:110px;top:92px;transform:rotate(-4deg);z-index:2}
+.fan .a2{left:210px;top:40px;transform:rotate(4deg);z-index:3}
+.fan .a3{left:300px;top:-6px;transform:rotate(11deg);z-index:4}
+.fan .art-img{width:270px}
 .bubble{position:absolute;right:0;bottom:-10px;background:#fff;color:var(--ink);border-radius:18px 18px 18px 4px;padding:14px 16px 14px 14px;display:flex;gap:12px;align-items:center;max-width:330px;box-shadow:var(--sh2)}
 .bubble svg{width:52px;height:52px;flex:none}
 .bubble b{display:block;font-size:15px}
@@ -66,6 +68,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
 .art:before{content:"";position:absolute;right:-25%;top:-55%;width:85%;height:150%;border-radius:50%;background:rgba(255,255,255,.10)}
 .art:after{content:"";position:absolute;left:-30%;bottom:-70%;width:90%;height:120%;border-radius:50%;background:rgba(0,0,0,.10)}
 .art>*{position:relative;z-index:1}
+.art-pic{display:block;width:100%;aspect-ratio:1.586;object-fit:cover;border-radius:12px;box-shadow:0 8px 20px rgba(6,26,44,.25)}
+.tile .art-pic{margin-bottom:6px}
 .art .row{display:flex;justify-content:space-between;align-items:flex-start}
 .art img{height:22px;width:auto}
 .art .tl{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:.9;padding-top:2px}
@@ -192,8 +196,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
  .facts{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}
  .facts li b{font-size:20px}
  .visual{height:230px}
- .fan .art{width:210px}
- .fan .a1{left:0;top:56px}.fan .a2{left:22%;top:28px}.fan .a3{left:44%;top:0}
+ .fan .art-img{width:190px}
+ .fan .a0{left:0;top:66px}.fan .a1{left:17%;top:44px}.fan .a2{left:34%;top:22px}.fan .a3{left:51%;top:0}
  .bubble{max-width:92%;right:0;bottom:-6px;padding:10px 12px}
  .bubble svg{width:40px;height:40px}
  .trust ul{justify-content:flex-start}
@@ -240,7 +244,12 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
       </ul>
     </div>
     <div class="visual" aria-hidden="true">
-      <div class="fan"><div class="art a1" style="background:linear-gradient(135deg,#E35A1C,#9B2A0C)" aria-hidden="true"><div class="row"><img src="{!URLFOR($Resource.BandhanLogoWhite)}" alt=""/><span class="tl">Silver</span></div><div class="mid"><span class="chip"></span><svg class="nfc" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8.5 7a7 7 0 0 1 0 10M12 4.5a11 11 0 0 1 0 15M5 9.5a3.5 3.5 0 0 1 0 5"/></svg></div><span class="nm"><small>CREDIT CARD</small>Ignite</span></div><div class="art a2" style="background:linear-gradient(135deg,#7C3AED,#3B1A8A)" aria-hidden="true"><div class="row"><img src="{!URLFOR($Resource.BandhanLogoWhite)}" alt=""/><span class="tl">Gold</span></div><div class="mid"><span class="chip"></span><svg class="nfc" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8.5 7a7 7 0 0 1 0 10M12 4.5a11 11 0 0 1 0 15M5 9.5a3.5 3.5 0 0 1 0 5"/></svg></div><span class="nm"><small>CREDIT CARD</small>Flare</span></div><div class="art a3" style="background:linear-gradient(135deg,#1F3B63,#0A1A30)" aria-hidden="true"><div class="row"><img src="{!URLFOR($Resource.BandhanLogoWhite)}" alt=""/><span class="tl">Platinum</span></div><div class="mid"><span class="chip"></span><svg class="nfc" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8.5 7a7 7 0 0 1 0 10M12 4.5a11 11 0 0 1 0 15M5 9.5a3.5 3.5 0 0 1 0 5"/></svg></div><span class="nm"><small>CREDIT CARD</small>Lumina</span></div></div>
+      <div class="fan">
+        <img class="art-img a0" src="{!URLFOR($Resource.BandhuCards,'Sparks.png')}" alt="Bandhan Sparks credit card"/>
+        <img class="art-img a1" src="{!URLFOR($Resource.BandhuCards,'Ignite.png')}" alt="Bandhan Ignite credit card"/>
+        <img class="art-img a2" src="{!URLFOR($Resource.BandhuCards,'Flare.png')}" alt="Bandhan Flare credit card"/>
+        <img class="art-img a3" src="{!URLFOR($Resource.BandhuCards,'Lumina.png')}" alt="Bandhan Lumina credit card"/>
+      </div>
       <div class="bubble"><svg viewBox="0 0 160 160" role="img" aria-label="Bandhu, the Bandhan Bank card advisor"><circle cx="80" cy="80" r="78" fill="#E7EDF3"/><line x1="80" y1="22" x2="80" y2="38" stroke="#0A3152" stroke-width="4" stroke-linecap="round"/><circle cx="80" cy="18" r="7" fill="#EF3B23"/><ellipse cx="80" cy="96" rx="46" ry="48" fill="#fff" stroke="#D3DEE8" stroke-width="2"/><rect x="46" y="54" width="68" height="46" rx="23" fill="#0A3152"/><circle cx="66" cy="76" r="9" fill="#fff"/><circle cx="94" cy="76" r="9" fill="#fff"/><circle cx="68" cy="78" r="4.5" fill="#08263F"/><circle cx="96" cy="78" r="4.5" fill="#08263F"/><path d="M70 90q10 8 20 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M46 120q34 18 68 0v7q-34 16-68 0z" fill="#A71E1F"/></svg><div><b>Hi, I'm Bandhu &#128075;</b><span>Tell me how you spend and I'll find the card that pays you back the most.</span></div></div>
     </div>
   </div>
@@ -377,7 +386,13 @@ var BW = {
   var LOGO_W = '{!URLFOR($Resource.BandhanLogoWhite)}';
   var NFC = '<svg class="nfc" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8.5 7a7 7 0 0 1 0 10M12 4.5a11 11 0 0 1 0 15M5 9.5a3.5 3.5 0 0 1 0 5"/></svg>';
 
+  var CARD_IMG = { Sparks: "{!URLFOR($Resource.BandhuCards,'Sparks.png')}", Ignite: "{!URLFOR($Resource.BandhuCards,'Ignite.png')}",
+    Flare: "{!URLFOR($Resource.BandhuCards,'Flare.png')}", Lumina: "{!URLFOR($Resource.BandhuCards,'Lumina.png')}" };
+
   function cardArt(c) {
+    if (CARD_IMG[c.name]) {
+      return '<img class="art-pic" src="' + CARD_IMG[c.name] + '" alt="Bandhan ' + esc(c.name) + ' credit card"/>';
+    }
     var col = /^#[0-9a-f]{6}$/i.test(c.color || '') ? c.color : '#0A3152';
     return '<div class="art" style="background:linear-gradient(135deg,' + col + ',' + shade(col, -70) + ')" role="img" aria-label="' + esc(c.name) + ' card design">'
       + '<div class="row"><img src="' + LOGO_W + '" alt=""/><span class="tl">' + esc(c.tierLabel || '') + '</span></div>'

@@ -32,11 +32,16 @@
                         <div class="b-section">
                             <div class="b-section-title">Pitch this card</div>
                             <div class="pitch">
-                                <div class="b-cardface" style={pitchStyle}>
-                                    <div class="b-cf-row"><img class="b-cf-logo" src={logoUrl} alt="" /><span class="b-cf-tier">{view.pitchTier}</span></div>
-                                    <div class="b-cf-chip"></div>
-                                    <div><div class="b-cf-small">CREDIT CARD</div><div class="b-cf-name">{view.pitchName}</div></div>
-                                </div>
+                                <template lwc:if={cardImage}>
+                                    <div class="b-cardimg"><img src={cardImage} alt="" /></div>
+                                </template>
+                                <template lwc:else>
+                                    <div class="b-cardface" style={pitchStyle}>
+                                        <div class="b-cf-row"><img class="b-cf-logo" src={logoUrl} alt="" /><span class="b-cf-tier">{view.pitchTier}</span></div>
+                                        <div class="b-cf-chip"></div>
+                                        <div><div class="b-cf-small">CREDIT CARD</div><div class="b-cf-name">{view.pitchName}</div></div>
+                                    </div>
+                                </template>
                                 <div class="pitch-body">
                                     <div class="pitch-title">Bandhan {view.pitchCard}</div>
                                     <div class="b-muted">{view.pitchTagline}</div>

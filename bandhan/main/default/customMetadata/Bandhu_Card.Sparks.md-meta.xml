@@ -144,6 +144,6 @@
     </values>
     <values>
         <field>Color__c</field>
-        <value xsi:type="xsd:string">#5B6B7F</value>
+        <value xsi:type="xsd:string">#1F2F4F</value>
     </values>
 </CustomMetadata>

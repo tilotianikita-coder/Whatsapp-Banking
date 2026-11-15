@@ -1,4 +1,5 @@
 import BANDHAN_LOGO from '@salesforce/resourceUrl/BandhanLogoWhite';
+import BANDHU_CARDS from '@salesforce/resourceUrl/BandhuCards';
 import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
@@ -28,6 +29,8 @@ const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR',
 function errorMessage(e) {
     return (e && e.body && e.body.message) || (e && e.message) || 'Something went wrong.';
 }
+
+const CARD_IMG = (name) => (['Sparks', 'Ignite', 'Flare', 'Lumina'].includes(name) ? `${BANDHU_CARDS}/${name}.png` : null);
 
 export default class BandhuApplicationReview extends LightningElement {
     logoUrl = BANDHAN_LOGO;
@@ -77,6 +80,10 @@ export default class BandhuApplicationReview extends LightningElement {
     get statusClass() {
         const s = this.app.Status__c;
         return 'b-pill ' + (s === 'Card Issued' || s === 'Approved' ? 'b-pill-green' : s === 'Declined' ? 'b-pill-solid' : s === 'Under Review' ? 'b-pill-amber' : 'b-pill-white');
+    }
+
+    get cardImage() {
+        return CARD_IMG(this.card && this.card.name);
     }
 
     get cardStyle() {

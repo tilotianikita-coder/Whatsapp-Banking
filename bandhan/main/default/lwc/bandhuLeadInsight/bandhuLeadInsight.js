@@ -1,4 +1,5 @@
 import BANDHAN_LOGO from '@salesforce/resourceUrl/BandhanLogoWhite';
+import BANDHU_CARDS from '@salesforce/resourceUrl/BandhuCards';
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -15,6 +16,8 @@ function tile(label, value) {
     const pct = v == null ? 0 : Math.max(0, Math.min(100, v));
     return { label, value: v == null ? '—' : v, barStyle: `width: ${pct}%;` };
 }
+
+const CARD_IMG = (name) => (['Sparks', 'Ignite', 'Flare', 'Lumina'].includes(name) ? `${BANDHU_CARDS}/${name}.png` : null);
 
 export default class BandhuLeadInsight extends NavigationMixin(LightningElement) {
     logoUrl = BANDHAN_LOGO;
@@ -93,6 +96,10 @@ export default class BandhuLeadInsight extends NavigationMixin(LightningElement)
         ]
             .filter(([, v]) => v)
             .map(([label, value]) => ({ label, value, keyL: label + '-l', keyV: label + '-v' }));
+    }
+
+    get cardImage() {
+        return CARD_IMG(this.i.recommended);
     }
 
     get cardStyle() {

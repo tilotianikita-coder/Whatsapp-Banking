@@ -166,3 +166,8 @@
 .b-cf-limit { font-size: 0.75rem; font-weight: 700; background: rgba(0, 0, 0, 0.22); border-radius: 999px; padding: 0.125rem 0.5rem; }
 .b-why { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; }
 .b-why li { background: var(--b-green-tint); color: #145a32; border-radius: 0.5rem; padding: 0.3125rem 0.625rem; font-size: 0.8125rem; }
+
+/* Bandhan's own card art (static resource BandhuCards) */
+.b-cardimg { position: relative; width: 15rem; flex: none; }
+.b-cardimg img { display: block; width: 100%; aspect-ratio: 1.586; object-fit: cover; border-radius: 0.875rem; box-shadow: 0 10px 24px rgba(6, 26, 44, 0.3); }
+.b-cardimg-limit { position: absolute; right: 0.625rem; bottom: 0.625rem; color: #ffffff; }

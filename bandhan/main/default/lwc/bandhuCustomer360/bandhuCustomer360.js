@@ -1,11 +1,14 @@
 import { LightningElement, api } from 'lwc';
 import BANDHAN_LOGO from '@salesforce/resourceUrl/BandhanLogoWhite';
+import BANDHU_CARDS from '@salesforce/resourceUrl/BandhuCards';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import get from '@salesforce/apex/BandhuCustomer360.get';
 import startApplication from '@salesforce/apex/BandhuCustomer360.startApplication';
 
 /** RM 360: the relationship, bureau, cash flow, Bandhan Score and the card to pitch, with a branch-assisted start. */
+const CARD_IMG = (name) => (['Sparks', 'Ignite', 'Flare', 'Lumina'].includes(name) ? `${BANDHU_CARDS}/${name}.png` : null);
+
 export default class BandhuCustomer360 extends NavigationMixin(LightningElement) {
     @api recordId;
     logoUrl = BANDHAN_LOGO;
@@ -28,6 +31,10 @@ export default class BandhuCustomer360 extends NavigationMixin(LightningElement)
 
     get relBar() {
         return `width:${Math.max(0, Math.min(100, (this.view && this.view.relationshipScore) || 0))}%`;
+    }
+
+    get cardImage() {
+        return CARD_IMG(this.view && this.view.pitchName);
     }
 
     get pitchStyle() {

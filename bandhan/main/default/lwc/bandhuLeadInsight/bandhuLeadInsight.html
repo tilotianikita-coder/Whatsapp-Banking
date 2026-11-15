@@ -38,14 +38,19 @@
                 <!-- 1. the headline: card, scores, stage -->
                 <div class="hero">
                     <template lwc:if={i.recommended}>
-                        <div class="b-cardface" style={cardStyle} title={i.cardTagline}>
-                            <div class="b-cf-row"><img class="b-cf-logo" src={logoUrl} alt="" /><span class="b-cf-tier">{i.cardTier}</span></div>
-                            <div class="b-cf-chip"></div>
-                            <div class="b-cf-row" style="align-items:flex-end">
-                                <div><div class="b-cf-small">RECOMMENDED</div><div class="b-cf-name">{i.recommended}</div></div>
-                                <template lwc:if={i.creditLimit}><span class="b-cf-limit">{i.creditLimit}</span></template>
+                        <template lwc:if={cardImage}>
+                            <div class="b-cardimg"><img src={cardImage} alt="" /><template lwc:if={i.creditLimit}><span class="b-cf-limit b-cardimg-limit">{i.creditLimit}</span></template></div>
+                        </template>
+                        <template lwc:else>
+                            <div class="b-cardface" style={cardStyle} title={i.cardTagline}>
+                                <div class="b-cf-row"><img class="b-cf-logo" src={logoUrl} alt="" /><span class="b-cf-tier">{i.cardTier}</span></div>
+                                <div class="b-cf-chip"></div>
+                                <div class="b-cf-row" style="align-items:flex-end">
+                                    <div><div class="b-cf-small">RECOMMENDED</div><div class="b-cf-name">{i.recommended}</div></div>
+                                    <template lwc:if={i.creditLimit}><span class="b-cf-limit">{i.creditLimit}</span></template>
+                                </div>
                             </div>
-                        </div>
+                        </template>
                     </template>
                     <div class="scores">
                         <template for:each={tiles} for:item="t">

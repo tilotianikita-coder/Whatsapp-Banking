@@ -37,14 +37,19 @@
                 <!-- card art + quick facts -->
                 <div class="top">
                     <template lwc:if={card}>
-                        <div class="b-cardface" style={cardStyle} title={card.tagline}>
-                            <div class="b-cf-row"><img class="b-cf-logo" src={logoUrl} alt="" /><span class="b-cf-tier">{card.tierLabel}</span></div>
-                            <div class="b-cf-chip"></div>
-                            <div class="b-cf-row" style="align-items:flex-end">
-                                <div><div class="b-cf-small">CREDIT CARD</div><div class="b-cf-name">{card.name}</div></div>
-                                <template lwc:if={card.creditLimit}><span class="b-cf-limit">{card.creditLimit}</span></template>
+                        <template lwc:if={cardImage}>
+                            <div class="b-cardimg"><img src={cardImage} alt="" /><template lwc:if={card.creditLimit}><span class="b-cf-limit b-cardimg-limit">{card.creditLimit}</span></template></div>
+                        </template>
+                        <template lwc:else>
+                            <div class="b-cardface" style={cardStyle} title={card.tagline}>
+                                <div class="b-cf-row"><img class="b-cf-logo" src={logoUrl} alt="" /><span class="b-cf-tier">{card.tierLabel}</span></div>
+                                <div class="b-cf-chip"></div>
+                                <div class="b-cf-row" style="align-items:flex-end">
+                                    <div><div class="b-cf-small">CREDIT CARD</div><div class="b-cf-name">{card.name}</div></div>
+                                    <template lwc:if={card.creditLimit}><span class="b-cf-limit">{card.creditLimit}</span></template>
+                                </div>
                             </div>
-                        </div>
+                        </template>
                     </template>
                     <div class="b-tiles facts">
                         <div class="b-tile b-tile-main">
