@@ -1,22 +1,22 @@
 /*
  * Bandhan Bank theme shared by the Bandhu components: @import 'c/bandhuTheme'; in a component's CSS.
- * Bandhan Bank brand (bandhan.bank.in): navy for structure and the main action, the red-orange "sun" for accents,
- * red only for decline / fail, green / amber for results.
+ * Official Bandhan Bank palette: Indigo / Prussian Blue #0A3152 for structure and the main action, Ocean Red #A71E1F
+ * to Lava Red #EF3B23 for accents (decline / fail use Ocean Red), green / amber for results.
  */
 :host {
-    --b-brand: #004880;
-    --b-brand-dark: #00305a;
-    --b-brand-deep: #001f3d;
-    --b-brand-tint: #eaf2fb;
-    --b-sun: linear-gradient(135deg, #e3262b 0%, #f26b21 100%);
-    --b-red: #e3262b;
-    --b-red-bright: #e3262b;
-    --b-red-dark: #a8161b;
-    --b-red-tint: #fdeaea;
-    --b-orange: #f26b21;
-    --b-orange-tint: #fff2e9;
+    --b-brand: #0A3152;
+    --b-brand-dark: #08263F;
+    --b-brand-deep: #061A2C;
+    --b-brand-tint: #E7EDF3;
+    --b-sun: linear-gradient(135deg, #A71E1F 0%, #EF3B23 100%);
+    --b-red: #A71E1F;
+    --b-red-bright: #A71E1F;
+    --b-red-dark: #7f1617;
+    --b-red-tint: #fbe7e7;
+    --b-orange: #EF3B23;
+    --b-orange-tint: #FDECE9;
     --b-navy: #0f2540;
-    --b-navy-tint: #eaf2fb;
+    --b-navy-tint: #E7EDF3;
     --b-green: #1e7b45;
     --b-green-bg: #2e9e5b;
     --b-green-tint: #e3f4ea;
@@ -26,13 +26,13 @@
     --b-grey: #5a6b80;
     --b-grey-bg: #e6ebf1;
     --b-line: #e3e8ef;
-    --b-bg: #f4f7fb;
+    --b-bg: #F4F6F9;
 }
 
 .b-card {
     background: #ffffff;
     border-radius: 0.75rem;
-    box-shadow: 0 2px 10px rgba(0, 48, 90, 0.08);
+    box-shadow: 0 2px 10px rgba(10,49,82, 0.08);
     border: 1px solid var(--b-line);
     overflow: hidden;
     color: var(--b-navy);
@@ -51,7 +51,7 @@
 .b-head-left { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
 .b-logo { height: 1.75rem; width: auto; display: block; padding-right: 0.75rem; border-right: 1px solid rgba(255, 255, 255, 0.25); }
 .b-head-title { font-size: 1.0625rem; font-weight: 700; letter-spacing: 0.01em; }
-.b-head-sub { font-size: 0.75rem; color: #b9cde2; }
+.b-head-sub { font-size: 0.75rem; color: #B5C6D6; }
 .b-head-right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
 .b-icon-btn {
     background: transparent;
@@ -101,7 +101,7 @@
 .b-pill-amber { background: var(--b-amber-tint); color: var(--b-amber); }
 .b-pill-green { background: var(--b-green-tint); color: var(--b-green); }
 .b-pill-grey { background: var(--b-grey-bg); color: var(--b-grey); }
-.b-pill-orange { background: var(--b-orange-tint); color: #a24d06; }
+.b-pill-orange { background: var(--b-orange-tint); color: #a71e1f; }
 .b-pill-white { background: #ffffff; color: var(--b-brand); }
 
 /* tiles */
@@ -153,7 +153,7 @@
 
 /* card face (shared): gradient by card colour, white Bandhan logo, tier, chip, contactless, name */
 .b-cardface { position: relative; width: 15rem; aspect-ratio: 1.586; border-radius: 0.875rem; padding: 0.75rem 0.875rem; color: #ffffff;
-    display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 10px 24px rgba(0, 31, 61, 0.28); flex: none; }
+    display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 10px 24px rgba(6,26,44, 0.28); flex: none; }
 .b-cardface::before { content: ''; position: absolute; right: -25%; top: -55%; width: 85%; height: 150%; border-radius: 50%; background: rgba(255, 255, 255, 0.1); }
 .b-cardface::after { content: ''; position: absolute; left: -30%; bottom: -70%; width: 90%; height: 120%; border-radius: 50%; background: rgba(0, 0, 0, 0.1); }
 .b-cardface > * { position: relative; z-index: 1; }

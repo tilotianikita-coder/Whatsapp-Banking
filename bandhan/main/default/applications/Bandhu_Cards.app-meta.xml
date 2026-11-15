@@ -28,7 +28,7 @@
         <pageOrSobjectType>Contact</pageOrSobjectType>
     </actionOverrides>
     <brand>
-        <headerColor>#004880</headerColor>
+        <headerColor>#0A3152</headerColor>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
     <description>Bandhan Bank credit card onboarding: Bandhu card leads, applications, underwriting decisions and journeys.</description>

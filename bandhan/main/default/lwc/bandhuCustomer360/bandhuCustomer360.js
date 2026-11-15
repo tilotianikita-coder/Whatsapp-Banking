@@ -31,8 +31,8 @@ export default class BandhuCustomer360 extends NavigationMixin(LightningElement)
     }
 
     get pitchStyle() {
-        const c = (this.view && this.view.pitchColor) || '#004880';
-        return `background: linear-gradient(135deg, ${c} 0%, ${c} 35%, #001f3d 135%);`;
+        const c = (this.view && this.view.pitchColor) || '#0A3152';
+        return `background: linear-gradient(135deg, ${c} 0%, ${c} 35%, #061A2C 135%);`;
     }
 
     get scoreText() {

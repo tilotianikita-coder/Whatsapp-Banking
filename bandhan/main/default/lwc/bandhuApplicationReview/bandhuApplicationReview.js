@@ -79,8 +79,8 @@ export default class BandhuApplicationReview extends LightningElement {
     }
 
     get cardStyle() {
-        const c = (this.card && this.card.color) || '#004880';
-        return `background: linear-gradient(135deg, ${c} 0%, ${c} 35%, #001f3d 135%);`;
+        const c = (this.card && this.card.color) || '#0A3152';
+        return `background: linear-gradient(135deg, ${c} 0%, ${c} 35%, #061A2C 135%);`;
     }
 
     get hasScore() {
