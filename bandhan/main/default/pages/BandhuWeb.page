@@ -87,7 +87,7 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF8A3D,#FFB347);-webki
 .step b{display:block;font-size:16px;margin-bottom:2px}
 .step span{color:var(--muted);font-size:14px}
 .range{padding:48px 0 40px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(222px,1fr));gap:20px;align-items:stretch}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;align-items:stretch}
 .tile{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:14px 14px 18px;position:relative;display:flex;flex-direction:column;gap:8px;border:2px solid transparent;transition:transform .15s,box-shadow .15s}
 .tile:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
 .tile.pick{border-color:var(--orange);box-shadow:0 16px 36px rgba(242,107,33,.22)}
@@ -174,6 +174,7 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF8A3D,#FFB347);-webki
 .consent[hidden]{display:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:1100px){.hero .wrap{grid-template-columns:1fr}.visual{height:300px;max-width:560px}h1{font-size:42px}}
+@media (max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:860px){.steps{grid-template-columns:1fr}.secured{grid-template-columns:1fr}.secured .art{width:100%;max-width:300px}}
 @media (max-width:767px){
  body{font-size:14.5px}
@@ -230,7 +231,7 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF8A3D,#FFB347);-webki
         <button type="button" class="btn ghost" id="browse">Explore the cards</button>
       </div>
       <ul class="facts">
-        <li><b id="nCards">6</b><span>card variants</span></li>
+        <li><b id="nCards">4</b><span>cards to choose from</span></li>
         <li><b>5 min</b><span>to apply, paperless</span></li>
         <li><b>Instant</b><span>virtual card</span></li>
         <li><b>24/7</b><span>on web and WhatsApp</span></li>

@@ -3,7 +3,7 @@
 //   for i in 0 1 2 3; do sed "s/^Integer WHICH = .*/Integer WHICH = $i;/" scripts/bandhan/apex/demo_leads.apex > /tmp/dl.apex; sf apex run -f /tmp/dl.apex -o bandhan; done
 //   Priya Das      - Hot:  Lumina match, CIBIL 772, dropped at Aadhaar eKYC
 //   Arjun Roy      - Hot:  Ignite match, CIBIL 730, dropped at the recommendation
-//   Moumita Saha   - Unqualified, Cold: knocked out at the Credit Bureau gate (CIBIL 630), offered the FD-secured Shield, no RM nudge
+//   Moumita Saha   - Unqualified, Cold: knocked out at the Credit Bureau gate (CIBIL 630), told about an Overdraft against FD, no RM nudge
 //   Sourav Ghosh   - application in the underwriter's queue: Flare, CIBIL 730 refer band (Card Policy: Refer)
 Integer WHICH = 0;
 String OTP = BandhuConfig.get().Demo_OTP__c;

@@ -35,11 +35,11 @@ Web → *Talk to Bandhu* → English → Find my card → consent (note: DPDP, p
    Lightning: Card Applications → this one → 9 checks all Pass, Bandhan Score ~826 band A with every factor; Related:
    Card Checks, Card Consents (DPDP, soft check, AA with expiry, hard enquiry, MITC, activation).
 
-## Act 2. New to bank, the fallbacks (5 min)
+## Act 2. New to bank, when it doesn't fit (5 min)
 | Mobile / PAN / answers | What to show |
 |---|---|
-| **9876511002**, PAN **ABCPS1234Z**, income 60000, AA 1, spend 4/2/1 | CIBIL 630: no unsecured card → **Shield** against an FD: *FD ₹70,000 → limit ₹63,000*, builds credit; **1** apply → at underwriting a weak bureau no longer declines a secured card (DPD 90+ goes to a person) |
-| **9876511003**, PAN **ABCPS1235K**, AA **2** (skip) | No bureau footprint and no statements → Shield. Redo with AA **1** → an unsecured card becomes possible |
+| **9876511002**, PAN **ABCPS1234Z**, income 60000, AA 1, spend 4/2/1 | CIBIL 630: no card today → *"a specialist can look at other options, for example a Loan / Overdraft against your Fixed Deposit; I'll check again in 6 months"* → **1** specialist (RM task). The lead is Unqualified at the Credit Bureau gate |
+| **9876511003**, PAN **ABCPS1235K**, AA **2** (skip) | No bureau footprint and no statements → not eligible (*no credit history and no bank statements shared*). Redo with AA **1** → a card becomes possible on the statements |
 | **9876511004**, PAN **ABCPS1238K**, income 2.5 lakh, AA 1, spend `1, 2`/4/2 | Lumina, *"⚖ Limit set for your existing EMIs (55% of income)"*: limit halved to ₹5.4L |
 
 ## Act 3. Existing customers (5 min) — web, type the seeded mobile
@@ -53,7 +53,7 @@ Web → *Talk to Bandhu* → English → Find my card → consent (note: DPDP, p
 ## Act 4. WhatsApp + lead management (5 min)
 1. From the demo phone: **Hi** → **BN** for Bengali → go up to the recommendation and stop (drop-off).
 2. Bandhu Cards → Leads: Priya (Hot, Lumina, dropped at Aadhaar), Arjun (Hot, at the recommendation), Moumita
-   (Unqualified: knocked out at the Credit Bureau gate, offered Shield), your own drop-off (after ~2 min). Open one:
+   (Unqualified: knocked out at the Credit Bureau gate), your own drop-off (after ~2 min). Open one:
    the 7 qualification gates, intent and credit scores, drop point → **Nudge on WhatsApp** → the phone gets the RM
    message → *Continue* resumes where it stopped.
 
@@ -84,7 +84,7 @@ branch-assisted application** → the phone gets *"Namaskar Rohan… as <RM> men
 | MODE | Before | Show |
 |---|---|---|
 | `limit` | an issued card on MOBILE (do Act 1 on the demo phone over WhatsApp, PAN ABCPT1234K) | WhatsApp: *"higher limit ₹3.35L → ₹5L, reply Yes — changes only with your consent"* → **Yes** → limit updated, *Limit enhancement* consent logged |
-| `reapproach` | a declined journey: web/WhatsApp PAN **ABCPS1234Y**, income 30000 → Sparks refers → decline it in Card Applications | 7 months later: CIBIL 690 → 732 → *"Good news — you now qualify for Sparks"* + RM task |
+| `reapproach` | a declined or not-eligible journey, e.g. PAN **ABCPS1234Y**, income 30000 → Sparks refers → decline it in Card Applications | 7 months later: CIBIL 690 → 732 → *"Good news — you now qualify for Sparks"* + RM task |
 | `unactivated` | an issued card never activated | closed after 30 days (RBI rule) |
 Also: on an issued card type **Cancel card** → **1** → cancelled with no charges (cooling-off). Anywhere: **withdraw my
 consent** → processing stops, consents withdrawn, RM gets an erasure task. Files → *Bandhu scorecard monitoring
@@ -93,4 +93,4 @@ YYYY-Qn*: outcomes by score band for recalibration.
 ## Talk track for what is mocked
 AA (FIU), CIBIL, NSDL, UIDAI, Video KYC, GST, AIS, OCR, card management and the core banking feed are simulated behind
 one class each, deterministic on the PAN so the demo repeats; going live replaces each with the real API behind the
-same method. Fees, thresholds, cooling-off and retention days and the Voyage partner are placeholders.
+same method. Fees, thresholds, cooling-off and retention days are placeholders.

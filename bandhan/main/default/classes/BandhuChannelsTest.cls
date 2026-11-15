@@ -7,7 +7,7 @@ private class BandhuChannelsTest {
         System.assertNotEquals(null, t.token);
         System.assertEquals('menu', t.step);
         System.assertEquals(4, t.options.size());
-        System.assertEquals(6, t.cards.size(), 'four cards, the co-branded and the secured card');
+        System.assertEquals(4, t.cards.size(), 'Sparks, Ignite, Flare, Lumina');
         System.assert(!t.message.contains('Reply *HI*'), 'the web page has its own language buttons');
         t = BandhuWebController.send(t.token, '1');
         System.assertEquals('consent', t.step);

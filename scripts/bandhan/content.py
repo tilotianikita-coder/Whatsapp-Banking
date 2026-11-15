@@ -91,33 +91,6 @@ CARDS = {
         'Fit_Travel__c': 5, 'Fit_International__c': 5, 'Fit_Dining__c': 5, 'Fit_Groceries__c': 1, 'Fit_Shopping__c': 3,
         'Fit_Fuel__c': 3, 'Fit_Low_Fee__c': 0, 'Fit_High_Spend__c': 5, 'Color__c': '#B8860B',
     },
-    # PLACEHOLDER co-brand: partner, benefits and fees are illustrative for the demo.
-    'Voyage': {
-        'Tier__c': 3, 'Tagline__c': 'Co-branded travel card: air miles on every spend',
-        'Joining_Fee__c': 1499, 'Annual_Fee__c': 1499, 'Fee_Waiver__c': 'Annual fee waived on ₹2.5 lakh spend a year',
-        'Rewards__c': '4 air miles per ₹200', 'Accelerated__c': '10 air miles per ₹200 on flights and hotels (travel)',
-        'Welcome__c': 'A domestic return flight voucher on ₹25,000 spend in 60 days', 'Milestone__c': '5,000 bonus miles on ₹3 lakh a year',
-        'Lounge__c': '2 domestic + 2 international lounge visits a quarter', 'Dining__c': '', 'Movies__c': '',
-        'Fuel__c': '1% fuel surcharge waiver, up to ₹250 a cycle', 'Extras__c': 'Priority check-in and extra baggage with the airline partner',
-        'Min_Monthly_Income__c': 50000, 'Min_Cibil__c': 730, 'Refer_Cibil__c': 710, 'ETB_Min_Balance__c': 0, 'ETB_Tiers__c': 'Deposit;Loan;Wealth',
-        'Tier_Label__c': 'Co-branded', 'Co_Brand__c': 'Airline partner (placeholder)', 'Secured__c': False, 'FD_Limit_Pct__c': 0, 'Limit_Multiple_Max__c': 4,
-        'Limit_Multiple__c': 2.5, 'Limit_Min__c': 75000, 'Limit_Max__c': 400000,
-        'Fit_Travel__c': 5, 'Fit_International__c': 2, 'Fit_Dining__c': 1, 'Fit_Groceries__c': 1, 'Fit_Shopping__c': 1,
-        'Fit_Fuel__c': 1, 'Fit_Low_Fee__c': 2, 'Fit_High_Spend__c': 2, 'Color__c': '#0E7490',
-    },
-    'Shield': {
-        'Tier__c': 0, 'Tagline__c': 'Secured card against a fixed deposit: build your credit history',
-        'Joining_Fee__c': 0, 'Annual_Fee__c': 0, 'Fee_Waiver__c': 'Lifetime free',
-        'Rewards__c': '2 reward points per ₹200', 'Accelerated__c': '',
-        'Welcome__c': 'Your FD keeps earning interest', 'Milestone__c': '',
-        'Lounge__c': '', 'Dining__c': '', 'Movies__c': '', 'Fuel__c': '1% fuel surcharge waiver, up to ₹100 a cycle',
-        'Extras__c': 'Upgrade to an unsecured card after 6 months of on-time payments',
-        'Min_Monthly_Income__c': 0, 'Min_Cibil__c': 0, 'Refer_Cibil__c': 0, 'ETB_Min_Balance__c': 0, 'ETB_Tiers__c': '',
-        'Tier_Label__c': 'Secured', 'Co_Brand__c': '', 'Secured__c': True, 'FD_Limit_Pct__c': 90, 'Limit_Multiple_Max__c': 0,
-        'Limit_Multiple__c': 0, 'Limit_Min__c': 18000, 'Limit_Max__c': 900000,
-        'Fit_Travel__c': 0, 'Fit_International__c': 0, 'Fit_Dining__c': 0, 'Fit_Groceries__c': 1, 'Fit_Shopping__c': 1,
-        'Fit_Fuel__c': 1, 'Fit_Low_Fee__c': 5, 'Fit_High_Spend__c': 0, 'Color__c': '#475569',
-    },
 }
 
 # Card serviceability by PIN prefix (PLACEHOLDER footprint: Bandhan Bank's eastern and north-eastern heartland plus metros).
@@ -244,8 +217,8 @@ MESSAGES = {
     'Limit_Declined': ("No problem — your limit stays as it is. 🙂", 'कोई बात नहीं — आपकी limit जैसी है वैसी ही रहेगी। 🙂', 'কোনো সমস্যা নেই — আপনার limit যেমন আছে তেমনই থাকবে। 🙂'),
     'Branch_Pitch': ("Namaskar{name} 🙏 It was great to see you at the branch. As {rm} mentioned, you're pre-qualified for a Bandhan Bank credit card picked for you — let's finish it here on WhatsApp in a couple of minutes.", 'नमस्कार{name} 🙏 branch में आपसे मिलकर अच्छा लगा। जैसा {rm} ने बताया, आप अपने लिए चुने गए Bandhan Bank credit card के लिए pre-qualified हैं — चलिए इसे यहीं WhatsApp पर कुछ मिनट में पूरा करते हैं।', 'নমস্কার{name} 🙏 branch-এ আপনার সঙ্গে দেখা হয়ে ভালো লাগল। {rm} যেমন বললেন, আপনার জন্য বাছাই করা Bandhan Bank credit card-এর জন্য আপনি pre-qualified — চলুন এখানেই WhatsApp-এ কয়েক মিনিটে শেষ করি।'),
     'Not_Eligible': (
-        "Thank you for sharing all that{name}. 🙏 Based on what you've told me, I can't offer a Bandhan credit card right now ({reason}).\n\nA specialist can look at other options with you — for example a card against a fixed deposit.",
-        'यह सब बताने के लिए धन्यवाद{name}। 🙏 आपने जो बताया उसके आधार पर, मैं अभी आपको Bandhan credit card नहीं दे पा रहा हूँ ({reason})।\n\nएक specialist आपके साथ दूसरे विकल्प देख सकते हैं — जैसे fixed deposit के बदले card।', 'এত কিছু জানানোর জন্য ধন্যবাদ{name}। 🙏 আপনি যা বলেছেন তার ভিত্তিতে, এই মুহূর্তে আমি আপনাকে Bandhan credit card দিতে পারছি না ({reason})।\n\nএকজন specialist আপনার সঙ্গে অন্য বিকল্পগুলো দেখতে পারেন — যেমন fixed deposit-এর বিপরীতে card।'),
+        "Thank you for sharing all that{name}. 🙏 Based on what you've told me, I can't offer a Bandhan credit card right now ({reason}).\n\nA specialist can look at other options with you — for example a *Loan / Overdraft against your Fixed Deposit*. I'll also check again in 6 months: if your credit profile improves, I'll let you know.",
+        'यह सब बताने के लिए धन्यवाद{name}। 🙏 आपने जो बताया उसके आधार पर, मैं अभी आपको Bandhan credit card नहीं दे पा रहा हूँ ({reason})।\n\nएक specialist आपके साथ दूसरे विकल्प देख सकते हैं — जैसे *Fixed Deposit के बदले Loan / Overdraft*। मैं 6 महीने बाद फिर से check करूँगा: अगर आपकी credit profile बेहतर होती है, तो मैं आपको बताऊँगा।', 'এত কিছু জানানোর জন্য ধন্যবাদ{name}। 🙏 আপনি যা বলেছেন তার ভিত্তিতে, এই মুহূর্তে আমি আপনাকে Bandhan credit card দিতে পারছি না ({reason})।\n\nএকজন specialist আপনার সঙ্গে অন্য বিকল্পগুলো দেখতে পারেন — যেমন *Fixed Deposit-এর বিপরীতে Loan / Overdraft*। আমি 6 মাস পরে আবার দেখব: আপনার credit profile ভালো হলে আপনাকে জানাব।'),
     'Opt_Not_Eligible': ("Talk to a specialist\nBack to the menu", 'किसी specialist से बात करें\nवापस menu पर जाएँ', 'একজন specialist-এর সঙ্গে কথা বলুন\nmenu-তে ফিরে যান'),
     'Compare': (
         "📋 *Bandhan Bank credit cards*\n\n{lines}\n\n_Fees are indicative for this demo._",

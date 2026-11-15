@@ -51,7 +51,7 @@ DATETIME = '    <type>DateTime</type>\n'
 EMAIL = '    <type>Email</type>\n'
 MONEY = number(16, 0, currency=True)
 
-CARDS = ['Sparks', 'Ignite', 'Flare', 'Lumina', 'Voyage', 'Shield']
+CARDS = ['Sparks', 'Ignite', 'Flare', 'Lumina']
 LANGS = ['EN', 'HI', 'BN']
 CHANNELS = ['WhatsApp', 'Web', 'Branch']
 STAGES = ['Start', 'Verify', 'Needs', 'Profile', 'Recommend', 'KYC', 'Decision', 'Issued']

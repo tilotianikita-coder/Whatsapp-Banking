@@ -19,9 +19,7 @@ schedule of charges and credit policy.
 | Sparks | Entry: everyday rewards | ₹499, waived on ₹1L/yr | ₹25,000 | 700 / 680 | 2× income (₹25K–₹1L) |
 | Ignite | Groceries & travel | ₹999, waived on ₹2L/yr | ₹40,000 | 720 / 700 | 2.5× (₹50K–₹2.5L) |
 | Flare | Travel & lifestyle | ₹2,999, waived on ₹4L/yr | ₹75,000 | 740 / 720 | 3× (₹1L–₹5L) |
-| Voyage | Co-branded travel (placeholder) | ₹1,499, waived on ₹2.5L/yr | ₹50,000 | 730 / 710 | 2.5× (₹75K–₹4L) |
 | Lumina | Premium travel | ₹9,999, waived on ₹10L/yr | ₹2,00,000, or existing customer with ₹10L+ balances & FDs | 760 / 740 | 4× (₹3L–₹15L) |
-| Shield | Secured against an FD | free | none | none | 90% of the FD |
 
 - Age 21–60 salaried, 21–65 self-employed; CIBIL below 650 = no card.
 - **Existing customers (ETB)**: income from salary credits, PAN/DOB/address on file, KYC on file (no Aadhaar / Video KYC),
@@ -57,7 +55,7 @@ schedule of charges and credit policy.
 Seed customers: `ON_DEMO_PHONE = 'Rina'` (microfinance only: Sparks) or `'Debasish'` (dormant: journey on hold).
 
 ## After the decision, and the branch (phase 4b)
-- **Re-approach** (`BandhuPostIssue.reassess`, daily with the drop-off job): declined / not-eligible / secured-offer
+- **Re-approach** (`BandhuPostIssue.reassess`, daily with the drop-off job): declined / not-eligible
   journeys are re-checked 6 months later (then every 3): a fresh soft pull (mock: +6 points per clean month, up to 60)
   and the same eligibility; if an unsecured card is now possible, an RM task and a WhatsApp *"you now qualify for X"*.
 - **Limit enhancement**: cardholders 6+ months on book, activated, no missed payments, 40%+ utilisation get a higher
@@ -102,20 +100,21 @@ journey's Reassess On to today and Bureau Pulled At 7 months back, then run `Ban
   it without charges; limit increases only with consent (phase 4).
 - **Withdraw consent** anytime ("withdraw my consent" / "delete my data"): processing stops and the RM gets an erasure task.
 
-## Catalogue, Bandhan Score, limits and the secured card (phase 2)
-- **Catalogue**: Sparks (Classic), Ignite (Silver), Flare (Gold), Lumina (Platinum), **Voyage** (co-branded travel;
-  partner and benefits are PLACEHOLDERS) and **Shield** (secured against an FD, lifetime free, limit 90% of the FD).
+## Catalogue, Bandhan Score and limits (phase 2)
+- **Catalogue**: Bandhan's four cards only (creditcards.bandhan.bank.in): Sparks (Classic), Ignite (Silver), Flare (Gold),
+  Lumina (Platinum). Bandhan has no secured or co-branded card: travel-heavy customers are matched to Flare / Lumina;
+  when no card is possible, Bandhu says so, offers a specialist and mentions the **Loan / Overdraft against Term
+  Deposit**, and the journey is re-checked in 6 months. (The secured-card logic stays dormant: it switches on only if a
+  card with Secured = true is added to `Bandhu_Card__mdt`.)
 - **Bandhan Score** (`BandhuScore`, model BSC-1.0): a 0-1000 scorecard of 14 factors (bureau 530, Account Aggregator
   260, income 90, relationship 80, channel 40). Missing data scores about half. Bands A 700+, B 550-699, C 400-549,
-  D under 400 (manual review). Every decision logs each factor's value and points (`Score_Factors__c`, the new
+  D under 400 (manual review). Every decision logs each factor's value and points (`Score_Factors__c`, the
   **Bandhan Score** check), so it can be explained to the customer or a regulator.
-- **Limit**: income x the card's multiple (Sparks 2, Ignite 2.5, Flare / Voyage 3, Lumina 4), +0.5x band A, -0.5x band
-  C, +0.25 / 0.5x for an existing customer's relationship score 50 / 70+, capped (entry 3x, premium 5x), then cut for
-  FOIR; shown as a range (80% - 100%).
+- **Limit**: income x the card's multiple (Sparks 2, Ignite 2.5, Flare 3, Lumina 4), +0.5x band A, -0.5x band C,
+  +0.25 / 0.5x for an existing customer's relationship score 50 / 70+, capped (entry 3x, premium 5x), then cut for FOIR;
+  shown as a range (80% - 100%).
 - **"You applied for X"**: typing a card you don't qualify for at the recommendation (e.g. *I want Lumina*) shows what
   was missed and the closest card at or below that tier, with what it gives.
-- **Secured fallback**: no unsecured card (score, income, or new to credit with no AA data) -> Shield, with the FD sized
-  for twice the monthly spend. At underwriting a weak bureau no longer declines a secured card; DPD 90+ refers.
 
 ## Account Aggregator cash-flow analysis (BandhuAccountAggregator, BandhuCashFlow)
 New-to-bank customers who choose *Connect my accounts* give a consent (purpose credit underwriting, 24 months of

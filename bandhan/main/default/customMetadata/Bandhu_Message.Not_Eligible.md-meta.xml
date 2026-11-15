@@ -6,18 +6,18 @@
         <field>English__c</field>
         <value xsi:type="xsd:string">Thank you for sharing all that{name}. 🙏 Based on what you've told me, I can't offer a Bandhan credit card right now ({reason}).
 
-A specialist can look at other options with you — for example a card against a fixed deposit.</value>
+A specialist can look at other options with you — for example a *Loan / Overdraft against your Fixed Deposit*. I'll also check again in 6 months: if your credit profile improves, I'll let you know.</value>
     </values>
     <values>
         <field>Hindi__c</field>
         <value xsi:type="xsd:string">यह सब बताने के लिए धन्यवाद{name}। 🙏 आपने जो बताया उसके आधार पर, मैं अभी आपको Bandhan credit card नहीं दे पा रहा हूँ ({reason})।
 
-एक specialist आपके साथ दूसरे विकल्प देख सकते हैं — जैसे fixed deposit के बदले card।</value>
+एक specialist आपके साथ दूसरे विकल्प देख सकते हैं — जैसे *Fixed Deposit के बदले Loan / Overdraft*। मैं 6 महीने बाद फिर से check करूँगा: अगर आपकी credit profile बेहतर होती है, तो मैं आपको बताऊँगा।</value>
     </values>
     <values>
         <field>Bengali__c</field>
         <value xsi:type="xsd:string">এত কিছু জানানোর জন্য ধন্যবাদ{name}। 🙏 আপনি যা বলেছেন তার ভিত্তিতে, এই মুহূর্তে আমি আপনাকে Bandhan credit card দিতে পারছি না ({reason})।
 
-একজন specialist আপনার সঙ্গে অন্য বিকল্পগুলো দেখতে পারেন — যেমন fixed deposit-এর বিপরীতে card।</value>
+একজন specialist আপনার সঙ্গে অন্য বিকল্পগুলো দেখতে পারেন — যেমন *Fixed Deposit-এর বিপরীতে Loan / Overdraft*। আমি 6 মাস পরে আবার দেখব: আপনার credit profile ভালো হলে আপনাকে জানাব।</value>
     </values>
 </CustomMetadata>

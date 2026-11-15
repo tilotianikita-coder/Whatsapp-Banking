@@ -1,5 +1,5 @@
 /**
- * Bandhan Score, the limit model, "applied for X, qualify for Y" and the FD-secured card.
+ * Bandhan Score, the limit model, "applied for X, qualify for Y" and the no-history case.
  */
 @IsTest
 private class BandhuScoreTest {
@@ -61,13 +61,13 @@ private class BandhuScoreTest {
     }
 
     @IsTest
-    static void noFootprintAndNoStatementsGetsTheSecuredCard() {
+    static void noFootprintAndNoStatementsGetsNoCardUntilStatementsAreShared() {
         BandhuEligibility.Profile p = profile('ABCPS1235K', 60000);
         System.assert(p.bureau.noHit);
         BandhuEligibility.Outcome out = BandhuEligibility.evaluate(p);
         System.assertEquals(null, out.best);
         System.assert(out.blockedReason.containsIgnoreCase('no credit history'), out.blockedReason);
-        System.assertEquals('Shield', out.secured.card.DeveloperName);
+        System.assertEquals(null, out.secured, 'no secured card in the range');
         p.cashFlow = new BandhuCashFlow.Analysis();
         System.assertNotEquals(null, BandhuEligibility.evaluate(p).best, 'with bank statements an unsecured card is possible');
     }
@@ -99,26 +99,20 @@ private class BandhuScoreTest {
     }
 
     @IsTest
-    static void securedCardWithAWeakScoreGoesToAnUnderwriter() {
+    static void everyDecisionLogsTheScoreFactors() {
         BandhuTestData.useLogOnly();
-        BandhuEngine.Result r = BandhuTestData.toRecommendation(BandhuTestData.NTB_MOBILE, new List<String>{ '4', '2', '1' }, '60000', BandhuTestData.DECLINE_PAN);
-        System.assertEquals('secured_offer', r.step, r.message);
-        r = BandhuTestData.say(r, '1');
-        System.assertEquals('Shield', r.journey.Chosen_Card__c);
-        r = BandhuTestData.sayAll(r, new List<String>{ 'ananya@example.com', '1234', BandhuConfig.get().Demo_OTP__c, '1', '1' });
-        Card_Application__c app = [SELECT Recommendation__c, FD_Amount__c, Credit_Limit__c, Bandhan_Score__c, Score_Factors__c, Model_Version__c,
-            (SELECT Check__c, Result__c FROM Card_Checks__r) FROM Card_Application__c WHERE Card_Journey__c = :r.journey.Id];
-        System.assertEquals(70000, app.FD_Amount__c, 'FD for twice the ₹30,000 monthly spend at 90%');
-        System.assertEquals(63000, app.Credit_Limit__c);
+        BandhuEngine.Result r = BandhuTestData.toRecommendation(BandhuTestData.NTB_MOBILE, new List<String>{ '1, 3', '3', '2' }, '1 lakh', BandhuTestData.REFER_PAN);
+        r = BandhuTestData.sayAll(r, new List<String>{ '1', 'ananya@example.com', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
+        Card_Application__c app = [SELECT Recommendation__c, Bandhan_Score__c, Score_Band__c, Score_Factors__c, Model_Version__c,
+            (SELECT Check__c, Result__c, Details__c FROM Card_Checks__r) FROM Card_Application__c WHERE Card_Journey__c = :r.journey.Id];
+        System.assertNotEquals(null, app.Bandhan_Score__c);
         System.assertNotEquals(null, app.Score_Factors__c, 'factor log for audit');
         System.assert(app.Model_Version__c.startsWith('BSC'));
-        Map<String, String> results = new Map<String, String>();
+        Map<String, Card_Check__c> checks = new Map<String, Card_Check__c>();
         for (Card_Check__c c : app.Card_Checks__r) {
-            results.put(c.Check__c, c.Result__c);
+            checks.put(c.Check__c, c);
         }
-        System.assertEquals(9, results.size());
-        System.assertEquals('Refer', results.get('Credit Bureau'), 'DPD 90+ is still looked at by a person');
-        System.assertEquals('Pass', results.get('Card Policy'));
-        System.assertEquals('Refer', app.Recommendation__c);
+        System.assertEquals(9, checks.size());
+        System.assert(checks.get('Bandhan Score').Details__c.contains('Bureau score'), checks.get('Bandhan Score').Details__c);
     }
 }
