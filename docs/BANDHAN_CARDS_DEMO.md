@@ -1,5 +1,7 @@
 # Bandhu — Bandhan Bank credit card onboarding (branch `bandhan-cards`, org `bandhan`)
 
+Step-by-step demo of every journey: [BANDHAN_DEMO_FLOW.md](BANDHAN_DEMO_FLOW.md).
+
 DIY credit card onboarding on **WhatsApp and web**, modelled on the Axis "AXIA" demo (leadership deck slides 11–13):
 an AI card advisor that recommends the right card from the customer's needs and eligibility, then takes them through
 application, KYC and the decision, with lead management for drop-offs, an underwriter console and human handoff.
