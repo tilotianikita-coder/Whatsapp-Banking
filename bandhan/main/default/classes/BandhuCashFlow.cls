@@ -45,6 +45,7 @@ public inherited sharing class BandhuCashFlow {
         public Date toDate;
         public Decimal netMonthlyIncome;
         public String incomeSource;
+        public String employer;            // the payer on the salary credits
         public Integer incomeStability;
         public String incomeTrend;
         public Decimal incomeGrowthPct;
@@ -407,6 +408,7 @@ public inherited sharing class BandhuCashFlow {
             }
         }
         a.netMonthlyIncome = recent.isEmpty() ? 0 : (median(recent) / 100).round(System.RoundingMode.DOWN) * 100;
+        a.employer = salaryPayers.isEmpty() ? null : new List<String>(salaryPayers.keySet())[0];
         a.incomeSource = business ? 'business inflows'
             : salaryPayers.isEmpty() ? 'no salary credits seen' : 'salary credits from ' + String.join(new List<String>(salaryPayers.keySet()), ', ');
         Decimal mean = avg(income);

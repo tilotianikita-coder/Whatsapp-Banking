@@ -449,6 +449,9 @@ public inherited sharing class BandhuEngine {
             String pre;
             if (choice == 1 || t.containsIgnoreCase('verify') || t.containsIgnoreCase('connect') || t.containsIgnoreCase('yes')) {
                 BandhuCashFlow.Analysis a = BandhuAccountAggregator.run(j);
+                if (String.isBlank(j.Company_Name__c) && String.isNotBlank(a.employer) && j.Employment_Type__c == 'Salaried') {
+                    j.Company_Name__c = titleCase(a.employer.toLowerCase()).abbreviate(120);   // seen on the salary credits: not asked again
+                }
                 BandhuCompliance.record(j, 'Account Aggregator', BandhuAccountAggregator.PURPOSE_CREDIT + ': ' + BandhuAccountAggregator.LOOKBACK_MONTHS
                     + ' months of deposit statements, one fetch', j.AA_Consent_Id__c, BandhuI18n.today().addDays(30), BandhuI18n.msg('Q_AA', lang));
                 j.Verified_Income__c = a.netMonthlyIncome > 0 ? a.netMonthlyIncome : null;

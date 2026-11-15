@@ -108,7 +108,11 @@ public inherited sharing class BandhuAccountAggregator {
         Boolean business = j.Employment_Type__c == 'Self-employed' || j.Employment_Type__c == 'Business';
         Decimal income = BandhuProviders.verifiedIncome(j.Monthly_Income__c == null ? 50000 : j.Monthly_Income__c);
         String holder = String.isBlank(j.Customer_Name__c) ? 'APPLICANT' : j.Customer_Name__c.toUpperCase();
-        String employer = String.isBlank(j.Company_Name__c) ? 'EMPLOYER' : j.Company_Name__c.toUpperCase();
+        // the payer on the salary credits: the company if already given, else a plausible employer (the AA comes before that question)
+        List<String> employers = new List<String>{ 'TATA CONSULTANCY SERVICES', 'INFOSYS LTD', 'WIPRO LTD', 'COGNIZANT TECHNOLOGY SOLUTIONS',
+            'ITC LTD', 'TATA STEEL LTD', 'CESC LTD', 'COAL INDIA LTD' };
+        String employer = String.isNotBlank(j.Company_Name__c) ? j.Company_Name__c.toUpperCase()
+            : employers[Math.mod(Math.abs(pan.hashCode()), employers.size())];
         Map<String, Decimal> mix = spendMix(pan, j.Spend_Focus__c);
 
         List<Map<String, Object>> primary = new List<Map<String, Object>>();

@@ -75,6 +75,90 @@
                     </div>
                 </div>
 
+                <!-- Account Aggregator: what the bank statements show -->
+                <template lwc:if={cf}>
+                    <div class="b-section">
+                        <div class="b-section-title">Bank statements · Account Aggregator</div>
+                        <div class="b-muted aa-meta">
+                            Consent {cf.consentId} · purpose: {cf.purpose} · {cf.months} months ({cf.period}) · {cf.banks} banks, {cf.accounts} accounts, {cf.transactions} transactions
+                        </div>
+                        <div class="b-tiles aa-tiles">
+                            <div class="b-tile b-tile-main">
+                                <div class="b-tile-label">Net monthly income</div>
+                                <div class="b-tile-value">{cf.netIncome}</div>
+                                <div class="b-tile-sub">{cf.incomeSource}<template lwc:if={cf.declaredIncome}> · declared {cf.declaredIncome}</template></div>
+                            </div>
+                            <div class="b-tile">
+                                <div class="b-tile-label">Income stability</div>
+                                <div class="b-tile-value">{cf.stability}<span class="b-tile-sub"> /100</span></div>
+                                <div class="b-bar"><div class="b-bar-fill" style={stabilityBar}></div></div>
+                                <div class="b-tile-sub">{cf.trend} · {cf.growth}</div>
+                            </div>
+                            <div class="b-tile">
+                                <div class="b-tile-label">EMIs (FOIR)</div>
+                                <div class="b-tile-value">{cf.foir}%</div>
+                                <div class="b-tile-sub">{cf.emi} a month</div>
+                            </div>
+                            <div class="b-tile">
+                                <div class="b-tile-label">Monthly surplus</div>
+                                <div class="b-tile-value">{cf.surplus}</div>
+                                <div class="b-tile-sub">outflow {cf.outflow}<template lwc:if={cf.avgBalance}> · avg balance {cf.avgBalance}</template></div>
+                            </div>
+                        </div>
+                        <div class="aa-cols">
+                            <div>
+                                <div class="aa-sub">Card-able spend · {cf.cardSpend} a month</div>
+                                <template for:each={cf.spend} for:item="row">
+                                    <div key={row.category} class="spend-row">
+                                        <span class="spend-cat">{row.category}</span>
+                                        <span class="spend-bar"><span class="spend-fill" style={row.barStyle}></span></span>
+                                        <span class="spend-amt">{row.amount}</span>
+                                        <span class="b-muted spend-pct">{row.pct}%</span>
+                                    </div>
+                                </template>
+                            </div>
+                            <div>
+                                <template lwc:if={hasLifestyle}>
+                                    <div class="aa-sub">Lifestyle signals</div>
+                                    <ul class="b-why"><template for:each={cf.lifestyle} for:item="l"><li key={l}>{l}</li></template></ul>
+                                </template>
+                                <template lwc:if={cf.seasonality}><div class="aa-sub">Seasonality</div><div>{cf.seasonality}</div></template>
+                                <div class="aa-sub">Flags</div>
+                                <template lwc:if={hasAnomalies}>
+                                    <ul class="flags"><template for:each={cf.anomalies} for:item="a"><li key={a}>⚠ {a}</li></template></ul>
+                                </template>
+                                <template lwc:else><div class="b-pill b-pill-green">No unexplained credits, round-trip transfers or income gaps</div></template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <div class="b-section">
+                        <div class="b-section-title">Bank statements · Account Aggregator</div>
+                        <div class="b-alert b-alert-info">No Account Aggregator data on this application<div class="b-alert-sub">The customer skipped connecting their accounts, or is an existing customer (income from the bank's salary credits).</div></div>
+                    </div>
+                </template>
+
+                <!-- Bandhan Score: the scorecard and each factor -->
+                <template lwc:if={score}>
+                    <div class="b-section">
+                        <div class="b-section-title">Bandhan Score · {score.score}/1000 · band {score.band}</div>
+                        <div class="b-muted aa-meta">
+                            Bandhan's own score, separate from CIBIL: 14 factors from the bureau, the bank statements, income, the relationship and the channel.
+                            Band A (700+) adds 0.5x income to the limit, C (400-549) takes 0.5x off, D (under 400) goes to manual review. Model {score.model}.
+                        </div>
+                        <div class="factors">
+                            <template for:each={factorRows} for:item="f">
+                                <div key={f.name} class="factor">
+                                    <div class="factor-head"><span class="factor-name">{f.name}</span><span class="factor-pts">{f.points}/{f.maxPoints}</span></div>
+                                    <div class="b-bar"><div class="b-bar-fill" style={f.barStyle}></div></div>
+                                    <div class="b-muted">{f.value} · {f.source}</div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
                 <!-- stage gates -->
                 <div class="b-section">
                     <div class="b-section-title">Stage gates</div>

@@ -83,6 +83,34 @@ export default class BandhuApplicationReview extends LightningElement {
         return `background: linear-gradient(135deg, ${c} 0%, ${c} 35%, #061A2C 135%);`;
     }
 
+    get cf() {
+        const c = this.review && this.review.cashFlow;
+        if (!c) {
+            return null;
+        }
+        return { ...c, spend: (c.spend || []).map((r) => ({ ...r, barStyle: `width:${Math.max(2, r.pct)}%` })) };
+    }
+
+    get stabilityBar() {
+        return `width:${(this.cf && this.cf.stability) || 0}%`;
+    }
+
+    get hasLifestyle() {
+        return !!(this.cf && this.cf.lifestyle && this.cf.lifestyle.length);
+    }
+
+    get hasAnomalies() {
+        return !!(this.cf && this.cf.anomalies && this.cf.anomalies.length);
+    }
+
+    get score() {
+        return this.review && this.review.score;
+    }
+
+    get factorRows() {
+        return ((this.score && this.score.factors) || []).map((f) => ({ ...f, barStyle: `width:${Math.max(2, f.pct)}%` }));
+    }
+
     get hasScore() {
         return this.app.Bandhan_Score__c != null;
     }

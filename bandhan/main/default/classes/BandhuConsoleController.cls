@@ -22,6 +22,58 @@ public with sharing class BandhuConsoleController {
         @AuraEnabled public Boolean decided;
         @AuraEnabled public Boolean approveIsDeviation;
         @AuraEnabled public Boolean declineIsDeviation;
+        @AuraEnabled public CashFlowView cashFlow;
+        @AuraEnabled public ScoreView score;
+    }
+
+    /** The Account Aggregator analysis as the underwriter sees it. */
+    public class CashFlowView {
+        @AuraEnabled public String consentId;
+        @AuraEnabled public String purpose;
+        @AuraEnabled public String period;
+        @AuraEnabled public Integer months;
+        @AuraEnabled public Integer banks;
+        @AuraEnabled public Integer accounts;
+        @AuraEnabled public Integer transactions;
+        @AuraEnabled public String netIncome;
+        @AuraEnabled public String declaredIncome;
+        @AuraEnabled public String incomeSource;
+        @AuraEnabled public Integer stability;
+        @AuraEnabled public String trend;
+        @AuraEnabled public String growth;
+        @AuraEnabled public String emi;
+        @AuraEnabled public Integer foir;
+        @AuraEnabled public String outflow;
+        @AuraEnabled public String surplus;
+        @AuraEnabled public String avgBalance;
+        @AuraEnabled public String cardSpend;
+        @AuraEnabled public List<SpendRow> spend = new List<SpendRow>();
+        @AuraEnabled public List<String> lifestyle = new List<String>();
+        @AuraEnabled public String seasonality;
+        @AuraEnabled public List<String> anomalies = new List<String>();
+    }
+
+    public class SpendRow {
+        @AuraEnabled public String category;
+        @AuraEnabled public String amount;
+        @AuraEnabled public Integer pct;
+    }
+
+    /** The Bandhan Score and each factor's contribution (the audit log on the application). */
+    public class ScoreView {
+        @AuraEnabled public Integer score;
+        @AuraEnabled public String band;
+        @AuraEnabled public String model;
+        @AuraEnabled public List<FactorRow> factors = new List<FactorRow>();
+    }
+
+    public class FactorRow {
+        @AuraEnabled public String name;
+        @AuraEnabled public String value;
+        @AuraEnabled public String source;
+        @AuraEnabled public Integer points;
+        @AuraEnabled public Integer maxPoints;
+        @AuraEnabled public Integer pct;
     }
 
     @AuraEnabled
@@ -33,7 +85,7 @@ public with sharing class BandhuConsoleController {
                 Credit_Limit__c, Channel__c, Recommendation__c, Recommendation_Reasons__c, Fit_Summary__c, Status__c, Decision__c,
                 Decision_Notes__c, Decision_By__r.Name, Decision_At__c, Submitted_At__c, Reference_Number__c, Card_Number_Masked__c,
                 Card_Issued_At__c, Card_Journey__c, Card_Journey__r.Spend_Focus__c, Card_Journey__r.Monthly_Spend__c,
-                Card_Journey__r.Fee_Preference__c, Card_Journey__r.Recommended_Card__c, Bandhan_Score__c, Score_Band__c, Limit_Range__c, FD_Amount__c
+                Card_Journey__r.Fee_Preference__c, Card_Journey__r.Recommended_Card__c, Bandhan_Score__c, Score_Band__c, Score_Factors__c, Model_Version__c, Limit_Range__c, FD_Amount__c
             FROM Card_Application__c WHERE Id = :applicationId
         ];
         r.application.PAN__c = BandhuI18n.maskPan(r.application.PAN__c);
@@ -66,10 +118,92 @@ public with sharing class BandhuConsoleController {
             r.card = v;
         }
         journeySummary(r);
+        r.cashFlow = cashFlowView(r.application);
+        r.score = scoreView(r.application);
         r.decided = r.application.Status__c == 'Card Issued' || r.application.Status__c == 'Declined';
         r.approveIsDeviation = r.application.Recommendation__c == BandhuDecision.DECLINE;
         r.declineIsDeviation = r.application.Recommendation__c == BandhuDecision.APPROVE;
         return r;
+    }
+
+    private static CashFlowView cashFlowView(Card_Application__c app) {
+        if (app.Card_Journey__c == null) {
+            return null;
+        }
+        BandhuCashFlow.Analysis a = BandhuCashFlow.fromJourney(BandhuJourneyService.byId(app.Card_Journey__c));
+        if (a == null) {
+            return null;
+        }
+        CashFlowView v = new CashFlowView();
+        v.consentId = a.consentId;
+        v.purpose = a.purpose;
+        v.period = BandhuI18n.formatDate(a.fromDate) + ' - ' + BandhuI18n.formatDate(a.toDate);
+        v.months = a.months;
+        v.banks = a.banks;
+        v.accounts = a.accounts;
+        v.transactions = a.transactions;
+        v.netIncome = BandhuI18n.inr(a.netMonthlyIncome);
+        v.declaredIncome = a.declaredIncome == null ? null : BandhuI18n.inr(a.declaredIncome);
+        v.incomeSource = a.incomeSource;
+        v.stability = a.incomeStability;
+        v.trend = a.incomeTrend;
+        v.growth = (a.incomeGrowthPct >= 0 ? '+' : '') + a.incomeGrowthPct + '% year on year';
+        v.emi = BandhuI18n.inr(a.monthlyObligations);
+        v.foir = a.foirPct == null ? 0 : a.foirPct.intValue();
+        v.outflow = BandhuI18n.inr(a.avgMonthlyOutflow);
+        v.surplus = BandhuI18n.inr(a.monthlySurplus);
+        v.avgBalance = a.avgBalance == null ? null : BandhuI18n.inr(a.avgBalance);
+        v.cardSpend = BandhuI18n.inr(a.monthlyCardSpend);
+        List<String> cats = new List<String>(a.spend.keySet());
+        cats.sort();
+        // largest first
+        for (Integer i = 0; i < cats.size(); i++) {
+            for (Integer k = i + 1; k < cats.size(); k++) {
+                if (a.spend.get(cats[k]) > a.spend.get(cats[i])) {
+                    String t = cats[i];
+                    cats[i] = cats[k];
+                    cats[k] = t;
+                }
+            }
+        }
+        for (String c : cats) {
+            SpendRow row = new SpendRow();
+            row.category = c == 'International' ? 'Travel abroad' : c;
+            row.amount = BandhuI18n.inr(a.spend.get(c));
+            row.pct = a.monthlyCardSpend == 0 ? 0 : (a.spend.get(c) / a.monthlyCardSpend * 100).intValue();
+            v.spend.add(row);
+        }
+        v.lifestyle = a.lifestyle;
+        v.seasonality = a.seasonality;
+        v.anomalies = a.anomalies;
+        return v;
+    }
+
+    private static ScoreView scoreView(Card_Application__c app) {
+        if (String.isBlank(app.Score_Factors__c)) {
+            return null;
+        }
+        BandhuScore.Result res;
+        try {
+            res = (BandhuScore.Result) JSON.deserialize(app.Score_Factors__c, BandhuScore.Result.class);
+        } catch (Exception e) {
+            return null;
+        }
+        ScoreView v = new ScoreView();
+        v.score = res.score;
+        v.band = res.band;
+        v.model = res.model;
+        for (BandhuScore.Factor f : res.factors) {
+            FactorRow row = new FactorRow();
+            row.name = f.name;
+            row.value = f.value;
+            row.source = f.source;
+            row.points = f.points;
+            row.maxPoints = f.maxPoints;
+            row.pct = f.maxPoints == 0 ? 0 : f.points * 100 / f.maxPoints;
+            v.factors.add(row);
+        }
+        return v;
     }
 
     private static void journeySummary(Review r) {

@@ -60,7 +60,7 @@ Open the web page (and on a phone, or narrow the window, to show it is mobile-fi
    ₹4,767*) and the live *"you qualify for 3 cards so far"*. (Inside, travel in India and abroad stay separate: Flare
    rewards travel, Lumina international spends.)
 3. Spend: tap **Groceries** only (the customer *says* groceries) → *Continue* → monthly **₹15–50K** → fee **best
-   benefits** → company, DOB, PIN, soft check **Yes**.
+   benefits** → DOB, PIN, soft check **Yes**. (No company question: the employer was read from the salary credits.)
 4. Recommendation: **Flare (Gold)**, not Ignite: *"Travel: ₹14,284/month in your statements · 20 points per ₹200 on
    travel"*, limit **₹2,65,000 – ₹3,35,000**, the card tiles with *Bandhu's pick* first. (Skip AA and the pick is Ignite.)
 5. Type **I want Lumina** → *"You asked for Lumina (Platinum): monthly income below ₹2,00,000. But you qualify for
@@ -98,9 +98,15 @@ Open the web page (and on a phone, or narrow the window, to show it is mobile-fi
    message → *Continue* resumes where it stopped. Moumita shows *Knocked out at Credit Bureau* and no nudge.
 
 ## Act 6. Underwriting (7 min) — Bandhu Cards → Card Applications
-1. **Sourav Ghosh**: Flare, **Under Review** (CIBIL 730 in Flare's refer band). Walk the header, card face, CIBIL and
-   Bandhan Score (777, band A) tiles, the gates (Due Diligence and Bandhan Score included), each check's detail, the
-   recommendation and *why this card* → **Approve & issue card** → the phone gets the approval with the MITC on WhatsApp.
+1. **Sourav Ghosh**: Flare, **Under Review** (CIBIL 730 in Flare's refer band). Walk, top to bottom:
+   - the header, the Flare card face, CIBIL and **Bandhan Score** (777, band A) tiles;
+   - **Bank statements · Account Aggregator**: the consent (purpose, 24 months, 2 banks, 764 transactions), net monthly
+     income from the salary credits vs declared, income stability and trend, EMIs (FOIR), surplus and average balance,
+     card-able spend by category, lifestyle signals and the flags (none for Sourav);
+   - **Bandhan Score**: what it is (Bandhan's own 0-1000 score, separate from CIBIL) and all 14 factors with their points,
+     value and source (bureau / Account Aggregator / journey): the audit trail for every decision;
+   - the stage gates, each check's detail, the recommendation and *why this card* → **Approve & issue card** → the phone
+     gets the approval with the MITC on WhatsApp.
 2. Risk flags (create on the web with any new mobile, income 1 lakh, spend Dining / ₹15–50K / best, apply through KYC):
    | PAN | Refers because |
    |---|---|
