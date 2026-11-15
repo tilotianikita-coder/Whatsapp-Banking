@@ -105,9 +105,29 @@
                                 <div class="b-tile-sub">outflow {cf.outflow}<template lwc:if={cf.avgBalance}> · avg balance {cf.avgBalance}</template></div>
                             </div>
                         </div>
+                        <!-- where the money goes: one thin segmented bar, the card-able part highlighted, figures in the list -->
+                        <div class="aa-sub">Where the money goes · {cf.outflow} a month</div>
+                        <div class="ob" role="img" aria-label={outflowLabel}>
+                            <template for:each={outflowParts} for:item="o">
+                                <span key={o.category} class={o.segCls} style={o.segStyle} title={o.tip}></span>
+                            </template>
+                        </div>
+                        <ul class="ob-legend">
+                            <template for:each={outflowParts} for:item="o">
+                                <li key={o.category} class={o.itemCls}><span class={o.swCls} style={o.swStyle}></span><span class="ob-name">{o.category}</span><span class="ob-amt">{o.amount}</span><span class="b-muted">{o.pct}%</span></li>
+                            </template>
+                        </ul>
+                        <template lwc:if={cf.declaredSpend}>
+                            <div class="said">
+                                <div class="said-cell"><div class="b-tile-label">Said they'd spend on the card</div><div class="said-val">{cf.declaredSpend}<span class="b-tile-sub"> a month</span></div></div>
+                                <div class="said-vs">vs</div>
+                                <div class="said-cell"><div class="b-tile-label">Card-able spend in the statements</div><div class="said-val">{cf.cardSpend}<span class="b-tile-sub"> a month</span></div></div>
+                            </div>
+                        </template>
+
                         <div class="aa-cols">
                             <div>
-                                <div class="aa-sub">Card-able spend · {cf.cardSpend} a month</div>
+                                <div class="aa-sub">Card-able spend by category · {cf.cardSpend} a month</div>
                                 <template for:each={cf.spend} for:item="row">
                                     <div key={row.category} class="spend-row">
                                         <span class="spend-cat">{row.category}</span>
@@ -128,6 +148,9 @@
                                     <ul class="flags"><template for:each={cf.anomalies} for:item="a"><li key={a}>⚠ {a}</li></template></ul>
                                 </template>
                                 <template lwc:else><div class="b-pill b-pill-green">No unexplained credits, round-trip transfers or income gaps</div></template>
+                                <template lwc:if={cf.spendGapFlag}>
+                                    <ul class="flags slds-m-top_x-small"><li>⚠ {cf.spendGapFlag}</li></ul>
+                                </template>
                             </div>
                         </div>
                     </div>

@@ -43,6 +43,7 @@ private class BandhuComplianceTest {
         System.assertEquals('activate_otp', r.step, 'wrong OTP');
         r = BandhuTestData.say(r, BandhuConfig.get().Demo_OTP__c);
         System.assert(r.message.contains('is active'), r.message);
+        System.assert(r.message.contains('reward points a month') && r.message.contains('Lumina'), 'rewards tip from the statements: ' + r.message);
         System.assertNotEquals(null, [SELECT Activated_At__c FROM Card_Application__c WHERE Card_Journey__c = :r.journey.Id].Activated_At__c);
         System.assertEquals(1, [SELECT COUNT() FROM Bandhu_Consent__c WHERE Card_Journey__c = :r.journey.Id AND Type__c = 'Card activation']);
     }

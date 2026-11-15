@@ -55,6 +55,7 @@ public inherited sharing class BandhuCashFlow {
         public Decimal monthlySurplus;
         public Decimal avgBalance;
         public Decimal monthlyCardSpend = 0;
+        public Map<String, Decimal> outflowBy = new Map<String, Decimal>();   // monthly average by group (Rent, EMIs, ...)
         public Map<String, Decimal> spend = new Map<String, Decimal>();
         public Map<String, Integer> spendCount = new Map<String, Integer>();
         public List<String> topCategories = new List<String>();
@@ -381,6 +382,8 @@ public inherited sharing class BandhuCashFlow {
             }
             if (!t.credit && t.category != CAT_SELF) {
                 outflow[idx] += t.amount;
+                String grp = outflowGroup(t.category);
+                a.outflowBy.put(grp, (a.outflowBy.containsKey(grp) ? a.outflowBy.get(grp) : 0) + t.amount);
                 if (t.category == CAT_EMI) {
                     emi[idx] += t.amount;
                 }
@@ -444,6 +447,9 @@ public inherited sharing class BandhuCashFlow {
         }
         a.avgBalance = monthEndBalance.isEmpty() ? null : avg(monthEndBalance).setScale(0);
 
+        for (String g : a.outflowBy.keySet()) {
+            a.outflowBy.put(g, (a.outflowBy.get(g) / nMonths).setScale(0));
+        }
         // spend by category, per month
         for (String c : a.spend.keySet()) {
             a.spend.put(c, (a.spend.get(c) / nMonths).setScale(0));
@@ -469,6 +475,21 @@ public inherited sharing class BandhuCashFlow {
             seasonality(a, income, first);
         }
         anomalies(a, txns, income, first, business);
+    }
+
+    /** Where the money goes: the card-able categories together, then what a card can't pay for. */
+    public static String outflowGroup(String category) {
+        if (BandhuEligibility.FOCUS.contains(category)) {
+            return 'Card-able spend';
+        }
+        switch on category {
+            when 'Rent' { return 'Rent'; }
+            when 'EMI' { return 'EMIs'; }
+            when 'Investment' { return 'Investments'; }
+            when 'Cash' { return 'Cash'; }
+            when 'Utilities' { return 'Bills'; }
+            when else { return 'Other transfers'; }
+        }
     }
 
     private static void lifestyle(Analysis a, Integer luxuryCount, Integer nMonths) {

@@ -48,6 +48,9 @@ public with sharing class BandhuConsoleController {
         @AuraEnabled public String avgBalance;
         @AuraEnabled public String cardSpend;
         @AuraEnabled public List<SpendRow> spend = new List<SpendRow>();
+        @AuraEnabled public List<SpendRow> outflowParts = new List<SpendRow>();
+        @AuraEnabled public String declaredSpend;
+        @AuraEnabled public String spendGapFlag;
         @AuraEnabled public List<String> lifestyle = new List<String>();
         @AuraEnabled public String seasonality;
         @AuraEnabled public List<String> anomalies = new List<String>();
@@ -57,6 +60,7 @@ public with sharing class BandhuConsoleController {
         @AuraEnabled public String category;
         @AuraEnabled public String amount;
         @AuraEnabled public Integer pct;
+        @AuraEnabled public Boolean highlight = false;
     }
 
     /** The Bandhan Score and each factor's contribution (the audit log on the application). */
@@ -130,7 +134,8 @@ public with sharing class BandhuConsoleController {
         if (app.Card_Journey__c == null) {
             return null;
         }
-        BandhuCashFlow.Analysis a = BandhuCashFlow.fromJourney(BandhuJourneyService.byId(app.Card_Journey__c));
+        Card_Journey__c jr = BandhuJourneyService.byId(app.Card_Journey__c);
+        BandhuCashFlow.Analysis a = BandhuCashFlow.fromJourney(jr);
         if (a == null) {
             return null;
         }
@@ -172,6 +177,33 @@ public with sharing class BandhuConsoleController {
             row.amount = BandhuI18n.inr(a.spend.get(c));
             row.pct = a.monthlyCardSpend == 0 ? 0 : (a.spend.get(c) / a.monthlyCardSpend * 100).intValue();
             v.spend.add(row);
+        }
+        // the outflow, card-able spend first (it is the part a card can take), then the rest largest first
+        Decimal total = 0;
+        for (Decimal d : a.outflowBy.values()) {
+            total += d;
+        }
+        List<String> order = new List<String>{ 'Card-able spend', 'Rent', 'EMIs', 'Investments', 'Cash', 'Bills', 'Other transfers' };
+        for (String g : order) {
+            Decimal amt = g == 'Card-able spend' ? a.monthlyCardSpend : a.outflowBy.get(g);   // one figure everywhere
+            if (amt == null || amt <= 0) {
+                continue;
+            }
+            SpendRow row = new SpendRow();
+            row.category = g;
+            row.amount = BandhuI18n.inr(amt);
+            row.pct = total == 0 ? 0 : (amt / total * 100).round(System.RoundingMode.HALF_UP).intValue();
+            row.highlight = g == 'Card-able spend';
+            v.outflowParts.add(row);
+        }
+        // what the customer said they would spend on the card vs what the statements show today
+        if (jr.Monthly_Spend__c != null) {
+            v.declaredSpend = BandhuI18n.inr(jr.Monthly_Spend__c);
+            if (jr.Monthly_Spend__c > a.monthlyCardSpend * 2 && jr.Monthly_Spend__c - a.monthlyCardSpend > 20000) {
+                v.spendGapFlag = 'Declared card spend ' + BandhuI18n.inr(jr.Monthly_Spend__c) + ' a month is ' + (a.monthlyCardSpend == 0 ? 'far'
+                    : (jr.Monthly_Spend__c / a.monthlyCardSpend).setScale(1) + 'x') + ' the ' + BandhuI18n.inr(a.monthlyCardSpend)
+                    + ' card-able spend in the statements: check the limit is not sized on the declared figure';
+            }
         }
         v.lifestyle = a.lifestyle;
         v.seasonality = a.seasonality;

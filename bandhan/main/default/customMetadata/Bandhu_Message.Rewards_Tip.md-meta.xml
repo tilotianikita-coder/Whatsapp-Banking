@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Rewards Tip</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">💡 *Earn more with your Bandhan {card}*
+Your statements show about *{total} a month* you pay by UPI or debit card that could go on your card:
+{lines}
+
+That's about *{points} reward points a month* (≈ {value} in value). Set your card as the default in your UPI and shopping apps and for your bills.{fuel}</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">💡 *अपने Bandhan {card} से ज़्यादा कमाएँ*
+आपके statements के अनुसार हर महीने लगभग *{total}* आप UPI या debit card से देते हैं, जो आपके card पर जा सकता है:
+{lines}
+
+यानी हर महीने लगभग *{points} reward points* (≈ {value} मूल्य)। अपने UPI और shopping apps में और bills के लिए अपना card default रखें।{fuel}</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">💡 *আপনার Bandhan {card} দিয়ে আরও বেশি আয় করুন*
+আপনার statements অনুযায়ী প্রতি মাসে প্রায় *{total}* আপনি UPI বা debit card-এ দেন, যা আপনার card-এ যেতে পারে:
+{lines}
+
+অর্থাৎ প্রতি মাসে প্রায় *{points} reward points* (≈ {value} মূল্য)। আপনার UPI ও shopping app-এ এবং bill-এর জন্য card-টি default করুন।{fuel}</value>
+    </values>
+</CustomMetadata>

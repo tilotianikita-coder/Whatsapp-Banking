@@ -29,6 +29,9 @@ Running order (about 45 minutes; Acts 3, 4 and 9 can be trimmed)
 | 9 | After the card: limit offer, re-approach, cooling-off, consent | Script + phone | 5 |
 
 ## Before the demo (10 min)
+0. Clean slate (removes every Bandhu journey, application, lead, task, consent and document from earlier runs):
+   `sf apex run -f scripts/bandhan/apex/reset_demo.apex -o bandhan`. Do this before every demo: an old application on a
+   demo PAN makes the fraud check refer the new one as a duplicate.
 1. `sf apex run -f scripts/bandhan/apex/seed.apex -o bandhan` with `ON_DEMO_PHONE = ''` (the phone is new to bank).
    For Act 8 run it again with `'Rohan'`.
 2. Leads and the underwriting queue: run `scripts/bandhan/apex/demo_leads.apex` for WHICH = 0, 1, 2, 3 (loop in its header).
@@ -67,7 +70,10 @@ Open the web page (and on a phone, or narrow the window, to show it is mobile-fi
    Flare (Gold). Here's what you get"* → **Apply for Flare**.
 6. Email → Aadhaar last 4 **1234** → OTP → Video KYC **Done** → review: point at the *hard credit enquiry* notice → **Confirm**.
 7. **Approved**: virtual card, limit, reference, the **MITC** link, *Activate within 30 days*, *Cancel card within 7 days*.
-8. Type **Activate** → OTP **123456** → *your Bandhan Flare is active*.
+8. Type **Activate** → OTP **123456** → *your Bandhan Flare is active*, followed by **"Earn more with your Bandhan
+   Flare"**: from the statements, the ~₹37,300 a month paid today by UPI or debit card that could go on the card, by
+   category with the points at Flare's rates (travel ₹14,284 → 1,428 points at 20 per ₹200 …), about **2,506 points a
+   month (≈ ₹626)**, and the fuel surcharge waiver. (Point value ₹0.25 is a placeholder.)
 9. Lightning → Card Applications → this application: the Bandhan header, the Flare card face, the CIBIL and **Bandhan
    Score** (~826, band A) tiles, every stage gate green, *why this card* as statement-backed reasons. Related: Card
    Checks (each with detail), **Card Consents** (DPDP, soft check, AA with its expiry, hard enquiry, MITC, activation).
@@ -100,11 +106,15 @@ Open the web page (and on a phone, or narrow the window, to show it is mobile-fi
 ## Act 6. Underwriting (7 min) — Bandhu Cards → Card Applications
 1. **Sourav Ghosh**: Flare, **Under Review** (CIBIL 730 in Flare's refer band). Walk, top to bottom:
    - the header, the Flare card face, CIBIL and **Bandhan Score** (777, band A) tiles;
-   - **Bank statements · Account Aggregator**: the consent (purpose, 24 months, 2 banks, 764 transactions), net monthly
-     income from the salary credits vs declared, income stability and trend, EMIs (FOIR), surplus and average balance,
-     card-able spend by category, lifestyle signals and the flags (none for Sourav);
-   - **Bandhan Score**: what it is (Bandhan's own 0-1000 score, separate from CIBIL) and all 14 factors with their points,
-     value and source (bureau / Account Aggregator / journey): the audit trail for every decision;
+   - **Bank statements · Account Aggregator**: the consent (purpose, 24 months, 2 banks, 764 transactions); net monthly
+     income ₹91,200 from *salary credits from INFOSYS LTD* vs ₹95,000 declared, stability 96/100 growing, EMIs 12%,
+     surplus ₹36,735; **Where the money goes** (₹51,065 a month: card-able spend ₹16,819 highlighted, then rent, EMIs,
+     investments, cash, bills); **Said ₹75,000 vs ₹16,819 in the statements** with the amber flag *check the limit is not
+     sized on the declared figure*; card-able spend by category; lifestyle signals;
+   - **Bandhan Score**: **777/1000, band A** on the band meter (D review · C · B · A +0.5x limit); where the points come
+     from (bureau 390/530, statements 257/260, income / relationship / channel 130/210); strengths (surplus, FOIR, history,
+     repayment) and **what holds it back** (bureau score −120, new to bank −40, income level −25); *All 14 factors* opens
+     the audit table;
    - the stage gates, each check's detail, the recommendation and *why this card* → **Approve & issue card** → the phone
      gets the approval with the MITC on WhatsApp.
 2. Risk flags (create on the web with any new mobile, income 1 lakh, spend Dining / ₹15–50K / best, apply through KYC):

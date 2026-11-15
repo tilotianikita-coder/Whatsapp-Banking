@@ -91,6 +91,28 @@ export default class BandhuApplicationReview extends LightningElement {
         return { ...c, spend: (c.spend || []).map((r) => ({ ...r, barStyle: `width:${Math.max(2, r.pct)}%` })) };
     }
 
+    get outflowParts() {
+        const parts = (this.cf && this.cf.outflowParts) || [];
+        const SHADES = ['#5a6b80', '#8494a6', '#a9b5c3', '#c8d0da', '#dde3ea', '#eef1f5'];
+        let k = 0;
+        return parts.map((o) => {
+            const shade = o.highlight ? '#ef3b23' : SHADES[Math.min(k++, SHADES.length - 1)];
+            return {
+                ...o,
+                segCls: 'ob-seg',
+                segStyle: `flex:${Math.max(o.pct, 1)} 1 0;background:${shade}`,
+                swCls: 'ob-sw',
+                itemCls: 'ob-item' + (o.highlight ? ' hl' : ''),
+                tip: `${o.category}: ${o.amount} a month (${o.pct}%)`,
+                swStyle: `background:${shade}`
+            };
+        });
+    }
+
+    get outflowLabel() {
+        return 'Monthly outflow: ' + this.outflowParts.map((o) => `${o.category} ${o.amount}`).join(', ');
+    }
+
     get stabilityBar() {
         return `width:${(this.cf && this.cf.stability) || 0}%`;
     }

@@ -268,6 +268,10 @@ public inherited sharing class BandhuEngine {
                 } else {
                     BandhuCompliance.activate(j, issued);
                     r.message = BandhuI18n.msg('Activated', lang, tokens(j));
+                    String tip = BandhuRewards.message(j, issued.Card_Product__c);
+                    if (tip != null) {
+                        r.message += '\n\n' + tip;   // what they could move onto the card, from their statements
+                    }
                 }
             } else if (choice == 1 || Pattern.matches('(?i).*\\b(yes|confirm)\\b.*', t)) {
                 BandhuCompliance.cancel(j, issued);
