@@ -40,6 +40,17 @@ private class BandhuScoreTest {
     }
 
     @IsTest
+    static void aSettledAccountCostsRepaymentPointsEvenWithAnExcellentScore() {
+        BandhuScore.Result r = BandhuScore.compute(profile('ABCPS1237K', 150000));
+        for (BandhuScore.Factor f : r.factors) {
+            if (f.name == 'Repayment (24 months)') {
+                System.assertEquals('settled account on record', f.value);
+                System.assertEquals(20, f.points);
+            }
+        }
+    }
+
+    @IsTest
     static void branchChannelAndRelationshipLiftTheScoreAndLimit() {
         BandhuEligibility.Profile digital = profile(BandhuTestData.GOOD_PAN, 100000);
         BandhuEligibility.Profile branch = profile(BandhuTestData.GOOD_PAN, 100000);

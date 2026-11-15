@@ -10,7 +10,7 @@
  *   Active accounts (40)         1-3 best
  *   Card utilisation (90)        under 30% best
  *   Enquiries, 6 months (50)     0-1 best
- *   Repayment, 24 months (70)    no DPD best
+ *   Repayment, 24 months (70)    no DPD 70, DPD up to 30 35, a settlement 20, a write-off or DPD 30+ 0
  * Bank statements, Account Aggregator (250)
  *   Monthly surplus (80)         surplus / income
  *   Income trend (40)            growing / flat / declining
@@ -94,8 +94,10 @@ public inherited sharing class BandhuScore {
             add(r, 'Card utilisation', u.intValue() + '%', u < 30 ? 90 : u < 50 ? 70 : u < 75 ? 40 : u < 90 ? 20 : 0, 90, 'Bureau');
             add(r, 'Enquiries (6 months)', String.valueOf(b.enquiries6m),
                 b.enquiries6m <= 1 ? 50 : b.enquiries6m <= 3 ? 30 : b.enquiries6m <= 5 ? 12 : 0, 50, 'Bureau');
-            add(r, 'Repayment (24 months)', b.maxDpd24 == 0 ? 'no delays' : 'max DPD ' + b.maxDpd24,
-                b.maxDpd24 == 0 ? 70 : b.maxDpd24 <= 30 ? 35 : 0, 70, 'Bureau');
+            // a write-off or a settlement is a repayment failure even when the score has recovered
+            add(r, 'Repayment (24 months)', b.writtenOff ? 'write-off on record' : b.settled ? 'settled account on record'
+                    : b.maxDpd24 == 0 ? 'no delays' : 'max DPD ' + b.maxDpd24,
+                b.writtenOff ? 0 : b.settled ? 20 : b.maxDpd24 == 0 ? 70 : b.maxDpd24 <= 30 ? 35 : 0, 70, 'Bureau');
         } else {
             add(r, 'Credit history age', noHit ? 'new to credit' : 'not pulled', noHit ? 0 : 35, 70, 'Bureau');
             add(r, 'Active accounts', noHit ? '0' : 'not pulled', noHit ? 10 : 20, 40, 'Bureau');
