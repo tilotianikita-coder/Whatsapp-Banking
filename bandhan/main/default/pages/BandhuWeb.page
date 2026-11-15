@@ -51,8 +51,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
 .facts li b{display:block;font-size:24px;font-weight:700;color:#fff;line-height:1.1}
 .facts li span{font-size:13px;color:#A7BBCD}
 /* hero visual: a fan of card faces and Bandhu's bubble */
-.visual{position:relative;height:470px;max-width:600px;margin-left:auto;width:100%}
-.fan{position:absolute;inset:0}
+.visual{position:relative;max-width:600px;margin-left:auto;width:100%;display:flex;flex-direction:column;gap:18px}
+.fan{position:relative;height:400px}
 .fan .art-img{position:absolute;width:290px;aspect-ratio:1.586;object-fit:cover;border-radius:14px;box-shadow:0 24px 50px rgba(0,0,0,.4)}
 .fan .art-img{width:265px}
 /* a loose 2x2: cards overlap only at the corners, so every card name stays readable */
@@ -60,10 +60,26 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
 .fan .a1{left:290px;top:0;transform:rotate(5deg);z-index:2}
 .fan .a2{left:24px;top:192px;transform:rotate(4deg);z-index:3}
 .fan .a3{left:312px;top:176px;transform:rotate(-5deg);z-index:4}
-.bubble{position:absolute;right:0;bottom:-18px;z-index:5;background:#fff;color:var(--ink);border-radius:18px 18px 18px 4px;padding:14px 16px 14px 14px;display:flex;gap:12px;align-items:center;max-width:330px;box-shadow:var(--sh2)}
-.bubble svg{width:52px;height:52px;flex:none}
-.bubble b{display:block;font-size:15px}
-.bubble span{font-size:13px;color:var(--muted)}
+.bubble{position:relative;align-self:flex-end;z-index:5;width:360px;max-width:100%;padding:14px 16px 14px;border-radius:20px 20px 20px 6px;
+ color:#fff;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.22);
+ backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 22px 46px rgba(6,26,44,.45)}
+.bubble:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--sun)}
+.bb-head{display:flex;align-items:center;gap:10px}
+.bb-av{position:relative;width:42px;height:42px;flex:none;border-radius:50%;padding:2px;background:var(--sun)}
+.bb-av svg{width:100%;height:100%;display:block;border-radius:50%}
+.bb-on{position:absolute;right:0;bottom:0;width:11px;height:11px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 2px #0a3152}
+.bb-who{flex:1;min-width:0}
+.bb-who b{display:block;font-size:15px;font-weight:600;line-height:1.2}
+.bb-who small{display:block;font-size:11.5px;color:#c5d3e0}
+.bb-typing{display:flex;gap:3px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,.12)}
+.bb-typing i{width:5px;height:5px;border-radius:50%;background:#fff;opacity:.4;animation:bl 1.2s infinite}
+.bb-typing i:nth-child(2){animation-delay:.2s}.bb-typing i:nth-child(3){animation-delay:.4s}
+.bb-msg{margin:10px 0 12px;font-size:14px;line-height:1.5;color:#f3f6f9}
+.bb-chips{display:flex;flex-wrap:wrap;gap:6px}
+.bb-chips button{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:500}
+.bb-chips button:hover{background:rgba(255,255,255,.18)}
+.bb-chips .bb-go{background:var(--sun);border-color:transparent;font-weight:600}
+@media (prefers-reduced-motion:reduce){.bb-typing i{animation:none;opacity:.7}}
 /* card face */
 .art{border-radius:14px;aspect-ratio:1.586;padding:16px 18px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
 .art:before{content:"";position:absolute;right:-25%;top:-55%;width:85%;height:150%;border-radius:50%;background:rgba(255,255,255,.10)}
@@ -180,7 +196,7 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
 .rej{background:#fff;color:var(--navy)}
 .consent[hidden]{display:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@media (max-width:1100px){.hero .wrap{grid-template-columns:1fr}.visual{height:300px;max-width:560px}h1{font-size:42px}}
+@media (max-width:1100px){.hero .wrap{grid-template-columns:1fr}.visual{max-width:560px}h1{font-size:42px}}
 @media (max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:860px){.steps{grid-template-columns:1fr}.secured{grid-template-columns:1fr}.secured .art{width:100%;max-width:300px}}
 @media (max-width:767px){
@@ -196,11 +212,11 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
  .ctas .btn{width:100%;text-align:center}
  .facts{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}
  .facts li b{font-size:20px}
- .visual{height:300px}
+ .visual{gap:14px}
+ .fan{height:250px}
  .fan .art-img{width:47%}
  .fan .a0{left:0;top:6px}.fan .a1{left:50%;top:0}.fan .a2{left:2%;top:118px}.fan .a3{left:52%;top:110px}
- .bubble{max-width:92%;right:0;bottom:-6px;padding:10px 12px}
- .bubble svg{width:40px;height:40px}
+ .bubble{width:100%;align-self:stretch;padding:12px 14px}
  .trust ul{justify-content:flex-start}
  .trust li{width:calc(50% - 12px);font-size:13px}
  .h2{font-size:24px}
@@ -251,7 +267,20 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
         <img class="art-img a2" src="{!URLFOR($Resource.BandhuCards,'Flare.png')}" alt="Bandhan Flare credit card"/>
         <img class="art-img a3" src="{!URLFOR($Resource.BandhuCards,'Lumina.png')}" alt="Bandhan Lumina credit card"/>
       </div>
-      <div class="bubble"><svg viewBox="0 0 160 160" role="img" aria-label="Bandhu, the Bandhan Bank card advisor"><circle cx="80" cy="80" r="78" fill="#E7EDF3"/><line x1="80" y1="22" x2="80" y2="38" stroke="#0A3152" stroke-width="4" stroke-linecap="round"/><circle cx="80" cy="18" r="7" fill="#EF3B23"/><ellipse cx="80" cy="96" rx="46" ry="48" fill="#fff" stroke="#D3DEE8" stroke-width="2"/><rect x="46" y="54" width="68" height="46" rx="23" fill="#0A3152"/><circle cx="66" cy="76" r="9" fill="#fff"/><circle cx="94" cy="76" r="9" fill="#fff"/><circle cx="68" cy="78" r="4.5" fill="#08263F"/><circle cx="96" cy="78" r="4.5" fill="#08263F"/><path d="M70 90q10 8 20 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M46 120q34 18 68 0v7q-34 16-68 0z" fill="#A71E1F"/></svg><div><b>Hi, I'm Bandhu &#128075;</b><span>Tell me how you spend and I'll find the card that pays you back the most.</span></div></div>
+      <div class="bubble" role="group" aria-label="Bandhu, your card advisor">
+        <div class="bb-head">
+          <span class="bb-av"><svg viewBox="0 0 160 160" role="img" aria-label="Bandhu, the Bandhan Bank card advisor"><circle cx="80" cy="80" r="78" fill="#E7EDF3"/><line x1="80" y1="22" x2="80" y2="38" stroke="#0A3152" stroke-width="4" stroke-linecap="round"/><circle cx="80" cy="18" r="7" fill="#EF3B23"/><ellipse cx="80" cy="96" rx="46" ry="48" fill="#fff" stroke="#D3DEE8" stroke-width="2"/><rect x="46" y="54" width="68" height="46" rx="23" fill="#0A3152"/><circle cx="66" cy="76" r="9" fill="#fff"/><circle cx="94" cy="76" r="9" fill="#fff"/><circle cx="68" cy="78" r="4.5" fill="#08263F"/><circle cx="96" cy="78" r="4.5" fill="#08263F"/><path d="M70 90q10 8 20 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M46 120q34 18 68 0v7q-34 16-68 0z" fill="#A71E1F"/></svg><i class="bb-on" aria-hidden="true"></i></span>
+          <div class="bb-who"><b>Bandhu</b><small>Bandhan Bank card advisor · online</small></div>
+          <span class="bb-typing" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
+        <p class="bb-msg">Hi, I'm Bandhu &#128075; Tell me how you spend and I'll find the card that pays you back the most.</p>
+        <div class="bb-chips">
+          <button type="button" data-start="1">&#9992;&#65039; Travel</button>
+          <button type="button" data-start="1">&#128722; Groceries</button>
+          <button type="button" data-start="1">&#127869;&#65039; Dining</button>
+          <button type="button" data-start="1" class="bb-go">Start &#8594;</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -621,6 +650,8 @@ var BW = {
   }
 
   $('talk').onclick = openChat;
+  var startChips = document.querySelectorAll('[data-start]');
+  for (var sc = 0; sc < startChips.length; sc++) { startChips[sc].onclick = openChat; }
   $('browse').onclick = function () { $('range').scrollIntoView({ behavior: 'smooth' }); };
   $('close').onclick = closeChat;
   $('scrim').onclick = closeChat;
