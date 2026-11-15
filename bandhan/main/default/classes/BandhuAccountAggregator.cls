@@ -7,8 +7,8 @@
  *            string amounts vs capitalised keys, DR/CR flags and dd-MM-yyyy dates), the way formats vary across FIPs.
  *
  * Demo levers (deterministic on the PAN, so a demo repeats):
- *   5th PAN letter T -> frequent traveller (domestic + international), D -> dines out, G -> family groceries & fuel,
- *                  F -> long commute (fuel); any other letter -> spends mirror what the customer said they spend on.
+ *   5th PAN letter T -> frequent traveller (domestic travel + two trips abroad a year), D -> dines out, G -> family
+ *                  groceries & fuel, F -> long commute (fuel); any other letter -> a balanced household, nothing abroad.
  *   PAN digits ending 8 -> heavy EMIs (about 55% of income); ending 9 -> anomalies: an unexplained large credit,
  *                  round-trip transfers with one party and two months without salary.
  *   Self-employed -> business inflows with a festive-season peak (Durga Puja, Sep - Nov).
@@ -63,7 +63,7 @@ public inherited sharing class BandhuAccountAggregator {
         'Fuel' => new List<String>{ 'POS/INDIAN OIL', 'POS/HPCL', 'POS/BHARAT PETROLEUM' }
     };
     private static final Map<String, Integer> TXNS_PER_MONTH = new Map<String, Integer>{
-        'Travel' => 2, 'International' => 1, 'Dining' => 7, 'Groceries' => 5, 'Shopping' => 3, 'Fuel' => 4
+        'Travel' => 2, 'Dining' => 8, 'Groceries' => 6, 'Shopping' => 3, 'Fuel' => 4
     };
     // festive peak for business inflows, by calendar month (Jan .. Dec)
     private static final List<Decimal> SEASON = new List<Decimal>{ 0.9, 0.9, 0.95, 1, 1, 1, 1, 1.05, 1.4, 1.6, 1.3, 1 };
@@ -75,29 +75,36 @@ public inherited sharing class BandhuAccountAggregator {
         return (Integer) Math.mod(seed / 65536, (Long) bound);
     }
 
-    /** Monthly spend per category as a share of income, by persona. */
+    /**
+     * Monthly spend per category as a share of net income, by persona (the 5th PAN letter). The statements are read before
+     * the needs questions, so they never mirror what the customer says: that is what makes the comparison meaningful.
+     * Travel abroad is not a monthly share: travellers make TRIPS_PER_YEAR trips, each about TRIP_SHARE of a month's income.
+     */
     @TestVisible
-    private static Map<String, Decimal> spendMix(String pan, String declaredFocus) {
+    private static Map<String, Decimal> spendMix(String pan) {
         String persona = pan != null && pan.length() >= 5 ? pan.substring(4, 5).toUpperCase() : '';
-        if (persona == 'T') {
-            return new Map<String, Decimal>{ 'Travel' => 0.13, 'International' => 0.07, 'Dining' => 0.05, 'Groceries' => 0.04, 'Shopping' => 0.04, 'Fuel' => 0.015 };
+        if (persona == 'T') {   // frequent traveller
+            return new Map<String, Decimal>{ 'Groceries' => 0.06, 'Dining' => 0.05, 'Shopping' => 0.05, 'Fuel' => 0.02, 'Travel' => 0.10 };
         }
-        if (persona == 'D') {
-            return new Map<String, Decimal>{ 'Travel' => 0.02, 'International' => 0, 'Dining' => 0.12, 'Groceries' => 0.04, 'Shopping' => 0.05, 'Fuel' => 0.015 };
+        if (persona == 'D') {   // dines out
+            return new Map<String, Decimal>{ 'Groceries' => 0.06, 'Dining' => 0.12, 'Shopping' => 0.07, 'Fuel' => 0.03, 'Travel' => 0.03 };
         }
-        if (persona == 'G') {
-            return new Map<String, Decimal>{ 'Travel' => 0.01, 'International' => 0, 'Dining' => 0.02, 'Groceries' => 0.13, 'Shopping' => 0.05, 'Fuel' => 0.05 };
+        if (persona == 'G') {   // family: groceries and fuel
+            return new Map<String, Decimal>{ 'Groceries' => 0.15, 'Dining' => 0.03, 'Shopping' => 0.07, 'Fuel' => 0.06, 'Travel' => 0.02 };
         }
-        if (persona == 'F') {
-            return new Map<String, Decimal>{ 'Travel' => 0.02, 'International' => 0, 'Dining' => 0.02, 'Groceries' => 0.05, 'Shopping' => 0.03, 'Fuel' => 0.09 };
+        if (persona == 'F') {   // long commute
+            return new Map<String, Decimal>{ 'Groceries' => 0.08, 'Dining' => 0.03, 'Shopping' => 0.04, 'Fuel' => 0.10, 'Travel' => 0.02 };
         }
-        Set<String> focus = new Set<String>(String.isBlank(declaredFocus) ? new List<String>() : declaredFocus.split(';'));
-        Map<String, Decimal> mix = new Map<String, Decimal>();
-        for (String f : BandhuEligibility.FOCUS) {
-            mix.put(f, focus.contains(f) ? 0.09 : focus.isEmpty() ? 0.03 : f == 'International' ? 0 : 0.012);
-        }
-        return mix;
+        // balanced household (most customers): nothing abroad
+        return new Map<String, Decimal>{ 'Groceries' => 0.09, 'Dining' => 0.04, 'Shopping' => 0.06, 'Fuel' => 0.04, 'Travel' => 0.03 };
     }
+
+    private static Boolean travelsAbroad(String pan) {
+        return pan != null && pan.length() >= 5 && pan.substring(4, 5).toUpperCase() == 'T';
+    }
+
+    public static final Decimal TRIP_SHARE = 0.75;      // a trip abroad costs about 3/4 of a month's net income
+    private static final Set<Integer> TRIP_MONTHS = new Set<Integer>{ 4, 10 };   // April and October: two trips a year
 
     public static String fetch(Card_Journey__c j, Consent c) {
         String pan = j.PAN__c == null ? 'ABCPS1234K' : j.PAN__c.toUpperCase();
@@ -113,7 +120,8 @@ public inherited sharing class BandhuAccountAggregator {
             'ITC LTD', 'TATA STEEL LTD', 'CESC LTD', 'COAL INDIA LTD' };
         String employer = String.isNotBlank(j.Company_Name__c) ? j.Company_Name__c.toUpperCase()
             : employers[Math.mod(Math.abs(pan.hashCode()), employers.size())];
-        Map<String, Decimal> mix = spendMix(pan, j.Spend_Focus__c);
+        Map<String, Decimal> mix = spendMix(pan);
+        Boolean abroad = travelsAbroad(pan);
 
         List<Map<String, Object>> primary = new List<Map<String, Object>>();
         List<Map<String, Object>> secondary = new List<Map<String, Object>>();
@@ -166,13 +174,8 @@ public inherited sharing class BandhuAccountAggregator {
                     continue;
                 }
                 Decimal amount = income * share * (cat == 'Travel' && (first.month() == 5 || first.month() == 12) ? 1.8 : 1);
-                Integer k = TXNS_PER_MONTH.get(cat);
-                if (cat == 'International') {
-                    if (Math.mod(m, 2) == 1) {
-                        continue;
-                    }
-                    amount *= 2;
-                }
+                // how often follows how much: 4% of income on dining is ~4 meals out a month, 12% is ~12
+                Integer k = cat == 'Dining' || cat == 'Fuel' ? Math.max(2, (share * 100).round(System.RoundingMode.HALF_UP).intValue()) : TXNS_PER_MONTH.get(cat);
                 for (Integer i = 0; i < k; i++) {
                     List<String> names = MERCHANTS.get(cat);
                     Decimal amt = (amount / k * (80 + rnd(41)) / 100).setScale(2);
@@ -180,6 +183,15 @@ public inherited sharing class BandhuAccountAggregator {
                     List<Object[]> target = (cat == 'Dining' || cat == 'Shopping') && Math.mod(i, 3) == 2 ? b : a;
                     target.add(new Object[]{ 1 + rnd(days), false, amt, names[rnd(names.size())].startsWith('UPI') ? 'UPI' : 'CARD', names[rnd(names.size())] });
                 }
+            }
+            // a trip abroad: the flight, the hotel, the forex card load and duty free, in the trip month
+            if (abroad && TRIP_MONTHS.contains(first.month())) {
+                Decimal trip = income * TRIP_SHARE;
+                Integer d0 = 3 + rnd(10);
+                a.add(new Object[]{ d0, false, (trip * 0.42).setScale(0), 'CARD', 'POS/INTL/SINGAPORE AIRLINES' });
+                a.add(new Object[]{ d0 + 1, false, (trip * 0.15).setScale(0), 'FT', 'FOREX CARD LOAD/THOMAS COOK' });
+                a.add(new Object[]{ d0 + 8, false, (trip * 0.35).setScale(0), 'CARD', 'POS/INTL/MARINA BAY SANDS' });
+                a.add(new Object[]{ d0 + 12, false, (trip * 0.08).setScale(0), 'CARD', 'POS/INTL/DUBAI DUTY FREE' });
             }
             if (anomalies && m == 3) {
                 a.add(new Object[]{ 14, true, income * 4, 'FT', 'IMPS/CR/R K TRADERS/TRANSFER' });

@@ -62,24 +62,24 @@ three needs questions in one run, then the soft check and the recommendation. No
    Income: source **Salaried**, income **1 lakh**.
 2. Account Aggregator: *"connect your accounts for instant approval, no documents needed: 24 months, only for this
    decision, consent valid 30 days"* → **Connect my accounts**. Show *What your statements show* (24 months, 2 accounts,
-   income stability 96/100 growing, EMIs 12% of income, *Top spends: Travel ₹21,262 (₹6,978 of it abroad) · Dining
-   ₹4,767*) and the live *"you qualify for 3 cards so far"*. (Inside, travel in India and abroad stay separate: Flare
+   income stability 96/100 growing, EMIs 12% of income, *Top spends: Travel ₹22,892 (₹12,000 of it abroad) · Groceries
+   ₹5,716 · Dining ₹4,761*) and the live *"you qualify for 3 cards so far"*. (Inside, travel in India and abroad stay separate: Flare
    rewards travel, Lumina international spends.)
 3. Needs, in one run: tap **Groceries** only (the customer *says* groceries) → *Continue* → monthly **₹15–50K** → fee
    **best benefits** → soft check **Yes**. (No company question: the employer was read from the salary credits.)
-4. Recommendation: **Flare (Gold)**, not Ignite: *"Travel: ₹14,284/month in your statements · 20 points per ₹200 on
-   travel"*, limit **₹2,65,000 – ₹3,35,000**, the card tiles with *Bandhu's pick* first. (Skip AA and the pick is Ignite.)
+4. Recommendation: **Flare (Gold)**, not Ignite: *"Travel: ₹10,892/month in your statements · 20 points per ₹200 on
+   travel"* and *"Travel abroad: 4 trips in 24 months, about ₹72,000 a trip"*, limit **₹2,65,000 – ₹3,35,000**, the card tiles with *Bandhu's pick* first. (Skip AA and the pick is Ignite.)
 5. Type **I want Lumina** → *"You asked for Lumina (Platinum): monthly income below ₹2,00,000. But you qualify for
    Flare (Gold). Here's what you get"* → **Apply for Flare**.
 6. Aadhaar last 4 **1234** → OTP → Video KYC **Done** → review: point at the *hard credit enquiry* notice → **Confirm**.
 7. **Approved**: virtual card, limit, reference, the **MITC** link, *Activate within 30 days*, *Cancel card within 7
-   days*, and **"Earn more with your Bandhan Flare"**: from the statements, the ~₹37,300 a month paid today by UPI or
-   debit card that could go on the card, by category with the points at Flare's rates (travel ₹14,284 → 1,428 points at
-   20 per ₹200 …), about **2,506 points a month (≈ ₹626)**, and the fuel surcharge waiver. (Point value ₹0.25 is a
+   days*, and **"Earn more with your Bandhan Flare"**: from the statements, the ~₹42,100 a month paid today by UPI or
+   debit card that could go on the card, by category with the points at Flare's rates (travel ₹10,892 → 1,089 points at
+   20 per ₹200, travel abroad, groceries, dining), about **2,551 points a month (≈ ₹638)**, and the fuel surcharge waiver. (Point value ₹0.25 is a
    placeholder.) Underwriter-approved cards get the same tip on WhatsApp.
 8. Type **Activate** → OTP **123456** → *your Bandhan Flare is active*, with the tip again as a reminder.
 9. Lightning → Card Applications → this application: the Bandhan header, the Flare card face, the CIBIL and **Bandhan
-   Score** (~925, band A) tiles, every stage gate green, *why this card* as statement-backed reasons. Related: Card
+   Score** (~905, band A) tiles, every stage gate green, *why this card* as statement-backed reasons. Related: Card
    Checks (each with detail), **Card Consents** (DPDP, soft check, AA with its expiry, hard enquiry, MITC, activation).
 
 ## Act 3. New to bank: when it doesn't fit (4 min) — web, a new mobile each
@@ -108,15 +108,15 @@ three needs questions in one run, then the soft check and the recommendation. No
    message → *Continue* resumes where it stopped. Moumita shows *Knocked out at Credit Bureau* and no nudge.
 
 ## Act 6. Underwriting (7 min) — Bandhu Cards → Card Applications
-1. **Sourav Ghosh**: Flare, **Under Review**: CIBIL **772 (Excellent)**, but a **settled credit card** on his bureau
-   report, which is a manual-review rule. Walk, top to bottom:
-   - the header, the Flare card face, CIBIL and **Bandhan Score** (945, band A) tiles, the CIBIL tile labelled *Excellent (750-900)*;
+1. **Sourav Ghosh**: Flare, **Under Review**: a frequent traveller (4 trips abroad in 24 months) with CIBIL **772
+   (Excellent)**, but a **settled credit card** on his bureau report, which is a manual-review rule. Walk, top to bottom:
+   - the header, the Flare card face, CIBIL and **Bandhan Score** (905, band A) tiles, the CIBIL tile labelled *Excellent (750-900)*;
    - **Bank statements · Account Aggregator**: the consent (purpose, 24 months, 2 banks, 764 transactions); net monthly
      income ₹91,200 from *salary credits from INFOSYS LTD* vs ₹95,000 declared, stability 96/100 growing, EMIs 12%,
-     surplus ₹36,735; **Where the money goes** (₹51,065 a month: card-able spend ₹16,819 highlighted, then rent, EMIs,
-     investments, cash, bills); **Said ₹75,000 vs ₹16,819 in the statements** with the amber flag *check the limit is not
-     sized on the declared figure*; card-able spend by category; lifestyle signals;
-   - **Bandhan Score**: **945/1000, band A** on the band meter (D review · C · B · A +0.5x limit); where the points come
+     surplus; **Where the money goes** (card-able spend highlighted, then rent, EMIs, investments, cash, bills); **Said
+     ₹75,000 vs the card-able spend in the statements**; lifestyle *Frequent traveller in India* and *Travels abroad: 4 trips,
+     about ₹68,400 a trip*; card-able spend by category; lifestyle signals;
+   - **Bandhan Score**: **905/1000, band A** on the band meter (D review · C · B · A +0.5x limit); where the points come
      from, in three groups: credit bureau (of 600) · bank statements (of 250) · income, relationship and channel (of 150);
      strengths and **what holds it back** (new to bank, income level); *All 14 factors* opens the audit table. The CIBIL
      factor follows the CIBIL bands: Excellent 750+ = full 280, Good 700-749 = 220-280, Fair 650-699 = 110-220, Poor

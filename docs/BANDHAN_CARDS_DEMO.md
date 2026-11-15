@@ -132,9 +132,9 @@ Data) and any flag refers the application.
 
 | PAN lever | Statements show |
 |---|---|
-| 5th letter T (e.g. ABCPT1234K) | frequent traveller: says *groceries*, gets **Flare** instead of Ignite |
+| 5th letter T (e.g. ABCPT1234K) | frequent traveller: domestic travel plus 2 trips abroad a year; says *groceries*, gets **Flare** instead of Ignite |
 | 5th letter D / G / F | dines out / family groceries & fuel / long commute |
-| any other 5th letter | spends mirror what the customer said |
+| any other 5th letter | a balanced household (groceries, shopping, fuel, dining, a little travel; nothing abroad) |
 | digits ending 8 (ABCPS1238K) | EMIs at 55% of income: limit halved |
 | digits ending 9 (ABCPS1239K) | round-trip transfers, a 4x-income credit, two months without salary: Refer |
 | Self-employed | business inflows with a Durga Puja peak |

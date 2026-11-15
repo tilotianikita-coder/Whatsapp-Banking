@@ -55,7 +55,8 @@ public inherited sharing class BandhuCashFlow {
         public Decimal monthlySurplus;
         public Decimal avgBalance;
         public Decimal monthlyCardSpend = 0;
-        public Map<String, Decimal> outflowBy = new Map<String, Decimal>();   // monthly average by group (Rent, EMIs, ...)
+        public Map<String, Decimal> outflowBy = new Map<String, Decimal>();
+        public Integer tripsAbroad = 0;                                       // months with spending abroad   // monthly average by group (Rent, EMIs, ...)
         public Map<String, Decimal> spend = new Map<String, Decimal>();
         public Map<String, Integer> spendCount = new Map<String, Integer>();
         public List<String> topCategories = new List<String>();
@@ -122,7 +123,7 @@ public inherited sharing class BandhuCashFlow {
         /** A lifestyle signal the spend line doesn't already show (travel is in the spend line). */
         public String extraLifestyle() {
             for (String l : lifestyle) {
-                if (!l.startsWith('Frequent traveller') && !l.startsWith('International spends')) {
+                if (!l.startsWith('Frequent traveller') && !l.startsWith('Travels abroad')) {
                     return l;
                 }
             }
@@ -372,6 +373,7 @@ public inherited sharing class BandhuCashFlow {
         Map<String, Map<Integer, Decimal>> lastBalance = new Map<String, Map<Integer, Decimal>>();
         Map<String, Decimal> salaryPayers = new Map<String, Decimal>();
         Integer luxuryCount = 0;
+        Set<Integer> abroadMonths = new Set<Integer>();
         for (Txn t : txns) {
             Integer idx = first.monthsBetween(t.txnDate);
             if (t.credit && CAT_INCOME.contains(t.category) && (business ? t.category == CAT_BUSINESS : t.category == CAT_SALARY || t.category == CAT_BUSINESS)) {
@@ -386,6 +388,9 @@ public inherited sharing class BandhuCashFlow {
                 a.outflowBy.put(grp, (a.outflowBy.containsKey(grp) ? a.outflowBy.get(grp) : 0) + t.amount);
                 if (t.category == CAT_EMI) {
                     emi[idx] += t.amount;
+                }
+                if (t.category == 'International') {
+                    abroadMonths.add(idx);
                 }
                 if (BandhuEligibility.FOCUS.contains(t.category)) {
                     a.spend.put(t.category, (a.spend.containsKey(t.category) ? a.spend.get(t.category) : 0) + t.amount);
@@ -470,6 +475,7 @@ public inherited sharing class BandhuCashFlow {
                 a.topCategories.add(ranked[i]);
             }
         }
+        a.tripsAbroad = abroadMonths.size();
         lifestyle(a, luxuryCount, nMonths);
         if (business) {
             seasonality(a, income, first);
@@ -495,16 +501,17 @@ public inherited sharing class BandhuCashFlow {
     private static void lifestyle(Analysis a, Integer luxuryCount, Integer nMonths) {
         Decimal income = a.netMonthlyIncome == null || a.netMonthlyIncome == 0 ? 1 : a.netMonthlyIncome;
         Decimal travel = nz(a.spend.get('Travel')) + nz(a.spend.get('International'));
-        if (travel / income >= 0.08 || count(a, 'Travel') >= nMonths * 1.5) {
-            a.lifestyle.add('Frequent traveller (' + BandhuI18n.inrShort(travel) + '/month on travel)');
+        if (nz(a.spend.get('Travel')) / income >= 0.08 || count(a, 'Travel') >= nMonths * 2.5) {
+            a.lifestyle.add('Frequent traveller in India (' + BandhuI18n.inrShort(a.spend.get('Travel')) + '/month on flights, hotels, trains)');
         }
-        if (nz(a.spend.get('International')) > 0) {
-            a.lifestyle.add('International spends (' + count(a, 'International') + ' in ' + nMonths + ' months)');
+        if (nz(a.spend.get('International')) > 0 && a.tripsAbroad > 0) {
+            Decimal perTrip = (a.spend.get('International') * nMonths / a.tripsAbroad).setScale(0);
+            a.lifestyle.add('Travels abroad: ' + a.tripsAbroad + ' trips in ' + nMonths + ' months, about ' + BandhuI18n.inrShort(perTrip) + ' a trip');
         }
-        if (count(a, 'Dining') >= nMonths * 5) {
+        if (count(a, 'Dining') >= nMonths * 8) {   // 8+ meals out a month
             a.lifestyle.add('Dines out often (' + (count(a, 'Dining') / nMonths) + ' times a month)');
         }
-        if (luxuryCount >= nMonths / 2) {
+        if (luxuryCount >= nMonths * 1.5) {   // premium merchants more than once a month on average, not the odd purchase
             a.lifestyle.add('Premium retail and hotels (' + luxuryCount + ' transactions)');
         }
         if (nz(a.spend.get('Fuel')) / income >= 0.05) {

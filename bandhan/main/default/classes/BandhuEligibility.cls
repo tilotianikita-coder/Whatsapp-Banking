@@ -323,7 +323,13 @@ public inherited sharing class BandhuEligibility {
                 Decimal w = nz(weight.get(f));
                 o.fit += w * mult;
                 if (mult >= 2 && w >= 3 && String.isNotBlank(benefit.get(f)) && o.why.size() < 3) {
-                    o.why.add('✅ ' + f + ': ' + BandhuI18n.inrShort(p.cashFlow.spend.get(f)) + '/month in your statements · ' + benefit.get(f));
+                    if (f == 'International' && p.cashFlow.tripsAbroad > 0) {
+                        Decimal perTrip = (p.cashFlow.spend.get(f) * p.cashFlow.months / p.cashFlow.tripsAbroad).setScale(0);
+                        o.why.add('✅ Travel abroad: ' + p.cashFlow.tripsAbroad + ' trips in ' + p.cashFlow.months + ' months, about '
+                            + BandhuI18n.inrShort(perTrip) + ' a trip · ' + benefit.get(f));
+                    } else {
+                        o.why.add('✅ ' + f + ': ' + BandhuI18n.inrShort(p.cashFlow.spend.get(f)) + '/month in your statements · ' + benefit.get(f));
+                    }
                 }
             }
         }
