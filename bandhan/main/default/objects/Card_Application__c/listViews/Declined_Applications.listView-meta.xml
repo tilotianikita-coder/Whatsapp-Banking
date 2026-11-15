@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Declined_Applications</fullName>
+    <columns>NAME</columns>
+    <columns>Applicant_Name__c</columns>
+    <columns>Card_Product__c</columns>
+    <columns>Status__c</columns>
+    <columns>Recommendation__c</columns>
+    <columns>CIBIL_Score__c</columns>
+    <columns>Bandhan_Score__c</columns>
+    <columns>Credit_Limit__c</columns>
+    <columns>Customer_Type__c</columns>
+    <columns>Channel__c</columns>
+    <columns>Submitted_At__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Declined</value>
+    </filters>
+    <label>Declined</label>
+</ListView>
