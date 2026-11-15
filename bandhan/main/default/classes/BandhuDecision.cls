@@ -244,6 +244,10 @@ public inherited sharing class BandhuDecision {
             if (isApproved) {
                 body += '\n\n' + BandhuCompliance.onIssue(j, app);
                 update app;
+                String tip = BandhuRewards.message(j, app.Card_Product__c);
+                if (tip != null) {
+                    body += '\n\n' + tip;
+                }
             }
             BandhuWhatsAppSender.enqueue(new List<BandhuWhatsAppSender.Outbound>{ new BandhuWhatsAppSender.Outbound(j.Id, body, null) });
         }

@@ -270,7 +270,7 @@ public inherited sharing class BandhuEngine {
                     r.message = BandhuI18n.msg('Activated', lang, tokens(j));
                     String tip = BandhuRewards.message(j, issued.Card_Product__c);
                     if (tip != null) {
-                        r.message += '\n\n' + tip;   // what they could move onto the card, from their statements
+                        r.message += '\n\n' + tip;   // the reminder, now that the card can be used
                     }
                 }
             } else if (choice == 1 || Pattern.matches('(?i).*\\b(yes|confirm)\\b.*', t)) {
@@ -961,6 +961,10 @@ public inherited sharing class BandhuEngine {
         if (o.recommendation == BandhuDecision.APPROVE) {
             j.Step__c = 'done';
             r.message = BandhuI18n.msg('Approved', lang, tk) + '\n\n' + BandhuCompliance.onIssue(j, o.application);
+            String tip = BandhuRewards.message(j, o.application.Card_Product__c);
+            if (tip != null) {
+                r.message += '\n\n' + tip;   // with the card: what they could move onto it, from their statements
+            }
             update o.application;
             BandhuLeadService.convert(j);
         } else if (o.recommendation == BandhuDecision.REFER) {
