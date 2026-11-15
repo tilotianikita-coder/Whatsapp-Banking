@@ -95,14 +95,14 @@ private class BandhuScoreTest {
         String alt = r.journey.Alternative_Card__c;
         r = BandhuTestData.say(r, '1');
         System.assertEquals(alt, r.journey.Chosen_Card__c);
-        System.assertEquals('email', r.step, r.message);
+        System.assertEquals('aadhaar', r.step, 'email was taken with the personal details: ' + r.message);
     }
 
     @IsTest
     static void everyDecisionLogsTheScoreFactors() {
         BandhuTestData.useLogOnly();
         BandhuEngine.Result r = BandhuTestData.toRecommendation(BandhuTestData.NTB_MOBILE, new List<String>{ '1, 3', '3', '2' }, '1 lakh', BandhuTestData.REFER_PAN);
-        r = BandhuTestData.sayAll(r, new List<String>{ '1', 'ananya@example.com', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
+        r = BandhuTestData.sayAll(r, new List<String>{ '1', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
         Card_Application__c app = [SELECT Recommendation__c, Bandhan_Score__c, Score_Band__c, Score_Factors__c, Model_Version__c,
             (SELECT Check__c, Result__c, Details__c FROM Card_Checks__r) FROM Card_Application__c WHERE Card_Journey__c = :r.journey.Id];
         System.assertNotEquals(null, app.Bandhan_Score__c);

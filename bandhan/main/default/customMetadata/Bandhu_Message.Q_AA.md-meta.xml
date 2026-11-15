@@ -4,14 +4,14 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">📊 One more thing: link your bank accounts through *Account Aggregator* for instant approval — no documents needed. You share 24 months of statements, only for this card decision (consent valid 30 days). It's RBI-regulated and takes a minute.</value>
+        <value xsi:type="xsd:string">📊 Now link your bank accounts through *Account Aggregator* for instant approval — no documents needed. You share 24 months of statements, only for this card decision (consent valid 30 days). It's RBI-regulated and takes a minute.</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:type="xsd:string">📊 एक और बात: तुरंत approval के लिए अपने bank accounts *Account Aggregator* से link करें — कोई document नहीं चाहिए। आप 24 महीने के statements सिर्फ़ इस card के फ़ैसले के लिए share करते हैं (consent 30 दिन के लिए)। यह RBI-regulated है और बस एक मिनट लगता है।</value>
+        <value xsi:type="xsd:string">📊 अब तुरंत approval के लिए अपने bank accounts *Account Aggregator* से link करें — कोई document नहीं चाहिए। आप 24 महीने के statements सिर्फ़ इस card के फ़ैसले के लिए share करते हैं (consent 30 दिन के लिए)। यह RBI-regulated है और बस एक मिनट लगता है।</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:type="xsd:string">📊 আর একটা কথা: সঙ্গে সঙ্গে approval-এর জন্য আপনার bank account-গুলো *Account Aggregator*-এর মাধ্যমে link করুন — কোনো document লাগবে না। আপনি 24 মাসের statements শুধু এই card-এর সিদ্ধান্তের জন্য share করবেন (consent 30 দিনের জন্য)। এটি RBI-regulated, আর মাত্র এক মিনিট লাগে।</value>
+        <value xsi:type="xsd:string">📊 এবার সঙ্গে সঙ্গে approval-এর জন্য আপনার bank account-গুলো *Account Aggregator*-এর মাধ্যমে link করুন — কোনো document লাগবে না। আপনি 24 মাসের statements শুধু এই card-এর সিদ্ধান্তের জন্য share করবেন (consent 30 দিনের জন্য)। এটি RBI-regulated, আর মাত্র এক মিনিট লাগে।</value>
     </values>
 </CustomMetadata>

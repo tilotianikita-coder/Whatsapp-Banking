@@ -7,7 +7,7 @@ private class BandhuComplianceTest {
     private static BandhuEngine.Result issued() {
         BandhuTestData.useLogOnly();
         BandhuEngine.Result r = BandhuTestData.toRecommendation(BandhuTestData.NTB_MOBILE, new List<String>{ '1, 2, 3', '4', '2' }, '2.5 lakh', BandhuTestData.GOOD_PAN);
-        r = BandhuTestData.sayAll(r, new List<String>{ '1', 'ananya@example.com', '1234', BandhuConfig.get().Demo_OTP__c, 'Done' });
+        r = BandhuTestData.sayAll(r, new List<String>{ '1', '1234', BandhuConfig.get().Demo_OTP__c, 'Done' });
         System.assertEquals('review', r.step, r.message);
         System.assert(r.message.contains('hard credit enquiry'), 'declared before submitting: ' + r.message);
         return BandhuTestData.say(r, '1');

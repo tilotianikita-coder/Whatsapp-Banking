@@ -2,7 +2,7 @@
 private class BandhuDecisionTest {
     private static BandhuEngine.Result toReview(String pan, String income, List<String> needs, String pick) {
         BandhuEngine.Result r = BandhuTestData.toRecommendation(BandhuTestData.NTB_MOBILE, needs, income, pan);
-        return BandhuTestData.sayAll(r, new List<String>{ pick, 'ananya@example.com', '1234', BandhuConfig.get().Demo_OTP__c, 'Done' });
+        return BandhuTestData.sayAll(r, new List<String>{ pick, '1234', BandhuConfig.get().Demo_OTP__c, 'Done' });
     }
 
     @IsTest

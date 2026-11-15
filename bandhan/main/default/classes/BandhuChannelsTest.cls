@@ -69,7 +69,7 @@ private class BandhuChannelsTest {
     static void reviewForTheUnderwriter() {
         BandhuTestData.useLogOnly();
         BandhuEngine.Result r = BandhuTestData.toRecommendation(BandhuTestData.NTB_MOBILE, new List<String>{ '1, 2', '4', '2' }, '2.5 lakh', BandhuTestData.GOOD_PAN);
-        r = BandhuTestData.sayAll(r, new List<String>{ '1', 'a@b.co', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
+        r = BandhuTestData.sayAll(r, new List<String>{ '1', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
         Card_Application__c app = [SELECT Id FROM Card_Application__c WHERE Card_Journey__c = :r.journey.Id];
         BandhuConsoleController.Review rev = BandhuConsoleController.getReview(app.Id);
         System.assertEquals(9, rev.checks.size());

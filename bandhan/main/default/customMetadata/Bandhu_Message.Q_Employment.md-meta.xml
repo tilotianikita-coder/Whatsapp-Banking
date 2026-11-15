@@ -4,14 +4,14 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">First, your main source of income — it decides how I check your eligibility. Are you…</value>
+        <value xsi:type="xsd:string">Now your income. What's your main source of income? It decides how I check your eligibility. Are you…</value>
     </values>
     <values>
         <field>Hindi__c</field>
-        <value xsi:type="xsd:string">सबसे पहले, आपकी income का मुख्य स्रोत — इसी से तय होता है कि eligibility कैसे check होगी। आप…</value>
+        <value xsi:type="xsd:string">अब आपकी income। आपकी income का मुख्य स्रोत क्या है? इसी से तय होता है कि eligibility कैसे check होगी। आप…</value>
     </values>
     <values>
         <field>Bengali__c</field>
-        <value xsi:type="xsd:string">প্রথমে, আপনার income-এর মূল উৎস — এটা থেকেই ঠিক হয় eligibility কীভাবে দেখা হবে। আপনি…</value>
+        <value xsi:type="xsd:string">এবার আপনার income। আপনার income-এর মূল উৎস কী? এটা থেকেই ঠিক হয় eligibility কীভাবে দেখা হবে। আপনি…</value>
     </values>
 </CustomMetadata>

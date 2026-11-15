@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>English__c</field>
-        <value xsi:type="xsd:string">Your email for card statements?</value>
+        <value xsi:type="xsd:string">Your email address? Your card statements and the card's key terms go there.</value>
     </values>
     <values>
         <field>Hindi__c</field>

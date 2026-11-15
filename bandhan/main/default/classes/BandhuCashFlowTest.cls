@@ -87,7 +87,8 @@ private class BandhuCashFlowTest {
         answers.put('aa', '1');           // connect accounts
         Card_Journey__c j2 = BandhuJourneyService.resolve(null, null, '9876500003', 'WhatsApp');
         BandhuEngine.Result r2 = BandhuTestData.sayAll(BandhuEngine.start(j2), new List<String>{ '1', '1', 'Ananya Sen', BandhuConfig.get().Demo_OTP__c });
-        BandhuEngine.Result atAa = BandhuTestData.drive(r2, new Map<String, String>{ 'employment' => '1', 'income' => '1 lakh', 'pan' => 'ABCPT1234K' });
+        BandhuEngine.Result atAa = BandhuTestData.drive(r2, new Map<String, String>{ 'email' => 'a@example.com', 'dob' => '12/04/1990', 'pincode' => 'Kolkata 700091',
+            'employment' => '1', 'income' => '1 lakh', 'pan' => 'ABCPT1234K' });
         System.assertEquals('aa', atAa.step, 'Account Aggregator right after the income source, PAN and income');
         atAa = BandhuTestData.say(atAa, '1');
         System.assert(atAa.message.contains('What your statements show') && atAa.message.contains('you qualify for'), atAa.message);

@@ -56,7 +56,7 @@ private class BandhuRiskTest {
         Map<String, String> a = BandhuTestData.answers(new List<String>{ '4', '2', '1' }, '60000', BandhuTestData.GOOD_PAN);
         a.put('aa', '2');   // no Account Aggregator: income stays self-declared
         BandhuEngine.Result r = BandhuTestData.drive(BandhuTestData.newToBankVerified(BandhuTestData.NTB_MOBILE), a);
-        r = BandhuTestData.sayAll(r, new List<String>{ '1', 'ananya@example.com', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
+        r = BandhuTestData.sayAll(r, new List<String>{ '1', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
         return [SELECT Id, Recommendation__c, (SELECT Result__c FROM Card_Checks__r WHERE Check__c = 'Income Verification')
                 FROM Card_Application__c WHERE Card_Journey__c = :r.journey.Id];
     }

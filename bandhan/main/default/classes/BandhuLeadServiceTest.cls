@@ -4,8 +4,8 @@ private class BandhuLeadServiceTest {
     static void dropOffBecomesAScoredLeadThatTheRmNudges() {
         BandhuTestData.useLogOnly();
         BandhuEngine.Result r = BandhuTestData.drive(BandhuTestData.newToBankVerified(BandhuTestData.NTB_MOBILE), new Map<String, String>{
-            'employment' => '1', 'income' => '1.5 lakh', 'pan' => BandhuTestData.GOOD_PAN, 'aa' => '2', 'spend' => '1, 3', 'monthly_spend' => '3', 'fee' => '2' });
-        System.assertEquals('company', r.step, r.message);
+            'email' => 'a@example.com', 'dob' => '12/04/1990', 'employment' => '1', 'income' => '1.5 lakh', 'pan' => BandhuTestData.GOOD_PAN });
+        System.assertEquals('pincode', r.step, r.message);
         update new Card_Journey__c(Id = r.journey.Id, Last_Activity__c = Datetime.now().addMinutes(-30));
 
         Test.startTest();
@@ -14,14 +14,14 @@ private class BandhuLeadServiceTest {
 
         Card_Journey__c j = BandhuJourneyService.byId(r.journey.Id);
         System.assertEquals('Dropped', j.Status__c);
-        System.assert(j.Drop_Point__c.startsWith('Company'), j.Drop_Point__c);
+        System.assert(j.Drop_Point__c.startsWith('PIN code'), j.Drop_Point__c);
         Lead l = [SELECT Name, LeadSource, Rating, Bandhu_Intent_Score__c, Bandhu_Credit_Score__c, Bandhu_Drop_Point__c, Bandhu_Score_Detail__c
                   FROM Lead WHERE Id = :j.Lead__c];
         System.assertEquals('Ananya Sen', l.Name);
         System.assertEquals(BandhuLeadService.SOURCE, l.LeadSource);
         System.assertEquals(j.Drop_Point__c, l.Bandhu_Drop_Point__c);
-        System.assert(l.Bandhu_Intent_Score__c > 0 && l.Bandhu_Credit_Score__c > 0);
-        System.assert(l.Bandhu_Score_Detail__c.contains('Monthly income ₹1,50,000: 20/25'), l.Bandhu_Score_Detail__c);
+        System.assert(l.Bandhu_Intent_Score__c > 0, 'intent from the journey so far; no credit data before the PIN, PAN and income');
+        System.assert(l.Bandhu_Score_Detail__c.contains('Intent'), l.Bandhu_Score_Detail__c);
         // the PIN and bureau aren't shared yet: those gates wait
         Lead gated = [SELECT Status, Bandhu_Stage_Gate__c, Bandhu_Credit_Confidence__c FROM Lead WHERE Id = :l.Id];
         System.assertEquals('Waiting at Serviceability', gated.Bandhu_Stage_Gate__c);
@@ -32,7 +32,7 @@ private class BandhuLeadServiceTest {
         BandhuConsoleController.Insight ins = BandhuConsoleController.getLeadInsight(l.Id);
         System.assert(ins.hasJourney && ins.canNudge, ins.blockedReason);
         System.assertEquals(7, ins.gates.size());
-        System.assertEquals(3, ins.pathIndex, 'dropped at the company question: the Credit check stage');
+        System.assertEquals(0, ins.pathIndex, 'dropped at the PIN code: still in Verified & details');
         String sent = BandhuConsoleController.nudge(l.Id);
         System.assert(sent.contains('Reply *Continue*'), sent);
         System.assertEquals(1, BandhuJourneyService.byId(j.Id).Nudges_Sent__c);
@@ -40,7 +40,7 @@ private class BandhuLeadServiceTest {
         // the reply resumes the dropped journey at the same question
         BandhuEngine.Result back = BandhuEngine.start(BandhuJourneyService.resolve(null, null, BandhuTestData.NTB_MOBILE, 'WhatsApp'));
         System.assert(back.message.startsWith('Welcome back Ananya'), back.message);
-        System.assertEquals('company', back.step);
+        System.assertEquals('pincode', back.step, 'Continue resumes at the question where they stopped');
         System.assertEquals('Active', back.journey.Status__c);
     }
 

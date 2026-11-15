@@ -321,7 +321,7 @@ public with sharing class BandhuConsoleController {
 
     /** The prospect's journey milestones, for the path on the Lead page. */
     // the journey's stages in the order they are asked (income source and Account Aggregator come before the needs)
-    private static final List<String> PATH = new List<String>{ 'Verified', 'Income & statements', 'Needs', 'Credit check', 'Recommendation', 'KYC', 'Submitted' };
+    private static final List<String> PATH = new List<String>{ 'Verified & details', 'Income & statements', 'Needs', 'Credit check', 'Recommendation', 'KYC', 'Submitted' };
 
     /** The stage the customer is in now (6 = submitted, shown as done). */
     private static Integer pathIndex(Card_Journey__c j) {
@@ -329,11 +329,12 @@ public with sharing class BandhuConsoleController {
             return 6;
         }
         Map<String, Integer> byStep = new Map<String, Integer>{ 'menu' => 0, 'consent' => 0, 'name' => 0, 'mobile' => 0, 'otp' => 0, 'hold' => 0,
-            'employment' => 1, 'income' => 1, 'pan' => 1, 'aa' => 1,
+            'email' => 0, 'dob' => 0, 'pincode' => 0, 'pan' => 0,
+            'employment' => 1, 'income' => 1, 'aa' => 1, 'company' => 1,
             'spend' => 2, 'monthly_spend' => 2, 'fee' => 2,
-            'company' => 3, 'dob' => 3, 'pincode' => 3, 'bureau' => 3,
+            'bureau' => 3,
             'choose' => 4, 'not_eligible' => 4, 'applied_alt' => 4, 'secured_offer' => 4, 'after_compare' => 4,
-            'email' => 5, 'aadhaar' => 5, 'aadhaar_otp' => 5, 'vkyc' => 5, 'review' => 5 };
+            'aadhaar' => 5, 'aadhaar_otp' => 5, 'vkyc' => 5, 'review' => 5 };
         Integer idx = byStep.get(j.Step__c);
         return idx == null ? 0 : idx;
     }

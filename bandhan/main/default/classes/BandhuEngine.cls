@@ -64,9 +64,10 @@ public inherited sharing class BandhuEngine {
     private static final Map<String, String> PIN_CITY = new Map<String, String>{ '700' => 'Kolkata', '110' => 'Delhi', '400' => 'Mumbai',
         '560' => 'Bengaluru', '600' => 'Chennai', '500' => 'Hyderabad', '411' => 'Pune', '781' => 'Guwahati', '751' => 'Bhubaneswar', '800' => 'Patna' };
     private static final Map<String, Decimal> SPEND_BANDS = new Map<String, Decimal>{ '1' => 10000, '2' => 30000, '3' => 75000, '4' => 150000 };
-    // income source and Account Aggregator first (they drive the bureau strategy and the eligibility), then needs, then the rest
-    private static final List<String> PROFILE_STEPS = new List<String>{ 'employment', 'income', 'pan', 'aa', 'spend', 'monthly_spend', 'fee',
-        'company', 'dob', 'pincode', 'bureau' };
+    // personal details first, then income and the Account Aggregator, then the needs in one run, then the soft check:
+    // nothing interrupts the needs questions (the company comes from the salary credits, or is asked with the income)
+    private static final List<String> PROFILE_STEPS = new List<String>{ 'email', 'dob', 'pincode', 'pan', 'employment', 'income', 'aa', 'company',
+        'spend', 'monthly_spend', 'fee', 'bureau' };
     private static final List<String> KYC_STEPS = new List<String>{ 'email', 'aadhaar', 'aadhaar_otp', 'vkyc', 'review' };
 
     // ------------------------------------------------------------------ entry points

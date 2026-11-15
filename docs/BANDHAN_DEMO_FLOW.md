@@ -55,27 +55,31 @@ Open the web page (and on a phone, or narrow the window, to show it is mobile-fi
 ## Act 2. New to bank: the statements pick the card (7 min) — *the Account Aggregator story*
 *Find my card* → the chat opens (language buttons English / हिंदी / বাংলা at the top) → **Find my card** → consent
 (DPDP, purpose-limited) → name → mobile **9876511001** → OTP.
-1. Income source **Salaried**, income **1 lakh**, PAN **ABCPT1234K**. (Income source and AA come first: they drive the
-   bureau strategy and the eligibility.)
+
+The order is: your details (email, date of birth, city and PIN, PAN), then your income and bank statements, then the
+three needs questions in one run, then the soft check and the recommendation. Nothing interrupts the needs.
+1. Details: email **any@example.com**, date of birth **12/04/1990**, **Kolkata 700091**, PAN **ABCPT1234K**.
+   Income: source **Salaried**, income **1 lakh**.
 2. Account Aggregator: *"connect your accounts for instant approval, no documents needed: 24 months, only for this
    decision, consent valid 30 days"* → **Connect my accounts**. Show *What your statements show* (24 months, 2 accounts,
    income stability 96/100 growing, EMIs 12% of income, *Top spends: Travel ₹21,262 (₹6,978 of it abroad) · Dining
    ₹4,767*) and the live *"you qualify for 3 cards so far"*. (Inside, travel in India and abroad stay separate: Flare
    rewards travel, Lumina international spends.)
-3. Spend: tap **Groceries** only (the customer *says* groceries) → *Continue* → monthly **₹15–50K** → fee **best
-   benefits** → DOB, PIN, soft check **Yes**. (No company question: the employer was read from the salary credits.)
+3. Needs, in one run: tap **Groceries** only (the customer *says* groceries) → *Continue* → monthly **₹15–50K** → fee
+   **best benefits** → soft check **Yes**. (No company question: the employer was read from the salary credits.)
 4. Recommendation: **Flare (Gold)**, not Ignite: *"Travel: ₹14,284/month in your statements · 20 points per ₹200 on
    travel"*, limit **₹2,65,000 – ₹3,35,000**, the card tiles with *Bandhu's pick* first. (Skip AA and the pick is Ignite.)
 5. Type **I want Lumina** → *"You asked for Lumina (Platinum): monthly income below ₹2,00,000. But you qualify for
    Flare (Gold). Here's what you get"* → **Apply for Flare**.
-6. Email → Aadhaar last 4 **1234** → OTP → Video KYC **Done** → review: point at the *hard credit enquiry* notice → **Confirm**.
-7. **Approved**: virtual card, limit, reference, the **MITC** link, *Activate within 30 days*, *Cancel card within 7 days*.
-8. Type **Activate** → OTP **123456** → *your Bandhan Flare is active*, followed by **"Earn more with your Bandhan
-   Flare"**: from the statements, the ~₹37,300 a month paid today by UPI or debit card that could go on the card, by
-   category with the points at Flare's rates (travel ₹14,284 → 1,428 points at 20 per ₹200 …), about **2,506 points a
-   month (≈ ₹626)**, and the fuel surcharge waiver. (Point value ₹0.25 is a placeholder.)
+6. Aadhaar last 4 **1234** → OTP → Video KYC **Done** → review: point at the *hard credit enquiry* notice → **Confirm**.
+7. **Approved**: virtual card, limit, reference, the **MITC** link, *Activate within 30 days*, *Cancel card within 7
+   days*, and **"Earn more with your Bandhan Flare"**: from the statements, the ~₹37,300 a month paid today by UPI or
+   debit card that could go on the card, by category with the points at Flare's rates (travel ₹14,284 → 1,428 points at
+   20 per ₹200 …), about **2,506 points a month (≈ ₹626)**, and the fuel surcharge waiver. (Point value ₹0.25 is a
+   placeholder.) Underwriter-approved cards get the same tip on WhatsApp.
+8. Type **Activate** → OTP **123456** → *your Bandhan Flare is active*, with the tip again as a reminder.
 9. Lightning → Card Applications → this application: the Bandhan header, the Flare card face, the CIBIL and **Bandhan
-   Score** (~826, band A) tiles, every stage gate green, *why this card* as statement-backed reasons. Related: Card
+   Score** (~870, band A) tiles, every stage gate green, *why this card* as statement-backed reasons. Related: Card
    Checks (each with detail), **Card Consents** (DPDP, soft check, AA with its expiry, hard enquiry, MITC, activation).
 
 ## Act 3. New to bank: when it doesn't fit (4 min) — web, a new mobile each
@@ -88,7 +92,7 @@ Open the web page (and on a phone, or narrow the window, to show it is mobile-fi
 ## Act 4. Existing customers (5 min) — web, type the seeded mobile
 | Customer | What to show |
 |---|---|
-| **Rohan 9000000101** | *Welcome back*: no income, PAN, DOB, PIN or KYC asked; silent soft pull (cached 30 days); spend Travel + Dining / ₹50K–1L / best, company → **Flare**, pre-approved **₹3.5L** → apply → review → approved (no Aadhaar or Video KYC) |
+| **Rohan 9000000101** | *Welcome back*: no email, DOB, PIN, PAN, income or KYC asked; silent soft pull (cached 30 days); company **Tata Steel**, then spend Travel + Dining / ₹50K–1L / best → **Flare**, pre-approved **₹3.5L** → apply → review → approved (no Aadhaar or Video KYC) |
 | **Sutapa 9000000102** | Wealth tier (balances + FDs + demat ₹18.5L): income source Salaried, income 1 lakh, spend Travel + International → **Lumina** through the relationship route, limit ₹5L |
 | **Rina 9000000103** | Microfinance-only customer: income source Business owner, income 45000, spend Groceries + Shopping → **Sparks only** (the other cards aren't offered to the microfinance tier) |
 | **Debasish 9000000104** | Dormant savings account: right after the OTP the journey is **on hold** (*"needs a quick reactivation… your RM will call"*) and the RM gets a task. (An AML flag would show *"a routine review"*: never disclosed) |
@@ -105,16 +109,16 @@ Open the web page (and on a phone, or narrow the window, to show it is mobile-fi
 
 ## Act 6. Underwriting (7 min) — Bandhu Cards → Card Applications
 1. **Sourav Ghosh**: Flare, **Under Review** (CIBIL 730 in Flare's refer band). Walk, top to bottom:
-   - the header, the Flare card face, CIBIL and **Bandhan Score** (777, band A) tiles;
+   - the header, the Flare card face, CIBIL and **Bandhan Score** (815, band A) tiles;
    - **Bank statements · Account Aggregator**: the consent (purpose, 24 months, 2 banks, 764 transactions); net monthly
      income ₹91,200 from *salary credits from INFOSYS LTD* vs ₹95,000 declared, stability 96/100 growing, EMIs 12%,
      surplus ₹36,735; **Where the money goes** (₹51,065 a month: card-able spend ₹16,819 highlighted, then rent, EMIs,
      investments, cash, bills); **Said ₹75,000 vs ₹16,819 in the statements** with the amber flag *check the limit is not
      sized on the declared figure*; card-able spend by category; lifestyle signals;
-   - **Bandhan Score**: **777/1000, band A** on the band meter (D review · C · B · A +0.5x limit); where the points come
-     from (bureau 390/530, statements 257/260, income / relationship / channel 130/210); strengths (surplus, FOIR, history,
-     repayment) and **what holds it back** (bureau score −120, new to bank −40, income level −25); *All 14 factors* opens
-     the audit table;
+   - **Bandhan Score**: **815/1000, band A** on the band meter (D review · C · B · A +0.5x limit); where the points come
+     from (bureau, statements, income / relationship / channel); strengths (surplus, FOIR, history, repayment) and **what
+     holds it back** (bureau score 730 is the biggest gap, then new to bank and income level); *All 14 factors* opens the
+     audit table. The bureau factor is stepped: 700 → 120, 750 → 200, 800 → 240, 850 → 250 of 250 points;
    - the stage gates, each check's detail, the recommendation and *why this card* → **Approve & issue card** → the phone
      gets the approval with the MITC on WhatsApp.
 2. Risk flags (create on the web with any new mobile, income 1 lakh, spend Dining / ₹15–50K / best, apply through KYC):
@@ -134,7 +138,7 @@ new or existing, every answer, CIBIL, cash flow (AA), eligible cards, the recomm
 
 ## Act 8. RM 360 and branch-assisted (4 min)
 Seed with `ON_DEMO_PHONE = 'Rohan'`. **Bandhu Cards** → Contacts → **Rohan Mukherjee**: the **Customer 360 · card to
-pitch** panel: tier Deposit, relationship score, Bandhan Score (~790) and what drags it, **pitch Flare (Gold)**,
+pitch** panel: tier Deposit, relationship score, Bandhan Score (~830) and what drags it, **pitch Flare (Gold)**,
 ₹2.8–3.5L, why; bureau and relationship detail → **Start branch-assisted application** → the phone gets *"Namaskar
 Rohan… as <RM> mentioned…"* with the consent → he continues on WhatsApp.
 

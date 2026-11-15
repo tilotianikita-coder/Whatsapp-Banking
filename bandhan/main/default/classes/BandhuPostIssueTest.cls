@@ -36,7 +36,7 @@ private class BandhuPostIssueTest {
     private static BandhuEngine.Result issued() {
         BandhuTestData.useLogOnly();
         BandhuEngine.Result r = BandhuTestData.toRecommendation(BandhuTestData.NTB_MOBILE, new List<String>{ '1, 2, 3', '4', '2' }, '2.5 lakh', BandhuTestData.GOOD_PAN);
-        return BandhuTestData.sayAll(r, new List<String>{ '1', 'ananya@example.com', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
+        return BandhuTestData.sayAll(r, new List<String>{ '1', '1234', BandhuConfig.get().Demo_OTP__c, 'Done', '1' });
     }
 
     @IsTest

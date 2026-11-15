@@ -64,7 +64,7 @@ public class BandhuTestData {
     /** Standard answers: salaried, the given income and PAN, soft check yes, Account Aggregator yes; needs = spend, monthly spend, fee. */
     public static Map<String, String> answers(List<String> needs, String income, String pan) {
         Map<String, String> a = new Map<String, String>{
-            'employment' => '1', 'income' => income, 'pan' => pan, 'aa' => '1', 'company' => 'Infosys', 'dob' => '12/04/1990',
+            'email' => 'ananya@example.com', 'employment' => '1', 'income' => income, 'pan' => pan, 'aa' => '1', 'company' => 'Infosys', 'dob' => '12/04/1990',
             'pincode' => 'Kolkata 700091', 'bureau' => '1'
         };
         List<String> keys = new List<String>{ 'spend', 'monthly_spend', 'fee' };

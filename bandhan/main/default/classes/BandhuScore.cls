@@ -4,7 +4,7 @@
  * customer or a regulator: each factor's points are logged on the application (Score_Factors__c) and the check.
  *
  * Factor (max points)            Source
- *   Bureau score (250)           bureau        points = score - 600 (850+ full); no footprint 60
+ *   Bureau score (250)           bureau        stepped: 600 -> 0, 650 -> 40, 700 -> 120, 750 -> 200, 800 -> 240, 850+ -> 250; no footprint 60
  *   Credit history age (60)      bureau        oldest tradeline, 60 months = full
  *   Active accounts (40)         bureau        1-3 best
  *   Card utilisation (80)        bureau        under 30% best
@@ -81,7 +81,7 @@ public inherited sharing class BandhuScore {
         Decimal income = p.income == null || p.income == 0 ? null : p.income;
 
         add(r, 'Bureau score', noHit ? 'no footprint' : cibil == null ? 'not pulled' : String.valueOf(cibil),
-            noHit ? 60 : cibil == null ? 100 : clamp(cibil - 600, 0, 250), 250, 'Bureau');
+            noHit ? 60 : cibil == null ? 100 : bureauPoints(cibil), 250, 'Bureau');
         if (b != null && !noHit) {
             add(r, 'Credit history age', b.oldestMonths + ' months', clamp(b.oldestMonths, 0, 60), 60, 'Bureau');
             add(r, 'Active accounts', String.valueOf(b.activeAccounts),
@@ -135,6 +135,22 @@ public inherited sharing class BandhuScore {
         f.source = source;
         r.factors.add(f);
         r.score += f.points;
+    }
+
+    /** A good score should cost little and a weak one a lot: linear between these steps. */
+    @TestVisible
+    private static Integer bureauPoints(Integer cibil) {
+        List<Integer> at = new List<Integer>{ 600, 650, 700, 750, 800, 850 };
+        List<Integer> pts = new List<Integer>{ 0, 40, 120, 200, 240, 250 };
+        if (cibil <= at[0]) {
+            return 0;
+        }
+        for (Integer i = 1; i < at.size(); i++) {
+            if (cibil <= at[i]) {
+                return pts[i - 1] + (pts[i] - pts[i - 1]) * (cibil - at[i - 1]) / (at[i] - at[i - 1]);
+            }
+        }
+        return 250;
     }
 
     private static Integer clamp(Integer v, Integer lo, Integer hi) {
