@@ -51,15 +51,16 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
 .facts li b{display:block;font-size:24px;font-weight:700;color:#fff;line-height:1.1}
 .facts li span{font-size:13px;color:#A7BBCD}
 /* hero visual: a fan of card faces and Bandhu's bubble */
-.visual{position:relative;height:420px;max-width:620px;margin-left:auto;width:100%}
+.visual{position:relative;height:470px;max-width:600px;margin-left:auto;width:100%}
 .fan{position:absolute;inset:0}
 .fan .art-img{position:absolute;width:290px;aspect-ratio:1.586;object-fit:cover;border-radius:14px;box-shadow:0 24px 50px rgba(0,0,0,.4)}
-.fan .a0{left:0;top:150px;transform:rotate(-12deg);z-index:1}
-.fan .a1{left:110px;top:92px;transform:rotate(-4deg);z-index:2}
-.fan .a2{left:210px;top:40px;transform:rotate(4deg);z-index:3}
-.fan .a3{left:300px;top:-6px;transform:rotate(11deg);z-index:4}
-.fan .art-img{width:270px}
-.bubble{position:absolute;right:0;bottom:-10px;background:#fff;color:var(--ink);border-radius:18px 18px 18px 4px;padding:14px 16px 14px 14px;display:flex;gap:12px;align-items:center;max-width:330px;box-shadow:var(--sh2)}
+.fan .art-img{width:265px}
+/* a loose 2x2: cards overlap only at the corners, so every card name stays readable */
+.fan .a0{left:0;top:18px;transform:rotate(-6deg);z-index:1}
+.fan .a1{left:290px;top:0;transform:rotate(5deg);z-index:2}
+.fan .a2{left:24px;top:192px;transform:rotate(4deg);z-index:3}
+.fan .a3{left:312px;top:176px;transform:rotate(-5deg);z-index:4}
+.bubble{position:absolute;right:0;bottom:-18px;z-index:5;background:#fff;color:var(--ink);border-radius:18px 18px 18px 4px;padding:14px 16px 14px 14px;display:flex;gap:12px;align-items:center;max-width:330px;box-shadow:var(--sh2)}
 .bubble svg{width:52px;height:52px;flex:none}
 .bubble b{display:block;font-size:15px}
 .bubble span{font-size:13px;color:var(--muted)}
@@ -195,9 +196,9 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#FF6A4D,#EF3B23);-webki
  .ctas .btn{width:100%;text-align:center}
  .facts{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}
  .facts li b{font-size:20px}
- .visual{height:230px}
- .fan .art-img{width:190px}
- .fan .a0{left:0;top:66px}.fan .a1{left:17%;top:44px}.fan .a2{left:34%;top:22px}.fan .a3{left:51%;top:0}
+ .visual{height:300px}
+ .fan .art-img{width:47%}
+ .fan .a0{left:0;top:6px}.fan .a1{left:50%;top:0}.fan .a2{left:2%;top:118px}.fan .a3{left:52%;top:110px}
  .bubble{max-width:92%;right:0;bottom:-6px;padding:10px 12px}
  .bubble svg{width:40px;height:40px}
  .trust ul{justify-content:flex-start}
