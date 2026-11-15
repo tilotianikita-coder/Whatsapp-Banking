@@ -16,7 +16,7 @@ prs = Presentation(SRC)
 NAVY = RGBColor(0x15, 0x36, 0x52)      # architecture text
 SF_FILL, SF_LINE = RGBColor(0xEA, 0xF4, 0xFF), RGBColor(0x92, 0xAB, 0xC0)
 BB_FILL, BB_LINE = RGBColor(0xF2, 0xF2, 0xF2), RGBColor(0x92, 0xAB, 0xC0)
-AI_FILL, AI_LINE = RGBColor(0xFF, 0xF1, 0xEC), RGBColor(0xEF, 0x3B, 0x23)   # Bandhan Lava accent for Agentforce
+AI_FILL, AI_LINE = SF_FILL, SF_LINE   # Agentforce is Salesforce scope: same blue
 ARROW = RGBColor(0x68, 0x7C, 0x8E)
 BLUE = RGBColor(0x1B, 0x5F, 0xD9)       # card-grid headings (Axis deck)
 DARK = RGBColor(0x0B, 0x22, 0x47)
@@ -71,7 +71,7 @@ def box(slide, x, y, w, h, title_, sub, kind='sf'):
     s = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(y), Inches(w), Inches(h))
     s.adjustments[0] = 0.12
     s.fill.solid(); s.fill.fore_color.rgb = fill
-    s.line.color.rgb = line; s.line.width = Pt(0.75 if kind != 'ai' else 1.25)
+    s.line.color.rgb = line; s.line.width = Pt(0.75)
     s.shadow.inherit = False
     tf = s.text_frame; tf.clear()
     tf.margin_left = tf.margin_right = Inches(0.06); tf.margin_top = tf.margin_bottom = Inches(0.03)
@@ -96,18 +96,18 @@ def arrow(slide, x1, y1, x2, y2, both=False):
 def header(slide, t, sub, n, total):
     text(slide, 0.42, 0.22, 9.1, 0.36, t, size=22, color=NAVY, font=FONT_HEAD)
     text(slide, 0.42, 0.6, 9.1, 0.2, sub, size=8, color=NAVY)
-    text(slide, 0.42, 5.3, 8.4, 0.18, 'Blue: Salesforce     Coral: Agentforce (AI)     Grey: Bandhan / channel systems     (demo: integrations simulated)', size=6, color=NAVY)
+    text(slide, 0.42, 5.3, 8.4, 0.18, 'Blue: Salesforce (Data 360, Agentforce, journey, consoles)     Grey: Bandhan / external systems', size=6, color=NAVY)
     text(slide, 9.0, 5.3, 0.6, 0.18, f'{n} / {total}', size=6, color=NAVY, align=PP_ALIGN.RIGHT)
 
 TOTAL = 4
 
 # ================================================================ slide 2: WhatsApp architecture (Data 360 at the core)
-D360_FILL, D360_LINE = RGBColor(0xE6, 0xF7, 0xF5), RGBColor(0x0B, 0x82, 0x7C)   # Data 360: teal
+D360_FILL, D360_LINE = SF_FILL, SF_LINE   # Data 360 is Salesforce scope: same blue
 
 def box2(slide, x, y, w, h, t, sub, kind):
     if kind == 'd360':
         b = box(slide, x, y, w, h, t, sub, 'sf')
-        b.fill.fore_color.rgb = D360_FILL; b.line.color.rgb = D360_LINE; b.line.width = Pt(1.25)
+        b.fill.fore_color.rgb = D360_FILL; b.line.color.rgb = D360_LINE; b.line.width = Pt(0.75)
         return b
     return box(slide, x, y, w, h, t, sub, kind)
 
@@ -116,7 +116,7 @@ def legend2(slide):
     for sh in list(slide.shapes):
         if sh.has_text_frame and sh.text_frame.text.startswith('Blue: Salesforce'):
             sh._element.getparent().remove(sh._element)
-    text(slide, 0.42, 5.3, 8.4, 0.18, 'Blue: Salesforce     Teal: Data 360     Coral: Agentforce (AI)     Grey: Bandhan / external systems', size=6, color=NAVY)
+    text(slide, 0.42, 5.3, 8.4, 0.18, 'Blue: Salesforce (Data 360, Agentforce, journey, consoles)     Grey: Bandhan / external systems', size=6, color=NAVY)
 
 def channel_slide(title, sub, n, channel_title, channel_sub, side_title, side_sub):
     s = prs.slides.add_slide(blank); move_before_thanks(s)
@@ -158,10 +158,10 @@ s = prs.slides.add_slide(blank); move_before_thanks(s)
 header(s, 'Data 360 and Agentforce integration', 'Every source lands once in Data 360; Agentforce, the journey and the consoles read the same profile', 3, TOTAL); legend2(s)
 cols = [0.45, 2.85, 5.45, 7.75]
 TOP, BOT = 1.12, 4.98
-text(s, cols[0], 0.9, 2.1, 0.2, 'SOURCES', size=7, bold=True, color=GREY)
-text(s, cols[1], 0.9, 2.3, 0.2, 'DATA 360', size=7, bold=True, color=D360_LINE)
-text(s, cols[2], 0.9, 2.0, 0.2, 'AGENTFORCE', size=7, bold=True, color=AI_LINE)
-text(s, cols[3], 0.9, 1.8, 0.2, 'CHANNELS AND USERS', size=7, bold=True, color=BLUE)
+text(s, cols[0], 0.9, 2.1, 0.2, 'SOURCES · BANDHAN / EXTERNAL', size=7, bold=True, color=GREY)
+text(s, cols[1], 0.9, 2.3, 0.2, 'DATA 360 · SALESFORCE', size=7, bold=True, color=BLUE)
+text(s, cols[2], 0.9, 2.0, 0.2, 'AGENTFORCE · SALESFORCE', size=7, bold=True, color=BLUE)
+text(s, cols[3], 0.9, 1.8, 0.2, 'CHANNELS · SALESFORCE', size=7, bold=True, color=BLUE)
 # sources: 7 boxes, each arrow lands on the Data 360 band
 sources = [('Account Aggregator', 'FIU · consent-scoped · real-time'), ('CIBIL / bureau', 'soft + hard pull · real-time'),
            ('Core banking (CBS)', 'accounts, FDs, loans · Zero Copy'), ('KYC: UIDAI, NSDL', 'eKYC, PAN · real-time'),
@@ -224,14 +224,14 @@ for i, (n, t, d) in enumerate(steps):
     x = x0 + i * (bw + 0.08)
     b = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(y0), Inches(bw), Inches(bh)); b.adjustments[0] = 0.1
     b.fill.solid(); b.fill.fore_color.rgb = AI_FILL if n in ('2', '4') else SF_FILL; b.line.color.rgb = AI_LINE if n in ('2', '4') else SF_LINE; b.line.width = Pt(0.75); b.shadow.inherit = False
-    text(s, x + 0.08, y0 + 0.06, bw - 0.16, 0.2, n, size=12, bold=True, color=AI_LINE)
+    text(s, x + 0.08, y0 + 0.06, bw - 0.16, 0.2, n, size=12, bold=True, color=BLUE)
     text(s, x + 0.08, y0 + 0.3, bw - 0.16, 0.32, t, size=7.5, bold=True, color=NAVY)
     text(s, x + 0.08, y0 + 0.63, bw - 0.16, 0.4, d, size=6.5, color=NAVY)
     if i < len(steps) - 1:
         arrow(s, x + bw, y0 + bh / 2, x + bw + 0.08, y0 + bh / 2)
 # the lead lane
 lane = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.5), Inches(2.3), Inches(8.9), Inches(1.35)); lane.adjustments[0] = 0.06
-lane.fill.solid(); lane.fill.fore_color.rgb = RGBColor(0xFF, 0xFF, 0xFF); lane.line.color.rgb = SF_LINE; lane.line.width = Pt(0.75); lane.shadow.inherit = False
+lane.fill.solid(); lane.fill.fore_color.rgb = SF_FILL; lane.line.color.rgb = SF_LINE; lane.line.width = Pt(0.75); lane.shadow.inherit = False
 text(s, 0.65, 2.38, 8.6, 0.22, 'Lead management in Salesforce, in step with Neev', size=10, bold=True, color=NAVY)
 lanes = [
     ('Created at the OTP', 'New-to-bank: a Lead the moment the mobile is verified; existing customers stay on their Contact'),
@@ -252,7 +252,7 @@ for i, (t, d) in enumerate([
     ('Customer', 'Same journey on WhatsApp and the web, in English, Hindi or Bengali; resumes anywhere'),
 ]):
     x = 0.5 + i * 3.0
-    b = box(s, x, 3.85, 2.9, 0.95, t, [d], 'bb')
+    b = box(s, x, 3.85, 2.9, 0.95, t, [d], 'sf')   # Salesforce screens: blue
 text(s, 0.5, 4.92, 8.9, 0.3, 'Neev integration shown as the target design: in the demo, leads live in Salesforce only.', size=6.5, color=GREY)
 
 # ================================================================ slide 5: what Salesforce brings (Axis "What Salesforce solves" card grid)
