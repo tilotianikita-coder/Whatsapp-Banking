@@ -48,7 +48,7 @@ public inherited sharing class BandhuRisk {
         String p = j.PAN__c == null ? '' : j.PAN__c.toUpperCase();
         Integer others = [
             SELECT COUNT() FROM Card_Application__c
-            WHERE PAN__c = :p AND Id != :applicationId AND Status__c IN ('Submitted', 'Under Review', 'Approved', 'Card Issued')
+            WHERE PAN__c = :p AND Id != :applicationId AND Status__c IN ('Submitted', 'Under Review', 'Pending Approval', 'Approved', 'Card Issued')
         ];
         Datetime dayAgo = Datetime.now().addHours(-24);
         Integer velocity = String.isBlank(p) && String.isBlank(j.Mobile__c) ? 0 : [

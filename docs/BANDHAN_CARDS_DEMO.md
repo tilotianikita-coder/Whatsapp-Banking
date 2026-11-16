@@ -171,6 +171,34 @@ cheapest first; a knock-out stops the rest and makes the Lead **Unqualified / Co
 - **Rating** from the average: 70+ Hot, 40–69 Warm, below 40 Cold. Lead fields: Card Stage Gate (Qualified / Waiting at X /
   Knocked out at X), Card Region, Serviceable, Credit Confidence. Owner: the region's RM (`RM_Username__c`), else Config RM.
 
+## NSTP upgrades and higher limits: the credit hierarchy (BandhuCreditApproval, bandhuCreditApproval)
+Only for referred applications in the underwriter queue (Under Review). The underwriter proposes a higher card and / or a
+limit above the card policy, with a reason and written findings, and assigns it to an approver; the application is
+**Pending Approval** until the approver decides (record `Bandhu_Credit_Approval__c`, task + bell notification).
+
+| Level | Who | Max total limit | Over policy | Limit / monthly income | Upgrade | Income vs the new card's minimum |
+|---|---|---|---|---|---|---|
+| L1 | Credit Underwriter | ₹3,00,000 | at policy | 3x | none | — |
+| L2 | Senior Credit Manager | ₹5,00,000 | up to 25% | 4x | 1 tier | ≥ 90% |
+| L3 | Regional Credit Head | ₹10,00,000 | up to 50% | 5x | 2 tiers | ≥ 80% |
+| L4 | Chief Credit Officer (Cards) | ₹25,00,000 | up to 100% | 6x | 3 tiers | ≥ 70% |
+
+- The request needs the **lowest level whose every cap covers it**, and at least **L2** (any deviation goes above the
+  underwriter). An upgrade's "over policy" is measured against the new card's own policy limit.
+- **Risk raises the level**: +1 CIBIL below 750 · +1 Credit Bureau or Dedupe & Fraud referred · +1 income not verified (no
+  AA or income document) · +1 FOIR above 50% · straight to L4 for a written-off or settled account. Capped at L4.
+- **Hard stops** (no one can approve): any failed check, CIBIL below 650, income below 70% of the new card's minimum, a
+  limit above ₹25L, a straight-through or decided application, approving your own request (maker-checker).
+- **Assign**: only users at or above the level (`User.Bandhu_Credit_Level__c`), the requester's manager chain first.
+  Anyone at the level may decide; the requester never can. Demo: `Bandhu_Config.Approve_On_Behalf__c` lets an admin record
+  the decision on the approver's behalf, logged on the request (switch off in production).
+- **Outcomes**: a higher limit → issued at once; an upgrade → offered to the customer on WhatsApp, issued only on *Yes*
+  (consent logged, RBI MD on Credit Cards 2022), *No* issues the applied-for card; reject / return → back to the
+  underwriter with the note; the underwriter can withdraw a pending request.
+- Caps are `Bandhu_Credit_Authority__mdt` (Level_1-4; PLACEHOLDERS for Bandhan's credit policy); the risk rules and hard
+  stops are in `BandhuCreditApproval.assess`. Demo hierarchy: `scripts/bandhan/apex/credit_hierarchy.apex` (Elliott
+  Executive L4 → Alf Operations L3 → Cindy Central / Ely East L2 → the admin and Bill South L1).
+
 ## The RM's leads dashboard (BandhuLeadDashboard, bandhuLeadDashboard)
 The **Leads** tab of the Bandhu Cards app (and a Leads tab in the Service Console) is a Lightning app page
 (`Bandhu_Leads_Dashboard`, custom tab `Bandhu_Leads`) in place of the standard Leads list; *List view* opens the

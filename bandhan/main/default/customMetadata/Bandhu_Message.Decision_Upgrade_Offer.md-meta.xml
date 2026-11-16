@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Decision Upgrade Offer</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">🎉 Good news{name}! Our card team has reviewed your application ```{ref}``` and can offer you more than you asked for:
+
+&gt; 💳 *Bandhan {card}* instead of the {old}
+&gt; 💰 Credit limit: *{limit}*
+
+{benefits}
+
+The card is issued only with your consent. Reply *Yes* to accept, or *No* to keep the {old}.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">🎉 अच्छी ख़बर{name}! हमारी card team ने आपकी application ```{ref}``` का review किया है और आपको आपकी माँग से ज़्यादा दे सकती है:
+
+&gt; 💳 {old} की जगह *Bandhan {card}*
+&gt; 💰 Credit limit: *{limit}*
+
+{benefits}
+
+यह card सिर्फ़ आपकी सहमति से जारी होगा। स्वीकार करने के लिए *Yes* लिखें, या {old} ही रखने के लिए *No*।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">🎉 সুখবর{name}! আমাদের card team আপনার application ```{ref}``` review করেছে এবং আপনি যা চেয়েছিলেন তার চেয়ে বেশি দিতে পারে:
+
+&gt; 💳 {old}-এর বদলে *Bandhan {card}*
+&gt; 💰 Credit limit: *{limit}*
+
+{benefits}
+
+এই card শুধু আপনার সম্মতিতেই জারি হবে। গ্রহণ করতে *Yes* লিখুন, অথবা {old} রাখতে *No*।</value>
+    </values>
+</CustomMetadata>

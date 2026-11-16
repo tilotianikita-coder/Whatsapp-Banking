@@ -173,7 +173,7 @@ public inherited sharing class BandhuProviders {
         String p = pan == null ? '' : pan.toUpperCase();
         Integer others = [
             SELECT COUNT() FROM Card_Application__c
-            WHERE PAN__c = :p AND Id != :applicationId AND Status__c IN ('Submitted', 'Under Review', 'Approved', 'Card Issued')
+            WHERE PAN__c = :p AND Id != :applicationId AND Status__c IN ('Submitted', 'Under Review', 'Pending Approval', 'Approved', 'Card Issued')
         ];
         if (p.right(1) == 'X') {
             r.result = 'Fail';

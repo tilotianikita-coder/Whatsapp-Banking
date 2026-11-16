@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Income_Multiple__c</fullName>
+    <description>Limit / monthly income this level can approve (PLACEHOLDER).</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Max Income Multiple</label>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>1</scale>
+</CustomField>

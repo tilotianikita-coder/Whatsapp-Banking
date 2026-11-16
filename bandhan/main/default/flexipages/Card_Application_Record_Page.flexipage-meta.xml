@@ -27,6 +27,12 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>bandhuCreditApproval</componentName>
+                <identifier>c_bandhuCreditApproval</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>bandhuDocuments</componentName>
                 <identifier>c_bandhuDocuments</identifier>
             </componentInstance>

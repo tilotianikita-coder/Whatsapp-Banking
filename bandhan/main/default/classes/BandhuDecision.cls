@@ -206,6 +206,11 @@ public inherited sharing class BandhuDecision {
         if (app.Status__c == 'Card Issued' || app.Status__c == 'Declined') {
             throw new BandhuException('This application is already decided (' + app.Status__c + ').');
         }
+        if (app.Status__c == 'Pending Approval' || app.Status__c == 'Approved') {
+            throw new BandhuException(app.Status__c == 'Approved'
+                ? 'An approved upgrade is waiting for the customer\'s consent; the card is issued when they reply.'
+                : 'A credit request on this application is with the approver. Withdraw it first to decide here.');
+        }
         Boolean isApproved = decision == 'Approved';
         Boolean deviation = (isApproved && app.Recommendation__c == DECLINE) || (!isApproved && app.Recommendation__c == APPROVE);
         if (deviation && String.isBlank(notes)) {

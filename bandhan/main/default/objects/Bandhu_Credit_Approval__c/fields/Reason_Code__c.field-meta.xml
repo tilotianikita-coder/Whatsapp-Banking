@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_Code__c</fullName>
+    <label>Reason</label>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Strong cash flow in bank statements</fullName>
+                <default>false</default>
+                <label>Strong cash flow in bank statements</label>
+            </value>
+            <value>
+                <fullName>Existing Bandhan relationship</fullName>
+                <default>false</default>
+                <label>Existing Bandhan relationship</label>
+            </value>
+            <value>
+                <fullName>Top-tier employer</fullName>
+                <default>false</default>
+                <label>Top-tier employer</label>
+            </value>
+            <value>
+                <fullName>Low existing obligations</fullName>
+                <default>false</default>
+                <label>Low existing obligations</label>
+            </value>
+            <value>
+                <fullName>Spends exceed the policy limit</fullName>
+                <default>false</default>
+                <label>Spends exceed the policy limit</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

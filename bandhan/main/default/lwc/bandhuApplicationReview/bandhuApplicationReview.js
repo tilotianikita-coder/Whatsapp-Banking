@@ -43,6 +43,16 @@ export default class BandhuApplicationReview extends LightningElement {
 
     connectedCallback() {
         this.load();
+        this.onChange = (e) => {
+            if (e.detail && e.detail.recordId === this.recordId) {
+                this.load();
+            }
+        };
+        window.addEventListener('bandhuapplicationchange', this.onChange);
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener('bandhuapplicationchange', this.onChange);
     }
 
     async load() {
@@ -386,6 +396,16 @@ export default class BandhuApplicationReview extends LightningElement {
     // ------------------------------------------------------------ decision
     get decided() {
         return this.review && this.review.decided;
+    }
+
+    get withApprover() {
+        return this.review && this.review.withApprover;
+    }
+
+    get withApproverText() {
+        return this.app.Status__c === 'Approved'
+            ? 'Upgrade approved: waiting for the customer to accept it on WhatsApp. The card is issued when they reply.'
+            : 'With the approver: a card upgrade or higher limit is waiting for approval up the credit hierarchy.';
     }
 
     get approved() {

@@ -39,6 +39,8 @@ Running order (about 45 minutes; Acts 3, 4 and 9 can be trimmed)
    at the bureau gate), Sourav (Flare, Under Review).
    Then the dashboard's month of history (30 more journeys over the past 4 weeks, every channel, step and outcome):
    `for b in 0 1 2; do sed "s/^Integer BATCH = .*/Integer BATCH = $b;/" scripts/bandhan/apex/demo_dashboard.apex > /tmp/dd.apex; sf apex run -f /tmp/dd.apex -o bandhan; done`
+   Card credit hierarchy for the NSTP approvals (once per org; sets levels and managers on existing SDO users):
+   `sf apex run -f scripts/bandhan/apex/credit_hierarchy.apex -o bandhan`
 3. Setup → Messaging Components → **Bandhu Text** → Activate.
 4. WhatsApp router portal: register **919063480755** against this org (it routes to one org at a time).
 5. End any open WhatsApp session for the phone; Omni-Channel Offline until Act 7.
@@ -147,14 +149,38 @@ three needs questions in one run, then the soft check and the recommendation. No
      account, the manual review, declared vs seen card spend) and a suggested decision, advisory only;
    - the stage gates, each check's detail, the recommendation and *why this card* → **Approve & issue card** → the phone
      gets the approval with the MITC on WhatsApp.
-2. Risk flags (create on the web with any new mobile, income 1 lakh, spend Dining / ₹15–50K / best, apply through KYC):
+2. **Upgrade or higher limit (NSTP only)**, on the same kind of referred application, before you approve it. The panel
+   *Upgrade or higher limit · NSTP* under the review (it shows *You: L1*, the underwriter):
+   - **Show the approval rules**: the four levels (L1 Credit Underwriter ₹3L · at policy · 3x income · no upgrade; L2
+     Senior Credit Manager ₹5L · +25% · 4x · 1 tier; L3 Regional Credit Head ₹10L · +50% · 5x · 2 tiers; L4 Chief
+     Credit Officer ₹25L · +100% · 6x · 3 tiers) and who holds each, the risk rules that raise the level, and the hard stops.
+   - **Propose upgrade / higher limit**: pick the card (an upgrade, or the applied-for card for a higher limit) and the
+     limit; the rules answer live with the level it needs and why, e.g. on **Sayantani Dey** (Flare, ₹2.75L, CIBIL 800):
+     *₹3,75,000 → L3 Regional Credit Head (36% over policy, 3.6x income), no risk rule raises it*. On **Sourav** the same
+     request goes to **L4**: the Credit Bureau refer +1, and the settled card sends it straight to the Chief Credit Officer.
+     An upgrade to Lumina shows a hard stop (income 46% of the Lumina minimum; the floor is 70%).
+   - Pick a **reason**, write the **findings** (required) and mitigants, **assign** it: the list has only people at or
+     above the level, your manager chain first (Cindy Central L2 → Alf Operations L3 → Elliott Executive L4). Send →
+     the application turns **Pending Approval** (the Approve / Decline buttons above lock), the approver gets a task and a
+     bell notification.
+   - The approver opens it (Bandhu Cards → **Credit Approvals** → *My approval queue*, or the bell): the three-step
+     tracker (underwriter → approver → customer), the findings, *Why L3*, then **Approve / Reject / Return for more info**
+     (a note is needed to reject or return). In the demo you are the admin, so you record the decision *on behalf of* the
+     approver (a yellow note says so, and it is logged on the request; switch `Approve_On_Behalf__c` off for real
+     maker-checker).
+   - **Approve a higher limit** → the card is issued at the new limit straight away (WhatsApp approval with the MITC).
+     **Approve an upgrade** (e.g. Ignite → Flare) → the customer gets *"…can offer you more than you asked for: Bandhan
+     Flare instead of the Ignite… Reply Yes to accept"* (RBI: no card without consent): **Yes** issues the Flare and logs a
+     *Card upgrade* consent; **No** issues the Ignite.
+   - Rejected or returned → back in the underwriter queue with the approver's note; *Earlier requests* keeps the trail.
+3. Risk flags (create on the web with any new mobile, income 1 lakh, spend Dining / ₹15–50K / best, apply through KYC):
    | PAN | Refers because |
    |---|---|
    | **ABCPS1239K** (AA Connect) | Income Verification: round-trip transfers with one party, a 4x-income credit, months without salary (stability 70/100) |
    | **ABCPS1237K** | Credit Bureau: a settled account on record → manual review |
    | **ABCPS1236K** | Dedupe & Fraud: applied with 5 lenders in 6 months |
    | **ABCPS1232K**, income source **Business owner**, AA Skip | Income: GST returns 7 of 12 months, turnover and AIS far below declared |
-3. On the ABCPS1232K application, **Income documents**: type *Salary slip* → upload any PDF → *Pass*; Income
+4. On the ABCPS1232K application, **Income documents**: type *Salary slip* → upload any PDF → *Pass*; Income
    Verification turns Pass and sets the verified income. Upload another file named `*mismatch*` as *Form 16* → 30% below
    declared → Refer.
 

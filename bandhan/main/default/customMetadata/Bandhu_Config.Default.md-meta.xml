@@ -62,4 +62,8 @@
         <field>Card_Bin__c</field>
         <value xsi:type="xsd:string">524193</value>
     </values>
+    <values>
+        <field>Approve_On_Behalf__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
 </CustomMetadata>

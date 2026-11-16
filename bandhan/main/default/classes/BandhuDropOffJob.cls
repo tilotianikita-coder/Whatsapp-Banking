@@ -7,7 +7,7 @@
  */
 public with sharing class BandhuDropOffJob implements Schedulable {
     public static final String JOB_PREFIX = 'Bandhu Drop-off';
-    private static final Set<String> TERMINAL = new Set<String>{ 'done', 'menu', 'hold', 'activate_otp', 'cancel_confirm' };
+    private static final Set<String> TERMINAL = new Set<String>{ 'done', 'menu', 'hold', 'activate_otp', 'cancel_confirm', 'upgrade_offer' };
 
     public void execute(SchedulableContext ctx) {
         run();

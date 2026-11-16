@@ -322,6 +322,12 @@
                             </div>
                         </div>
                     </template>
+                    <template lwc:elseif={withApprover}>
+                        <div class="b-alert b-alert-warn">
+                            {withApproverText}
+                            <div class="b-alert-sub">See <b>Upgrade or higher limit</b> below for the request and its status.</div>
+                        </div>
+                    </template>
                     <template lwc:else>
                         <div class="decision-bar">
                             <div class="b-muted">This application needs an underwriter decision.</div>

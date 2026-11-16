@@ -151,7 +151,8 @@ FIELDS = {
         'Recommendation__c': ('Recommendation', picklist(['Approve', 'Refer', 'Decline']), 'From the decision rules (assist only: the underwriter decides on a refer).'),
         'Recommendation_Reasons__c': ('Recommendation Reasons', long_text(32768, 6), None),
         'Fit_Summary__c': ('Why This Card', long_text(32768, 4), None),
-        'Status__c': ('Status', picklist(['Submitted', 'Under Review', 'Approved', 'Card Issued', 'Declined', 'Cancelled'], 'Submitted'), None),
+        'Status__c': ('Status', picklist(['Submitted', 'Under Review', 'Pending Approval', 'Approved', 'Card Issued', 'Declined', 'Cancelled'], 'Submitted'),
+                      'Under Review = NSTP (referred). Pending Approval = a card upgrade or higher limit sent up the credit hierarchy. Approved = an upgrade waiting for the customer\'s consent.'),
         'MITC_Sent_At__c': ('MITC Sent At', DATETIME, 'Most Important Terms and Conditions delivered (RBI Master Direction on Credit Cards, 2022).'),
         'Activation_Due__c': ('Activation Due', DATE, 'Issue date + 30 days: without OTP activation consent by then, the card is closed (RBI MD 2022).'),
         'Activated_At__c': ('Activated At', DATETIME, 'Card activated with the customer\'s OTP consent.'),
@@ -247,7 +248,7 @@ FIELDS = {
         'Card_Application__c': ('Card Application', lookup('Card_Application__c', 'Consents', 'Consents'), None),
         'Contact__c': ('Customer', lookup('Contact', 'Bandhu_Consents', 'Card Consents'), None),
         'Type__c': ('Type', picklist(['DPDP data processing', 'Soft credit check', 'Account Aggregator', 'Hard credit enquiry', 'MITC delivered',
-                                      'Card activation', 'Limit enhancement', 'Card cancellation', 'Consent withdrawn']), None),
+                                      'Card activation', 'Limit enhancement', 'Card upgrade', 'Card cancellation', 'Consent withdrawn']), None),
         'Purpose__c': ('Purpose', text(255), None),
         'Given_At__c': ('Given At', DATETIME, None),
         'Expires_On__c': ('Expires On', DATE, 'Time-bound consents (Account Aggregator, offers).'),
@@ -272,6 +273,43 @@ FIELDS = {
         'Details__c': ('Details', long_text(32768, 4), None),
         'Sort_Order__c': ('Sort Order', number(3), None),
         'Run_At__c': ('Run At', DATETIME, None),
+    },
+    'Bandhu_Credit_Approval__c': {
+        'Card_Application__c': ('Card Application', lookup('Card_Application__c', 'Credit_Approvals', 'Credit Approvals'), None),
+        'Request_Type__c': ('Request', picklist(['Limit increase', 'Card upgrade', 'Card upgrade and limit']), None),
+        'Current_Card__c': ('Applied-for Card', picklist(CARDS), None),
+        'Proposed_Card__c': ('Proposed Card', picklist(CARDS), None),
+        'Policy_Limit__c': ('Policy Limit', MONEY, 'The limit the card policy gave (BandhuEligibility) on the applied-for card.'),
+        'Proposed_Limit__c': ('Proposed Limit', MONEY, None),
+        'Over_Policy_Pct__c': ('Over Policy %', number(5, 1), 'Proposed limit above the policy limit, in percent.'),
+        'Income_Multiple__c': ('Income Multiple', number(4, 1), 'Proposed limit / monthly income (verified, else declared).'),
+        'Required_Level__c': ('Required Level', number(1), 'Credit authority level needed (Bandhu_Credit_Authority__mdt): 1 underwriter ... 4 Chief Credit Officer.'),
+        'Required_Title__c': ('Required Authority', text(80), None),
+        'Level_Reasons__c': ('Why This Level', long_text(32768, 5), 'Each rule that set or raised the level.'),
+        'Reason_Code__c': ('Reason', picklist(['Strong cash flow in bank statements', 'Existing Bandhan relationship', 'Top-tier employer', 'Low existing obligations',
+                                                'Spends exceed the policy limit', 'Other']), None),
+        'Findings__c': ('Underwriter Findings', long_text(32768, 6), 'Required: what the underwriter found and why the deviation is justified.'),
+        'Mitigants__c': ('Mitigants', long_text(32768, 4), None),
+        'Requested_By__c': ('Requested By', lookup('User', 'Credit_Requests', 'Credit Requests'), None),
+        'Requested_At__c': ('Requested At', DATETIME, None),
+        'Status__c': ('Status', picklist(['Pending', 'Approved', 'Rejected', 'Returned', 'Withdrawn'], 'Pending'), None),
+        'Decided_By__c': ('Decided By', lookup('User', 'Credit_Decisions', 'Credit Decisions'), None),
+        'Decided_At__c': ('Decided At', DATETIME, None),
+        'Decision_Notes__c': ('Approver Notes', long_text(32768, 4), None),
+        'On_Behalf__c': ('Approved On Behalf', CHECKBOX, 'A system administrator recorded the decision on behalf of the assigned approver (demo setting).'),
+        'Customer_Consent__c': ('Customer Consent', picklist(['Not needed', 'Pending', 'Accepted', 'Declined']), 'A card upgrade is issued only with the customer\'s explicit consent (RBI MD on Credit Cards, 2022).'),
+    },
+    'User': {
+        'Bandhu_Credit_Level__c': ('Card Credit Authority Level', number(1), 'Bandhu card approvals: 1 Credit Underwriter, 2 Senior Credit Manager, 3 Regional Credit Head, 4 Chief Credit Officer (Cards). Blank = no card credit authority.'),
+    },
+    'Bandhu_Credit_Authority__mdt': {
+        'Level__c': ('Level', number(1), None),
+        'Title__c': ('Title', text(80), None),
+        'Max_Limit__c': ('Max Card Limit', number(10), 'The largest total card limit this level can approve (PLACEHOLDER).'),
+        'Max_Over_Policy_Pct__c': ('Max Over Policy %', number(3), 'How far above the policy limit this level can go (PLACEHOLDER).'),
+        'Max_Income_Multiple__c': ('Max Income Multiple', number(3, 1), 'Limit / monthly income this level can approve (PLACEHOLDER).'),
+        'Max_Upgrade_Tiers__c': ('Max Upgrade Tiers', number(1), 'Card tiers above the applied-for card this level can approve.'),
+        'Min_Income_Pct_Upgrade__c': ('Min Income % for Upgrade', number(3), 'For an upgrade: the applicant\'s income as a share of the new card\'s minimum income.'),
     },
     'Bandhu_Region__mdt': {
         'PIN_Prefixes__c': ('PIN Prefixes', text(255), 'Comma-separated PIN code prefixes; the longest match wins; * = everything else.'),
@@ -332,6 +370,7 @@ FIELDS = {
         'Site_Url__c': ('Web Journey URL', text(255), None),
         'Reference_Prefix__c': ('Reference Prefix', text(20), None),
         'Card_Bin__c': ('Card BIN (mock)', text(6), None),
+        'Approve_On_Behalf__c': ('Admin May Approve On Behalf', CHECKBOX, 'DEMO: a system administrator may record a credit approval on behalf of the assigned approver (logged). Switch off in production: maker-checker.'),
     },
     'Bandhu_Message__mdt': {
         'English__c': ('English', long_text(32768, 6), None),
@@ -353,12 +392,15 @@ OBJECTS = {
                       'One verification on a card application (PAN, Aadhaar, bureau, income, Video KYC, fraud, policy).', 'ControlledByParent'),
     'Bandhu_Lead_Check__c': ('Card Qualification Check', 'Card Qualification Checks', 'LQ-{000000}', 'Check Number',
                              'One lead-stage qualification gate for a Bandhu card prospect (serviceability, consent, fraud, bureau, income, employment, card eligibility).', 'ReadWrite'),
+    'Bandhu_Credit_Approval__c': ('Credit Approval', 'Credit Approvals', 'CR-{000000}', 'Request Number',
+                                  'An NSTP card upgrade or higher-limit request: the underwriter\'s findings, the authority level the rules require and the approver\'s decision.', 'ReadWrite'),
     'Bank_Relationship__c': ('Bank Relationship', 'Bank Relationships', 'BR-{000000}', 'Relationship Number',
                              'An existing customer\'s Bandhan Bank account or deposit (mock core banking).', 'ReadWrite'),
 }
 MDT = {
     'Bandhu_Card__mdt': ('Bandhu Card', 'Bandhu Cards', 'Bandhan Bank credit cards: benefits, fees, eligibility and fit weights.'),
     'Bandhu_Config__mdt': ('Bandhu Config', 'Bandhu Configs', 'Bandhu journey settings.'),
+    'Bandhu_Credit_Authority__mdt': ('Bandhu Credit Authority', 'Bandhu Credit Authorities', 'Card credit approval hierarchy: what each level can approve (limits, deviation, upgrades).'),
     'Bandhu_Region__mdt': ('Bandhu Region', 'Bandhu Regions', 'Card serviceability and RM ownership by PIN code prefix.'),
     'Bandhu_Message__mdt': ('Bandhu Message', 'Bandhu Messages', 'Customer copy in English, Hindi and Bengali.'),
 }
@@ -426,7 +468,7 @@ def main():
                 fh.write(field_xml(name, label, body, desc, obj.endswith('__mdt')))
             n += 1
     os.makedirs('bandhan/main/default/tabs', exist_ok=True)
-    for obj, motif in (('Card_Journey__c', 'Custom62: Chalkboard'), ('Card_Application__c', 'Custom40: Credit Card')):
+    for obj, motif in (('Card_Journey__c', 'Custom62: Chalkboard'), ('Card_Application__c', 'Custom40: Credit Card'), ('Bandhu_Credit_Approval__c', 'Custom47: Gears')):
         with open(f'bandhan/main/default/tabs/{obj}.tab-meta.xml', 'w') as fh:
             fh.write(f'''<?xml version="1.0" encoding="UTF-8"?>
 <CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">

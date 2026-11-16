@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Over_Policy_Pct__c</fullName>
+    <description>Proposed limit above the policy limit, in percent.</description>
+    <inlineHelpText>Proposed limit above the policy limit, in percent.</inlineHelpText>
+    <label>Over Policy %</label>
+    <type>Number</type>
+    <precision>5</precision>
+    <scale>1</scale>
+</CustomField>

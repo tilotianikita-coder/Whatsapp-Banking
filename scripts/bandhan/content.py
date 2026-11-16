@@ -29,6 +29,7 @@ CONFIG = {
     'Site_Url__c': 'https://trailsignup-fbf7dadaec8000.my.site.com/consumer/BandhuWeb',
     'Reference_Prefix__c': 'BBL-CC',
     'Card_Bin__c': '524193',
+    'Approve_On_Behalf__c': True,
 }
 
 # name: values. Fees / income / CIBIL / limits are PLACEHOLDERS.
@@ -95,6 +96,17 @@ CARDS = {
 
 # Card serviceability by PIN prefix (PLACEHOLDER footprint: Bandhan Bank's eastern and north-eastern heartland plus metros).
 # name: (label, prefixes, serviceable)
+# Card credit authority (NSTP only): who may approve a card upgrade or a limit above the card policy. PLACEHOLDERS for
+# Bandhan's credit policy. A request goes to the lowest level whose every cap covers it (BandhuCreditApproval).
+#   level: (title, max total limit, max % over the policy limit, max limit / monthly income, max tiers of upgrade,
+#           min income for an upgrade as % of the new card's minimum)
+AUTHORITY = {
+    1: ('Credit Underwriter', 300000, 0, 3.0, 0, 100),
+    2: ('Senior Credit Manager', 500000, 25, 4.0, 1, 90),
+    3: ('Regional Credit Head', 1000000, 50, 5.0, 2, 80),
+    4: ('Chief Credit Officer (Cards)', 2500000, 100, 6.0, 3, 70),
+}
+
 REGIONS = {
     'Kolkata': ('Kolkata', '700,711,712', True),
     'West_Bengal': ('Rest of West Bengal', '713,721,722,731,732,733,734,735,736,741,742,743', True),
@@ -262,6 +274,12 @@ MESSAGES = {
     'Decision_Approved_RM': (
         "🎉 Good news{name}! Our card team has *approved* your *Bandhan {card}*.\n\n> 💳 Virtual card: *{masked}*\n> 💰 Credit limit: *{limit}*\n> 🔖 Reference: ```{ref}```\n\nActivate it here 👉 {link}",
         '🎉 अच्छी ख़बर{name}! हमारी card team ने आपका *Bandhan {card}* *approve* कर दिया है।\n\n> 💳 Virtual card: *{masked}*\n> 💰 Credit limit: *{limit}*\n> 🔖 Reference: ```{ref}```\n\nइसे यहाँ activate करें 👉 {link}', '🎉 সুখবর{name}! আমাদের card team আপনার *Bandhan {card}* *approve* করেছে।\n\n> 💳 Virtual card: *{masked}*\n> 💰 Credit limit: *{limit}*\n> 🔖 Reference: ```{ref}```\n\nএখানে activate করুন 👉 {link}'),
+    'Decision_Upgrade_Offer': (
+        "🎉 Good news{name}! Our card team has reviewed your application ```{ref}``` and can offer you more than you asked for:\n\n> 💳 *Bandhan {card}* instead of the {old}\n> 💰 Credit limit: *{limit}*\n\n{benefits}\n\nThe card is issued only with your consent. Reply *Yes* to accept, or *No* to keep the {old}.",
+        '🎉 अच्छी ख़बर{name}! हमारी card team ने आपकी application ```{ref}``` का review किया है और आपको आपकी माँग से ज़्यादा दे सकती है:\n\n> 💳 {old} की जगह *Bandhan {card}*\n> 💰 Credit limit: *{limit}*\n\n{benefits}\n\nयह card सिर्फ़ आपकी सहमति से जारी होगा। स्वीकार करने के लिए *Yes* लिखें, या {old} ही रखने के लिए *No*।',
+        '🎉 সুখবর{name}! আমাদের card team আপনার application ```{ref}``` review করেছে এবং আপনি যা চেয়েছিলেন তার চেয়ে বেশি দিতে পারে:\n\n> 💳 {old}-এর বদলে *Bandhan {card}*\n> 💰 Credit limit: *{limit}*\n\n{benefits}\n\nএই card শুধু আপনার সম্মতিতেই জারি হবে। গ্রহণ করতে *Yes* লিখুন, অথবা {old} রাখতে *No*।'),
+    'Opt_Upgrade_Offer': ("Yes, upgrade me\nNo, keep my card", 'हाँ, upgrade करें\nनहीं, मेरा card ही रखें', 'হ্যাঁ, upgrade করুন\nনা, আমার card-ই রাখুন'),
+    'Upgrade_Kept': ("No problem{name} — we'll issue the *Bandhan {card}* you applied for. 👍", 'कोई बात नहीं{name} — हम आपका apply किया हुआ *Bandhan {card}* जारी करेंगे। 👍', 'কোনো সমস্যা নেই{name} — আপনি যে *Bandhan {card}*-এর জন্য apply করেছিলেন সেটিই জারি করব। 👍'),
     'Decision_Declined_RM': (
         "Hi{name}, our card team has reviewed your *Bandhan {card}* application ```{ref}```. We're unable to approve it right now. A specialist will call you to discuss other options.",
         'नमस्ते{name}, हमारी card team ने आपकी *Bandhan {card}* application ```{ref}``` का review किया है। हम अभी इसे approve नहीं कर पा रहे हैं। दूसरे विकल्पों पर बात करने के लिए एक specialist आपको call करेंगे।', 'নমস্কার{name}, আমাদের card team আপনার *Bandhan {card}* application ```{ref}``` review করেছে। এই মুহূর্তে আমরা এটি approve করতে পারছি না। অন্য বিকল্প নিয়ে কথা বলতে একজন specialist আপনাকে call করবেন।'),
@@ -313,6 +331,9 @@ def record(type_name, dev_name, label, values):
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     record('Bandhu_Config', 'Default', 'Default', CONFIG)
+    for level, (title, mx, over, mult, tiers, inc) in AUTHORITY.items():
+        record('Bandhu_Credit_Authority', f'Level_{level}', f'L{level} {title}', {'Level__c': level, 'Title__c': title, 'Max_Limit__c': mx,
+               'Max_Over_Policy_Pct__c': over, 'Max_Income_Multiple__c': mult, 'Max_Upgrade_Tiers__c': tiers, 'Min_Income_Pct_Upgrade__c': inc})
     for name, (label, prefixes, serviceable) in REGIONS.items():
         record('Bandhu_Region', name, label, {'PIN_Prefixes__c': prefixes, 'Serviceable__c': serviceable, 'RM_Username__c': ''})
     for name, values in CARDS.items():

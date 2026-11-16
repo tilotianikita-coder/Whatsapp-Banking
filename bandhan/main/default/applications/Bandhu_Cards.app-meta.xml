@@ -37,6 +37,7 @@
     <navType>Standard</navType>
     <tabs>Bandhu_Leads</tabs>
     <tabs>Card_Application__c</tabs>
+    <tabs>Bandhu_Credit_Approval__c</tabs>
     <tabs>Card_Journey__c</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>standard-report</tabs>

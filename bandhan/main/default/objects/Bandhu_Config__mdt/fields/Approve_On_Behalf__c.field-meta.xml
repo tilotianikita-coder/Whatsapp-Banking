@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approve_On_Behalf__c</fullName>
+    <description>DEMO: a system administrator may record a credit approval on behalf of the assigned approver (logged). Switch off in production: maker-checker.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Admin May Approve On Behalf</label>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+</CustomField>

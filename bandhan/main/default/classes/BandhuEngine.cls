@@ -265,6 +265,22 @@ public inherited sharing class BandhuEngine {
                 'card' => a.Card_Product__c, 'limit' => BandhuI18n.inr(a.Credit_Limit__c) });
             return r;
         }
+        if (step == 'upgrade_offer') {
+            Boolean no = choice == 2 || (choice != 1 && Pattern.matches('(?i).*\\b(no|keep|nahi)\\b.*', t));
+            Boolean yes = !no && (choice == 1 || Pattern.matches('(?i).*\\b(yes|accept|ok|haan|upgrade)\\b.*', t));
+            if (!yes && !no) {
+                return invalid(j);
+            }
+            Result r = new Result();
+            r.message = BandhuCreditApproval.respond(j, yes);
+            r.step = 'done';
+            j.Step__c = 'done';
+            if (r.message == null) {
+                // the approval message (card, limit, MITC) goes out from BandhuDecision.decide
+                r.message = BandhuI18n.msg('Done', lang);
+            }
+            return r;
+        }
         if (step == 'activate_otp' || step == 'cancel_confirm') {
             Card_Application__c issued = BandhuCompliance.issuedApplication(j);
             Result r = new Result();
@@ -668,6 +684,17 @@ public inherited sharing class BandhuEngine {
             when 'aadhaar_otp' { r.message = BandhuI18n.msg('Q_Aadhaar_OTP', lang, tk); }
             when 'vkyc' { r.message = BandhuI18n.msg('Q_VKYC', lang, tk); r.options = BandhuI18n.options('Opt_VKYC', lang, null); }
             when 'review' { r.message = BandhuI18n.msg('Review', lang, tk) + '\n\n' + BandhuI18n.msg('Hard_Enquiry_Notice', lang); r.options = BandhuI18n.options('Opt_Review', lang, null); }
+            when 'upgrade_offer' {
+                Card_Application__c ua = [SELECT Id, Reference_Number__c FROM Card_Application__c WHERE Id = :j.Card_Application__c];
+                Bandhu_Credit_Approval__c ur = BandhuCreditApproval.pendingOffer(j.Card_Application__c);
+                if (ur == null) {
+                    j.Step__c = 'done';
+                    r.message = BandhuI18n.msg('Done', lang);
+                } else {
+                    r.message = BandhuCreditApproval.offerText(j, ua, ur);
+                    r.options = BandhuI18n.options('Opt_Upgrade_Offer', lang, null);
+                }
+            }
             when 'limit_offer' {
                 Card_Application__c la = [SELECT Id, Card_Product__c, Credit_Limit__c, Limit_Offer__c, Upgrade_Offer_Card__c FROM Card_Application__c
                                           WHERE Id = :j.Card_Application__c];

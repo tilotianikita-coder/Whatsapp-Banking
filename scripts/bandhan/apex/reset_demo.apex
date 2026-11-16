@@ -8,6 +8,7 @@ delete [SELECT Id FROM Bandhu_Document__c];
 delete [SELECT Id FROM Bandhu_Consent__c];
 delete [SELECT Id FROM Card_Check__c];
 delete [SELECT Id FROM Bandhu_Lead_Check__c];
+delete [SELECT Id FROM Bandhu_Credit_Approval__c];
 List<Card_Application__c> apps = [SELECT Id FROM Card_Application__c];
 List<Card_Journey__c> journeys = [SELECT Id FROM Card_Journey__c];
 List<Lead> leads = [SELECT Id FROM Lead WHERE LeadSource = 'Bandhu Card Journey' AND IsConverted = false];

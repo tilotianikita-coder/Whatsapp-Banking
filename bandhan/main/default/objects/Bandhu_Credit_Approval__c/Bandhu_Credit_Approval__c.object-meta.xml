@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>An NSTP card upgrade or higher-limit request: the underwriter's findings, the authority level the rules require and the approver's decision.</description>
+    <enableActivities>true</enableActivities>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <label>Credit Approval</label>
+    <nameField><displayFormat>CR-{000000}</displayFormat><label>Request Number</label><type>AutoNumber</type></nameField>
+    <pluralLabel>Credit Approvals</pluralLabel>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

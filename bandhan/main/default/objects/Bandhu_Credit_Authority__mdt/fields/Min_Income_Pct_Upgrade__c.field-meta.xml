@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Min_Income_Pct_Upgrade__c</fullName>
+    <description>For an upgrade: the applicant's income as a share of the new card's minimum income.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Min Income % for Upgrade</label>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+</CustomField>

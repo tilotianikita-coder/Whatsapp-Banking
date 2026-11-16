@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bandhu_Credit_Level__c</fullName>
+    <description>Bandhu card approvals: 1 Credit Underwriter, 2 Senior Credit Manager, 3 Regional Credit Head, 4 Chief Credit Officer (Cards). Blank = no card credit authority.</description>
+    <inlineHelpText>Bandhu card approvals: 1 Credit Underwriter, 2 Senior Credit Manager, 3 Regional Credit Head, 4 Chief Credit Officer (Cards). Blank = no card credit authority.</inlineHelpText>
+    <label>Card Credit Authority Level</label>
+    <type>Number</type>
+    <precision>1</precision>
+    <scale>0</scale>
+</CustomField>

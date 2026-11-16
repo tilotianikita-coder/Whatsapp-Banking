@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Status__c</fullName>
+    <description>Under Review = NSTP (referred). Pending Approval = a card upgrade or higher limit sent up the credit hierarchy. Approved = an upgrade waiting for the customer's consent.</description>
+    <inlineHelpText>Under Review = NSTP (referred). Pending Approval = a card upgrade or higher limit sent up the credit hierarchy. Approved = an upgrade waiting for the customer's consent.</inlineHelpText>
     <label>Status</label>
     <type>Picklist</type>
     <valueSet>
@@ -16,6 +18,11 @@
                 <fullName>Under Review</fullName>
                 <default>false</default>
                 <label>Under Review</label>
+            </value>
+            <value>
+                <fullName>Pending Approval</fullName>
+                <default>false</default>
+                <label>Pending Approval</label>
             </value>
             <value>
                 <fullName>Approved</fullName>

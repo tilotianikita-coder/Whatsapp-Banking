@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Approvals</fullName>
+    <columns>NAME</columns>
+    <columns>Card_Application__c</columns>
+    <columns>Request_Type__c</columns>
+    <columns>Current_Card__c</columns>
+    <columns>Proposed_Card__c</columns>
+    <columns>Proposed_Limit__c</columns>
+    <columns>Over_Policy_Pct__c</columns>
+    <columns>Required_Title__c</columns>
+    <columns>Requested_By__c</columns>
+    <columns>Requested_At__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Pending</value>
+    </filters>
+    <label>My approval queue</label>
+</ListView>

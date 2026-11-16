@@ -43,6 +43,11 @@
                 <label>Limit enhancement</label>
             </value>
             <value>
+                <fullName>Card upgrade</fullName>
+                <default>false</default>
+                <label>Card upgrade</label>
+            </value>
+            <value>
                 <fullName>Card cancellation</fullName>
                 <default>false</default>
                 <label>Card cancellation</label>

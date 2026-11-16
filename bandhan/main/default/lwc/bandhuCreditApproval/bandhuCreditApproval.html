@@ -1,0 +1,175 @@
+<template>
+    <div class="b-card b-spinner-host">
+        <template lwc:if={loading}><lightning-spinner alternative-text="Loading" size="small"></lightning-spinner></template>
+        <template lwc:if={busy}><lightning-spinner alternative-text="Saving" size="small"></lightning-spinner></template>
+        <div class="b-head">
+            <div class="b-head-left">
+                <div>
+                    <div class="b-head-title">Upgrade or higher limit · NSTP</div>
+                    <div class="b-head-sub">Underwriter findings → approval up the card credit hierarchy (maker-checker)</div>
+                </div>
+            </div>
+            <div class="b-head-right">
+                <template lwc:if={hasPanel}><span class="b-pill b-pill-white">{myLevelText}</span></template>
+                <button class="b-icon-btn" onclick={toggleMatrix}>{matrixLabel}</button>
+            </div>
+        </div>
+        <div class="b-body">
+            <template lwc:if={error}><div class="b-alert b-alert-error">{error}</div></template>
+            <template lwc:if={hasPanel}>
+
+                <!-- the rules -->
+                <template lwc:if={showMatrix}>
+                    <div class="matrix">
+                        <div class="b-section-title">Card credit authority (placeholders for Bandhan's credit policy)</div>
+                        <table>
+                            <thead><tr><th>Level</th><th>Max total limit</th><th>Over policy</th><th>Limit / income</th><th>Upgrade</th><th>Income vs new card min</th><th>Holders</th></tr></thead>
+                            <tbody>
+                                <template for:each={matrix} for:item="m">
+                                    <tr key={m.key} class={m.mineCls}>
+                                        <td><b>L{m.level}</b> {m.title}<template lwc:if={m.mine}> <span class="b-pill b-pill-blue">you</span></template></td>
+                                        <td>{m.maxLimitText}</td><td>{m.overText}</td><td>{m.multText}</td><td>{m.tiersText}</td><td>{m.incomeText}</td>
+                                        <td class="muted">{m.holders}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <ul class="rules">
+                            <li>The request needs the <b>lowest level whose every cap covers it</b>, and at least L2: any deviation goes above the underwriter.</li>
+                            <li><b>Risk raises the level</b>: +1 for CIBIL below 750 · +1 for a Credit Bureau or Dedupe &amp; Fraud refer · +1 if income isn't verified · +1 for FOIR above 50% · straight to L4 for a written-off or settled account.</li>
+                            <li><b>Hard stops</b> (no one can approve): a failed check, CIBIL below 650, income below 70% of the new card's minimum, a limit over ₹25L, approving your own request.</li>
+                            <li>An <b>upgrade</b> is issued only with the customer's consent on WhatsApp (RBI MD on Credit Cards 2022); a higher limit on the applied-for card is issued on approval.</li>
+                            <li>Only for <b>NSTP</b> applications (referred, in the underwriter queue); straight-through approvals are not reopened.</li>
+                        </ul>
+                    </div>
+                </template>
+
+                <!-- the open request -->
+                <template lwc:if={openView}>
+                    <div class="req">
+                        <div class="req-head">
+                            <div>
+                                <div class="req-title">{openView.Request_Type__c} · {openView.Name}</div>
+                                <div class="req-change">{openView.change}</div>
+                                <div class="muted small">{openView.over} · {openView.multiple} · reason: {openView.Reason_Code__c}</div>
+                            </div>
+                            <span class={openView.statusCls}><span aria-hidden="true">{openView.statusIcon}</span> {openView.statusText}</span>
+                        </div>
+                        <div class="steps">
+                            <div class="step done"><span class="dot">1</span><div><b>{openView.by}</b><div class="muted small">Underwriter · raised <lightning-formatted-date-time value={openView.Requested_At__c} month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time></div></div></div>
+                            <div class="step-line"></div>
+                            <div class={stepTwoCls}><span class="dot">2</span><div><b>{openView.to}</b><div class="muted small">{openView.levelText} · approver</div></div></div>
+                            <div class="step-line"></div>
+                            <div class={stepThreeCls}><span class="dot">3</span><div><b>Customer</b><div class="muted small">{stepThreeText}</div></div></div>
+                        </div>
+                        <div class="grid2">
+                            <div>
+                                <div class="b-section-title">Underwriter findings</div>
+                                <div class="text">{openView.Findings__c}</div>
+                                <template lwc:if={openView.Mitigants__c}>
+                                    <div class="b-section-title">Mitigants</div>
+                                    <div class="text">{openView.Mitigants__c}</div>
+                                </template>
+                            </div>
+                            <div>
+                                <div class="b-section-title">Why {openView.levelText}</div>
+                                <ul class="b-list">
+                                    <template for:each={openView.levelReasons} for:item="r"><li key={r.key}>{r.text}</li></template>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <template lwc:if={pending}>
+                            <template lwc:if={p.canDecide}>
+                                <div class="decide">
+                                    <template lwc:if={onBehalfNote}><div class="b-alert b-alert-warn">{onBehalfNote}</div></template>
+                                    <lightning-textarea label="Approver notes (required to reject or return)" value={decisionNotes} onchange={handleDecisionNotes}></lightning-textarea>
+                                    <div class="b-footer">
+                                        <button class="b-btn-ghost" onclick={handleReturn} disabled={busy}>↺ Return for more info</button>
+                                        <button class="b-btn" onclick={handleReject} disabled={busy}>✕ Reject</button>
+                                        <button class="b-btn-green" onclick={handleApprove} disabled={busy}>✓ Approve</button>
+                                    </div>
+                                </div>
+                            </template>
+                            <template lwc:else>
+                                <div class="b-alert b-alert-info">Waiting for {openView.to} ({openView.levelText}).</div>
+                            </template>
+                            <template lwc:if={p.isRequester}>
+                                <div class="b-footer"><button class="b-btn-ghost" onclick={handleWithdraw} disabled={busy}>Withdraw request</button></div>
+                            </template>
+                        </template>
+                        <template lwc:if={awaitingConsent}>
+                            <div class="b-alert b-alert-info">Approved by {openView.decidedBy}. The customer has been offered the {openView.Proposed_Card__c} on WhatsApp: <b>Yes</b> issues it at {openView.change}; <b>No</b> issues the {openView.Current_Card__c}.</div>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- propose -->
+                <template lwc:if={canPropose}>
+                    <div class="intro">
+                        <div>
+                            <div class="b-muted">{policyText}</div>
+                            <div class="muted small">Think the customer deserves a better card or a higher limit than the policy gives? Document your findings and send it up for approval.</div>
+                        </div>
+                        <button class="b-btn-navy" onclick={handleCompose}>↑ Propose upgrade / higher limit</button>
+                    </div>
+                </template>
+                <template lwc:if={p.notEligibleReason}>
+                    <template lwc:if={hasNoOpen}><div class="b-muted">{p.notEligibleReason}</div></template>
+                </template>
+
+                <template lwc:if={composing}>
+                    <div class="compose">
+                        <div class="row3">
+                            <lightning-combobox label="Card" value={card} options={cardOptions} onchange={handleCard}></lightning-combobox>
+                            <lightning-input type="number" label="Proposed credit limit (₹)" value={limit} step="5000" onchange={handleLimit}></lightning-input>
+                            <lightning-combobox label="Reason" value={reasonCode} options={reasonOptions} onchange={handleReason} placeholder="Pick a reason"></lightning-combobox>
+                        </div>
+                        <template lwc:if={a}>
+                            <div class={assessmentCls}>
+                                <div class="level-head">{levelHeadline}</div>
+                                <div class="muted small">{proposalFacts}</div>
+                                <template lwc:if={hasStops}>
+                                    <ul class="b-list stops"><template for:each={stopItems} for:item="s"><li key={s.key}>✕ {s.text}</li></template></ul>
+                                </template>
+                                <template lwc:else>
+                                    <ul class="b-list"><template for:each={reasonItems} for:item="r"><li key={r.key}>{r.text}</li></template></ul>
+                                </template>
+                            </div>
+                        </template>
+                        <lightning-textarea label="Your findings (required): what you saw and why the deviation is justified" value={findings} onchange={handleFindings}
+                            placeholder="e.g. Salary credits from Infosys of ₹91,200 for 24 months, growing 8% a year; card-able spend of ₹62,000 a month, mostly travel abroad, which the Flare limit would cap. No missed EMIs."></lightning-textarea>
+                        <div class="muted small hint">{findingsHint}</div>
+                        <lightning-textarea label="Mitigants (optional)" value={mitigants} onchange={handleMitigants}
+                            placeholder="e.g. Salary account with us · FD ₹4L · limit review in 6 months"></lightning-textarea>
+                        <template lwc:if={noApprovers}>
+                            <div class="b-alert b-alert-warn">No one holds L{a.level} or above. Set <b>Card Credit Authority Level</b> on the approver's user record.</div>
+                        </template>
+                        <template lwc:else>
+                            <lightning-combobox label="Assign to (at or above the required level; your manager chain first)" value={approverId} options={approverOptions} onchange={handleApprover}></lightning-combobox>
+                        </template>
+                        <div class="b-footer">
+                            <button class="b-btn-ghost" onclick={handleCancelCompose}>Cancel</button>
+                            <button class="b-btn-navy" onclick={handleSubmit} disabled={submitDisabled}>Send for approval</button>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- history -->
+                <template lwc:if={hasHistory}>
+                    <div class="b-section-title hist-title">Earlier requests</div>
+                    <template for:each={history} for:item="h">
+                        <div key={h.Id} class="hist">
+                            <div class="hist-row">
+                                <span class={h.statusCls}>{h.statusIcon} {h.statusText}</span>
+                                <span><b>{h.change}</b> · {h.levelText}</span>
+                                <span class="muted small">{h.by} → {h.to}<template lwc:if={h.decidedBy}> · decided by {h.decidedBy}</template></span>
+                            </div>
+                            <template lwc:if={h.Decision_Notes__c}><div class="muted small">“{h.Decision_Notes__c}”</div></template>
+                        </div>
+                    </template>
+                </template>
+            </template>
+        </div>
+    </div>
+</template>

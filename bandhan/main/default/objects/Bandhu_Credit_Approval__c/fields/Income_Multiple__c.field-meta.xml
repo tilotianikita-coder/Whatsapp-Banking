@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Income_Multiple__c</fullName>
+    <description>Proposed limit / monthly income (verified, else declared).</description>
+    <inlineHelpText>Proposed limit / monthly income (verified, else declared).</inlineHelpText>
+    <label>Income Multiple</label>
+    <type>Number</type>
+    <precision>4</precision>
+    <scale>1</scale>
+</CustomField>

@@ -20,6 +20,7 @@ public with sharing class BandhuConsoleController {
         @AuraEnabled public String why;
         @AuraEnabled public String eligible;
         @AuraEnabled public Boolean decided;
+        @AuraEnabled public Boolean withApprover;      // a card upgrade / higher limit is up the credit hierarchy
         @AuraEnabled public Boolean approveIsDeviation;
         @AuraEnabled public Boolean declineIsDeviation;
         @AuraEnabled public CashFlowView cashFlow;
@@ -136,7 +137,8 @@ public with sharing class BandhuConsoleController {
         journeySummary(r);
         r.cashFlow = cashFlowView(r.application);
         r.score = scoreView(r.application);
-        r.decided = r.application.Status__c == 'Card Issued' || r.application.Status__c == 'Declined';
+        r.decided = r.application.Status__c == 'Card Issued' || r.application.Status__c == 'Declined' || r.application.Status__c == 'Cancelled';
+        r.withApprover = r.application.Status__c == 'Pending Approval' || r.application.Status__c == 'Approved';
         r.approveIsDeviation = r.application.Recommendation__c == BandhuDecision.DECLINE;
         r.declineIsDeviation = r.application.Recommendation__c == BandhuDecision.APPROVE;
         return r;

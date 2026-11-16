@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Findings__c</fullName>
+    <description>Required: what the underwriter found and why the deviation is justified.</description>
+    <inlineHelpText>Required: what the underwriter found and why the deviation is justified.</inlineHelpText>
+    <label>Underwriter Findings</label>
+    <type>LongTextArea</type>
+    <length>32768</length>
+    <visibleLines>6</visibleLines>
+</CustomField>
