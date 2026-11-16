@@ -96,7 +96,7 @@ def arrow(slide, x1, y1, x2, y2, both=False):
 def header(slide, t, sub, n, total):
     text(slide, 0.42, 0.22, 9.1, 0.36, t, size=22, color=NAVY, font=FONT_HEAD)
     text(slide, 0.42, 0.6, 9.1, 0.2, sub, size=8, color=NAVY)
-    text(slide, 0.42, 5.3, 8.4, 0.18, 'Blue: Salesforce (Data 360, Agentforce, journey, consoles)     Grey: Bandhan / external systems', size=6, color=NAVY)
+    text(slide, 0.42, 5.3, 8.4, 0.18, 'Blue: Salesforce (Service Cloud, Data 360, Agentforce, Experience Cloud)     Grey: Bandhan / external systems', size=6, color=NAVY)
     text(slide, 9.0, 5.3, 0.6, 0.18, f'{n} / {total}', size=6, color=NAVY, align=PP_ALIGN.RIGHT)
 
 TOTAL = 4
@@ -116,7 +116,7 @@ def legend2(slide):
     for sh in list(slide.shapes):
         if sh.has_text_frame and sh.text_frame.text.startswith('Blue: Salesforce'):
             sh._element.getparent().remove(sh._element)
-    text(slide, 0.42, 5.3, 8.4, 0.18, 'Blue: Salesforce (Data 360, Agentforce, journey, consoles)     Grey: Bandhan / external systems', size=6, color=NAVY)
+    text(slide, 0.42, 5.3, 8.4, 0.18, 'Blue: Salesforce (Service Cloud, Data 360, Agentforce, Experience Cloud)     Grey: Bandhan / external systems', size=6, color=NAVY)
 
 def channel_slide(title, sub, n, channel_title, channel_sub, side_title, side_sub):
     s = prs.slides.add_slide(blank); move_before_thanks(s)
@@ -128,7 +128,7 @@ def channel_slide(title, sub, n, channel_title, channel_sub, side_title, side_su
     box2(s, R, 1.4, W, 0.5, 'Bandhan API gateway', ['Live calls: OTP, KYC, bureau pull,', 'AA consent, card issue, Neev sync'], 'bb')
     box2(s, C, 2.05, W, 0.62, 'Agentforce', ['Bandhu agent + Prompt Builder:', 'answers, notes, underwriter brief;', 'actions run the Bandhu journey'], 'ai')
     box2(s, L, 2.05, W, 0.62, 'Bandhu journey + decisioning', ['Eligibility, CIBIL bands, Bandhan', 'Score, limits: rules decide'], 'sf')
-    box2(s, R, 2.05, W, 0.62, 'Lead + underwriting', ['Leads (7 gates, scores, nudges)', 'Underwriting console  ·  synced to Neev'], 'sf')
+    box2(s, R, 2.05, W, 0.62, 'Leads + underwriting', ['Service Cloud: leads (7 gates, scores,', 'nudges), underwriting; synced to Neev'], 'sf')
     box2(s, L, 2.85, 8.9, 0.62, 'Data 360: one Bandhan customer profile', ['Identity resolution on mobile / PAN  ·  calculated insights: cash flow, FOIR, stability, spend by category, lifestyle, Bandhan Score inputs', 'Grounds Agentforce (retrieval)  ·  segments for re-approach and limit offers  ·  journey and consent events streamed in'], 'd360')
     srcs = [('Account Aggregator', ['24 months of statements', 'via Bandhan FIU']), ('CIBIL / bureau', ['Report, DPD, enquiries,', 'utilisation']),
             ('Core banking (CBS)', ['Accounts, balances, FDs,', 'loans, tier']), ('KYC, GST, AIS', ['UIDAI, NSDL, GSTN,', 'Form 26AS / AIS'])]
@@ -138,7 +138,7 @@ def channel_slide(title, sub, n, channel_title, channel_sub, side_title, side_su
         box2(s, x, 3.68, sw, 0.55, t, d, 'bb')
         arrow(s, x + sw / 2, 3.68, x + sw / 2, 3.47)
     box2(s, L, 4.4, 4.35, 0.78, 'How the data arrives', ['Real-time: Ingestion API from the gateway for AA, bureau and KYC', 'Batch / Zero Copy: CBS and the warehouse, no data copies', 'Streaming: journey steps, consents, card events'], 'd360')
-    box2(s, L + 4.55, 4.4, 4.35, 0.78, 'Shared responsibilities', ['Bandhan: FIU and bureau contracts, gateway APIs, credit policy, Neev', 'Salesforce: Data 360 model and insights, Agentforce, journey, consoles', 'AI writes; the rules decide; underwriters approve'], 'bb')
+    box2(s, L + 4.55, 4.4, 4.35, 0.78, 'Shared responsibilities', ['Bandhan: FIU and bureau contracts, gateway APIs, credit policy, Neev', 'Salesforce: Service Cloud, Data 360, Agentforce, Experience Cloud, journey', 'AI writes; the rules decide; underwriters approve'], 'bb')
     # arrows: customer <-> channel <-> agentforce ; agentforce <-> journey, <-> leads ; data 360 up to the three ; gateway down to sources
     arrow(s, 5.0, 1.26, 5.0, 1.4, True); arrow(s, 5.0, 1.9, 5.0, 2.05, True)
     arrow(s, 3.7, 1.65, 3.1, 1.65, True)
@@ -149,9 +149,9 @@ def channel_slide(title, sub, n, channel_title, channel_sub, side_title, side_su
 
 TOTAL = 4
 channel_slide('WhatsApp Architecture', 'Bandhu on WhatsApp: bank and bureau data unified in Data 360; Agentforce works on top of one customer profile', 1,
-              'WhatsApp channel', ['BSP + Salesforce messaging,', 'Omni-Channel routing'], 'Human handoff', ['Service Console + Bandhu panel:', 'every answer, why they asked'])
+              'WhatsApp on Service Cloud', ['Messaging for WhatsApp (BSP),', 'Omni-Channel routing'], 'Service Cloud handoff', ['Service Console + Bandhu panel:', 'every answer, why they asked'])
 channel_slide('Salesforce DIY architecture', 'The web journey on Experience Cloud: the same Data 360 profile, Agentforce and journey as WhatsApp', 2,
-              'Salesforce DIY journey', ['Experience Cloud page: card range,', 'chat, tiles, language switch'], 'Branch-assisted', ['RM 360 with the card to pitch;', 'customer finishes on chat'])
+              'Salesforce DIY journey', ['Experience Cloud page: card range,', 'chat, tiles, language switch'], 'Branch-assisted', ['Service Cloud RM 360: card to pitch;', 'customer finishes on chat'])
 
 # ================================================================ slide 4: Data 360 + Agentforce integration (left to right)
 s = prs.slides.add_slide(blank); move_before_thanks(s)
@@ -161,7 +161,7 @@ TOP, BOT = 1.12, 4.98
 text(s, cols[0], 0.9, 2.1, 0.2, 'SOURCES · BANDHAN / EXTERNAL', size=7, bold=True, color=GREY)
 text(s, cols[1], 0.9, 2.3, 0.2, 'DATA 360 · SALESFORCE', size=7, bold=True, color=BLUE)
 text(s, cols[2], 0.9, 2.0, 0.2, 'AGENTFORCE · SALESFORCE', size=7, bold=True, color=BLUE)
-text(s, cols[3], 0.9, 1.8, 0.2, 'CHANNELS · SALESFORCE', size=7, bold=True, color=BLUE)
+text(s, cols[3], 0.9, 1.8, 0.2, 'SERVICE + EXPERIENCE CLOUD', size=7, bold=True, color=BLUE)
 # sources: 7 boxes, each arrow lands on the Data 360 band
 sources = [('Account Aggregator', 'FIU · consent-scoped · real-time'), ('CIBIL / bureau', 'soft + hard pull · real-time'),
            ('Core banking (CBS)', 'accounts, FDs, loans · Zero Copy'), ('KYC: UIDAI, NSDL', 'eKYC, PAN · real-time'),
@@ -200,7 +200,7 @@ for t, d in af:
     text(s, cols[2] + 0.14, iy + 0.23, 1.77, 0.2, d, size=6, color=NAVY, align=PP_ALIGN.CENTER)
     iy += 0.53
 # channels: each one arrow from the Agentforce band
-users = [('WhatsApp', 'Bandhu agent'), ('DIY web', 'Experience Cloud'), ('Branch RM', 'RM 360 · card to pitch'), ('Underwriter', 'console + AI brief'), ('Leads team', 'scored leads · nudges')]
+users = [('WhatsApp', 'Service Cloud messaging'), ('DIY web', 'Experience Cloud'), ('Branch RM', 'Service Cloud · RM 360'), ('Underwriter', 'Service Cloud console'), ('Leads team', 'Service Cloud · nudges')]
 uh, ugap = 0.4, (AF_BOT - TOP - 5 * 0.4) / 4
 for k, (t, d) in enumerate(users):
     y = TOP + k * (uh + ugap)
@@ -232,7 +232,7 @@ for i, (n, t, d) in enumerate(steps):
 # the lead lane
 lane = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.5), Inches(2.3), Inches(8.9), Inches(1.35)); lane.adjustments[0] = 0.06
 lane.fill.solid(); lane.fill.fore_color.rgb = SF_FILL; lane.line.color.rgb = SF_LINE; lane.line.width = Pt(0.75); lane.shadow.inherit = False
-text(s, 0.65, 2.38, 8.6, 0.22, 'Lead management in Salesforce, in step with Neev', size=10, bold=True, color=NAVY)
+text(s, 0.65, 2.38, 8.6, 0.22, 'Lead management in Service Cloud, in step with Neev', size=10, bold=True, color=NAVY)
 lanes = [
     ('Created at the OTP', 'New-to-bank: a Lead the moment the mobile is verified; existing customers stay on their Contact'),
     ('7 qualification gates', 'Serviceability, consent, dedupe & fraud, CIBIL, income, employment, card eligibility: knock-outs stop the nudges'),
@@ -247,8 +247,8 @@ for i, (t, d) in enumerate(lanes):
     text(s, x, 2.9, lw - 0.05, 0.72, d, size=6.5, color=NAVY)
 # bottom row: what the RM and underwriter see
 for i, (t, d) in enumerate([
-    ('RM', 'Full-width lead page with card, scores and the next best action; RM 360 for existing customers with the card to pitch'),
-    ('Underwriter', 'Checks, Account Aggregator cash flow, Bandhan Score factors and an Agentforce brief, on one page'),
+    ('RM · Service Cloud', 'Full-width lead page with card, scores and the next best action; RM 360 for existing customers with the card to pitch'),
+    ('Underwriter · Service Cloud', 'Checks, Account Aggregator cash flow, Bandhan Score factors and an Agentforce brief, on one page'),
     ('Customer', 'Same journey on WhatsApp and the web, in English, Hindi or Bengali; resumes anywhere'),
 ]):
     x = 0.5 + i * 3.0
@@ -263,8 +263,8 @@ text(s, 0.45, 0.42, 8.4, 0.5, 'What Salesforce brings to Bandhan', size=22, bold
 s.shapes.add_picture(LOGO, Emu(8275320), Emu(425196), Emu(475488), Emu(332842))
 text(s, 0.45, 0.93, 8.4, 0.3, 'From a lead list in Neev to one live, AI-assisted customer thread', size=13, color=BLUE, font=FONT_HEAD)
 cards = [
-    ('One journey, every channel', 'WhatsApp, web and branch share one engine and one record. A rule or offer changes once, everywhere.'),
-    ('Leads that qualify themselves', 'Seven gates, intent and credit scores, drop point and RM nudge: live, not a T+1 list. Synced to Neev.'),
+    ('One journey, every channel', 'Service Cloud messaging, Experience Cloud and branch share one engine and record. A rule changes once, everywhere.'),
+    ('Leads that self-qualify', 'Service Cloud leads: seven gates, intent and credit scores, drop point, RM nudge. Live, not T+1; synced to Neev.'),
     ('Decisions from real cash flow', 'Account Aggregator statements, CIBIL bands and the Bandhan Score: explainable, factor by factor.'),
     ('Agentforce where it helps', 'Free-form card answers, a personal note in Hindi or Bengali, an underwriter brief. AI writes; rules decide.'),
     ('Compliance built in', 'DPDP consent, AA purpose and expiry, hard-enquiry notice, MITC, activation and cooling-off, logged.'),
@@ -276,8 +276,8 @@ for i, (t, d) in enumerate(cards):
     x, y = 0.45 + col * (cw + 0.13), 1.45 + row * (ch + 0.18)
     b = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(y), Inches(cw), Inches(ch)); b.adjustments[0] = 0.06
     b.fill.solid(); b.fill.fore_color.rgb = RGBColor(0xFF, 0xFF, 0xFF); b.line.color.rgb = RGBColor(0xE6, 0xEA, 0xF0); b.line.width = Pt(0.75)
-    text(s, x + 0.2, y + 0.18, cw - 0.4, 0.3, t, size=11.5, bold=True, color=BLUE, font=FONT_HEAD)
-    text(s, x + 0.2, y + 0.58, cw - 0.4, 0.8, d, size=9, color=INK, font=FONT_HEAD)
+    text(s, x + 0.2, y + 0.16, cw - 0.4, 0.3, t, size=10.5, bold=True, color=BLUE, font=FONT_HEAD)
+    text(s, x + 0.2, y + 0.52, cw - 0.4, 0.86, d, size=8.5, color=INK, font=FONT_HEAD)
 
 # ================================================================ slide 6: how Salesforce grows card sales (facts sourced; levers)
 s = prs.slides.add_slide(default); move_before_thanks(s)
@@ -301,8 +301,8 @@ levers = [
     ('Find who is ready', 'Data 360 scores existing savings, salary and loan customers on cash flow and spend: a ranked, pre-approved list per branch.'),
     ('Sell where they already are', 'Bandhu on WhatsApp, the web and mBandhan: apply in minutes, in English, Hindi or Bengali, AA instead of documents.'),
     ('Corporate salary accounts', 'Payroll customers recognised on login: pre-filled journey, pre-approved card, no income proof.'),
-    ('Arm 2,001 branches', 'RM 360 shows the card to pitch and starts the application; the customer finishes on their phone.'),
-    ('Win back drop-offs', 'Every lead scored in real time; nudges within minutes; declined customers re-approached when they qualify.'),
+    ('Arm 2,001 branches', 'Service Cloud RM 360 shows the card to pitch and starts the application; the customer finishes on their phone.'),
+    ('Win back drop-offs', 'Service Cloud scores every lead live; WhatsApp nudges in minutes; declined customers re-approached when they qualify.'),
     ('Grow every card', 'Earn-more tips from spend data, consented limit and upgrade offers, activation in 30 days tracked.'),
 ]
 cw, ch = 2.85, 1.05
