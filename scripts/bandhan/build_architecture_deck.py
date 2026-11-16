@@ -279,5 +279,42 @@ for i, (t, d) in enumerate(cards):
     text(s, x + 0.2, y + 0.18, cw - 0.4, 0.3, t, size=11.5, bold=True, color=BLUE, font=FONT_HEAD)
     text(s, x + 0.2, y + 0.58, cw - 0.4, 0.8, d, size=9, color=INK, font=FONT_HEAD)
 
+# ================================================================ slide 6: how Salesforce grows card sales (facts sourced; levers)
+s = prs.slides.add_slide(default); move_before_thanks(s)
+for sh in list(s.shapes):
+    if sh.is_placeholder: sh._element.getparent().remove(sh._element)
+text(s, 0.45, 0.32, 7.6, 0.45, 'Growing card sales from Bandhan\'s base', size=20, bold=True, color=DARK, font=FONT_HEAD)
+s.shapes.add_picture(LOGO, Emu(8275320), Emu(300000), Emu(475488), Emu(332842))
+text(s, 0.45, 0.8, 8.6, 0.28, 'Cards launched in Q2 FY27: the bank names cross-sell, salary customers and digital as the path', size=10, color=BLUE, font=FONT_HEAD)
+# fact strip (sourced)
+facts = [('Q2 FY27', 'credit cards launched:', 'Sparks · Ignite · Flare · Lumina'), ('2,001 + 4,414', 'branches + banking units', 'to sell and service'),
+         ('1.72 lakh cr', 'INR deposits: a large existing', 'base to cross-sell'), ('8,642 / month', 'retail leads on Neev today', '(Y1 sizing, in-scope loans)')]
+fw = 2.12
+for k, (big, l1, l2) in enumerate(facts):
+    x = 0.45 + k * (fw + 0.1)
+    b = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(1.16), Inches(fw), Inches(0.78)); b.adjustments[0] = 0.08
+    b.fill.solid(); b.fill.fore_color.rgb = SF_FILL; b.line.color.rgb = SF_LINE; b.line.width = Pt(0.75); b.shadow.inherit = False
+    text(s, x + 0.14, 1.22, fw - 0.28, 0.3, big, size=15, bold=True, color=DARK, font=FONT_HEAD)
+    text(s, x + 0.14, 1.53, fw - 0.28, 0.4, [l1, l2], size=7.5, color=INK, font=FONT_HEAD)
+# levers: 6 cards, each = what Salesforce does (and what the demo already shows)
+levers = [
+    ('Find who is ready', 'Data 360 scores existing savings, salary and loan customers on cash flow and spend: a ranked, pre-approved list per branch.'),
+    ('Sell where they already are', 'Bandhu on WhatsApp, the web and mBandhan: apply in minutes, in English, Hindi or Bengali, AA instead of documents.'),
+    ('Corporate salary accounts', 'Payroll customers recognised on login: pre-filled journey, pre-approved card, no income proof.'),
+    ('Arm 2,001 branches', 'RM 360 shows the card to pitch and starts the application; the customer finishes on their phone.'),
+    ('Win back drop-offs', 'Every lead scored in real time; nudges within minutes; declined customers re-approached when they qualify.'),
+    ('Grow every card', 'Earn-more tips from spend data, consented limit and upgrade offers, activation in 30 days tracked.'),
+]
+cw, ch = 2.85, 1.05
+for i, (t, d) in enumerate(levers):
+    col, row = i % 3, i // 3
+    x, y = 0.45 + col * (cw + 0.13), 2.12 + row * (ch + 0.12)
+    b = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(y), Inches(cw), Inches(ch)); b.adjustments[0] = 0.06
+    b.fill.solid(); b.fill.fore_color.rgb = RGBColor(0xFF, 0xFF, 0xFF); b.line.color.rgb = RGBColor(0xE6, 0xEA, 0xF0); b.line.width = Pt(0.75)
+    text(s, x + 0.18, y + 0.12, cw - 0.36, 0.26, t, size=10.5, bold=True, color=BLUE, font=FONT_HEAD)
+    text(s, x + 0.18, y + 0.42, cw - 0.36, 0.62, d, size=8, color=INK, font=FONT_HEAD)
+text(s, 0.45, 4.48, 9.1, 0.32, [[('Measure it: ', True, DARK, 8.5), ('leads, approvals, cards, activation and spend by channel, branch and campaign, live in Salesforce (not a monthly MIS).', False, INK, 8.5)]], font=FONT_HEAD)
+text(s, 0.45, 5.12, 9.1, 0.35, 'Sources: Bandhan Bank Q2 FY27 earnings call (28 Oct 2026) and Q2 FY27 results (deposits, branches, card launch); Bandhan retail asset licence sizing (Neev leads, Y1). No card volumes published yet.', size=6.5, color=GREY, font=FONT_HEAD)
+
 prs.save(OUT)
 print('saved', OUT, 'slides', len(prs.slides))
