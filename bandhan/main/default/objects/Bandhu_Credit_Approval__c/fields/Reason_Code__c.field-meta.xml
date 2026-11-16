@@ -33,6 +33,51 @@
                 <label>Spends exceed the policy limit</label>
             </value>
             <value>
+                <fullName>Income lower than declared</fullName>
+                <default>false</default>
+                <label>Income lower than declared</label>
+            </value>
+            <value>
+                <fullName>Income documents mismatch</fullName>
+                <default>false</default>
+                <label>Income documents mismatch</label>
+            </value>
+            <value>
+                <fullName>Tax / GST records lower</fullName>
+                <default>false</default>
+                <label>Tax / GST records lower</label>
+            </value>
+            <value>
+                <fullName>Employer mismatch</fullName>
+                <default>false</default>
+                <label>Employer mismatch</label>
+            </value>
+            <value>
+                <fullName>High existing obligations</fullName>
+                <default>false</default>
+                <label>High existing obligations</label>
+            </value>
+            <value>
+                <fullName>Spend lower than declared</fullName>
+                <default>false</default>
+                <label>Spend lower than declared</label>
+            </value>
+            <value>
+                <fullName>Banking anomalies</fullName>
+                <default>false</default>
+                <label>Banking anomalies</label>
+            </value>
+            <value>
+                <fullName>Bureau concerns</fullName>
+                <default>false</default>
+                <label>Bureau concerns</label>
+            </value>
+            <value>
+                <fullName>Address mismatch</fullName>
+                <default>false</default>
+                <label>Address mismatch</label>
+            </value>
+            <value>
                 <fullName>Other</fullName>
                 <default>false</default>
                 <label>Other</label>

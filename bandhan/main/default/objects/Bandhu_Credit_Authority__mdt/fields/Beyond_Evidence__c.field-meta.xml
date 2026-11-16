@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Beyond_Evidence__c</fullName>
+    <description>May counter-offer a lower card or limit than the mismatch evidence supports.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>May Go Beyond Evidence</label>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+</CustomField>

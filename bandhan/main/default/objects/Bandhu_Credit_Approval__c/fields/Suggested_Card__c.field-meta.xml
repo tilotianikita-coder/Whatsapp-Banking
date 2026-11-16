@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Suggested_Card__c</fullName>
+    <label>Evidence Supports Card</label>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sparks</fullName>
+                <default>false</default>
+                <label>Sparks</label>
+            </value>
+            <value>
+                <fullName>Ignite</fullName>
+                <default>false</default>
+                <label>Ignite</label>
+            </value>
+            <value>
+                <fullName>Flare</fullName>
+                <default>false</default>
+                <label>Flare</label>
+            </value>
+            <value>
+                <fullName>Lumina</fullName>
+                <default>false</default>
+                <label>Lumina</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

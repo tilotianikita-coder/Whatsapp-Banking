@@ -99,12 +99,12 @@ CARDS = {
 # Card credit authority (NSTP only): who may approve a card upgrade or a limit above the card policy. PLACEHOLDERS for
 # Bandhan's credit policy. A request goes to the lowest level whose every cap covers it (BandhuCreditApproval).
 #   level: (title, max total limit, max % over the policy limit, max limit / monthly income, max tiers of upgrade,
-#           min income for an upgrade as % of the new card's minimum)
+#           min income for an upgrade as % of the new card's minimum, max tiers of downgrade, may go beyond the evidence)
 AUTHORITY = {
-    1: ('Credit Underwriter', 300000, 0, 3.0, 0, 100),
-    2: ('Senior Credit Manager', 500000, 25, 4.0, 1, 90),
-    3: ('Regional Credit Head', 1000000, 50, 5.0, 2, 80),
-    4: ('Chief Credit Officer (Cards)', 2500000, 100, 6.0, 3, 70),
+    1: ('Credit Underwriter', 300000, 0, 3.0, 0, 100, 1, False),
+    2: ('Senior Credit Manager', 500000, 25, 4.0, 1, 90, 3, True),
+    3: ('Regional Credit Head', 1000000, 50, 5.0, 2, 80, 3, True),
+    4: ('Chief Credit Officer (Cards)', 2500000, 100, 6.0, 3, 70, 3, True),
 }
 
 REGIONS = {
@@ -279,6 +279,13 @@ MESSAGES = {
         '🎉 अच्छी ख़बर{name}! हमारी card team ने आपकी application ```{ref}``` का review किया है और आपको आपकी माँग से ज़्यादा दे सकती है:\n\n> 💳 {old} की जगह *Bandhan {card}*\n> 💰 Credit limit: *{limit}*\n\n{benefits}\n\nयह card सिर्फ़ आपकी सहमति से जारी होगा। स्वीकार करने के लिए *Yes* लिखें, या {old} ही रखने के लिए *No*।',
         '🎉 সুখবর{name}! আমাদের card team আপনার application ```{ref}``` review করেছে এবং আপনি যা চেয়েছিলেন তার চেয়ে বেশি দিতে পারে:\n\n> 💳 {old}-এর বদলে *Bandhan {card}*\n> 💰 Credit limit: *{limit}*\n\n{benefits}\n\nএই card শুধু আপনার সম্মতিতেই জারি হবে। গ্রহণ করতে *Yes* লিখুন, অথবা {old} রাখতে *No*।'),
     'Opt_Upgrade_Offer': ("Yes, upgrade me\nNo, keep my card", 'हाँ, upgrade करें\nनहीं, मेरा card ही रखें', 'হ্যাঁ, upgrade করুন\nনা, আমার card-ই রাখুন'),
+    'Decision_Downgrade_Offer': (
+        "Thank you for applying{name}. Our card team has reviewed your application ```{ref}```. We can't approve the *{old}* right now, but we can offer you:\n\n> 💳 *Bandhan {card}*\n> 💰 Credit limit: *{limit}*\n\n{benefits}\n\nWhy: {why}\n\nThe card is issued only if you agree. Reply *Yes* to accept, or *No* to close the application.",
+        'Apply करने के लिए धन्यवाद{name}। हमारी card team ने आपकी application ```{ref}``` का review किया है। हम अभी *{old}* approve नहीं कर पा रहे हैं, लेकिन आपको यह दे सकते हैं:\n\n> 💳 *Bandhan {card}*\n> 💰 Credit limit: *{limit}*\n\n{benefits}\n\nकारण: {why}\n\nयह card सिर्फ़ आपकी सहमति से जारी होगा। स्वीकार करने के लिए *Yes* लिखें, या application बंद करने के लिए *No*।',
+        'Apply করার জন্য ধন্যবাদ{name}। আমাদের card team আপনার application ```{ref}``` review করেছে। এই মুহূর্তে *{old}* approve করা যাচ্ছে না, তবে আমরা আপনাকে দিতে পারি:\n\n> 💳 *Bandhan {card}*\n> 💰 Credit limit: *{limit}*\n\n{benefits}\n\nকারণ: {why}\n\nএই card শুধু আপনার সম্মতিতেই জারি হবে। গ্রহণ করতে *Yes* লিখুন, অথবা application বন্ধ করতে *No*।'),
+    'Opt_Downgrade_Offer': ("Yes, issue it\nNo, close my application", 'हाँ, जारी करें\nनहीं, application बंद करें', 'হ্যাঁ, জারি করুন\nনা, application বন্ধ করুন'),
+    'Downgrade_Why_Income': ("the income we could verify ({income} a month) fits this card best", 'जो income हम verify कर पाए ({income} प्रति माह) उसके लिए यह card सबसे सही है', 'আমরা যে income যাচাই করতে পেরেছি (মাসে {income}) তার জন্য এই card সবচেয়ে উপযুক্ত'),
+    'Downgrade_Why_Obligations': ("with your existing EMIs, a lower limit keeps your repayments comfortable", 'आपकी मौजूदा EMIs के साथ, कम limit से repayment आसान रहेगा', 'আপনার বর্তমান EMI-এর সঙ্গে কম limit-এ repayment সহজ থাকবে'),
     'Upgrade_Kept': ("No problem{name} — we'll issue the *Bandhan {card}* you applied for. 👍", 'कोई बात नहीं{name} — हम आपका apply किया हुआ *Bandhan {card}* जारी करेंगे। 👍', 'কোনো সমস্যা নেই{name} — আপনি যে *Bandhan {card}*-এর জন্য apply করেছিলেন সেটিই জারি করব। 👍'),
     'Decision_Declined_RM': (
         "Hi{name}, our card team has reviewed your *Bandhan {card}* application ```{ref}```. We're unable to approve it right now. A specialist will call you to discuss other options.",
@@ -331,9 +338,10 @@ def record(type_name, dev_name, label, values):
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     record('Bandhu_Config', 'Default', 'Default', CONFIG)
-    for level, (title, mx, over, mult, tiers, inc) in AUTHORITY.items():
+    for level, (title, mx, over, mult, tiers, inc, down, beyond) in AUTHORITY.items():
         record('Bandhu_Credit_Authority', f'Level_{level}', f'L{level} {title}', {'Level__c': level, 'Title__c': title, 'Max_Limit__c': mx,
-               'Max_Over_Policy_Pct__c': over, 'Max_Income_Multiple__c': mult, 'Max_Upgrade_Tiers__c': tiers, 'Min_Income_Pct_Upgrade__c': inc})
+               'Max_Over_Policy_Pct__c': over, 'Max_Income_Multiple__c': mult, 'Max_Upgrade_Tiers__c': tiers, 'Min_Income_Pct_Upgrade__c': inc,
+               'Max_Downgrade_Tiers__c': down, 'Beyond_Evidence__c': beyond})
     for name, (label, prefixes, serviceable) in REGIONS.items():
         record('Bandhu_Region', name, label, {'PIN_Prefixes__c': prefixes, 'Serviceable__c': serviceable, 'RM_Username__c': ''})
     for name, values in CARDS.items():

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Downgrade Why Income</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">the income we could verify ({income} a month) fits this card best</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">जो income हम verify कर पाए ({income} प्रति माह) उसके लिए यह card सबसे सही है</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">আমরা যে income যাচাই করতে পেরেছি (মাসে {income}) তার জন্য এই card সবচেয়ে উপযুক্ত</value>
+    </values>
+</CustomMetadata>

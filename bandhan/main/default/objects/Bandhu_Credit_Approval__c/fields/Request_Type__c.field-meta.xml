@@ -22,6 +22,21 @@
                 <default>false</default>
                 <label>Card upgrade and limit</label>
             </value>
+            <value>
+                <fullName>Limit reduction</fullName>
+                <default>false</default>
+                <label>Limit reduction</label>
+            </value>
+            <value>
+                <fullName>Card downgrade</fullName>
+                <default>false</default>
+                <label>Card downgrade</label>
+            </value>
+            <value>
+                <fullName>Card downgrade and limit</fullName>
+                <default>false</default>
+                <label>Card downgrade and limit</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

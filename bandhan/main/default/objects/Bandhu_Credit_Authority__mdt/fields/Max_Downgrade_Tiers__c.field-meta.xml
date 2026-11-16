@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Downgrade_Tiers__c</fullName>
+    <description>Card tiers below the applied-for card this level can counter-offer.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Max Downgrade Tiers</label>
+    <type>Number</type>
+    <precision>1</precision>
+    <scale>0</scale>
+</CustomField>

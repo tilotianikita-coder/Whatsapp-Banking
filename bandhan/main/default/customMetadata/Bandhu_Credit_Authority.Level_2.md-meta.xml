@@ -30,4 +30,12 @@
         <field>Min_Income_Pct_Upgrade__c</field>
         <value xsi:type="xsd:double">90</value>
     </values>
+    <values>
+        <field>Max_Downgrade_Tiers__c</field>
+        <value xsi:type="xsd:double">3</value>
+    </values>
+    <values>
+        <field>Beyond_Evidence__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
 </CustomMetadata>

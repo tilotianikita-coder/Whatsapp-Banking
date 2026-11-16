@@ -5,7 +5,7 @@
         <div class="b-head">
             <div class="b-head-left">
                 <div>
-                    <div class="b-head-title">Upgrade or higher limit · NSTP</div>
+                    <div class="b-head-title">Upgrade, downgrade or limit · NSTP</div>
                     <div class="b-head-sub">Underwriter findings → approval up the card credit hierarchy (maker-checker)</div>
                 </div>
             </div>
@@ -23,12 +23,12 @@
                     <div class="matrix">
                         <div class="b-section-title">Card credit authority (placeholders for Bandhan's credit policy)</div>
                         <table>
-                            <thead><tr><th>Level</th><th>Max total limit</th><th>Over policy</th><th>Limit / income</th><th>Upgrade</th><th>Income vs new card min</th><th>Holders</th></tr></thead>
+                            <thead><tr><th>Level</th><th>Max total limit</th><th>Over policy</th><th>Limit / income</th><th>Upgrade</th><th>Income vs new card min</th><th>Downgrade</th><th>Holders</th></tr></thead>
                             <tbody>
                                 <template for:each={matrix} for:item="m">
                                     <tr key={m.key} class={m.mineCls}>
                                         <td><b>L{m.level}</b> {m.title}<template lwc:if={m.mine}> <span class="b-pill b-pill-blue">you</span></template></td>
-                                        <td>{m.maxLimitText}</td><td>{m.overText}</td><td>{m.multText}</td><td>{m.tiersText}</td><td>{m.incomeText}</td>
+                                        <td>{m.maxLimitText}</td><td>{m.overText}</td><td>{m.multText}</td><td>{m.tiersText}</td><td>{m.incomeText}</td><td>{m.downText}</td>
                                         <td class="muted">{m.holders}</td>
                                     </tr>
                                 </template>
@@ -39,6 +39,7 @@
                             <li><b>Risk raises the level</b>: +1 for CIBIL below 750 · +1 for a Credit Bureau or Dedupe &amp; Fraud refer · +1 if income isn't verified · +1 for FOIR above 50% · straight to L4 for a written-off or settled account.</li>
                             <li><b>Hard stops</b> (no one can approve): a failed check, CIBIL below 650, income below 70% of the new card's minimum, a limit over ₹25L, approving your own request.</li>
                             <li>An <b>upgrade</b> is issued only with the customer's consent on WhatsApp (RBI MD on Credit Cards 2022); a higher limit on the applied-for card is issued on approval.</li>
+                            <li><b>Downgrade (counter-offer instead of a decline)</b> needs mismatches in the data: income lower than declared (bank statements, tax record, GST, income documents), employer, high EMIs, spend lower than declared, irregular banking, bureau behaviour, address. The lowest income the evidence supports picks the card and limit. L1 (a second underwriter) for 1 tier down or a lower limit within what the evidence supports; L2 for more or below the evidence; +1 if only soft signals (spend, address, employer name); +1 for an existing Bandhan customer; at least L3 on signs of income inflation. Stops: no mismatch, a PAN mismatch on a document (fraud control), a card or limit the assessed income or CIBIL doesn't support. A lower card needs the customer's Yes; No closes the application. The customer is told the income reason only.</li>
                             <li>Only for <b>NSTP</b> applications (referred, in the underwriter queue); straight-through approvals are not reopened.</li>
                         </ul>
                     </div>
@@ -49,7 +50,7 @@
                     <div class="req">
                         <div class="req-head">
                             <div>
-                                <div class="req-title">{openView.Request_Type__c} · {openView.Name}</div>
+                                <div class="req-title"><span class={openView.dirCls}>{openView.dirText}</span> {openView.Request_Type__c} · {openView.Name}</div>
                                 <div class="req-change">{openView.change}</div>
                                 <div class="muted small">{openView.over} · {openView.multiple} · reason: {openView.Reason_Code__c}</div>
                             </div>
@@ -64,6 +65,11 @@
                         </div>
                         <div class="grid2">
                             <div>
+                                <template lwc:if={openView.isDowngrade}>
+                                    <div class="b-section-title">Mismatches relied on</div>
+                                    <ul class="b-list mm-list"><template for:each={openView.mismatchItems} for:item="x"><li key={x.key}>{x.text}</li></template></ul>
+                                    <template lwc:if={openView.evidenceLine}><div class="muted small">{openView.evidenceLine}</div></template>
+                                </template>
                                 <div class="b-section-title">Underwriter findings</div>
                                 <div class="text">{openView.Findings__c}</div>
                                 <template lwc:if={openView.Mitigants__c}>
@@ -99,7 +105,12 @@
                             </template>
                         </template>
                         <template lwc:if={awaitingConsent}>
-                            <div class="b-alert b-alert-info">Approved by {openView.decidedBy}. The customer has been offered the {openView.Proposed_Card__c} on WhatsApp: <b>Yes</b> issues it at {openView.change}; <b>No</b> issues the {openView.Current_Card__c}.</div>
+                            <template lwc:if={openView.isDowngrade}>
+                                <div class="b-alert b-alert-info">Approved by {openView.decidedBy}. The customer has been offered the {openView.Proposed_Card__c} instead of the {openView.Current_Card__c} on WhatsApp: <b>Yes</b> issues it; <b>No</b> closes the application.</div>
+                            </template>
+                            <template lwc:else>
+                                <div class="b-alert b-alert-info">Approved by {openView.decidedBy}. The customer has been offered the {openView.Proposed_Card__c} on WhatsApp: <b>Yes</b> issues it at {openView.change}; <b>No</b> issues the {openView.Current_Card__c}.</div>
+                            </template>
                         </template>
                     </div>
                 </template>
@@ -109,9 +120,13 @@
                     <div class="intro">
                         <div>
                             <div class="b-muted">{policyText}</div>
-                            <div class="muted small">Think the customer deserves a better card or a higher limit than the policy gives? Document your findings and send it up for approval.</div>
+                            <div class="muted small">Better card or higher limit than the policy gives, or a lower card or limit as a counter-offer when the data doesn't match what the customer told us. Document your findings and send it for approval.</div>
+                            <template lwc:if={hasMismatches}><div class="mm-flag">⚠ {mismatchCount} mismatch(es) found in the data · {evidenceText}</div></template>
                         </div>
-                        <button class="b-btn-navy" onclick={handleCompose}>↑ Propose upgrade / higher limit</button>
+                        <div class="b-footer">
+                            <button class="b-btn-ghost" data-dir="Downgrade" onclick={handleCompose}>↓ Propose downgrade / lower limit</button>
+                            <button class="b-btn-navy" data-dir="Upgrade" onclick={handleCompose}>↑ Propose upgrade / higher limit</button>
+                        </div>
                     </div>
                 </template>
                 <template lwc:if={p.notEligibleReason}>
@@ -120,6 +135,30 @@
 
                 <template lwc:if={composing}>
                     <div class="compose">
+                        <div class="segs" role="group" aria-label="Direction">
+                            <template for:each={directionOptions} for:item="o">
+                                <button key={o.value} class={o.cls} data-value={o.value} onclick={handleDirection}>{o.label}</button>
+                            </template>
+                        </div>
+                        <template lwc:if={isDowngrade}>
+                            <div class="mm">
+                                <div class="b-section-title">Mismatches in the data · tick the ones you rely on</div>
+                                <template lwc:if={evidenceText}><div class="mm-ev">{evidenceText}</div></template>
+                                <template lwc:if={hasMismatches}>
+                                    <template for:each={mismatchRows} for:item="m">
+                                        <label key={m.key} class="mm-row">
+                                            <input type="checkbox" data-key={m.key} checked={m.checked} onchange={handleMismatch} />
+                                            <div class="mm-body">
+                                                <div class="mm-head"><span class={m.kindCls}>{m.kind}</span> <b>{m.label}</b> <span class={m.strengthCls}>{m.strength}</span></div>
+                                                <div class="mm-evd">{m.evidence}</div>
+                                                <div class="muted small">{m.source}<template lwc:if={m.supports}> · {m.supports}</template></div>
+                                            </div>
+                                        </label>
+                                    </template>
+                                </template>
+                                <template lwc:else><div class="b-muted">No mismatch found: the data agrees with what the customer told us. Decide the application instead.</div></template>
+                            </div>
+                        </template>
                         <div class="row3">
                             <lightning-combobox label="Card" value={card} options={cardOptions} onchange={handleCard}></lightning-combobox>
                             <lightning-input type="number" label="Proposed credit limit (₹)" value={limit} step="5000" onchange={handleLimit}></lightning-input>
@@ -137,8 +176,7 @@
                                 </template>
                             </div>
                         </template>
-                        <lightning-textarea label="Your findings (required): what you saw and why the deviation is justified" value={findings} onchange={handleFindings}
-                            placeholder="e.g. Salary credits from Infosys of ₹91,200 for 24 months, growing 8% a year; card-able spend of ₹62,000 a month, mostly travel abroad, which the Flare limit would cap. No missed EMIs."></lightning-textarea>
+                        <lightning-textarea label={findingsLabel} value={findings} onchange={handleFindings} placeholder={findingsPlaceholder}></lightning-textarea>
                         <div class="muted small hint">{findingsHint}</div>
                         <lightning-textarea label="Mitigants (optional)" value={mitigants} onchange={handleMitigants}
                             placeholder="e.g. Salary account with us · FD ₹4L · limit review in 6 months"></lightning-textarea>
@@ -150,7 +188,7 @@
                         </template>
                         <div class="b-footer">
                             <button class="b-btn-ghost" onclick={handleCancelCompose}>Cancel</button>
-                            <button class="b-btn-navy" onclick={handleSubmit} disabled={submitDisabled}>Send for approval</button>
+                            <button class="b-btn-navy" onclick={handleSubmit} disabled={submitDisabled}>{submitLabel}</button>
                         </div>
                     </div>
                 </template>
@@ -161,6 +199,7 @@
                     <template for:each={history} for:item="h">
                         <div key={h.Id} class="hist">
                             <div class="hist-row">
+                                <span class={h.dirCls}>{h.dirText}</span>
                                 <span class={h.statusCls}>{h.statusIcon} {h.statusText}</span>
                                 <span><b>{h.change}</b> · {h.levelText}</span>
                                 <span class="muted small">{h.by} → {h.to}<template lwc:if={h.decidedBy}> · decided by {h.decidedBy}</template></span>

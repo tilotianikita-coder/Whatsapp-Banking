@@ -266,7 +266,7 @@ public inherited sharing class BandhuEngine {
             return r;
         }
         if (step == 'upgrade_offer') {
-            Boolean no = choice == 2 || (choice != 1 && Pattern.matches('(?i).*\\b(no|keep|nahi)\\b.*', t));
+            Boolean no = choice == 2 || (choice != 1 && Pattern.matches('(?i).*\\b(no|keep|close|nahi)\\b.*', t));
             Boolean yes = !no && (choice == 1 || Pattern.matches('(?i).*\\b(yes|accept|ok|haan|upgrade)\\b.*', t));
             if (!yes && !no) {
                 return invalid(j);
@@ -692,7 +692,7 @@ public inherited sharing class BandhuEngine {
                     r.message = BandhuI18n.msg('Done', lang);
                 } else {
                     r.message = BandhuCreditApproval.offerText(j, ua, ur);
-                    r.options = BandhuI18n.options('Opt_Upgrade_Offer', lang, null);
+                    r.options = BandhuCreditApproval.offerOptions(ur, lang);
                 }
             }
             when 'limit_offer' {

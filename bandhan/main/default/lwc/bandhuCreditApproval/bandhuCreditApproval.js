@@ -23,6 +23,8 @@ export default class BandhuCreditApproval extends LightningElement {
     composing = false;
     showMatrix = false;
     // the proposal
+    direction = 'Upgrade';
+    picked = [];       // downgrade: the mismatch keys relied on
     card;
     limit;
     proposal;
@@ -43,6 +45,11 @@ export default class BandhuCreditApproval extends LightningElement {
         try {
             this.panel = await getPanel({ applicationId: this.recordId });
             this.error = undefined;
+            // deep link for demos: ?c__propose=Downgrade opens the form
+            const want = new URL(window.location.href).searchParams.get('c__propose');
+            if (want && this.panel.eligible && !this.composing) {
+                this.handleCompose({ currentTarget: { dataset: { dir: want } } });
+            }
         } catch (e) {
             this.error = errorMessage(e);
         } finally {
@@ -128,7 +135,10 @@ export default class BandhuCreditApproval extends LightningElement {
         if (!r) {
             return '';
         }
-        return r.Customer_Consent__c === 'Not needed' ? 'Card issued at the approved limit' : 'Accepts the upgrade on WhatsApp (consent)';
+        if (r.Customer_Consent__c === 'Not needed') {
+            return 'Card issued at the approved limit';
+        }
+        return r.Direction__c === 'Downgrade' ? 'Accepts the counter-offer on WhatsApp (No closes it)' : 'Accepts the upgrade on WhatsApp (consent)';
     }
 
     get openView() {
@@ -138,6 +148,7 @@ export default class BandhuCreditApproval extends LightningElement {
     decorate(r) {
         const s = r.Status__c;
         const consent = s === 'Approved' && r.Customer_Consent__c === 'Pending';
+        const down = r.Direction__c === 'Downgrade';
         return {
             ...r,
             change: (r.Proposed_Card__c !== r.Current_Card__c ? `${r.Current_Card__c} → ${r.Proposed_Card__c}` : r.Current_Card__c)
@@ -146,7 +157,14 @@ export default class BandhuCreditApproval extends LightningElement {
             multiple: r.Income_Multiple__c ? `${r.Income_Multiple__c}x income` : '',
             levelText: `L${r.Required_Level__c} ${r.Required_Title__c || ''}`,
             levelReasons: (r.Level_Reasons__c || '').split('\n').filter((x) => x).map((t, i) => ({ key: 'l' + i, text: t })),
-            statusText: consent ? 'Approved · waiting for the customer' : s === 'Approved' && r.Customer_Consent__c === 'Declined' ? 'Approved · customer kept the original card' : s,
+            statusText: consent ? 'Approved · waiting for the customer'
+                : s === 'Approved' && r.Customer_Consent__c === 'Declined' ? (down ? 'Approved · customer declined, application closed' : 'Approved · customer kept the original card')
+                : s,
+            isDowngrade: down,
+            dirText: down ? '↓ Downgrade · counter-offer' : '↑ Upgrade',
+            dirCls: 'b-pill ' + (down ? 'b-pill-orange' : 'b-pill-blue'),
+            mismatchItems: (r.Mismatches__c || '').split('\n').filter((x) => x).map((t, i) => ({ key: 'x' + i, text: t.replace(/^• /, '') })),
+            evidenceLine: down && r.Assessed_Income__c ? `Assessed income ${inr(r.Assessed_Income__c)}/month · the evidence supports ${r.Suggested_Card__c || 'no card'}${r.Suggested_Limit__c ? ' at ' + inr(r.Suggested_Limit__c) : ''}` : null,
             statusCls: 'b-pill ' + (s === 'Pending' || consent ? 'b-pill-amber' : s === 'Approved' ? 'b-pill-green' : s === 'Rejected' ? 'b-pill-red' : 'b-pill-grey'),
             statusIcon: s === 'Pending' || consent ? '◷' : s === 'Approved' ? '✓' : s === 'Rejected' ? '✕' : '↺',
             by: r.Requested_By__r ? r.Requested_By__r.Name : '—',
@@ -156,21 +174,106 @@ export default class BandhuCreditApproval extends LightningElement {
     }
 
     // ------------------------------------------------------------------ propose
+    get isDowngrade() {
+        return this.direction === 'Downgrade';
+    }
+
     get cardOptions() {
         const cur = this.p.currentCard;
+        if (this.isDowngrade) {
+            const opts = [{ label: `${cur} (applied for) · lower limit only`, value: cur }];
+            (this.p.downgradeCards || []).slice().reverse().forEach((c) => opts.push({ label: `Downgrade to ${c}`, value: c }));
+            return opts;
+        }
         const opts = [{ label: `${cur} (applied for) · higher limit only`, value: cur }];
         (this.p.upgradeCards || []).forEach((c) => opts.push({ label: `Upgrade to ${c}`, value: c }));
         return opts;
     }
 
-    handleCompose() {
+    get directionOptions() {
+        return [
+            { label: '↑ Upgrade / higher limit', value: 'Upgrade', cls: 'seg' + (this.direction === 'Upgrade' ? ' on' : '') },
+            { label: '↓ Downgrade / lower limit', value: 'Downgrade', cls: 'seg' + (this.direction === 'Downgrade' ? ' on' : '') }
+        ];
+    }
+
+    get ev() {
+        return this.p.evidence || { mismatches: [] };
+    }
+
+    get hasMismatches() {
+        return (this.ev.mismatches || []).length > 0;
+    }
+
+    get mismatchCount() {
+        return (this.ev.mismatches || []).length;
+    }
+
+    get mismatchRows() {
+        return (this.ev.mismatches || []).map((m) => ({
+            ...m,
+            checked: this.picked.includes(m.key),
+            kindCls: 'kind kind-' + (m.kind || '').toLowerCase(),
+            strength: m.stop ? 'Stop · fraud control' : m.fraudSignal ? 'Fraud signal' : m.hard ? 'Evidence' : 'Soft signal',
+            strengthCls: 'b-pill ' + (m.stop || m.fraudSignal ? 'b-pill-red' : m.hard ? 'b-pill-blue' : 'b-pill-grey'),
+            supports: m.supportedIncome ? `supports ${inr(m.supportedIncome)}/month` : null
+        }));
+    }
+
+    get evidenceText() {
+        const e = this.ev;
+        if (!e.assessedIncome) {
+            return null;
+        }
+        const from = e.assessedFrom ? ` (${e.assessedFrom})` : '';
+        const fit = e.suggestedCard ? `the evidence supports the ${e.suggestedCard} at ${inr(e.suggestedLimit)}` : 'no card fits the evidence (decline instead)';
+        return `Declared ${inr(e.declaredIncome)}/month · assessed ${inr(e.assessedIncome)}/month${from} → ${fit}`;
+    }
+
+    handleDirection(evt) {
+        this.direction = evt.currentTarget.dataset.value;
+        this.defaults();
+        this.runProposal();
+    }
+
+    defaults() {
+        if (this.isDowngrade) {
+            const e = this.ev;
+            const lower = this.p.downgradeCards || [];
+            this.card = e.suggestedCard && lower.includes(e.suggestedCard) ? e.suggestedCard
+                : e.suggestedCard === this.p.currentCard ? this.p.currentCard : lower.length ? lower[lower.length - 1] : this.p.currentCard;
+            this.limit = e.suggestedCard === this.card && e.suggestedLimit ? e.suggestedLimit : null;
+            this.picked = (e.mismatches || []).filter((m) => !m.stop).map((m) => m.key);
+            this.reasonCode = this.firstReason();
+        } else {
+            this.card = this.p.upgradeCards && this.p.upgradeCards.length ? this.p.upgradeCards[0] : this.p.currentCard;
+            this.limit = this.p.policyLimit ? Math.round((this.p.policyLimit * 1.5) / 5000) * 5000 : null;
+            this.picked = [];
+            this.reasonCode = undefined;
+        }
+    }
+
+    firstReason() {
+        const map = { aa_income: 'Income lower than declared', tax: 'Tax / GST records lower', gst: 'Tax / GST records lower', doc_income: 'Income documents mismatch',
+            employer: 'Employer mismatch', obligations: 'High existing obligations', spend: 'Spend lower than declared', banking: 'Banking anomalies',
+            bureau: 'Bureau concerns', address: 'Address mismatch' };
+        const first = (this.ev.mismatches || []).find((m) => map[m.key]);
+        return first ? map[first.key] : undefined;
+    }
+
+    handleMismatch(evt) {
+        const key = evt.target.dataset.key;
+        this.picked = evt.target.checked ? [...this.picked, key] : this.picked.filter((k) => k !== key);
+        this.runProposal();
+    }
+
+    handleCompose(evt) {
         this.composing = true;
-        this.card = this.p.upgradeCards && this.p.upgradeCards.length ? this.p.upgradeCards[0] : this.p.currentCard;
-        this.limit = this.p.policyLimit ? Math.round((this.p.policyLimit * 1.5) / 5000) * 5000 : null;
+        this.direction = evt && evt.currentTarget && evt.currentTarget.dataset.dir ? evt.currentTarget.dataset.dir : 'Upgrade';
         this.findings = '';
         this.mitigants = '';
-        this.reasonCode = undefined;
         this.approverId = undefined;
+        this.defaults();
         this.runProposal();
     }
 
@@ -193,7 +296,8 @@ export default class BandhuCreditApproval extends LightningElement {
 
     async runProposal() {
         try {
-            this.proposal = await propose({ applicationId: this.recordId, proposedCard: this.card, proposedLimit: this.limit });
+            this.proposal = await propose({ applicationId: this.recordId, proposedCard: this.card, proposedLimit: this.limit,
+                mismatchKeys: this.isDowngrade ? this.picked : null });
             const ids = (this.proposal.approvers || []).map((a) => a.id);
             if (!ids.includes(this.approverId)) {
                 this.approverId = ids.length ? ids[0] : undefined;
@@ -235,6 +339,13 @@ export default class BandhuCreditApproval extends LightningElement {
         if (!this.a) {
             return '';
         }
+        if (this.a.direction === 'Downgrade') {
+            const d = [this.a.requestType, `policy ${inr(this.a.policyLimit)} on ${this.p.currentCard}`, `offer ${inr(this.a.proposedLimit)}`];
+            if (this.a.assessedIncome) {
+                d.push(`assessed income ${inr(this.a.assessedIncome)}/month`);
+            }
+            return d.join(' · ');
+        }
         const parts = [this.a.requestType, `policy ${inr(this.a.policyLimit)}`];
         if (this.a.overPolicyPct) {
             parts.push(`${this.a.overPolicyPct}% over policy`);
@@ -264,6 +375,22 @@ export default class BandhuCreditApproval extends LightningElement {
         return this.busy || !this.a || !this.a.allowed || !this.approverId || !this.reasonCode || (this.findings || '').trim().length < 20;
     }
 
+    get findingsLabel() {
+        return this.isDowngrade
+            ? 'Your findings (required): what does not add up, and why this card / limit fits the customer instead of a decline'
+            : 'Your findings (required): what you saw and why the deviation is justified';
+    }
+
+    get findingsPlaceholder() {
+        return this.isDowngrade
+            ? 'e.g. Declared ₹1,00,000 a month but the salary credits are ₹68,000 (AIS agrees at ₹8.4L a year). EMIs take 45% of income. The Ignite at ₹1.5L fits what we can verify; a decline would lose a customer with a clean CIBIL.'
+            : 'e.g. Salary credits from Infosys of ₹91,200 for 24 months, growing 8% a year; card-able spend of ₹62,000 a month, mostly travel abroad, which the Flare limit would cap. No missed EMIs.';
+    }
+
+    get submitLabel() {
+        return this.isDowngrade ? 'Send counter-offer for approval' : 'Send for approval';
+    }
+
     get findingsHint() {
         const n = (this.findings || '').trim().length;
         return n >= 20 ? `${n} characters` : `At least 20 characters (${n})`;
@@ -290,7 +417,7 @@ export default class BandhuCreditApproval extends LightningElement {
         try {
             this.panel = await submitRequest({
                 applicationId: this.recordId, proposedCard: this.card, proposedLimit: this.limit, approverId: this.approverId,
-                reasonCode: this.reasonCode, findings: this.findings, mitigants: this.mitigants
+                reasonCode: this.reasonCode, findings: this.findings, mitigants: this.mitigants, mismatchKeys: this.isDowngrade ? this.picked : null
             });
             this.composing = false;
             this.proposal = undefined;
@@ -372,6 +499,7 @@ export default class BandhuCreditApproval extends LightningElement {
             multText: `${m.maxIncomeMultiple}x`,
             tiersText: m.maxUpgradeTiers ? `${m.maxUpgradeTiers} tier${m.maxUpgradeTiers > 1 ? 's' : ''}` : 'none',
             incomeText: m.maxUpgradeTiers ? `≥ ${m.minIncomePctUpgrade}%` : '—',
+            downText: `${m.maxDowngradeTiers} tier${m.maxDowngradeTiers === 1 ? '' : 's'}${m.beyondEvidence ? ', below the evidence' : ', within the evidence'}`,
             mine: this.p.myLevel === m.level,
             mineCls: this.p.myLevel === m.level ? 'mine' : ''
         }));

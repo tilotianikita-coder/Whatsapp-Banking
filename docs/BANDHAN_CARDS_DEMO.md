@@ -195,6 +195,29 @@ limit above the card policy, with a reason and written findings, and assigns it 
 - **Outcomes**: a higher limit → issued at once; an upgrade → offered to the customer on WhatsApp, issued only on *Yes*
   (consent logged, RBI MD on Credit Cards 2022), *No* issues the applied-for card; reject / return → back to the
   underwriter with the note; the underwriter can withdraw a pending request.
+- **Downgrades (counter-offer instead of a decline)**: a lower card and / or a lower limit, backed by mismatches the
+  data scan finds (`BandhuCreditApproval.evidence`):
+
+  | Mismatch | Source | Strength |
+  |---|---|---|
+  | Income lower than declared (15%+) | bank statements (AA) · tax record (AIS) · GST · income documents | evidence; sets the assessed income |
+  | PAN on a document doesn't match | income documents (OCR) | hard stop: fraud control, no counter-offer |
+  | Employer differs from the declared one | salary credits · documents | soft signal |
+  | EMIs above 40% of income (FOIR) | bank statements | evidence |
+  | Card spend lower than declared (2x and ₹20K+) | bank statements | soft signal |
+  | Irregular banking (round trips, unexplained credits, salary gaps) | bank statements | evidence; round trips = income-inflation signal |
+  | Bureau behaviour (75%+ utilisation, 4+ enquiries, settled / written off, DPD 30+) | CIBIL | evidence |
+  | Address doesn't match the PIN | geocoder | soft signal |
+
+  The **assessed income** is the lowest income the evidence supports; the card and limit it supports (within policy on
+  that income, the card's CIBIL floor and FOIR trim) are suggested. Levels: **L1** (a second underwriter, never the maker)
+  for one tier down or a lower limit within what the evidence supports; **L2** for two or more tiers or below the
+  evidence; +1 if it relies only on soft signals; +1 for an existing Bandhan customer; at least **L3** on signs of income
+  inflation. Hard stops: no mismatch ticked, a document PAN mismatch, a failed check, a card the assessed income or CIBIL
+  doesn't support, a limit under the card minimum or above what the evidence supports (that is an upgrade request).
+  A lower card needs the customer's **Yes** on WhatsApp (No closes the application); a lower limit on the same card is
+  issued with the approval. The customer is told the income (or EMI) reason only. Demo: Rakesh Pal (`demo_leads.apex`
+  WHICH = 4; PAN digits ending 2 = the tax-record lever).
 - Caps are `Bandhu_Credit_Authority__mdt` (Level_1-4; PLACEHOLDERS for Bandhan's credit policy); the risk rules and hard
   stops are in `BandhuCreditApproval.assess`. Demo hierarchy: `scripts/bandhan/apex/credit_hierarchy.apex` (Elliott
   Executive L4 → Alf Operations L3 → Cindy Central / Ely East L2 → the admin and Bill South L1).

@@ -34,9 +34,9 @@ Running order (about 45 minutes; Acts 3, 4 and 9 can be trimmed)
    demo PAN makes the fraud check refer the new one as a duplicate.
 1. `sf apex run -f scripts/bandhan/apex/seed.apex -o bandhan` with `ON_DEMO_PHONE = ''` (the phone is new to bank).
    For Act 8 run it again with `'Rohan'`.
-2. Leads and the underwriting queue: run `scripts/bandhan/apex/demo_leads.apex` for WHICH = 0, 1, 2, 3 (loop in its header).
+2. Leads and the underwriting queue: run `scripts/bandhan/apex/demo_leads.apex` for WHICH = 0, 1, 2, 3, 4 (loop in its header).
    Expected: Priya (Lumina, dropped at Aadhaar), Arjun (Ignite, at the recommendation), Moumita (not eligible, knocked out
-   at the bureau gate), Sourav (Flare, Under Review).
+   at the bureau gate), Sourav (Flare, Under Review), Rakesh (Flare, Under Review: the tax record disagrees, for the downgrade).
    Then the dashboard's month of history (30 more journeys over the past 4 weeks, every channel, step and outcome):
    `for b in 0 1 2; do sed "s/^Integer BATCH = .*/Integer BATCH = $b;/" scripts/bandhan/apex/demo_dashboard.apex > /tmp/dd.apex; sf apex run -f /tmp/dd.apex -o bandhan; done`
    Card credit hierarchy for the NSTP approvals (once per org; sets levels and managers on existing SDO users):
@@ -173,6 +173,22 @@ three needs questions in one run, then the soft check and the recommendation. No
      Flare instead of the Ignite… Reply Yes to accept"* (RBI: no card without consent): **Yes** issues the Flare and logs a
      *Card upgrade* consent; **No** issues the Ignite.
    - Rejected or returned → back in the underwriter queue with the approver's note; *Earlier requests* keeps the trail.
+   - **Downgrade (counter-offer instead of a decline)** on **Rakesh Pal** (Flare, declared ₹1 lakh). The panel flags
+     *⚠ 2 mismatches · declared ₹1,00,000 · assessed ₹55,000 (tax record) → the evidence supports the Ignite at ₹1,35,000*.
+     **Propose downgrade / lower limit**: the mismatch checklist, ticked (Income · *Tax record (AIS) lower than declared:
+     ₹6.6L a year vs ₹12L declared, 45% lower* · Evidence; Spend · *₹75,000 declared vs ₹25,417 in the statements* · Soft
+     signal), the card pre-set to **Ignite at ₹1,35,000** and the reason *Tax / GST records lower*. The rules say **L1**: one
+     tier down, within what the evidence supports (a second underwriter checks). Try **Sparks** → still allowed but it is
+     below the evidence, so **L2**; untick the tax record to rely on spend only → +1 (soft signals); try the **Flare at a
+     lower limit** → stop (the assessed income doesn't support the Flare). Findings → assign (Bill South or Cindy) → send.
+     Approve → the customer gets *"We can't approve the Flare right now, but we can offer you: Bandhan Ignite · ₹1,35,000 ·
+     Why: the income we could verify (₹55,000 a month) fits this card best · Reply Yes to accept, or No to close the
+     application"* (the tax record, fraud or bureau signals are never named). **Yes** issues the Ignite and logs the
+     consent; **No** declines the application. A lower limit on the same card is issued with the approval (no consent step).
+   - Other mismatches the scan finds: income in the bank statements, GST, income documents (an upload named `*mismatch*`),
+     a PAN mismatch on a document (a hard stop: fraud control, no counter-offer), the employer on the salary credits or a
+     document, EMIs above 40% of income, irregular banking (round trips raise it to L3), bureau utilisation / enquiries /
+     settlements, and an address that doesn't match the PIN.
 3. Risk flags (create on the web with any new mobile, income 1 lakh, spend Dining / ₹15–50K / best, apply through KYC):
    | PAN | Refers because |
    |---|---|

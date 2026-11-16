@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Downgrade Why Obligations</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">with your existing EMIs, a lower limit keeps your repayments comfortable</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">आपकी मौजूदा EMIs के साथ, कम limit से repayment आसान रहेगा</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">আপনার বর্তমান EMI-এর সঙ্গে কম limit-এ repayment সহজ থাকবে</value>
+    </values>
+</CustomMetadata>

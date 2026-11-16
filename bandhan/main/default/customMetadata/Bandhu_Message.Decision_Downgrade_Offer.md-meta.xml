@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Decision Downgrade Offer</label>
+    <protected>false</protected>
+    <values>
+        <field>English__c</field>
+        <value xsi:type="xsd:string">Thank you for applying{name}. Our card team has reviewed your application ```{ref}```. We can't approve the *{old}* right now, but we can offer you:
+
+&gt; 💳 *Bandhan {card}*
+&gt; 💰 Credit limit: *{limit}*
+
+{benefits}
+
+Why: {why}
+
+The card is issued only if you agree. Reply *Yes* to accept, or *No* to close the application.</value>
+    </values>
+    <values>
+        <field>Hindi__c</field>
+        <value xsi:type="xsd:string">Apply करने के लिए धन्यवाद{name}। हमारी card team ने आपकी application ```{ref}``` का review किया है। हम अभी *{old}* approve नहीं कर पा रहे हैं, लेकिन आपको यह दे सकते हैं:
+
+&gt; 💳 *Bandhan {card}*
+&gt; 💰 Credit limit: *{limit}*
+
+{benefits}
+
+कारण: {why}
+
+यह card सिर्फ़ आपकी सहमति से जारी होगा। स्वीकार करने के लिए *Yes* लिखें, या application बंद करने के लिए *No*।</value>
+    </values>
+    <values>
+        <field>Bengali__c</field>
+        <value xsi:type="xsd:string">Apply করার জন্য ধন্যবাদ{name}। আমাদের card team আপনার application ```{ref}``` review করেছে। এই মুহূর্তে *{old}* approve করা যাচ্ছে না, তবে আমরা আপনাকে দিতে পারি:
+
+&gt; 💳 *Bandhan {card}*
+&gt; 💰 Credit limit: *{limit}*
+
+{benefits}
+
+কারণ: {why}
+
+এই card শুধু আপনার সম্মতিতেই জারি হবে। গ্রহণ করতে *Yes* লিখুন, অথবা application বন্ধ করতে *No*।</value>
+    </values>
+</CustomMetadata>

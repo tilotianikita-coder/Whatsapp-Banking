@@ -15,7 +15,7 @@ public inherited sharing class BandhuLeadService {
         'aadhaar' => 'Aadhaar eKYC', 'aadhaar_otp' => 'Aadhaar OTP', 'vkyc' => 'Video KYC', 'review' => 'Review and submit',
         'not_eligible' => 'Not eligible', 'declined_alt' => 'Declined (alternative offered)', 'done' => 'Done',
         'secured_offer' => 'Secured card offered', 'applied_alt' => 'Applied-for card: alternative offered', 'hold' => 'On hold (KYC / account)',
-        'activate_otp' => 'Card activation', 'upgrade_offer' => 'Card upgrade offer', 'cancel_confirm' => 'Card cancellation'
+        'activate_otp' => 'Card activation', 'upgrade_offer' => 'Card offer (upgrade / counter-offer)', 'cancel_confirm' => 'Card cancellation'
     };
 
     public static String stepLabel(Card_Journey__c j) {
