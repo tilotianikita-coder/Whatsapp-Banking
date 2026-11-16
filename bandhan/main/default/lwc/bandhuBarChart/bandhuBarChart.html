@@ -1,0 +1,23 @@
+<template>
+    <div class="chart" onmouseleave={handleLeave}>
+        <template lwc:if={empty}>
+            <div class="empty">{emptyText}</div>
+        </template>
+        <template for:each={rows} for:item="r">
+            <div key={r.key} class={r.cls} data-key={r.key} role="button" tabindex="0" aria-label={r.aria}
+                 onclick={handleClick} onkeydown={handleKey} onmouseenter={handleEnter} onmousemove={handleMove}>
+                <div class="lbl">{r.label}</div>
+                <div class="track"><div class="bar" style={r.barStyle}></div></div>
+                <div class="val">{r.count}<span class="pct">{r.pctText}</span></div>
+            </div>
+        </template>
+        <template lwc:if={tip}>
+            <div class="tip" style={tipStyle}>
+                <div class="tip-title">{tip.label}</div>
+                <div class="tip-value">{tip.count} {unit}<span class="tip-muted">{tip.pctText}</span></div>
+                <template lwc:if={tip.note}><div class="tip-note">{tip.note}</div></template>
+                <template lwc:if={clickable}><div class="tip-muted">Click to see these leads</div></template>
+            </div>
+        </template>
+    </div>
+</template>

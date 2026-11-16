@@ -333,10 +333,10 @@ public with sharing class BandhuConsoleController {
 
     /** The prospect's journey milestones, for the path on the Lead page. */
     // the journey's stages in the order they are asked (income source and Account Aggregator come before the needs)
-    private static final List<String> PATH = new List<String>{ 'Verified & details', 'Income & statements', 'Needs', 'Credit check', 'Recommendation', 'KYC', 'Submitted' };
+    public static final List<String> PATH = new List<String>{ 'Verified & details', 'Income & statements', 'Needs', 'Credit check', 'Recommendation', 'KYC', 'Submitted' };
 
     /** The stage the customer is in now (6 = submitted, shown as done). */
-    private static Integer pathIndex(Card_Journey__c j) {
+    public static Integer pathIndex(Card_Journey__c j) {
         if (j.Status__c == BandhuJourneyService.STATUS_COMPLETED || j.Card_Application__c != null) {
             return 6;
         }

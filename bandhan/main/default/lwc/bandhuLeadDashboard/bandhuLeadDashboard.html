@@ -1,0 +1,206 @@
+<template>
+    <div class="page">
+        <div class="b-card b-spinner-host">
+            <template lwc:if={loading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+
+            <!-- header + filters -->
+            <div class="b-head">
+                <div class="b-head-left">
+                    <img class="b-logo" src={logoUrl} alt="Bandhan Bank" />
+                    <div>
+                        <div class="b-head-title">Card leads dashboard</div>
+                        <div class="b-head-sub">{subtitle}</div>
+                    </div>
+                </div>
+                <div class="b-head-right">
+                    <div class="segs" role="group" aria-label="Period">
+                        <template for:each={periods} for:item="p">
+                            <button key={p.value} class={p.cls} data-value={p.value} onclick={handlePeriod}>{p.label}</button>
+                        </template>
+                    </div>
+                    <div class="segs" role="group" aria-label="Channel">
+                        <template for:each={channels} for:item="c">
+                            <button key={c.value} class={c.cls} data-value={c.value} onclick={handleChannel}>{c.label}</button>
+                        </template>
+                    </div>
+                    <button class="b-icon-btn" onclick={handleRefresh} title="Refresh">↻ Refresh</button>
+                </div>
+            </div>
+
+            <div class="b-body">
+                <template lwc:if={error}><div class="b-alert b-alert-error">{error}</div></template>
+                <template lwc:if={hasData}>
+                    <!-- KPI tiles -->
+                    <div class="kpis">
+                        <template for:each={kpis} for:item="k">
+                            <div key={k.key} class={k.cls} data-key={k.key} onclick={handleKpi} title={k.sub}>
+                                <div class="kpi-label">{k.label}</div>
+                                <div class="kpi-value">{k.value}</div>
+                                <div class="kpi-sub">{k.sub}</div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- funnel + trend -->
+                    <div class="grid grid-2">
+                        <div class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <div class="panel-title">Journey funnel</div>
+                                    <div class="panel-sub">Journeys that reached each stage · share of those started</div>
+                                </div>
+                                <template lwc:if={biggestLeak}><span class="leak">⚠ {biggestLeak}</span></template>
+                            </div>
+                            <div class="funnel">
+                                <template for:each={funnel} for:item="s">
+                                    <div key={s.key} class="f-row" title={s.note}>
+                                        <div class="f-label"><span class="f-step">{s.step}</span>{s.label}</div>
+                                        <div class="f-track"><div class="f-bar" style={s.barStyle}></div></div>
+                                        <div class="f-val">{s.count}<span class="muted"> · {s.pct}</span></div>
+                                        <div class="f-lost">
+                                            <template lwc:if={s.lost}>↓ {s.lost}</template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <div class="panel-title">Journeys started a day</div>
+                                    <div class="panel-sub">Last {trendDays} days · {trendTotal} journeys</div>
+                                </div>
+                            </div>
+                            <div class="trend" onmouseleave={handleTrendLeave}>
+                                <div class="t-axis"><span>{trendMax}</span><span>0</span></div>
+                                <div class="t-plot">
+                                    <div class="t-grid"></div>
+                                    <template for:each={trend} for:item="t">
+                                        <div key={t.key} class="t-col" data-key={t.key} aria-label={t.aria} onmouseenter={handleTrendEnter}>
+                                            <div class="t-bar" style={t.colStyle}></div>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="t-labels">
+                                    <template for:each={trend} for:item="t">
+                                        <div key={t.key} class="t-lbl"><template lwc:if={t.showLabel}>{t.label}</template></div>
+                                    </template>
+                                </div>
+                                <template lwc:if={trendTip}>
+                                    <div class="t-tip" style={trendTipStyle}><b>{trendTip.label}</b><br />{trendTip.count} journeys</div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- drop-off + knock-outs -->
+                    <div class="grid grid-2">
+                        <div class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <div class="panel-title">Where open leads stopped</div>
+                                    <div class="panel-sub">Open leads by the journey stage they stopped in · hover for the steps, click for the leads</div>
+                                </div>
+                            </div>
+                            <c-bandhu-bar-chart items={d.dropOffs} total={leadsTotal} color={blue} clickable selected={selStage}
+                                data-dim="stage" onselect={handleSelect} empty-text="No open leads in this period"></c-bandhu-bar-chart>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <div class="panel-title">Why leads were knocked out</div>
+                                    <div class="panel-sub">The gate that stopped the lead (no RM task, no nudge) · hover for the reasons</div>
+                                </div>
+                            </div>
+                            <c-bandhu-bar-chart items={d.knockouts} total={leadsTotal} color="#a71e1f" clickable selected={selKnockout}
+                                data-dim="knockoutGate" onselect={handleSelect} empty-text="No knock-outs in this period"></c-bandhu-bar-chart>
+                        </div>
+                    </div>
+
+                    <!-- breakdowns -->
+                    <div class="grid grid-4">
+                        <div class="panel">
+                            <div class="panel-title">Lead rating</div>
+                            <div class="panel-sub">Hot 70+ · Warm 40-69 · Cold</div>
+                            <c-bandhu-bar-chart items={d.ratings} total={leadsTotal} color={blue} clickable selected={selRating}
+                                data-dim="rating" onselect={handleSelect}></c-bandhu-bar-chart>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-title">CIBIL band</div>
+                            <div class="panel-sub">Soft pull on the lead</div>
+                            <c-bandhu-bar-chart items={d.cibil} total={leadsTotal} color={blue} clickable selected={selCibil}
+                                data-dim="cibilBand" onselect={handleSelect}></c-bandhu-bar-chart>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-title">Recommended card</div>
+                            <div class="panel-sub">Bandhu's pick for the lead</div>
+                            <c-bandhu-bar-chart items={d.cards} total={leadsTotal} color={blue} clickable selected={selCard}
+                                data-dim="card" onselect={handleSelect} empty-text="No recommendations yet"></c-bandhu-bar-chart>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-title">Channel and region</div>
+                            <div class="panel-sub">Where the lead came from</div>
+                            <c-bandhu-bar-chart items={d.channels} total={leadsTotal} color={blue} clickable selected={selChannel}
+                                data-dim="channel" onselect={handleSelect}></c-bandhu-bar-chart>
+                            <div class="spacer"></div>
+                            <c-bandhu-bar-chart items={d.regions} total={leadsTotal} color={blue} clickable selected={selRegion}
+                                data-dim="region" onselect={handleSelect}></c-bandhu-bar-chart>
+                        </div>
+                    </div>
+
+                    <!-- the leads -->
+                    <div class="panel leads">
+                        <div class="panel-head">
+                            <div>
+                                <div class="panel-title">Leads to work · {rowCount}</div>
+                                <div class="panel-sub">Highest combined score first · click a name to open the lead</div>
+                            </div>
+                            <div class="tools">
+                                <template lwc:if={filterText}>
+                                    <span class="chip">{filterText}<button class="chip-x" onclick={handleClearFilter} title="Clear filter">✕</button></span>
+                                </template>
+                                <input class="search" type="search" placeholder="Search name or mobile" oninput={handleSearch} />
+                                <button class="b-btn-ghost lv" onclick={handleListView}>List view</button>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Lead</th><th>Rating</th><th class="w-score">Score</th><th>CIBIL</th><th>Card</th>
+                                        <th>Outcome</th><th>Stopped at / reason</th><th>Channel</th><th>Region</th><th>Last activity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={rows} for:item="r">
+                                        <tr key={r.id}>
+                                            <td>
+                                                <a href={r.url} data-id={r.id} onclick={handleOpen} class="name">{r.name}</a>
+                                                <div class="muted small">{r.mobile}</div>
+                                            </td>
+                                            <td><span class={r.ratingCls}>{r.rating}</span></td>
+                                            <td>
+                                                <div class="score"><span class="score-n">{r.score}</span><span class="score-track"><span class="score-fill" style={r.scoreStyle}></span></span></div>
+                                            </td>
+                                            <td>{r.cibilText}<div class="muted small">{r.cibilShort}</div></td>
+                                            <td>{r.cardText}</td>
+                                            <td><span class={r.outcomeCls}><span aria-hidden="true">{r.outcomeIcon}</span> {r.outcome}</span></td>
+                                            <td class="where">{r.where}</td>
+                                            <td>{r.channel}</td>
+                                            <td>{r.region}</td>
+                                            <td>{r.activity}<template lwc:if={r.nudged}><div class="muted small">{r.nudged}</div></template></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <template lwc:if={noRows}><div class="empty">No leads match.</div></template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

@@ -35,7 +35,7 @@
     <formFactors>Large</formFactors>
     <label>Bandhu Cards</label>
     <navType>Standard</navType>
-    <tabs>standard-Lead</tabs>
+    <tabs>Bandhu_Leads</tabs>
     <tabs>Card_Application__c</tabs>
     <tabs>Card_Journey__c</tabs>
     <tabs>standard-Contact</tabs>

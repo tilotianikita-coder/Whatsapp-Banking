@@ -171,6 +171,20 @@ cheapest first; a knock-out stops the rest and makes the Lead **Unqualified / Co
 - **Rating** from the average: 70+ Hot, 40–69 Warm, below 40 Cold. Lead fields: Card Stage Gate (Qualified / Waiting at X /
   Knocked out at X), Card Region, Serviceable, Credit Confidence. Owner: the region's RM (`RM_Username__c`), else Config RM.
 
+## The RM's leads dashboard (BandhuLeadDashboard, bandhuLeadDashboard)
+The **Leads** tab of the Bandhu Cards app (and a Leads tab in the Service Console) is a Lightning app page
+(`Bandhu_Leads_Dashboard`, custom tab `Bandhu_Leads`) in place of the standard Leads list; *List view* opens the
+`Bandhu_Card_Leads` list view. Filters: period (7 / 30 / 90 days, all time, by when the journey started) and channel.
+- KPIs: journeys started, card leads (qualified), hot, open to work (hot or warm not nudged yet), knocked out, applications,
+  cards issued, average combined score.
+- Funnel over every journey (new to bank and existing): Started, Mobile verified, then the Lead page path stages
+  (`BandhuConsoleController.PATH` / `pathIndex`), Submitted, Card issued; lost and the biggest leak.
+- Journeys started a day; open leads by the stage they stopped in (steps in the tooltip); knock-outs by gate with the
+  reasons grouped (no applicant numbers); rating, CIBIL band, recommended card, channel and region. Every bar and KPI
+  filters the lead table; each lead name opens its Lead page (the Bandhu lead view).
+- Demo history: `scripts/bandhan/apex/demo_dashboard.apex` (BATCH 0, 1, 2) adds 30 journeys over the past 4 weeks,
+  scored into Leads by the live qualification (mobiles 90000003NN); `reset_demo.apex` removes them.
+
 ## Demo levers (mock providers, by PAN)
 | PAN ends with | CIBIL / result |
 |---|---|
@@ -185,13 +199,13 @@ cheapest first; a knock-out stops the rest and makes the Lead **Unqualified / Co
 - Objects: Card_Journey__c, Card_Application__c, Card_Check__c, Bank_Relationship__c; Lead fields Bandhu_*; metadata
   Bandhu_Card / Bandhu_Config / Bandhu_Message (English, Hindi, Bengali — machine-drafted, needs native review).
 - Apex: BandhuEngine (journey), BandhuEligibility, BandhuAccountAggregator + BandhuCashFlow (AA), BandhuDecision, BandhuProviders (mocks), BandhuLeadService,
-  BandhuQualification (lead gates), BandhuDropOffJob, BandhuWebController, BandhuConsoleController, agent actions; 24 tests.
+  BandhuQualification (lead gates), BandhuDropOffJob, BandhuWebController, BandhuConsoleController, BandhuLeadDashboard, agent actions.
 - Agentforce: agent **Bandhu** (classic metadata, `scripts/bandhan/gen_agent.py`), active, user bandhu.agent.00dbm000019hbvj@example.com.
 - WhatsApp: package wpbyocdemo3 0.16, channel `WhatsApp_BYOC` (channel address `be8a17cb-de27-466b-ae1b-ea5d19149492`),
   routed by `Bandhu_WhatsApp_Inbound_Routing` to the agent, fallback queue SDO_Service_Messaging. Send_Mode ConversationMessage.
 - Web: **https://trailsignup-fbf7dadaec8000.my.site.com/consumer/BandhuWeb** (Visualforce on the SDO_Consumer Experience
   site; guest has Bandhu_Guest). Classic `*.my.salesforce-sites.com` URLs are not used.
-- Lightning: app **Bandhu Cards**; Card Application page with the underwriter review; Lead page with Bandhu insight
+- Lightning: app **Bandhu Cards** (Leads tab = the leads dashboard); Card Application page with the underwriter review; Lead page with Bandhu insight
   (Bandhu card leads only); Bandhu handoff panel on the Messaging Session pages.
 
 ## Before a demo, and the demo flow

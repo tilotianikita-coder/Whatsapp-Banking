@@ -84,6 +84,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BandhuLeadDashboard</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>BandhuLeadService</apexClass>
         <enabled>true</enabled>
     </classAccesses>

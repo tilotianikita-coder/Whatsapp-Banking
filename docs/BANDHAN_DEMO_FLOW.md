@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Web (public) | **https://trailsignup-fbf7dadaec8000.my.site.com/consumer/BandhuWeb** |
-| Lightning | App Launcher → **Bandhu Cards** (Leads, Card Applications, Card Journeys, Contacts). Open records from this app: the Contact 360 page is assigned to it only (the Service Console shows the SDO Contact page) |
+| Lightning | App Launcher → **Bandhu Cards** (Leads = the RM's card leads dashboard, Card Applications, Card Journeys, Contacts). Open records from this app: the Contact 360 page is assigned to it only (the Service Console shows the SDO Contact page) |
 | OTPs | mobile, Aadhaar and card activation: **123456** |
 | WhatsApp | presenter phone **9063480755** (+91) |
 
@@ -37,6 +37,8 @@ Running order (about 45 minutes; Acts 3, 4 and 9 can be trimmed)
 2. Leads and the underwriting queue: run `scripts/bandhan/apex/demo_leads.apex` for WHICH = 0, 1, 2, 3 (loop in its header).
    Expected: Priya (Lumina, dropped at Aadhaar), Arjun (Ignite, at the recommendation), Moumita (not eligible, knocked out
    at the bureau gate), Sourav (Flare, Under Review).
+   Then the dashboard's month of history (30 more journeys over the past 4 weeks, every channel, step and outcome):
+   `for b in 0 1 2; do sed "s/^Integer BATCH = .*/Integer BATCH = $b;/" scripts/bandhan/apex/demo_dashboard.apex > /tmp/dd.apex; sf apex run -f /tmp/dd.apex -o bandhan; done`
 3. Setup → Messaging Components → **Bandhu Text** → Activate.
 4. WhatsApp router portal: register **919063480755** against this org (it routes to one org at a time).
 5. End any open WhatsApp session for the phone; Omni-Channel Offline until Act 7.
@@ -103,9 +105,24 @@ three needs questions in one run, then the soft check and the recommendation. No
 
 ## Act 5. WhatsApp and lead management (5 min)
 1. From the demo phone: **Hi** → **BN** for Bengali → answer up to the recommendation and stop (drop-off).
-2. Bandhu Cards → Leads: **Priya** (Hot, Lumina, dropped at Aadhaar eKYC), **Arjun** (Hot, Ignite, at the
-   recommendation), **Moumita** (Unqualified: knocked out at the Credit Bureau gate) and your own drop-off (after ~2 min).
-3. Open Priya: the full-width **Bandhu card lead** view: the recommended card face (Lumina, ₹10.8L), intent, credit and
+2. Bandhu Cards → **Leads**: the RM's **card leads dashboard** (it replaces the standard list; *List view* opens the
+   Bandhu Card Leads list view). Filters across the top: 7 / 30 / 90 days / all time, all channels / WhatsApp / Web / Branch.
+   - KPI tiles: journeys started, card leads (qualified), hot, *open, to work* (and how many hot or warm aren't nudged
+     yet), knocked out, applications, cards issued, average lead score. Click Hot / Open / Knocked out / Applications /
+     Cards issued to filter the lead table.
+   - **Journey funnel**: Started → Mobile verified → Income & statements → Needs → Credit check → Recommendation → KYC →
+     Submitted → Card issued, with the share of those started and how many were lost at each step; the badge names the
+     biggest leak (Recommendation → KYC: the pitch for a "continue on WhatsApp" KYC nudge).
+   - **Journeys started a day** (hover a day for the count).
+   - **Where open leads stopped**, by journey stage (hover: the steps inside, e.g. *Aadhaar eKYC 3 · Video KYC 1*) and
+     **Why leads were knocked out**, by gate (hover: *CIBIL below the cut-off*, *Income below the minimum*, *PIN outside
+     the card footprint*). Click any bar: the table below shows just those leads.
+   - Lead rating, CIBIL band, recommended card, channel and region (each clickable).
+   - **Leads to work**, highest combined score first: rating, score, CIBIL and band, card, outcome (Open / With
+     underwriting / Card issued / Knocked out), where it stopped or why it was knocked out, channel, region, last activity
+     and when it was nudged; search by name or mobile. **Click a name → that lead's Bandhu lead page.**
+   Your own WhatsApp drop-off appears here after ~2 min (Refresh).
+3. Open Priya from the table: the full-width **Bandhu card lead** view: the recommended card face (Lumina, ₹10.8L), intent, credit and
    combined scores, CIBIL and Bandhan Score; the journey path (Verified → Income & statements → Needs → Credit check →
    Recommendation → **KYC**) with *dropped at Aadhaar eKYC*; the 7 qualification gates with points; *How the scores were
    built*; *The customer* and *Bank statements*. **Next best action** → **Nudge on WhatsApp** → the phone gets the RM

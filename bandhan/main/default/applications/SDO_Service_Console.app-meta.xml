@@ -118,6 +118,7 @@
     <tabs>standard-Account</tabs>
     <tabs>standard-Case</tabs>
     <tabs>standard-Contact</tabs>
+    <tabs>Bandhu_Leads</tabs>
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-OmniSupervisorLightning</tabs>
     <tabs>SDO_Service_Omni_Supervisor_Dashboard</tabs>
@@ -144,6 +145,9 @@
         </mappings>
         <mappings>
             <tab>standard-Contact</tab>
+        </mappings>
+        <mappings>
+            <tab>Bandhu_Leads</tab>
         </mappings>
         <mappings>
             <tab>standard-Dashboard</tab>

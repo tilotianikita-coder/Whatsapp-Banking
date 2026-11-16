@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Bandhu Cards app: the RM's card leads dashboard, in place of the standard Leads tab. Each lead opens its Bandhu lead page.</description>
+    <flexiPage>Bandhu_Leads_Dashboard</flexiPage>
+    <label>Leads</label>
+    <motif>Custom62: Chalkboard</motif>
+</CustomTab>
